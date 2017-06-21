@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "test")
+@Table(name = "log")
 @SequenceGenerator(name = "seq_log_id", sequenceName = "seq_log_id", allocationSize = 5)
 public class Log {
 
