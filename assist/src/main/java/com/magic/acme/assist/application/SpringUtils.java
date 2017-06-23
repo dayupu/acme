@@ -1,5 +1,7 @@
 package com.magic.acme.assist.application;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtils implements ApplicationContextAware {
 
+    private static final Logger LOGGER = LogManager.getLogger(SpringUtils.class);
+
     private static ApplicationContext applicationContext;
 
     @Override
@@ -15,10 +19,7 @@ public class SpringUtils implements ApplicationContextAware {
         if (SpringUtils.applicationContext == null) {
             SpringUtils.applicationContext = applicationContext;
         }
-
-        System.out.println(
-                "========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象========");
-
+        LOGGER.info("========ApplicationContext配置成功========");
     }
 
     //获取applicationContext

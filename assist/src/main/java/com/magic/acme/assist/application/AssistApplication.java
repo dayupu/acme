@@ -19,6 +19,12 @@ public class AssistApplication {
         SpringApplication.run(AssistApplication.class, args);
 
         DataService dataService = SpringUtils.getBeanByClass(DataService.class);
-        dataService.batchCreateDataForXtt();
+
+        long start = System.currentTimeMillis();
+        System.out.println("start to create data");
+        for (int i = 0; i < 100; i++) {
+            dataService.batchCreateDataForXtt(1000);
+        }
+        System.out.println("create data success: " + (System.currentTimeMillis() - start));
     }
 }

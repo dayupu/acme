@@ -17,7 +17,7 @@ public class ApplicationTest {
 
     @Test
     public void test() throws Exception {
-        dataService.batchCreateDataForXtt();
+        dataService.batchCreateDataForXtt(1);
     }
 
 

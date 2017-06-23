@@ -5,5 +5,5 @@ package com.magic.acme.assist.module.otms.service;
  */
 public interface DataService {
 
-    void batchCreateDataForXtt();
+    void batchCreateDataForXtt(int amount);
 }
