@@ -104,7 +104,7 @@ public class EpodTask implements java.io.Serializable {
         this.updateAt = updateAt;
     }
 
-    @Column(name = "latitude", precision = 131089, scale = 0)
+    @Column(name = "latitude", precision = 1000, scale = 0)
     public BigDecimal getLatitude() {
         return this.latitude;
     }
@@ -113,7 +113,7 @@ public class EpodTask implements java.io.Serializable {
         this.latitude = latitude;
     }
 
-    @Column(name = "longitude", precision = 131089, scale = 0)
+    @Column(name = "longitude", precision = 1000, scale = 0)
     public BigDecimal getLongitude() {
         return this.longitude;
     }

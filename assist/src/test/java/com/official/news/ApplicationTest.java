@@ -1,4 +1,4 @@
-package com.magic.acme.assist.test;
+package com.official.news;
 
 import com.magic.acme.assist.application.AssistApplication;
 import com.magic.acme.assist.module.otms.service.DataService;
