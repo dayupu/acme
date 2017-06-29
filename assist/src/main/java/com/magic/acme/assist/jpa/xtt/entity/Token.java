@@ -38,7 +38,9 @@ public class Token implements java.io.Serializable {
 
     public Token() {
     }
-
+    public Token(String id) {
+        this.id = id;
+    }
     @Id
     @Column(name = "id", unique = true, nullable = false)
     public String getId() {

@@ -68,8 +68,10 @@ public class DataServiceImpl implements DataService {
 
     public static void main(String[] args) {
 
-        long millis = System.currentTimeMillis() % 1490000000000L;
-        System.out.println(millis);
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(random.nextInt(3));
+        }
     }
 
     private void batchCreateHandshake(int amount, List<String> tokenIds, List<String> hubTokenIds) {
@@ -107,7 +109,17 @@ public class DataServiceImpl implements DataService {
             handshake.setMilestone("4");
             handshake.setMultipleOrder(true);
             handshake.setConfirmationResult(0);
+
+            if ((i + 1) % 3 == 0) {
+                handshake.setHubToken(new HubToken(hubTokenIds.get(i)));
+            } else if ((i + 1) % 3 == 1) {
+                handshake.setDriverToken(new Token(tokenIds.get(i)));
+            } else {
+                handshake.setXttToken(new Token(tokenIds.get(i)));
+            }
+
             handshake.setOwner("GW22OBYJBFHL56HIGYEJOXMG");
+
             // handshake_order
             handshakeOrder.setId(id);
             handshakeOrder.setHandshake(handshake);

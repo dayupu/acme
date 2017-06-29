@@ -18,6 +18,7 @@
     <properties>
         <postgres.version>9.1-901.jdbc4</postgres.version>
         <fastjson.version>1.2.16</fastjson.version>
+        <swagger.version>2.2.2</swagger.version>
     </properties>
 
     <dependencies>
@@ -76,6 +77,16 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
     </dependencies>
 

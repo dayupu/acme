@@ -38,6 +38,10 @@ public class HubToken implements java.io.Serializable {
     public HubToken() {
     }
 
+    public HubToken(String id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     public String getId() {
