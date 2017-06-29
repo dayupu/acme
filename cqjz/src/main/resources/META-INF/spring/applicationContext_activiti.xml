@@ -12,15 +12,25 @@
     <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
         <!-- 配置数据源 -->
         <property name="dataSource" ref="dataSourceActiviti"/>
-        <property name="databaseSchemaUpdate" value="true"/>
-        <property name="jobExecutorActivate" value="false"/>
         <!-- 统一的事务管理 -->
         <property name="transactionManager" ref="transactionManagerActiviti"/>
-        <property name="activityFontName" value="宋体"/>
-        <property name="labelFontName" value="宋体"/>
+        <property name="databaseSchemaUpdate" value="false"/>
+        <property name="jobExecutorActivate" value="false"/>
+        <property name="activityFontName" value="WenQuanYi Micro Hei"/>
+        <property name="labelFontName" value="WenQuanYi Micro Hei"/>
+        <!-- 载入流程图 -->
+        <property name="deploymentResources" value="classpath*:process/*.bpmn" />
     </bean>
 
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
         <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
     </bean>
+
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
+    <bean id="fromService" factory-bean="processEngine" factory-method="getFormService"/>
+    <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService"/>
 </beans>

@@ -1,5 +1,7 @@
 package com.manage.news.application;
 
+import com.manage.news.module.activiti.service.ActivitiTestService;
+import com.manage.news.utils.SpringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,5 +16,7 @@ public class StartApplication {
 
         SpringApplication.run(StartApplication.class, args);
 
+        ActivitiTestService activitiTestService = SpringUtils.getBeanByClass(ActivitiTestService.class);
+        activitiTestService.monthtest();
     }
 }
