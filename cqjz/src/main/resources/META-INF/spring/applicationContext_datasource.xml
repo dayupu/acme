@@ -19,72 +19,72 @@
     <!--指定实现JPA的适配器-->
     <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
 
-    <!--DataSource kit-->
-    <bean id="dataSourceKit" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" primary="true">
-        <property name="driverClassName" value="${spring.datasource.kit.driverClassName}"/>
-        <property name="url" value="${spring.datasource.kit.url}"/>
-        <property name="username" value="${spring.datasource.kit.username}"/>
-        <property name="password" value="${spring.datasource.kit.password}"/>
-        <property name="initialSize" value="${spring.datasource.kit.initialSize}"/>
-        <property name="maxActive" value="${spring.datasource.kit.maxActive}"/>
-        <property name="minIdle" value="${spring.datasource.kit.minIdle}"/>
+    <!--DataSource kernel-->
+    <bean id="dataSourceKernel" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" primary="true">
+        <property name="driverClassName" value="${spring.datasource.kernel.driverClassName}"/>
+        <property name="url" value="${spring.datasource.kernel.url}"/>
+        <property name="username" value="${spring.datasource.kernel.username}"/>
+        <property name="password" value="${spring.datasource.kernel.password}"/>
+        <property name="initialSize" value="${spring.datasource.kernel.initialSize}"/>
+        <property name="maxActive" value="${spring.datasource.kernel.maxActive}"/>
+        <property name="minIdle" value="${spring.datasource.kernel.minIdle}"/>
     </bean>
-    <bean id="entityManagerFactoryKit" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+    <bean id="entityManagerFactoryKernel" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           primary="true">
-        <property name="dataSource" ref="dataSourceKit"/>
+        <property name="dataSource" ref="dataSourceKernel"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">${spring.datasource.kit.dialect}</prop>
+                <prop key="hibernate.dialect">${spring.datasource.kernel.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">validate</prop>
                 <prop key="hibernate.autoReconnect">true</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.magic.acme.assist.jpa.kit.entity"/>
+        <property name="packagesToScan" value="com.manage.news.jpa.kernel.entity"/>
     </bean>
-    <bean id="transactionManagerKit" class="org.springframework.orm.jpa.JpaTransactionManager" primary="true">
-        <property name="entityManagerFactory" ref="entityManagerFactoryKit"></property>
+    <bean id="transactionManagerKernel" class="org.springframework.orm.jpa.JpaTransactionManager" primary="true">
+        <property name="entityManagerFactory" ref="entityManagerFactoryKernel"></property>
     </bean>
 
-    <!--DataSource xtt-->
-    <bean id="dataSourceXtt" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
-        <property name="driverClassName" value="${spring.datasource.xtt.driverClassName}"/>
-        <property name="url" value="${spring.datasource.xtt.url}"/>
-        <property name="username" value="${spring.datasource.xtt.username}"/>
-        <property name="password" value="${spring.datasource.xtt.password}"/>
-        <property name="initialSize" value="${spring.datasource.xtt.initialSize}"/>
-        <property name="maxActive" value="${spring.datasource.xtt.maxActive}"/>
-        <property name="minIdle" value="${spring.datasource.xtt.minIdle}"/>
+    <!--DataSource activiti-->
+    <bean id="dataSourceActiviti" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="driverClassName" value="${spring.datasource.activiti.driverClassName}"/>
+        <property name="url" value="${spring.datasource.activiti.url}"/>
+        <property name="username" value="${spring.datasource.activiti.username}"/>
+        <property name="password" value="${spring.datasource.activiti.password}"/>
+        <property name="initialSize" value="${spring.datasource.activiti.initialSize}"/>
+        <property name="maxActive" value="${spring.datasource.activiti.maxActive}"/>
+        <property name="minIdle" value="${spring.datasource.activiti.minIdle}"/>
     </bean>
-    <bean id="entityManagerFactoryXtt" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSourceXtt"/>
+    <bean id="entityManagerFactoryActiviti" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSourceActiviti"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">${spring.datasource.xtt.dialect}</prop>
+                <prop key="hibernate.dialect">${spring.datasource.activiti.dialect}</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">validate</prop>
                 <prop key="hibernate.autoReconnect">true</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.magic.acme.assist.jpa.xtt.entity"/>
+        <property name="packagesToScan" value="com.manage.news.jpa.activiti.entity"/>
     </bean>
-    <bean id="transactionManagerXtt" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactoryXtt"></property>
+    <bean id="transactionManagerActiviti" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactoryActiviti"></property>
     </bean>
 
     <!--JPA reponsitories-->
-    <jpa:repositories base-package="com.magic.acme.assist.jpa.kit.repository"
-                      entity-manager-factory-ref="entityManagerFactoryKit"
-                      transaction-manager-ref="transactionManagerKit"></jpa:repositories>
-    <jpa:repositories base-package="com.magic.acme.assist.jpa.xtt.repository"
-                      entity-manager-factory-ref="entityManagerFactoryXtt"
-                      transaction-manager-ref="transactionManagerXtt"></jpa:repositories>
+    <jpa:repositories base-package="com.manage.news.jpa.kernel.repository"
+                      entity-manager-factory-ref="entityManagerFactoryKernel"
+                      transaction-manager-ref="transactionManagerKernel"></jpa:repositories>
+    <jpa:repositories base-package="com.manage.news.jpa.activiti.repository"
+                      entity-manager-factory-ref="entityManagerFactoryActiviti"
+                      transaction-manager-ref="transactionManagerActiviti"></jpa:repositories>
 
     <!-- 启用 annotation事务-->
-    <tx:annotation-driven transaction-manager="transactionManagerKit" proxy-target-class="true"/>
-    <tx:annotation-driven transaction-manager="transactionManagerXtt" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="transactionManagerKernel" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="transactionManagerActiviti" proxy-target-class="true"/>
 </beans>

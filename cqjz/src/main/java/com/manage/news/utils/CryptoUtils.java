@@ -1,9 +1,9 @@
-package com.magic.acme.assist.utils;
+package com.manage.news.utils;
 
 import java.security.SecureRandom;
 import org.apache.commons.codec.binary.Base32;
 
-public class Crypto {
+public class CryptoUtils {
 
     private final static SecureRandom random = new SecureRandom();
 

@@ -27,8 +27,7 @@
     </bean>
 
     <!--数据绑定支持， 如@Valid支持 -->
-    <mvc:annotation-driven validator="validator">
-    </mvc:annotation-driven>
+    <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
