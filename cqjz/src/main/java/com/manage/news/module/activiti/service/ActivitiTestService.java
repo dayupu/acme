@@ -10,6 +10,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.logging.log4j.core.util.FileUtils;
 import org.aspectj.util.FileUtil;
@@ -32,7 +33,13 @@ public class ActivitiTestService {
     private HistoryService historyService;
 
     public void monthtest(){
-        practice02();
+
+    }
+
+    private void praction03(){
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("newsApprove");
+
+
     }
 
     private void practice02(){

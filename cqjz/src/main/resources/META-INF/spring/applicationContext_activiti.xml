@@ -16,10 +16,10 @@
         <property name="transactionManager" ref="transactionManagerActiviti"/>
         <property name="databaseSchemaUpdate" value="false"/>
         <property name="jobExecutorActivate" value="false"/>
-        <property name="activityFontName" value="WenQuanYi Micro Hei"/>
-        <property name="labelFontName" value="WenQuanYi Micro Hei"/>
+        <property name="activityFontName" value="宋体"/>
+        <property name="labelFontName" value="宋体"/>
         <!-- 载入流程图 -->
-        <property name="deploymentResources" value="classpath*:process/*.bpmn" />
+        <property name="deploymentResources" value="classpath*:workflow/*.bpmn" />
     </bean>
 
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
