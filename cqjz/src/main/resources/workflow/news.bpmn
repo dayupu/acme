@@ -1,56 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1498748903919" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="newsApprove" isClosed="false" isExecutable="true" name="新闻审批" processType="None">
-    <userTask activiti:exclusive="true" id="approve01" name="支队领导审批"/>
-    <userTask activiti:exclusive="true" id="approve02" name="保密员审批"/>
-    <userTask activiti:exclusive="true" id="_12" name="新闻发布"/>
+    <userTask activiti:candidateGroups="${group01}" activiti:exclusive="true" id="approve01" name="支队领导审批"/>
+    <userTask activiti:candidateGroups="${group02}" activiti:exclusive="true" id="approve02" name="保密员审批"/>
+    <userTask activiti:assignee="${applyUser}" activiti:exclusive="true" id="newsApply" name="新闻发布"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_21"/>
     <sequenceFlow id="_27" sourceRef="approve01" targetRef="_21"/>
     <sequenceFlow id="_28" name="同意" sourceRef="_21" targetRef="approve02">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='approve'}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action == 'approve'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_29" name="不同意" sourceRef="_21" targetRef="_12">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='reject'}]]></conditionExpression>
+    <sequenceFlow id="_29" name="不同意" sourceRef="_21" targetRef="newsApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action != 'approve'}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway gatewayDirection="Unspecified" id="_30"/>
     <sequenceFlow id="_31" sourceRef="approve02" targetRef="_30"/>
-    <sequenceFlow id="_32" name="不同意" sourceRef="_30" targetRef="_12">
+    <sequenceFlow id="_32" name="不同意" sourceRef="_30" targetRef="newsApply">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask activiti:exclusive="true" id="_33" name="总队领导审批"/>
-    <sequenceFlow id="_34" name="同意" sourceRef="_30" targetRef="_33">
+    <userTask activiti:candidateGroups="${group03}" activiti:exclusive="true" id="approve03" name="总队领导审批"/>
+    <sequenceFlow id="_34" name="同意" sourceRef="_30" targetRef="approve03">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='approve'}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway gatewayDirection="Unspecified" id="_35"/>
-    <sequenceFlow id="_37" sourceRef="_33" targetRef="_35"/>
-    <sequenceFlow id="_38" name="不同意" sourceRef="_35" targetRef="_12">
+    <sequenceFlow id="_37" sourceRef="approve03" targetRef="_35"/>
+    <sequenceFlow id="_38" name="不同意" sourceRef="_35" targetRef="newsApply">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='reject'}]]></conditionExpression>
     </sequenceFlow>
-    <endEvent id="_39" name="结束"/>
-    <sequenceFlow id="_40" name="同意" sourceRef="_35" targetRef="_39">
+    <endEvent id="end" name="结束"/>
+    <sequenceFlow id="_40" name="同意" sourceRef="_35" targetRef="end">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='approve'}]]></conditionExpression>
     </sequenceFlow>
-    <startEvent id="_2" name="开始"/>
-    <sequenceFlow id="_3" sourceRef="_2" targetRef="_12"/>
+    <startEvent id="start" name="开始"/>
+    <sequenceFlow id="_3" sourceRef="start" targetRef="newsApply"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_4"/>
-    <sequenceFlow id="_5" sourceRef="_12" targetRef="_4"/>
+    <sequenceFlow id="_5" sourceRef="newsApply" targetRef="_4"/>
     <sequenceFlow id="_6" name="申请" sourceRef="_4" targetRef="approve01">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='apply'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_7" name="撤销" sourceRef="_4" targetRef="_39">
-      <extensionElements>
-        <activiti:executionListener event="end">
-          <activiti:field>
-            <activiti:string/>
-          </activiti:field>
-          <activiti:field>
-            <activiti:string/>
-          </activiti:field>
-          <activiti:field>
-            <activiti:string/>
-          </activiti:field>
-        </activiti:executionListener>
-      </extensionElements>
+    <sequenceFlow id="_7" name="撤销" sourceRef="_4" targetRef="end">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='cancel'}]]></conditionExpression>
     </sequenceFlow>
   </process>
@@ -68,7 +55,7 @@
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_12" id="Shape-_12">
+      <bpmndi:BPMNShape bpmnElement="newsApply" id="Shape-newsApply">
         <omgdc:Bounds height="55.0" width="85.0" x="95.0" y="100.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
@@ -86,7 +73,7 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_33" id="Shape-_33">
+      <bpmndi:BPMNShape bpmnElement="approve03" id="Shape-approve03">
         <omgdc:Bounds height="55.0" width="85.0" x="95.0" y="515.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
@@ -98,13 +85,13 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_39" id="Shape-_39">
+      <bpmndi:BPMNShape bpmnElement="end" id="Shape-end">
         <omgdc:Bounds height="32.0" width="32.0" x="120.0" y="655.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
+      <bpmndi:BPMNShape bpmnElement="start" id="Shape-start">
         <omgdc:Bounds height="32.0" width="32.0" x="115.0" y="35.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
@@ -116,21 +103,21 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_34" id="BPMNEdge__34" sourceElement="_30" targetElement="_33">
+      <bpmndi:BPMNEdge bpmnElement="_34" id="BPMNEdge__34" sourceElement="_30" targetElement="approve03">
         <omgdi:waypoint x="141.0" y="487.0"/>
         <omgdi:waypoint x="141.0" y="515.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="2.0" width="0.0" x="0.0" y="24.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_37" id="BPMNEdge__37" sourceElement="_33" targetElement="_35">
+      <bpmndi:BPMNEdge bpmnElement="_37" id="BPMNEdge__37" sourceElement="approve03" targetElement="_35">
         <omgdi:waypoint x="136.0" y="570.0"/>
         <omgdi:waypoint x="136.0" y="595.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_38" id="BPMNEdge__38" sourceElement="_35" targetElement="_12">
+      <bpmndi:BPMNEdge bpmnElement="_38" id="BPMNEdge__38" sourceElement="_35" targetElement="newsApply">
         <omgdi:waypoint x="120.0" y="611.0"/>
         <omgdi:waypoint x="45.0" y="545.0"/>
         <omgdi:waypoint x="95.0" y="127.5"/>
@@ -138,7 +125,7 @@
           <omgdc:Bounds height="0.0" width="-35.0" x="-1.0" y="-11.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_40" id="BPMNEdge__40" sourceElement="_35" targetElement="_39">
+      <bpmndi:BPMNEdge bpmnElement="_40" id="BPMNEdge__40" sourceElement="_35" targetElement="end">
         <omgdi:waypoint x="136.0" y="627.0"/>
         <omgdi:waypoint x="136.0" y="655.0"/>
         <bpmndi:BPMNLabel>
@@ -159,7 +146,7 @@
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_29" id="BPMNEdge__29" sourceElement="_21" targetElement="_12">
+      <bpmndi:BPMNEdge bpmnElement="_29" id="BPMNEdge__29" sourceElement="_21" targetElement="newsApply">
         <omgdi:waypoint x="120.0" y="336.0"/>
         <omgdi:waypoint x="45.0" y="270.0"/>
         <omgdi:waypoint x="95.0" y="127.5"/>
@@ -167,14 +154,14 @@
           <omgdc:Bounds height="0.0" width="-34.0" x="-1.0" y="-15.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_3" id="BPMNEdge__3" sourceElement="_2" targetElement="_12">
+      <bpmndi:BPMNEdge bpmnElement="_3" id="BPMNEdge__3" sourceElement="start" targetElement="newsApply">
         <omgdi:waypoint x="131.0" y="67.0"/>
         <omgdi:waypoint x="131.0" y="100.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="_12" targetElement="_4">
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="newsApply" targetElement="_4">
         <omgdi:waypoint x="136.0" y="155.0"/>
         <omgdi:waypoint x="136.0" y="175.0"/>
         <bpmndi:BPMNLabel>
@@ -188,7 +175,7 @@
           <omgdc:Bounds height="-1.0" width="0.0" x="0.0" y="24.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_4" targetElement="_39">
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_4" targetElement="end">
         <omgdi:waypoint x="152.0" y="191.0"/>
         <omgdi:waypoint x="220.0" y="420.0"/>
         <omgdi:waypoint x="152.0" y="671.0"/>
@@ -203,7 +190,7 @@
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_32" id="BPMNEdge__32" sourceElement="_30" targetElement="_12">
+      <bpmndi:BPMNEdge bpmnElement="_32" id="BPMNEdge__32" sourceElement="_30" targetElement="newsApply">
         <omgdi:waypoint x="125.0" y="471.0"/>
         <omgdi:waypoint x="45.0" y="405.0"/>
         <omgdi:waypoint x="95.0" y="127.5"/>

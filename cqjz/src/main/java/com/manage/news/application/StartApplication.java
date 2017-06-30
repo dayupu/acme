@@ -1,7 +1,7 @@
 package com.manage.news.application;
 
 import com.manage.news.module.activiti.service.ActivitiTestService;
-import com.manage.news.utils.SpringUtils;
+import com.manage.news.base.utils.SpringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

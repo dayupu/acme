@@ -1,4 +1,4 @@
-package com.manage.news.utils;
+package com.manage.news.base.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

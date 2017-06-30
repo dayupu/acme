@@ -1,4 +1,4 @@
-package com.manage.news.utils;
+package com.manage.news.base.utils;
 
 import java.security.SecureRandom;
 import org.apache.commons.codec.binary.Base32;
