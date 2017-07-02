@@ -1,25 +1,23 @@
-package com.manage.news.module.activiti.service;
+package com.manage.news.core.admin.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import static org.apache.logging.log4j.ThreadContext.clearAll;
-import org.apache.logging.log4j.core.util.FileUtils;
+
 import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,21 +44,27 @@ public class ActivitiTestService {
         praction03();
     }
 
+
+    public static void main(String[] args) {
+
+
+    }
+
     private void praction03() {
 
         String applyUser = "张三";
 
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("applyUser", applyUser);
-        //        ProcessInstance pi = runtimeService.startProcessInstanceByKey("newsApprove", variables);
-        //        System.out.println("流程实例ID：" + pi.getId());//流程实例ID
-        //        System.out.println("流程实例ID：" + pi.getProcessInstanceId());//流程实例ID
-        //        System.out.println("流程实例ID:" + pi.getProcessDefinitionId());//myMyHelloWorld
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("newsApprove", variables);
+        System.out.println("流程实例ID：" + pi.getId());//流程实例ID
+        System.out.println("流程实例ID：" + pi.getProcessInstanceId());//流程实例ID
+        System.out.println("流程实例ID:" + pi.getProcessDefinitionId());//myMyHelloWorld
 
         //createUserAndGroup();
 
-        List<Task> tasks =  taskService.createTaskQuery().taskAssignee(applyUser).list();
-        for(Task task : tasks){
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee(applyUser).list();
+        for (Task task : tasks) {
             System.out.println("任务ID:" + task.getId());
             System.out.println("任务的办理人:" + task.getAssignee());
             System.out.println("任务名称:" + task.getName());
@@ -71,14 +75,14 @@ public class ActivitiTestService {
 
             System.out.println("执行任务");
             variables = new HashMap<String, Object>();
-            variables.put("action","apply");
+            variables.put("action", "apply");
             variables.put("group01", "group1");
             taskService.complete(task.getId(), variables);
             System.out.println("完成任务：" + task.getId());
         }
 
-        tasks =  taskService.createTaskQuery().taskCandidateGroup("group1").list();
-        for(Task task : tasks){
+        tasks = taskService.createTaskQuery().taskCandidateGroup("group1").list();
+        for (Task task : tasks) {
             System.out.println("任务ID:" + task.getId());
             System.out.println("任务的办理人:" + task.getAssignee());
             System.out.println("任务名称:" + task.getName());
@@ -89,14 +93,13 @@ public class ActivitiTestService {
 
             System.out.println("执行任务");
             variables = new HashMap<String, Object>();
-            variables.put("action","approve");
+            variables.put("action", "approve");
             variables.put("group02", "group2");
             task.setAssignee("g1");
             taskService.complete(task.getId(), variables);
             System.out.println("完成任务：" + task.getId());
         }
     }
-
 
 
     private void practice02() {

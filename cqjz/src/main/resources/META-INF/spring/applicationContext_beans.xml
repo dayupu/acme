@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!--provide properties-->
+    <bean id="propertySupplier" class="com.manage.news.spring.PropertySupplier">
+        <property name="tokenStrategy" value="${token.strategy}"></property>
+        <property name="tokenValidMinutes" value="${token.valid.minutes}"></property>
+    </bean>
+
+    <!--token service-->
+    <bean id="tokenService" class="com.manage.news.token.TokenService">
+        <property name="propertySupplier" ref="propertySupplier"></property>
+    </bean>
+
+    <!--aspect-->
+    <bean id="tokenAuthenticationAspect" class="com.manage.news.spring.aspect.TokenAuthenticationAspect">
+        <property name="tokenService" ref="tokenService"></property>
+    </bean>
+</beans>
