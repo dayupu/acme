@@ -21,8 +21,8 @@ public class TokenService implements InitializingBean {
 
     private long ttlSeconds;
 
-    public boolean isValid(String tokenId) {
-        return tokenManager.isValid(tokenId);
+    public boolean isValid(String tokenId, String ip) {
+        return tokenManager.isValid(tokenId, ip);
     }
 
     public String register(TokenUser user, String ip) {

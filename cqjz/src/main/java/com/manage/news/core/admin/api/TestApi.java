@@ -1,5 +1,6 @@
 package com.manage.news.core.admin.api;
 
+import com.manage.base.utils.WebUtils;
 import com.manage.news.spring.annotation.TokenAuthentication;
 import com.manage.news.token.TokenService;
 import com.manage.news.token.base.TokenUser;
@@ -32,10 +33,9 @@ public class TestApi {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation("用户登录")
     public Map login(HttpServletRequest request) {
-        request.getRemoteHost();
         TokenUser tokenUser = new TokenUser();
         tokenUser.setAccount("aab");
-        String tokenId = tokenService.register(tokenUser, request.getRemoteHost());
+        String tokenId = tokenService.register(tokenUser, WebUtils.remoteIP(request));
         System.out.println(tokenId);
         return new HashMap();
     }

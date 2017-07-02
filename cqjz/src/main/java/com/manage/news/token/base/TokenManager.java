@@ -7,5 +7,5 @@ public interface TokenManager {
 
     void extendTTL(String tokenId, long seconds);
 
-    boolean isValid(String tokenId);
+    boolean isValid(String tokenId, String ip);
 }

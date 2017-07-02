@@ -19,8 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.manage.news.core.admin.api"))
-                .apis(RequestHandlerSelectors.basePackage("com.manage.news.core.free.api"))
+                .apis(RequestHandlerSelectors.basePackage("com.manage.news.core"))
                 .paths(PathSelectors.any())
                 .build();
     }

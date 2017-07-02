@@ -45,10 +45,13 @@ public class TokenCacheManager implements TokenManager {
     }
 
     @Override
-    public boolean isValid(String tokenId) {
+    public boolean isValid(String tokenId, String ip) {
 
         CacheToken token = cacheMap.get(tokenId);
         if (token == null) {
+            return false;
+        }
+        if (!ip.equals(token.getIp())) {
             return false;
         }
         if (token.isExpired()) {
