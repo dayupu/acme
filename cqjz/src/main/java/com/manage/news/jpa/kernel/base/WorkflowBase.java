@@ -1,5 +1,6 @@
-package com.manage.news.jpa.kernel.entity;
+package com.manage.news.jpa.kernel.base;
 
+import com.manage.news.jpa.kernel.entity.Workflow;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -7,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
 @MappedSuperclass
-public class BaseWorkflow {
+public class WorkflowBase {
 
 
     @Column(name = "execution_id", updatable = false, insertable = false)

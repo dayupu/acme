@@ -1,5 +1,6 @@
 package com.manage.news.jpa.kernel.entity;
 
+import com.manage.news.jpa.kernel.base.WorkflowBase;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "news")
-public class News extends BaseWorkflow {
+public class News extends WorkflowBase {
 
     @Id
     @Column(name = "id")
