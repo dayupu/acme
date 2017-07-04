@@ -11,7 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "resource_bundle", uniqueConstraints = { @UniqueConstraint(columnNames = { "key", "locale" }) })
+@Table(name = "resource_bundle", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "key", "locale" }, name = "resource_bundle_key_local_ukey") })
 @SequenceGenerator(name = "seq_resource_bundle", sequenceName = "seq_resource_bundle", allocationSize = 1)
 public class ResourceBundle {
 

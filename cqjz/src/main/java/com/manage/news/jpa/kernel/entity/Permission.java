@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -33,10 +34,10 @@ public class Permission {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn = new Date();
 
-    @ManyToMany(mappedBy = "permissions", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "permissions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Role> roles = new ArrayList<Role>();
 
-    @ManyToMany(mappedBy = "permissions", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "permissions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<User>();
 
     public Permission() {
