@@ -1,4 +1,4 @@
-package com.manage.base.utils;
+package com.manage.news.spring;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +42,4 @@ public class SpringUtils implements ApplicationContextAware {
         return getApplicationContext().getBean(name, clazz);
     }
 
-    public static <T> T getBeanByClass(Class<T> clazz) {
-        return getApplicationContext().getBean(clazz);
-    }
 }

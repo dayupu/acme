@@ -1,6 +1,5 @@
 package com.manage.news.token.base;
 
-
 public interface TokenManager {
 
     void register(Token token, long TTL);
@@ -8,4 +7,6 @@ public interface TokenManager {
     void extendTTL(String tokenId, long seconds);
 
     boolean isValid(String tokenId, String ip);
+
+    Token acquireToken(String tokenId);
 }

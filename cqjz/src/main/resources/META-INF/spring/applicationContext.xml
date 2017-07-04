@@ -20,8 +20,9 @@
         </property>
     </bean>
 
-    <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.TokenPermissionConfig">
-        <property name="packagesToScan" value="com.manage.news.core.admin.api"/>
+    <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.PermissionConfig">
+        <property name="basePackages" value="com.manage.news.core.admin.api"/>
+        <property name="autoMerge" value="true"/>
     </bean>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">

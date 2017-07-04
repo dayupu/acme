@@ -1,4 +1,4 @@
-package com.manage.news.spring.aspect;
+package com.manage.news.spring.base;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

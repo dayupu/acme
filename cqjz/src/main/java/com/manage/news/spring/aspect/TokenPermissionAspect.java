@@ -1,11 +1,11 @@
 package com.manage.news.spring.aspect;
 
-import com.manage.base.exceptions.AuthorizedException;
 import com.manage.base.exceptions.ApiExeception;
-import com.manage.base.utils.WebUtils;
+import com.manage.base.exceptions.AuthorizedException;
 import com.manage.news.spring.base.AspectBase;
 import com.manage.news.spring.base.SpringConstants;
 import com.manage.news.token.TokenService;
+import com.manage.news.token.base.Token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -14,36 +14,30 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Aspect
-public class TokenAuthenticationAspect extends AspectBase {
+public class TokenPermissionAspect extends AspectBase {
 
-    private static final Logger LOGGER = LogManager.getLogger(TokenAuthenticationAspect.class);
-    private static final String HEADER_TOKEN = "token";
+    private static final Logger LOGGER = LogManager.getLogger(TokenPermissionAspect.class);
 
     private TokenService tokenService;
 
-    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenAuthentication)")
-    public void doAuthorization() {
+    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenPermission)")
+    public void doPermission() {
 
     }
 
-    @Before("doAuthorization()")
+    @Before("doPermission()")
     public void doBefore(JoinPoint point) throws ApiExeception {
 
         try {
-            HttpServletRequest request = getRequest();
-            String tokenId = request.getHeader(SpringConstants.HEADER_TOKEN);
+            String tokenId = getRequest().getHeader(SpringConstants.HEADER_TOKEN);
             if (StringUtils.isEmpty(tokenId)) {
                 throw new AuthorizedException();
             }
+            Token token = tokenService.acquireToken(tokenId);
 
-            if (!tokenService.isValid(tokenId, WebUtils.remoteIP(request))) {
-                throw new AuthorizedException();
-            }
+            System.out.println("=========" + token.getIp() + "-------" + token.getId());
 
-            tokenService.extendTTL(tokenId);
         } catch (AuthorizedException e) {
             throw e;
         } catch (Exception e) {

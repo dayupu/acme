@@ -36,6 +36,10 @@ public class TokenService implements InitializingBean {
         tokenManager.extendTTL(tokenId, ttlSeconds);
     }
 
+    public Token acquireToken(String tokenId) {
+        return tokenManager.acquireToken(tokenId);
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         buildTokenManager();

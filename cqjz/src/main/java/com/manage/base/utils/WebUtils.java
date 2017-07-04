@@ -2,9 +2,7 @@ package com.manage.base.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by bert on 2017/7/2.
- */
+
 public class WebUtils {
 
     /**

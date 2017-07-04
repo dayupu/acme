@@ -79,6 +79,11 @@ public class TokenCacheManager implements TokenManager {
         update(token);
     }
 
+    @Override
+    public Token acquireToken(String tokenId) {
+        return cacheMap.get(tokenId);
+    }
+
     public void clearExpiredTokens() {
         for (Map.Entry<String, CacheToken> entry : cacheMap.entrySet()) {
             if (entry.getValue().isExpired()) {
@@ -94,4 +99,5 @@ public class TokenCacheManager implements TokenManager {
         cacheMap.put(token.getId(), token);
         return true;
     }
+
 }

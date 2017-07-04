@@ -24,4 +24,8 @@
     <bean id="tokenAuthenticationAspect" class="com.manage.news.spring.aspect.TokenAuthenticationAspect">
         <property name="tokenService" ref="tokenService"></property>
     </bean>
+    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.TokenPermissionAspect">
+        <property name="tokenService" ref="tokenService"></property>
+    </bean>
+
 </beans>

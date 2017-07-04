@@ -1,4 +1,4 @@
-package com.manage.news.application;
+package com.manage.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +13,6 @@ public class StartApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(StartApplication.class, args);
-
 //        ActivitiTestService activitiTestService = SpringUtils.getBeanByClass(ActivitiTestService.class);
 //        activitiTestService.monthtest();
     }

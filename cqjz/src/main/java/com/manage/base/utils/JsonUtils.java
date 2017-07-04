@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-/**
- * Created by bert on 2017/7/2.
- */
 public class JsonUtils {
 
     private static ObjectMapper mapper = new ObjectMapper();
