@@ -17,7 +17,7 @@ public class News extends WorkflowBase {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "news_number", nullable = false, unique = true, length = 50)
+    @Column(name = "news_number", nullable = false, length = 50)
     private String newsNumber;
 
     @Column(name = "title", nullable = false, columnDefinition = "text")

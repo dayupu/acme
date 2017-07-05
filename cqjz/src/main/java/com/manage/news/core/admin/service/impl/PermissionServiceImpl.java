@@ -40,7 +40,6 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     public void test(){
-
-        System.out.println(cacheManager);
+        System.out.println(11);
     }
 }
