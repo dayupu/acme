@@ -1,11 +1,11 @@
-package com.manage.news.token;
+package com.manage.cache;
 
 import com.manage.base.utils.CryptoUtils;
 import com.manage.news.spring.PropertySupplier;
-import com.manage.news.token.base.Token;
-import com.manage.news.token.base.TokenManager;
-import com.manage.news.token.base.TokenUser;
-import com.manage.news.token.cache.TokenCacheManager;
+import com.manage.cache.base.Token;
+import com.manage.cache.base.TokenManager;
+import com.manage.cache.base.TokenUser;
+import com.manage.cache.impl.local.TokenCacheManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;

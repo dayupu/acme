@@ -55,7 +55,7 @@ public class DataServiceImpl implements DataService {
 
         start = System.currentTimeMillis();
         List<String> tokenIds = batchCreateToken(amount);
-        System.out.println("Create token success, cost times:" + (System.currentTimeMillis() - start));
+        System.out.println("Create local success, cost times:" + (System.currentTimeMillis() - start));
 
         start = System.currentTimeMillis();
         List<String> hubTokenIds = batchCreateHubToken(amount);

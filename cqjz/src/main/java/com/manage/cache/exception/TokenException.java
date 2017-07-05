@@ -1,4 +1,4 @@
-package com.manage.news.token.exception;
+package com.manage.cache.exception;
 
 /**
  * Created by bert on 2017/7/2.

@@ -1,4 +1,4 @@
-package com.manage.news.token.base;
+package com.manage.cache.base;
 
 public interface TokenManager {
 

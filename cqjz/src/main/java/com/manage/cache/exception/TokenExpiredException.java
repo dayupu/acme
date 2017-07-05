@@ -1,10 +1,10 @@
-package com.manage.news.token.exception;
+package com.manage.cache.exception;
 
 
 public class TokenExpiredException extends TokenException {
 
     public TokenExpiredException() {
-        super("token is expired");
+        super("local is expired");
     }
 
 }

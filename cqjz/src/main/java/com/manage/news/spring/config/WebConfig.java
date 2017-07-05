@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConfigurationProperties
-public class ApplicationWebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Value("${server.port}")
     private int serverPort = 8080;

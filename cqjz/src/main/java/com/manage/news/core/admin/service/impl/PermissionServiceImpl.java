@@ -1,5 +1,6 @@
 package com.manage.news.core.admin.service.impl;
 
+import com.manage.cache.CacheManager;
 import com.manage.news.core.admin.service.PermissionService;
 import com.manage.news.jpa.kernel.entity.Permission;
 import com.manage.news.jpa.kernel.repository.PermissionRepository;
@@ -15,6 +16,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     PermissionRepository permissionRepository;
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Override
     @Transactional
@@ -33,5 +37,10 @@ public class PermissionServiceImpl implements PermissionService {
             }
             permissionRepository.save(permission);
         }
+    }
+
+    public void test(){
+
+        System.out.println(cacheManager);
     }
 }

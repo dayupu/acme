@@ -15,8 +15,8 @@
         <property name="tokenValidMinutes" value="${token.valid.minutes}"></property>
     </bean>
 
-    <!--token service-->
-    <bean id="tokenService" class="com.manage.news.token.TokenService">
+    <!--local service-->
+    <bean id="tokenService" class="com.manage.cache.TokenService">
         <property name="propertySupplier" ref="propertySupplier"></property>
     </bean>
 

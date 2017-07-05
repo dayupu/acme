@@ -25,6 +25,7 @@
         <property name="autoMerge" value="true"/>
     </bean>
 
+    <!--resource-->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="cookieMaxAge" value="604800"/>
         <property name="defaultLocale" value="zh_CN"/>

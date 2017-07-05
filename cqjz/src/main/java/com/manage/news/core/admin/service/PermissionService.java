@@ -6,4 +6,6 @@ import java.util.List;
 public interface PermissionService {
 
     void mergePermission(List<Permission> permissions);
+
+    void test();
 }

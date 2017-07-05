@@ -1,10 +1,10 @@
-package com.manage.news.token.exception;
+package com.manage.cache.exception;
 
 
 public class TokenNotFoundException extends TokenException {
 
     public TokenNotFoundException() {
-        super("token not found");
+        super("local not found");
     }
 
 }

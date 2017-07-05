@@ -5,7 +5,7 @@ import com.manage.base.exceptions.ApiExeception;
 import com.manage.base.utils.WebUtils;
 import com.manage.news.spring.base.AspectBase;
 import com.manage.news.spring.base.SpringConstants;
-import com.manage.news.token.TokenService;
+import com.manage.cache.TokenService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenAuthenticationAspect extends AspectBase {
 
     private static final Logger LOGGER = LogManager.getLogger(TokenAuthenticationAspect.class);
-    private static final String HEADER_TOKEN = "token";
+    private static final String HEADER_TOKEN = "java";
 
     private TokenService tokenService;
 

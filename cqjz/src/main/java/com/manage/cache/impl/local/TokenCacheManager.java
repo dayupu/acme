@@ -1,8 +1,8 @@
-package com.manage.news.token.cache;
+package com.manage.cache.impl.local;
 
-import com.manage.news.token.base.Token;
-import com.manage.news.token.base.TokenManager;
-import com.manage.news.token.exception.TokenNotFoundException;
+import com.manage.cache.base.Token;
+import com.manage.cache.base.TokenManager;
+import com.manage.cache.exception.TokenNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

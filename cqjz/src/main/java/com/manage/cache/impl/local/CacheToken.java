@@ -1,8 +1,6 @@
-package com.manage.news.token.cache;
+package com.manage.cache.impl.local;
 
-import com.manage.news.token.base.Token;
-import org.springframework.util.Assert;
-import org.springframework.util.SystemPropertyUtils;
+import com.manage.cache.base.Token;
 
 import java.io.Serializable;
 
