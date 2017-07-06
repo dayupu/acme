@@ -2,6 +2,7 @@ package com.manage.news.spring.aspect;
 
 import com.manage.base.exceptions.ApiExeception;
 import com.manage.base.exceptions.AuthorizedException;
+import com.manage.cache.CacheManager;
 import com.manage.cache.TokenManager;
 import com.manage.cache.bean.TokenUser;
 import com.manage.news.spring.base.AspectBase;

@@ -42,7 +42,7 @@
     </bean>
 
     <!--aspect-->
-    <bean id="tokenAuthenticationAspect" class="com.manage.news.spring.aspect.TokenCheckAspect">
+    <bean id="tokenCheckAspect" class="com.manage.news.spring.aspect.TokenCheckAspect">
         <property name="tokenManager" ref="tokenManager"></property>
     </bean>
     <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.TokenPermissionAspect">
