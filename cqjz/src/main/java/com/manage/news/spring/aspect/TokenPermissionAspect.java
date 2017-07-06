@@ -2,10 +2,10 @@ package com.manage.news.spring.aspect;
 
 import com.manage.base.exceptions.ApiExeception;
 import com.manage.base.exceptions.AuthorizedException;
+import com.manage.cache.TokenManager;
+import com.manage.cache.bean.TokenUser;
 import com.manage.news.spring.base.AspectBase;
 import com.manage.news.spring.base.SpringConstants;
-import com.manage.cache.TokenService;
-import com.manage.cache.base.Token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -19,7 +19,7 @@ public class TokenPermissionAspect extends AspectBase {
 
     private static final Logger LOGGER = LogManager.getLogger(TokenPermissionAspect.class);
 
-    private TokenService tokenService;
+    private TokenManager tokenManager;
 
     @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenPermission)")
     public void doPermission() {
@@ -34,9 +34,9 @@ public class TokenPermissionAspect extends AspectBase {
             if (StringUtils.isEmpty(tokenId)) {
                 throw new AuthorizedException();
             }
-            Token token = tokenService.acquireToken(tokenId);
+            TokenUser tokenUser = tokenManager.getTokenUser(tokenId);
 
-            System.out.println("=========" + token.getIp() + "-------" + token.getId());
+            System.out.println("=========" + tokenUser.getIp() + "-------" + tokenUser.getAccount());
 
         } catch (AuthorizedException e) {
             throw e;
@@ -46,7 +46,7 @@ public class TokenPermissionAspect extends AspectBase {
         }
     }
 
-    public void setTokenService(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public void setTokenManager(TokenManager tokenManager) {
+        this.tokenManager = tokenManager;
     }
 }

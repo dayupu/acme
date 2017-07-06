@@ -1,9 +1,12 @@
-package com.manage.cache.base;
+package com.manage.cache.bean;
 
-public class TokenUser {
+import java.io.Serializable;
+
+public class TokenUser implements Serializable{
 
     private String account;
     private String group;
+    private String ip;
 
     public String getAccount() {
         return account;
@@ -19,5 +22,13 @@ public class TokenUser {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

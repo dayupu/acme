@@ -1,13 +1,10 @@
-package com.manage.cache.manager;
+package com.manage.cache.implement;
 
 import com.manage.cache.CacheManager;
-import com.manage.cache.base.LocalCache;
-import com.manage.cache.impl.local.CacheToken;
-import com.manage.cache.impl.local.TokenCacheManager;
+import com.manage.cache.bean.LocalCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -61,6 +58,16 @@ public class LocalCacheManager implements CacheManager {
         return value.length();
     }
 
+    @Override
+    public boolean extendTTL(Object key, long ttl) {
+        LocalCache cache = localCache.get(key);
+        if(cache == null){
+            return false;
+        }
+        localCache.put(key, cache.extendTTL(ttl));
+        return false;
+    }
+
     private static void cleanCache() {
         for (Map.Entry<Object, LocalCache> entry : localCache.entrySet()) {
             if (entry.getValue().isExpired()) {
@@ -87,4 +94,5 @@ public class LocalCacheManager implements CacheManager {
         };
         schedule.scheduleWithFixedDelay(task, delay, delay, TimeUnit.SECONDS);
     }
+
 }

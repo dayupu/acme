@@ -3,9 +3,9 @@ package com.manage.news.spring.aspect;
 import com.manage.base.exceptions.AuthorizedException;
 import com.manage.base.exceptions.ApiExeception;
 import com.manage.base.utils.WebUtils;
+import com.manage.cache.TokenManager;
 import com.manage.news.spring.base.AspectBase;
 import com.manage.news.spring.base.SpringConstants;
-import com.manage.cache.TokenService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -17,19 +17,19 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 @Aspect
-public class TokenAuthenticationAspect extends AspectBase {
+public class TokenCheckAspect extends AspectBase {
 
-    private static final Logger LOGGER = LogManager.getLogger(TokenAuthenticationAspect.class);
+    private static final Logger LOGGER = LogManager.getLogger(TokenCheckAspect.class);
     private static final String HEADER_TOKEN = "java";
 
-    private TokenService tokenService;
+    private TokenManager tokenManager;
 
-    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenAuthentication)")
-    public void doAuthorization() {
+    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenCheck)")
+    public void doCheck() {
 
     }
 
-    @Before("doAuthorization()")
+    @Before("doCheck()")
     public void doBefore(JoinPoint point) throws ApiExeception {
 
         try {
@@ -39,11 +39,11 @@ public class TokenAuthenticationAspect extends AspectBase {
                 throw new AuthorizedException();
             }
 
-            if (!tokenService.isValid(tokenId, WebUtils.remoteIP(request))) {
+            if (!tokenManager.isValid(tokenId, WebUtils.remoteIP(request))) {
                 throw new AuthorizedException();
             }
 
-            tokenService.extendTTL(tokenId);
+            tokenManager.extendTTL(tokenId);
         } catch (AuthorizedException e) {
             throw e;
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class TokenAuthenticationAspect extends AspectBase {
         }
     }
 
-    public void setTokenService(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public void setTokenManager(TokenManager tokenManager) {
+        this.tokenManager = tokenManager;
     }
 }

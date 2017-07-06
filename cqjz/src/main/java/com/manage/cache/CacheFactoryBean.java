@@ -1,14 +1,14 @@
 package com.manage.cache;
 
-import com.manage.cache.manager.LocalCacheManager;
-import com.manage.cache.manager.RedisCacheManager;
+import com.manage.cache.implement.LocalCacheManager;
+import com.manage.cache.implement.RedisCacheManager;
 
 import java.util.HashMap;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.data.redis.core.RedisTemplate;
 
-public class CacheFactoryBean implements FactoryBean<CacheManager> {
+public class CacheFactoryBean implements FactoryBean<CacheFactoryBean> {
 
     private static final String STRATEGY_REDIS = "redis";
     private static final String STRATEGY_DEFAULT = "local";
@@ -22,23 +22,19 @@ public class CacheFactoryBean implements FactoryBean<CacheManager> {
     private CacheManager cacheManager;
 
     @Override
-    public CacheManager getObject() throws Exception {
-
-        if (cacheManager != null) {
-            return cacheManager;
-        }
+    public CacheFactoryBean getObject() throws Exception {
 
         if (STRATEGY_REDIS.equals(strategy)) {
             cacheManager = new RedisCacheManager(redisTemplate);
         } else {
             cacheManager = new LocalCacheManager(localCache);
         }
-        return cacheManager;
+        return this;
     }
 
     @Override
     public Class<?> getObjectType() {
-        return CacheManager.class;
+        return CacheFactoryBean.class;
     }
 
     @Override
@@ -52,5 +48,9 @@ public class CacheFactoryBean implements FactoryBean<CacheManager> {
 
     public void setRedisTemplate(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
     }
 }

@@ -11,4 +11,6 @@ public interface CacheManager<K, V> {
 
     public V get(K key);
 
+    public boolean extendTTL(K key, long ttl);
+
 }

@@ -33,4 +33,20 @@
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean>
 
+    <bean id="cacheManager" factory-bean="cacheFacory" factory-method="getCacheManager"></bean>
+
+    <!--token service-->
+    <bean id="tokenManager" class="com.manage.cache.TokenManager">
+        <property name="cacheManager" ref="cacheManager"></property>
+        <property name="ttlSeconds" value="${token.cache.ttl.senconds}"></property>
+    </bean>
+
+    <!--aspect-->
+    <bean id="tokenAuthenticationAspect" class="com.manage.news.spring.aspect.TokenCheckAspect">
+        <property name="tokenManager" ref="tokenManager"></property>
+    </bean>
+    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.TokenPermissionAspect">
+        <property name="tokenManager" ref="tokenManager"></property>
+    </bean>
+
 </beans>

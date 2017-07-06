@@ -3,11 +3,11 @@ package com.manage.news.core.admin.api;
 import com.manage.base.enums.Privilege;
 import com.manage.base.enums.PrivilegeGroup;
 import com.manage.base.utils.WebUtils;
-import com.manage.news.spring.annotation.TokenAuthentication;
+import com.manage.cache.TokenManager;
+import com.manage.news.spring.annotation.TokenCheck;
 import com.manage.news.spring.annotation.TokenPermission;
 import com.manage.news.spring.annotation.TokenPermissionGroup;
-import com.manage.cache.TokenService;
-import com.manage.cache.base.TokenUser;
+import com.manage.cache.bean.TokenUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ public class TestApi {
     private static ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
     @Autowired
-    private TokenService tokenService;
+    private TokenManager tokenManager;
 
-    @TokenAuthentication
+    @TokenCheck
     @TokenPermission(Privilege.TEST)
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation("测试")
@@ -45,7 +45,8 @@ public class TestApi {
     public Map login(HttpServletRequest request) {
         TokenUser tokenUser = new TokenUser();
         tokenUser.setAccount("aab");
-        String tokenId = tokenService.register(tokenUser, WebUtils.remoteIP(request));
+        tokenUser.setIp(WebUtils.remoteIP(request));
+        String tokenId = tokenManager.register(tokenUser);
         System.out.println(tokenId);
         return new HashMap();
     }

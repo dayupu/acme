@@ -14,18 +14,4 @@
         <property name="tokenStrategy" value="${token.strategy}"></property>
         <property name="tokenValidMinutes" value="${token.valid.minutes}"></property>
     </bean>
-
-    <!--local service-->
-    <bean id="tokenService" class="com.manage.cache.TokenService">
-        <property name="propertySupplier" ref="propertySupplier"></property>
-    </bean>
-
-    <!--aspect-->
-    <bean id="tokenAuthenticationAspect" class="com.manage.news.spring.aspect.TokenAuthenticationAspect">
-        <property name="tokenService" ref="tokenService"></property>
-    </bean>
-    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.TokenPermissionAspect">
-        <property name="tokenService" ref="tokenService"></property>
-    </bean>
-
 </beans>

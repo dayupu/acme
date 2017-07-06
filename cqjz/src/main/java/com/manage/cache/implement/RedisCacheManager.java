@@ -1,9 +1,8 @@
-package com.manage.cache.manager;
+package com.manage.cache.implement;
 
 import com.manage.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 public class RedisCacheManager implements CacheManager {
@@ -34,4 +33,14 @@ public class RedisCacheManager implements CacheManager {
     public Integer append(Object key, String value) {
         return redisTemplate.opsForValue().append(key, value);
     }
+
+    @Override
+    public boolean extendTTL(Object key, long ttl) {
+        if(get(key) == null){
+            return false;
+        }
+        redisTemplate.expire(key, ttl, TimeUnit.SECONDS);
+        return true;
+    }
+
 }

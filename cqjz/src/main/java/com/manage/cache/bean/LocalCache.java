@@ -1,4 +1,4 @@
-package com.manage.cache.base;
+package com.manage.cache.bean;
 
 
 public class LocalCache<V> {
@@ -11,7 +11,7 @@ public class LocalCache<V> {
 
     public LocalCache(V value, long ttl) {
         this.value = value;
-        this.timeoutMillis = extendTTL(ttl);
+        this.timeoutMillis = extendTimoutMillis(ttl);
     }
 
     public V value() {
@@ -29,11 +29,16 @@ public class LocalCache<V> {
         return false;
     }
 
+    public LocalCache extendTTL(long ttl){
+        this.extendTimoutMillis(ttl);
+        return this;
+    }
+
     private long currentMillis() {
         return System.currentTimeMillis();
     }
 
-    private long extendTTL(long ttl) {
+    private long extendTimoutMillis(long ttl) {
         return System.currentTimeMillis() + ttl * 1000;
     }
 }
