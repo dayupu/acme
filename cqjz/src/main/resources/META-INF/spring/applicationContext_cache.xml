@@ -47,6 +47,7 @@
     </bean>
     <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.TokenPermissionAspect">
         <property name="tokenManager" ref="tokenManager"></property>
+        <property name="cacheManager" ref="cacheManager"></property>
     </bean>
 
 </beans>

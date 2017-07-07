@@ -14,4 +14,6 @@
         <property name="tokenStrategy" value="${token.strategy}"></property>
         <property name="tokenValidMinutes" value="${token.valid.minutes}"></property>
     </bean>
+
+
 </beans>

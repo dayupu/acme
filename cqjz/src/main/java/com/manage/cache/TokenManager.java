@@ -9,7 +9,7 @@ public class TokenManager {
 
     private static final Logger LOGGER = LogManager.getLogger(TokenManager.class);
 
-    private static final String TOKEN_PREFIX = "TOKEN-";
+    public static final String PREFIX_TOKEN = "TOKEN-";
 
     private CacheManager<String, TokenUser> cacheManager;
 
@@ -28,7 +28,7 @@ public class TokenManager {
     }
 
     public String register(TokenUser user) {
-        String tokenId = TOKEN_PREFIX + CryptoUtils.newRandomId();
+        String tokenId = PREFIX_TOKEN + CryptoUtils.newRandomId();
         cacheManager.put(tokenId, user, ttlSeconds);
         return tokenId;
     }

@@ -11,13 +11,18 @@
 
     <!--load properties-->
     <context:property-placeholder location="classpath:META-INF/spring/application.properties" file-encoding="UTF-8"/>
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <bean id="propertiesMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="defaultEncoding" value="UTF-8"></property>
         <property name="basenames">
             <list>
                 <value>META-INF/locale/message</value>
             </list>
         </property>
+    </bean>
+
+    <!-- 数据库国际化资源自定义的MessageResource -->
+    <bean id="messageSource" class="com.manage.news.spring.message.MessageSupplier">
+        <property name="parentMessageSource" ref="propertiesMessageSource"/>
     </bean>
 
     <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.PermissionConfig">

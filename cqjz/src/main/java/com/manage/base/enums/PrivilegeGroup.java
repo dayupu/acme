@@ -2,7 +2,8 @@ package com.manage.base.enums;
 
 public enum PrivilegeGroup {
 
-    DEFAULT("default", "permission.group.default");
+    DEFAULT("default", "permission.group.default"),
+    USER("group.user","permission.group.user");
 
     private String code;
     private String resourceKey;

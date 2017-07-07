@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class TokenUser implements Serializable{
 
     private String account;
-    private String group;
+    private String[] roles;
     private String ip;
 
     public String getAccount() {
@@ -16,12 +16,12 @@ public class TokenUser implements Serializable{
         this.account = account;
     }
 
-    public String getGroup() {
-        return group;
+    public String[] getRoles() {
+        return roles;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 
     public String getIp() {

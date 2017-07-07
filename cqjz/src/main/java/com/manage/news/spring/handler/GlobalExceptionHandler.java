@@ -1,7 +1,8 @@
 package com.manage.news.spring.handler;
 
-
-import com.manage.base.bean.ResponseEntity;
+import com.manage.base.bean.ResponseInfo;
+import com.manage.base.enums.ResponseEnum;
+import com.manage.base.exceptions.BusinessException;
 import com.manage.base.utils.JsonUtils;
 import com.manage.base.exceptions.AuthorizedException;
 import com.manage.base.exceptions.ApiExeception;
@@ -24,16 +25,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiExeception.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ModelAndView handleApiException(HttpServletRequest request, HttpServletResponse response, ApiExeception e) throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseEntity(e.getApiMessage()));
+    public ModelAndView handleApiException(HttpServletRequest request, HttpServletResponse response, ApiExeception e)
+            throws Exception {
+        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR));
         return handleAjaxException(response, message, HttpStatus.ACCEPTED);
     }
 
     @ExceptionHandler(AuthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ModelAndView handleAuthorizedException(HttpServletRequest request, HttpServletResponse response, AuthorizedException e) throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseEntity(e.getApiMessage()));
+    public ModelAndView handleAuthorizedException(HttpServletRequest request, HttpServletResponse response,
+            AuthorizedException e) throws Exception {
+        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR));
         return handleAjaxException(response, message, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView handleBusinessException(HttpServletRequest request, HttpServletResponse response,
+            BusinessException e) throws Exception {
+        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR, e.getMessage()));
+        return handleAjaxException(response, message, HttpStatus.OK);
     }
 
     private ModelAndView handleViewException(String url, String message, String viewName) {
@@ -45,7 +56,8 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-    private ModelAndView handleAjaxException(HttpServletResponse response, String message, HttpStatus status) throws IOException {
+    private ModelAndView handleAjaxException(HttpServletResponse response, String message, HttpStatus status)
+            throws IOException {
         response.setCharacterEncoding(UTF8);
         response.setStatus(status.value());
         response.setContentType("application/json");
