@@ -43,7 +43,7 @@
             <appender-ref ref="SQLConsole"/>
         </logger>
         <!--建立一个默认的root的logger -->
-        <root level="INFO">
+        <root level="DEBUG">
             <!--<appender-ref ref="RollingFile"/>-->
             <appender-ref ref="Console"/>
             <appender-ref ref="ERROR"/>

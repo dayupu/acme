@@ -1,0 +1,49 @@
+body{
+    background: url("../images/admin/bg_blue.gif") repeat;
+}
+
+.content{
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    color: white;
+}
+
+.top{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.bottom{
+    padding: 5px;
+    text-align: center;
+    color: ghostwhite;
+    font-size: 12px;
+}
+
+.login{
+    height: 250px;
+    background-color: white;
+    border: 2px solid snow;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: black;
+}
+
+.logo{
+    margin: 20px;
+    height: 100px;
+    background: url("../images/admin/logo.png") no-repeat;
+}
+
+.form-horizontal .control-label{
+    width: 50px;
+}
+.form-horizontal .controls{
+    margin-left: 60px;
+}

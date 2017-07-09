@@ -1,0 +1,52 @@
+.layout-header {
+    margin: 0px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    background-color: #24292e;
+}
+
+.layout-header-container {
+    margin: 0px auto;
+    width: 1100px;
+    display: table;
+}
+
+.layout-header-logo {
+    float: left;
+    margin-right: 20px;
+}
+
+.layout-header-nav {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.layout-header-nav > li {
+    margin: 0;
+    padding-top: 5px;
+    float: left;
+}
+
+.layout-header-nav > li > a {
+    display: block;
+    padding: 0px 15px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: bold;
+    border-right: 1px solid dimgray;
+    text-decoration: none;
+}
+
+.layout-header-nav > li > a:hover {
+    color: white;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.float-right {
+    float: right !important;
+}
