@@ -4,8 +4,8 @@ import com.manage.base.enums.Privilege;
 import com.manage.base.enums.PrivilegeGroup;
 import com.manage.news.core.admin.service.PermissionService;
 import com.manage.news.jpa.kernel.entity.Permission;
-import com.manage.news.spring.annotation.TokenPermission;
-import com.manage.news.spring.annotation.TokenPermissionGroup;
+import com.manage.news.spring.annotation.UserPermission;
+import com.manage.news.spring.annotation.UserPermissionGroup;
 import com.manage.news.spring.base.SpringConstants;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -52,26 +52,26 @@ public class PermissionConfig implements InitializingBean {
         Class clazz;
         Privilege privilege;
         PrivilegeGroup privilegeGroup;
-        TokenPermission tokenPermission;
-        TokenPermissionGroup permissionGroup;
+        UserPermission userPermission;
+        UserPermissionGroup permissionGroup;
         Map<String, Permission> permissionMap = new HashMap<String, Permission>();
         for (String className : classNames) {
             clazz = Class.forName(className);
-            permissionGroup = (TokenPermissionGroup) clazz.getAnnotation(TokenPermissionGroup.class);
+            permissionGroup = (UserPermissionGroup) clazz.getAnnotation(UserPermissionGroup.class);
             if (permissionGroup == null) {
                 continue;
             }
 
             privilegeGroup = permissionGroup.value();
             for (Method method : clazz.getMethods()) {
-                tokenPermission = method.getAnnotation(TokenPermission.class);
-                if (tokenPermission == null) {
+                userPermission = method.getAnnotation(UserPermission.class);
+                if (userPermission == null) {
                     continue;
                 }
 
-                privilege = tokenPermission.value();
-                if (tokenPermission.group() != PrivilegeGroup.DEFAULT) {
-                    privilegeGroup = tokenPermission.group();
+                privilege = userPermission.value();
+                if (userPermission.group() != PrivilegeGroup.DEFAULT) {
+                    privilegeGroup = userPermission.group();
                 }
 
                 if (!permissionMap.containsKey(privilege.getCode())) {

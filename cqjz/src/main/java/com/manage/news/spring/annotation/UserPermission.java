@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface TokenPermission {
+public @interface UserPermission {
 
     Privilege value();
 

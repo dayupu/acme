@@ -5,10 +5,13 @@ import com.manage.base.exceptions.AuthorizedException;
 import com.manage.cache.CacheManager;
 import com.manage.cache.TokenManager;
 import com.manage.cache.bean.TokenUser;
-import com.manage.news.spring.annotation.TokenPermission;
+import com.manage.news.spring.annotation.UserPermission;
 import com.manage.news.spring.base.AspectBase;
 import com.manage.news.spring.base.SpringConstants;
+
 import java.util.List;
+
+import com.manage.news.spring.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -16,18 +19,17 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
 @Aspect
-public class TokenPermissionAspect extends AspectBase {
+public class UserPermissionAspect extends AspectBase {
 
-    private static final Logger LOGGER = LogManager.getLogger(TokenPermissionAspect.class);
-
-    private TokenManager tokenManager;
+    private static final Logger LOGGER = LogManager.getLogger(UserPermissionAspect.class);
 
     private CacheManager<String, List<String>> cacheManager;
 
-    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.TokenPermission)")
+    @Pointcut(value = "execution(* com.manage.news.core.admin..*(..)) && @annotation(com.manage.news.spring.annotation.UserPermission)")
     public void doPermission() {
 
     }
@@ -36,22 +38,16 @@ public class TokenPermissionAspect extends AspectBase {
     public void doBefore(JoinPoint point) throws ApiExeception {
 
         try {
-            String tokenId = getRequest().getHeader(SpringConstants.HEADER_TOKEN);
-            if (StringUtils.isEmpty(tokenId)) {
+            AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (authUser == null) {
                 throw new AuthorizedException();
             }
 
-            TokenUser tokenUser = tokenManager.getTokenUser(tokenId);
-            if (tokenUser == null || tokenUser.getRoles() == null) {
-                throw new AuthorizedException();
-            }
-
-            TokenPermission permission = ((MethodSignature) point.getSignature()).getMethod()
-                    .getAnnotation(TokenPermission.class);
+            UserPermission permission = ((MethodSignature) point.getSignature()).getMethod().getAnnotation(UserPermission.class);
             List<String> privileges;
             boolean allow = false;
-            for (String roleId : tokenUser.getRoles()) {
-                privileges = cacheManager.get(roleId);
+            for (Long roleId : authUser.getRoleIds()) {
+                privileges = cacheManager.get(String.valueOf(roleId));
                 if (privileges == null || privileges.isEmpty()) {
                     continue;
                 }
@@ -71,10 +67,6 @@ public class TokenPermissionAspect extends AspectBase {
             LOGGER.error(e);
             throw new ApiExeception();
         }
-    }
-
-    public void setTokenManager(TokenManager tokenManager) {
-        this.tokenManager = tokenManager;
     }
 
     public void setCacheManager(CacheManager cacheManager) {

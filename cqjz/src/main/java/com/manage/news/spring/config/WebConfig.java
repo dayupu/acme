@@ -24,7 +24,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConfigurationProperties
 public class WebConfig extends WebMvcConfigurerAdapter {
@@ -36,44 +35,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("admin/login");
     }
 
-    @Bean
-    public ApplicationSecurity applicationSecurity() {
-        return new ApplicationSecurity();
-    }
-
-    @Bean
-    public SpringWebMvcConfigurerAdapter webMvcConfigurerAdapter() {
-        return new SpringWebMvcConfigurerAdapter();
-    }
-
-    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-    protected static class SpringWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
-
-        @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-            //registry.addInterceptor(new ControllerValidatorInterceptor()).addPathPatterns("/**");
-            super.addInterceptors(registry);
-        }
-    }
-
-    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-    protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests().antMatchers("/**").permitAll();
-            http.csrf().disable();
-        }
-
-        @Override
-        public void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        }
-
-    }
     @Bean
     public EmbeddedServletContainerFactory servletContainerFactory() {
         TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();

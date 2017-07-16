@@ -19,10 +19,21 @@
             </list>
         </property>
     </bean>
-
     <!-- 数据库国际化资源自定义的MessageResource -->
     <bean id="messageSource" class="com.manage.news.spring.message.MessageSupplier">
         <property name="parentMessageSource" ref="propertiesMessageSource"/>
+    </bean>
+    <!--resource-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieMaxAge" value="604800"/>
+        <property name="defaultLocale" value="zh_CN"/>
+        <property name="cookieName" value="language"></property>
+    </bean>
+    <!--数据绑定支持， 如@Valid支持 -->
+    <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
     <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.PermissionConfig">
@@ -30,18 +41,13 @@
         <property name="autoMerge" value="true"/>
     </bean>
 
-    <!--resource-->
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="cookieMaxAge" value="604800"/>
-        <property name="defaultLocale" value="zh_CN"/>
-        <property name="cookieName" value="language"></property>
-    </bean>
-
-    <!--数据绑定支持， 如@Valid支持 -->
-    <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
-
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
-        <property name="validationMessageSource" ref="messageSource"/>
-    </bean>
+    <!--interceptors-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.manage.news.spring.interceptor.InboundLogInterceptor">
+                <property name="print" value="true"></property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

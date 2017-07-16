@@ -8,9 +8,9 @@ import com.manage.base.enums.ResponseEnum;
  */
 public class ResponseInfo<T> {
 
-    private ResponseEnum status;
-    private String message;
-    private T context;
+    public ResponseEnum status;
+    public String message;
+    public T content;
 
     public ResponseInfo() {
 
@@ -25,10 +25,10 @@ public class ResponseInfo<T> {
         this.message = message;
     }
 
-    public ResponseInfo(ResponseEnum status, String message, T context) {
+    public ResponseInfo(ResponseEnum status, String message, T content) {
         this.status = status;
         this.message = message;
-        this.context = context;
+        this.content = content;
     }
 
     public ResponseEnum getStatus() {
@@ -47,11 +47,11 @@ public class ResponseInfo<T> {
         this.message = message;
     }
 
-    public T getContext() {
-        return context;
+    public T getContent() {
+        return content;
     }
 
-    public void setContext(T context) {
-        this.context = context;
+    public void setContent(T content) {
+        this.content = content;
     }
 }

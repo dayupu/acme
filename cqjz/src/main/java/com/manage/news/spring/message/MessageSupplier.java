@@ -16,7 +16,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
-@Component
 public class MessageSupplier extends AbstractMessageSource implements ResourceLoaderAware, InitializingBean {
 
     private ResourceLoader resourceLoader;

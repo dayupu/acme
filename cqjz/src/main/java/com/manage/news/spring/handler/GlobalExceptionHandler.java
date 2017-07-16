@@ -6,6 +6,7 @@ import com.manage.base.exceptions.BusinessException;
 import com.manage.base.utils.JsonUtils;
 import com.manage.base.exceptions.AuthorizedException;
 import com.manage.base.exceptions.ApiExeception;
+import com.manage.news.spring.message.Messages;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,22 +28,29 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ModelAndView handleApiException(HttpServletRequest request, HttpServletResponse response, ApiExeception e)
             throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR));
+
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.status = ResponseEnum.ERROR;
+        responseInfo.message = Messages.get("global.api.access.error");
+        String message = JsonUtils.toJsonString(responseInfo);
         return handleAjaxException(response, message, HttpStatus.ACCEPTED);
     }
 
     @ExceptionHandler(AuthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ModelAndView handleAuthorizedException(HttpServletRequest request, HttpServletResponse response,
-            AuthorizedException e) throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR));
+                                                  AuthorizedException e) throws Exception {
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.status = ResponseEnum.ERROR;
+        responseInfo.message = Messages.get("global.api.unauthorized");
+        String message = JsonUtils.toJsonString(responseInfo);
         return handleAjaxException(response, message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
     public ModelAndView handleBusinessException(HttpServletRequest request, HttpServletResponse response,
-            BusinessException e) throws Exception {
+                                                BusinessException e) throws Exception {
         String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR, e.getMessage()));
         return handleAjaxException(response, message, HttpStatus.OK);
     }

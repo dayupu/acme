@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface TokenPermissionGroup {
+public @interface UserPermissionGroup {
 
     PrivilegeGroup value() default PrivilegeGroup.DEFAULT;
 

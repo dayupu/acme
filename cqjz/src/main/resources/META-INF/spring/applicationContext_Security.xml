@@ -1,0 +1,23 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config="true" request-matcher="ant" pattern="/admin/**" >
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <form-login login-page="/login"/>
+        <session-management invalid-session-url="/login"/>
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder ref="passwordEncoder"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsService" class="com.manage.news.spring.security.AuthUserService"/>
+    <beans:bean id="passwordEncoder" class="com.manage.news.spring.security.AuthPasswordEncoder"/>
+</beans:beans>

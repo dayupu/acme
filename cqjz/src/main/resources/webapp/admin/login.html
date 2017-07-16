@@ -4,9 +4,6 @@
     <title>登录</title>
     <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
-    <script th:src="@{/lib/angular/angular.min.js}"></script>
-    <script th:src="@{/lib/jquery/jquery-1.8.3.min.js}"></script>
-    <script th:src="@{/js/app.js}"></script>
 </head>
 <body>
 <div class="content">
@@ -18,23 +15,26 @@
                     <div class="logo"></div>
                 </td>
                 <td>
-                    <div style="margin: 20px;"  ng-app="loginApp" ng-controller="loginCtl">
-                        <form class="form-horizontal">
+                    <div style="margin: 20px;" ng-app="loginApp" ng-controller="loginCtl">
+                        <form class="form-horizontal" name="loginForm">
+                            <div class="message-error">{{message}}</div>
                             <div class="control-group">
-                                <label class="control-label" for="inputAccount">账号：</label>
+                                <label class="control-label" for="inputAccount">用户：</label>
                                 <div class="controls">
-                                    <input type="text" id="inputAccount" placeholder="username" ng-model="user.account"/>
+                                    <input type="text" id="inputAccount" placeholder="username"
+                                           ng-model="user.account" required/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="inputPassword">密码：</label>
                                 <div class="controls">
-                                    <input type="password" id="inputPassword" placeholder="password" ng-model="user.password"/>
+                                    <input type="password" id="inputPassword" placeholder="password"
+                                           ng-model="user.password" required/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <button class="btn btn-primary" ng-click="login()">登录</button>
+                                    <button class="btn btn-primary" ng-click="login(loginForm.$valid)"  ng-disabled="loginForm.$invalid">登录</button>
                                 </div>
                             </div>
                         </form>
@@ -45,5 +45,24 @@
     </div>
     <div class="bottom">技术支持 : 流燕飞鱼(O^O)</div>
 </div>
+<script th:src="@{/lib/angular/angular.min.js}"></script>
+<script>
+    var login = angular.module('loginApp', []);
+    login.controller('loginCtl', function ($scope, $http) {
+        $scope.login = function (valid) {
+            if (!valid) {
+                return;
+            }
+            $http.post("/ajax/login", null, {params: $scope.user})
+                    .then(function successCallback(response) {
+                        if (response.data.status == "1000") {
+                            location.href = "/admin/index";
+                        } else {
+                            $scope.message = response.data.message;
+                        }
+                    });
+        };
+    });
+</script>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class User {
     private String email;
 
     @Column(name = "state")
-    private String state;
+    private Integer state;
 
     @Column(name = "last_login_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -129,11 +129,11 @@ public class User {
         this.email = email;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

@@ -1,8 +1,8 @@
-body{
+body {
     background: url("../images/admin/bg_blue.gif") repeat;
 }
 
-.content{
+.content {
     position: absolute;
     width: 500px;
     height: 300px;
@@ -13,19 +13,19 @@ body{
     color: white;
 }
 
-.top{
+.top {
     text-align: center;
     margin: 0 auto;
 }
 
-.bottom{
+.bottom {
     padding: 5px;
     text-align: center;
     color: ghostwhite;
     font-size: 12px;
 }
 
-.login{
+.login {
     height: 250px;
     background-color: white;
     border: 2px solid snow;
@@ -35,15 +35,23 @@ body{
     color: black;
 }
 
-.logo{
+.logo {
     margin: 20px;
     height: 100px;
     background: url("../images/admin/logo.png") no-repeat;
 }
 
-.form-horizontal .control-label{
+.form-horizontal .control-label {
     width: 50px;
 }
-.form-horizontal .controls{
+
+.form-horizontal .controls {
     margin-left: 60px;
+}
+
+.message-error {
+    margin-bottom: 10px;
+    text-align: center;
+    color: red;
+    font-size: 12px;
 }

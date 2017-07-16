@@ -74,6 +74,11 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
@@ -92,6 +97,17 @@
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
             <version>${activiti.version}</version>
+        </dependency>
+        <!--cxf-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>3.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>3.1.6</version>
         </dependency>
         <!--swagger2-->
         <dependency>
