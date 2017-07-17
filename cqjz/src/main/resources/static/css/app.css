@@ -1,0 +1,126 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+html {
+    background-color: #f0f3f4;
+}
+
+body {
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.42857143;
+    color: #58666e;
+    background-color: transparent;
+    overflow-x: hidden;
+}
+
+div {
+    display: block;
+}
+
+.app {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+}
+
+.app:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    display: block;
+    width: inherit;
+    background-color: #f0f3f4;
+    border: inherit;
+    content: "";
+}
+
+.app-header-fixed {
+
+}
+
+.app-header-fixed .app-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.app-header {
+    z-index: 1025;
+}
+
+.app-aside {
+    padding-top: 50px;
+    float: left;
+}
+
+.app-aside:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    width: inherit;
+    background-color: inherit;
+    border: inherit;
+    content: "";
+}
+
+.app-content {
+    padding-top: 50px;
+    height: 100%;
+}
+
+.app-content:before,
+.app-content:after {
+    display: table;
+    content: " ";
+}
+
+.app-content:after {
+    clear: both;
+}
+
+.app-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1005;
+}
+
+@media (min-width: 768px) {
+    .app-aside {
+        width: 200px;
+    }
+
+    .app-content,
+    .app-footer {
+        margin-left: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .app-aside {
+        display: none;
+    }
+    .app {
+        overflow-x: hidden;
+    }
+    .app-content {
+        -webkit-transition: -webkit-transform 0.2s ease;
+        -moz-transition: -moz-transform 0.2s ease;
+        -o-transition: -o-transform 0.2s ease;
+        transition: transform 0.2s ease;
+    }
+}
+
+.bg-dark {
+    color: #a6a8b1;
+    background-color: #3a3f51;
+}
