@@ -7,12 +7,14 @@
 </head>
 <body>
 <div class="content">
-    <div class="top"><h3>公安网网站管理后台</h3></div>
+    <div class="top"><h4>XX网站管理后台</h4></div>
     <div class="login">
         <table cellpadding="0" cellspacing="0" width="100%" height="250">
             <tr>
                 <td width="30%">
-                    <div class="logo"></div>
+                    <div class="logo">
+                        <img width="96" th:src="@{/images/admin/logo.png}">
+                    </div>
                 </td>
                 <td>
                     <div style="margin: 20px;" ng-app="loginApp" ng-controller="loginCtl">
@@ -43,7 +45,7 @@
             </tr>
         </table>
     </div>
-    <div class="bottom">技术支持 : 流燕飞鱼(O^O)</div>
+    <div class="bottom"></div>
 </div>
 <script th:src="@{/lib/angular/angular.min.js}"></script>
 <script>
