@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="content">
-    <div class="top"><h4>XX网站管理后台</h4></div>
+    <div class="top"><h4>流鱼飞燕网站管理后台</h4></div>
     <div class="login">
         <table cellpadding="0" cellspacing="0" width="100%" height="250">
             <tr>
@@ -55,7 +55,7 @@
             if (!valid) {
                 return;
             }
-            $http.post("/ajax/login", null, {params: $scope.user})
+            $http.get("/admin/login", {params: $scope.user})
                     .then(function successCallback(response) {
                         if (response.data.status == "1000") {
                             location.href = "/admin/index";

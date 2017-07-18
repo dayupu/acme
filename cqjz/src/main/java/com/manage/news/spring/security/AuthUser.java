@@ -72,4 +72,23 @@ public class AuthUser implements UserDetails {
     public void setRoleIds(List<Long> roleIds) {
         this.roleIds = roleIds;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        AuthUser authUser = (AuthUser) obj;
+        if (authUser.username == null)
+            return false;
+        if (username.equals(authUser.username))
+            return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return username != null ? username.hashCode() : 0;
+    }
 }

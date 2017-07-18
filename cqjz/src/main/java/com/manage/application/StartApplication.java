@@ -10,17 +10,11 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.manage.news")
-@ImportResource({"classpath:META-INF/spring/applicationContext*.xml"})
+@ImportResource({ "classpath:META-INF/spring/applicationContext*.xml" })
 public class StartApplication {
 
     public static void main(String[] args) {
 
         SpringApplication.run(StartApplication.class, args);
-//        ActivitiTestService activitiTestService = SpringUtils.getBeanByClass(ActivitiTestService.class);
-//        activitiTestService.monthtest();
-
-        PermissionService permissionService = SpringUtils.getBean(PermissionService.class);
-        permissionService.test();
-
     }
 }
