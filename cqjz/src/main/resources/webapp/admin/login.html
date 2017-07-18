@@ -4,6 +4,7 @@
     <title>登录</title>
     <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all' />
 </head>
 <body>
 <div class="content">
@@ -48,8 +49,9 @@
     <div class="bottom"></div>
 </div>
 <script th:src="@{/lib/angular/angular.min.js}"></script>
+<script th:src="@{/lib/angular/loadingbar/loading-bar.js}"></script>
 <script>
-    var login = angular.module('loginApp', []);
+    var login = angular.module('loginApp', ['angular-loading-bar']);
     login.controller('loginCtl', function ($scope, $http) {
         $scope.login = function (valid) {
             if (!valid) {

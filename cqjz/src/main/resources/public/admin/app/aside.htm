@@ -1,3 +1,5 @@
-<div id = "menuApp" ng-app="menuApp" ng-controller="menuCtrl">
+<div id="menuApp" ng-app="menuApp" ng-controller="menuCtrl">
     {{name}}
+    <input ng-model="menus" type="text" />
+    <my-directive title="{{menus}}"></my-directive>
 </div>
