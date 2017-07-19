@@ -1,6 +1,6 @@
 package com.manage.base.reference;
 
-public interface DBMapper {
+public interface DBMapper<T> {
 
-    Integer dbValue();
+    T dbValue();
 }

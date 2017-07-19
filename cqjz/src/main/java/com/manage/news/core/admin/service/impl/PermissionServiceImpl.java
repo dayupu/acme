@@ -26,20 +26,20 @@ public class PermissionServiceImpl implements PermissionService {
 
         Iterable<Permission> existPermissions = permissionRepository.findAll();
 
-        Map<String, Permission> existPermissionMap = new HashMap<String, Permission>();
+        Map<String, Boolean> existMap = new HashMap<String, Boolean>();
         for (Permission permission : existPermissions) {
-            existPermissionMap.put(permission.getCode(), permission);
+            existMap.put(permission.permitKey(), true);
         }
 
         for (Permission permission : permissions) {
-            if (existPermissionMap.containsKey(permission.getCode())) {
+            if (existMap.containsKey(permission.permitKey())) {
                 continue;
             }
             permissionRepository.save(permission);
         }
     }
 
-    public void test(){
+    public void test() {
         System.out.println(11);
     }
 }

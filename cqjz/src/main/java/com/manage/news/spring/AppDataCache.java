@@ -30,7 +30,6 @@ public class AppDataCache implements InitializingBean {
     @Autowired
     private ResourceBundleRepository resourceBundleRepository;
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
 
@@ -39,21 +38,15 @@ public class AppDataCache implements InitializingBean {
     }
 
     private void cacheRoleDatas() {
-        
 
         Iterable<Role> roles = roleRepository.findAll();
-        List<String> privileges = new ArrayList<String>();
+        List<Long> privileges = new ArrayList<Long>();
         for (Role role : roles) {
             for (Permission permission : role.getPermissions()) {
-                privileges.add(permission.getCode());
+                privileges.add(permission.getId());
             }
             cacheManager.put(PREFIX_ROLE + role.getId(), privileges);
         }
     }
 
-    private void cacheResourceBundle(){
-
-        Iterable<ResourceBundle> resourceBundles = resourceBundleRepository.findAll();
-
-    }
 }

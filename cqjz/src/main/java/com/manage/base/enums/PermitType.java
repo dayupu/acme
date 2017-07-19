@@ -2,35 +2,29 @@ package com.manage.base.enums;
 
 import com.manage.base.reference.DBMapper;
 
-public enum ProcessState implements DBMapper<Integer> {
+public enum PermitType implements DBMapper<Integer> {
 
-    INIT(0, "init"),
-    SUBMIT(1, "submit"),
-    IN_APPROVAL(2, "in approval"),
-    APPROVE(3, "approve"),
-    REJECT(4, "reject"),
-    CANCEL(5, "cancel");
+    GROUP(0, "group"),
+    FUNCTION(1, "function");
 
     private Integer constant;
     private String message;
 
-    ProcessState(Integer constant, String message) {
+    PermitType(Integer constant, String message) {
         this.constant = constant;
         this.message = message;
     }
-
 
     public Integer getConstant() {
         return constant;
     }
 
-    public void setConstant(Integer constant) {
-        this.constant = constant;
+    public String getMessage() {
+        return message;
     }
 
     @Override
     public Integer dbValue() {
         return this.constant;
     }
-
 }

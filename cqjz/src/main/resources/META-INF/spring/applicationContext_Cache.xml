@@ -42,7 +42,7 @@
     </bean>
 
     <!--aspect-->
-    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.UserPermissionAspect">
+    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.UserPermitAspect">
         <property name="cacheManager" ref="cacheManager"></property>
     </bean>
 

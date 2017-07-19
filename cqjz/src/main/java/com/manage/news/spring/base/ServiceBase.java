@@ -1,13 +1,14 @@
 package com.manage.news.spring.base;
 
+import com.manage.news.spring.security.AuthUser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-public class AspectBase {
+public class ServiceBase {
 
     protected HttpServletRequest getRequest() {
 
@@ -19,5 +20,9 @@ public class AspectBase {
 
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 
+    }
+
+    protected AuthUser currentUser() {
+        return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -1,34 +1,50 @@
 package com.manage.news.jpa.kernel.entity;
 
+import com.manage.base.converter.PermitAttributeConverter;
+import com.manage.base.enums.Permit;
+import com.manage.base.enums.PermitType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "permission")
+@Table(name = "permission", uniqueConstraints = { @UniqueConstraint(columnNames = { "permit", "permit_group" }) })
+@SequenceGenerator(name = "seq_permission", sequenceName = "seq_permission", allocationSize = 1)
 public class Permission {
 
     @Id
-    @Column(name = "code", length = 60)
-    private String code;
+    @GeneratedValue(generator = "seq_permission", strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-    @Column(name = "group_code", length = 60)
-    private String groupCode;
+    @Column(name = "permit", length = 60, nullable = false)
+    @Convert(converter = PermitAttributeConverter.class)
+    private Permit permit;
 
-    @Column(name = "resouce_key", length = 200)
-    private String resouceKey;
+    @Column(name = "permit_group", length = 60)
+    @Convert(converter = PermitAttributeConverter.class)
+    private Permit permitGroup;
+
+    @Column(name = "resource", length = 200)
+    private String resource;
 
     @Column(name = "type", length = 20)
-    private String type;
+    private PermitType type;
 
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,42 +60,52 @@ public class Permission {
 
     }
 
-    public Permission(String code, String groupCode, String resouceKey, String type) {
-        this.code = code;
-        this.groupCode = groupCode;
-        this.resouceKey = resouceKey;
-        this.type = type;
+    @Transient
+    public String permitKey() {
+        String permitKey = permit.getCode();
+        if (permitGroup != null) {
+            permitKey += ":" + permitGroup.getCode();
+        }
+        return permitKey;
     }
 
-    public String getCode() {
-        return code;
+    public Long getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getGroupCode() {
-        return groupCode;
+    public Permit getPermit() {
+        return permit;
     }
 
-    public void setGroupCode(String groupCode) {
-        this.groupCode = groupCode;
+    public void setPermit(Permit permit) {
+        this.permit = permit;
     }
 
-    public String getResouceKey() {
-        return resouceKey;
+    public String getResource() {
+        return resource;
     }
 
-    public void setResouceKey(String resouceKey) {
-        this.resouceKey = resouceKey;
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
-    public String getType() {
+    public Permit getPermitGroup() {
+        return permitGroup;
+    }
+
+    public void setPermitGroup(Permit permitGroup) {
+        this.permitGroup = permitGroup;
+    }
+
+    public PermitType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PermitType type) {
         this.type = type;
     }
 
