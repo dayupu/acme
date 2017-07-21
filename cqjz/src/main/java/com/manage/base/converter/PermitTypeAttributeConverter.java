@@ -7,13 +7,20 @@ public class PermitTypeAttributeConverter implements AttributeConverter<PermitTy
 
     @Override
     public Integer convertToDatabaseColumn(PermitType permitType) {
+        if (permitType == null) {
+            return null;
+        }
         return permitType.dbValue();
     }
 
     @Override
-    public PermitType convertToEntityAttribute(Integer constant) {
+    public PermitType convertToEntityAttribute(Integer dbValue) {
+        if (dbValue == null) {
+            return null;
+        }
+
         for (PermitType type : PermitType.values()) {
-            if (constant.equals(type.dbValue())) {
+            if (dbValue.equals(type.dbValue())) {
                 return type;
             }
         }

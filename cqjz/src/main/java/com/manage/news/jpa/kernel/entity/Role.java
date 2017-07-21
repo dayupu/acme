@@ -1,9 +1,8 @@
 package com.manage.news.jpa.kernel.entity;
 
+import com.manage.news.jpa.kernel.base.CommonBase;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import static javafx.scene.input.KeyCode.J;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,19 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "role")
-@SequenceGenerator(name = "seq_role", sequenceName = "seq_role", allocationSize = 1)
-public class Role {
+@Table(name = "admin_role")
+@SequenceGenerator(name = "seq_admin_role", sequenceName = "seq_admin_role", allocationSize = 1)
+public class Role extends CommonBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_role")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_admin_role")
     private Long id;
 
     @Column(name = "name", length = 50)
@@ -38,29 +34,15 @@ public class Role {
     @Column(name = "description", length = 200)
     private String description;
 
-    @Column(name = "created_by")
-    private Long createdBy;
-
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-
-    @Column(name = "updated_by")
-    private Long updatedBy;
-
-    @Column(name = "updated_On")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
+    @JoinTable(name = "admin_role_permission", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
     private List<Permission> permissions = new ArrayList<Permission>();
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<User>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
+    @JoinTable(name = "admin_role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
     private List<Menu> menus = new ArrayList<Menu>();
 
     public Long getId() {
@@ -93,38 +75,6 @@ public class Role {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Long getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Long updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(Date updatedOn) {
-        this.updatedOn = updatedOn;
     }
 
     public List<Permission> getPermissions() {

@@ -3,7 +3,7 @@ package com.manage.news.core.admin.service.impl;
 import com.manage.cache.CacheManager;
 import com.manage.news.core.admin.service.PermissionService;
 import com.manage.news.jpa.kernel.entity.Permission;
-import com.manage.news.jpa.kernel.repository.PermissionRepository;
+import com.manage.news.jpa.kernel.repository.PermissionRepo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
-    PermissionRepository permissionRepository;
+    PermissionRepo permissionRepo;
 
     @Autowired
     private CacheManager cacheManager;
@@ -24,7 +24,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     public void mergePermission(List<Permission> permissions) {
 
-        Iterable<Permission> existPermissions = permissionRepository.findAll();
+        Iterable<Permission> existPermissions = permissionRepo.findAll();
 
         Map<String, Boolean> existMap = new HashMap<String, Boolean>();
         for (Permission permission : existPermissions) {
@@ -35,7 +35,7 @@ public class PermissionServiceImpl implements PermissionService {
             if (existMap.containsKey(permission.permitKey())) {
                 continue;
             }
-            permissionRepository.save(permission);
+            permissionRepo.save(permission);
         }
     }
 

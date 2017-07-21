@@ -1,7 +1,6 @@
 package com.manage.base.converter;
 
 import com.manage.base.enums.Permit;
-import com.manage.base.enums.ProcessState;
 import javax.persistence.AttributeConverter;
 
 public class PermitAttributeConverter implements AttributeConverter<Permit, String> {
@@ -15,12 +14,12 @@ public class PermitAttributeConverter implements AttributeConverter<Permit, Stri
     }
 
     @Override
-    public Permit convertToEntityAttribute(String code) {
-        if (code == null) {
+    public Permit convertToEntityAttribute(String dbValue) {
+        if (dbValue == null) {
             return null;
         }
         for (Permit permit : Permit.values()) {
-            if (code.equals(permit.dbValue())) {
+            if (dbValue.equals(permit.dbValue())) {
                 return permit;
             }
         }

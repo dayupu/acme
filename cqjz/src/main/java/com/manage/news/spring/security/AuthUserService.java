@@ -1,16 +1,14 @@
 package com.manage.news.spring.security;
 
 import com.manage.base.bean.Pair;
+import com.manage.base.enums.Status;
 import com.manage.news.core.admin.service.UserService;
-import com.manage.news.jpa.kernel.entity.Role;
 import com.manage.news.jpa.kernel.entity.User;
-import com.manage.news.jpa.kernel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AuthUserService implements UserDetailsService {
@@ -27,7 +25,7 @@ public class AuthUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         boolean enabled = false;
-        if (user.getState() == 0) {
+        if (user.getStatus() == Status.INIT) {
             enabled = true;
         }
         Authority authority = new Authority("ROLE_ADMIN");

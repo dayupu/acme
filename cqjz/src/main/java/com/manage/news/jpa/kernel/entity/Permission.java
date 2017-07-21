@@ -24,12 +24,12 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "permission", uniqueConstraints = { @UniqueConstraint(columnNames = { "permit", "permit_group" }) })
-@SequenceGenerator(name = "seq_permission", sequenceName = "seq_permission", allocationSize = 1)
+@Table(name = "admin_permission", uniqueConstraints = { @UniqueConstraint(columnNames = { "permit", "permit_group" }) })
+@SequenceGenerator(name = "seq_admin_permission", sequenceName = "seq_admin_permission", allocationSize = 1)
 public class Permission {
 
     @Id
-    @GeneratedValue(generator = "seq_permission", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_admin_permission", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "permit", length = 60, nullable = false)

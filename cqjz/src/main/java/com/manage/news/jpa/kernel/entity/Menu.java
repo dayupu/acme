@@ -16,12 +16,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "menu")
-@SequenceGenerator(name = "seq_menu", sequenceName="seq_menu", allocationSize = 1)
+@Table(name = "admin_menu")
+@SequenceGenerator(name = "seq_admin_menu", sequenceName="seq_admin_menu", allocationSize = 1)
 public class Menu {
 
     @Id
-    @GeneratedValue(generator = "seq_menu", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_admin_menu", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "parent_id", insertable = false, updatable = false)
@@ -38,6 +38,9 @@ public class Menu {
 
     @Column(name = "url", length = 100)
     private String url;
+
+    @Column(name = "level", length = 2)
+    private Integer level = 0;
 
     @Column(name = "description")
     private String description;
@@ -112,6 +115,14 @@ public class Menu {
 
     public void setParent(Menu parent) {
         this.parent = parent;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public List<Menu> getChildrens() {

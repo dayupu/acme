@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
-public interface PermissionRepository extends CrudRepository<Permission, Serializable> , JpaSpecificationExecutor<Permission> {
+public interface PermissionRepo extends CrudRepository<Permission, Serializable> , JpaSpecificationExecutor<Permission> {
 
 
 }

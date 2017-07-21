@@ -3,14 +3,14 @@ package com.manage.base.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
-public enum ResponseEnum implements Serializable {
+public enum ResponseStatus implements Serializable {
 
     SUCCESS(1000),
     ERROR(2000);
 
     private int code;
 
-    ResponseEnum(int code) {
+    ResponseStatus(int code) {
         this.code = code;
     }
 

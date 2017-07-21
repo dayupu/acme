@@ -1,17 +1,25 @@
 package com.manage.news.jpa.kernel.entity;
 
+import com.manage.base.converter.StatusAttributeConverter;
+import com.manage.base.enums.Status;
+import com.manage.news.jpa.kernel.base.CommonBase;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,11 +27,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "admin_user")
-@SequenceGenerator(name = "seq_user", sequenceName = "seq_user")
-public class User {
+@SequenceGenerator(name = "seq_admin_user", sequenceName = "seq_admin_user")
+public class User extends CommonBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_admin_user")
     private Long id;
 
     @Column(name = "account", length = 50)
@@ -44,33 +52,20 @@ public class User {
     @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "state")
-    private Integer state;
+    @Column(name = "status")
+    @Convert(converter = StatusAttributeConverter.class)
+    private Status status;
 
-    @Column(name = "last_login_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastLoginTime;
-
-    @Column(name = "created_by")
-    private Long createdBy;
-
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-
-    @Column(name = "updated_by")
-    private Long udpatedBy;
-
-    @Column(name = "updated_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dept_id", referencedColumnName = "id")
+    private Department department;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_permission", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
+    @JoinTable(name = "admin_user_permission", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
     private List<Permission> permissions = new ArrayList<Permission>();
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "admin_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<Role>();
 
     public Long getId() {
@@ -129,54 +124,6 @@ public class User {
         this.email = email;
     }
 
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Long getUdpatedBy() {
-        return udpatedBy;
-    }
-
-    public void setUdpatedBy(Long udpatedBy) {
-        this.udpatedBy = udpatedBy;
-    }
-
-    public Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(Date updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
     public List<Permission> getPermissions() {
         return permissions;
     }
@@ -191,5 +138,23 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public Status getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

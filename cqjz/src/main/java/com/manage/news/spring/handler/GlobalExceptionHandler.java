@@ -1,7 +1,7 @@
 package com.manage.news.spring.handler;
 
 import com.manage.base.bean.ResponseInfo;
-import com.manage.base.enums.ResponseEnum;
+import com.manage.base.enums.ResponseStatus;
 import com.manage.base.exceptions.BusinessException;
 import com.manage.base.utils.JsonUtils;
 import com.manage.base.exceptions.AuthorizedException;
@@ -10,7 +10,6 @@ import com.manage.news.spring.message.Messages;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,33 +24,33 @@ public class GlobalExceptionHandler {
     private static final String UTF8 = "UTF-8";
 
     @ExceptionHandler(ApiExeception.class)
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.ACCEPTED)
     public ModelAndView handleApiException(HttpServletRequest request, HttpServletResponse response, ApiExeception e)
             throws Exception {
 
         ResponseInfo responseInfo = new ResponseInfo();
-        responseInfo.status = ResponseEnum.ERROR;
+        responseInfo.status = ResponseStatus.ERROR;
         responseInfo.message = Messages.get("global.api.access.error");
         String message = JsonUtils.toJsonString(responseInfo);
         return handleAjaxException(response, message, HttpStatus.ACCEPTED);
     }
 
     @ExceptionHandler(AuthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ModelAndView handleAuthorizedException(HttpServletRequest request, HttpServletResponse response,
                                                   AuthorizedException e) throws Exception {
         ResponseInfo responseInfo = new ResponseInfo();
-        responseInfo.status = ResponseEnum.ERROR;
+        responseInfo.status = ResponseStatus.ERROR;
         responseInfo.message = Messages.get("global.api.unauthorized");
         String message = JsonUtils.toJsonString(responseInfo);
         return handleAjaxException(response, message, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     public ModelAndView handleBusinessException(HttpServletRequest request, HttpServletResponse response,
                                                 BusinessException e) throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseEnum.ERROR, e.getMessage()));
+        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseStatus.ERROR, e.getMessage()));
         return handleAjaxException(response, message, HttpStatus.OK);
     }
 

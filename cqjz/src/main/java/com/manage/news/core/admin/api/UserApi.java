@@ -2,7 +2,7 @@ package com.manage.news.core.admin.api;
 
 import com.manage.base.bean.ResponseInfo;
 import com.manage.base.enums.Permit;
-import com.manage.base.enums.ResponseEnum;
+import com.manage.base.enums.ResponseStatus;
 import com.manage.cache.bean.TokenUser;
 import com.manage.news.core.admin.service.UserService;
 import com.manage.news.spring.BaseServiceApi;
@@ -30,7 +30,7 @@ public class UserApi extends BaseServiceApi {
         TokenUser tokenUser = new TokenUser();
         tokenUser.setAccount(account);
         ResponseInfo response = new ResponseInfo();
-        response.setStatus(ResponseEnum.SUCCESS);
+        response.setStatus(ResponseStatus.SUCCESS);
         return response;
     }
 }

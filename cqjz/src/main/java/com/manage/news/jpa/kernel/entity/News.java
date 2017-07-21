@@ -1,6 +1,6 @@
 package com.manage.news.jpa.kernel.entity;
 
-import com.manage.news.jpa.kernel.base.WorkflowBase;
+import com.manage.news.jpa.kernel.base.FlowBase;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,14 +11,14 @@ import java.util.Date;
 
 @Entity
 @Table(name = "news")
-public class News extends WorkflowBase {
+public class News extends FlowBase {
 
     @Id
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "news_number", nullable = false, length = 50)
-    private String newsNumber;
+    @Column(name = "number", nullable = false, length = 50)
+    private String number;
 
     @Column(name = "title", nullable = false, columnDefinition = "text")
     private String title;
@@ -28,10 +28,6 @@ public class News extends WorkflowBase {
 
     @Column(name = "contentmin", length = 500)
     private String contentmin;
-
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
 
     @Column(name = "dept_code", length = 50)
     private String deptCode;
@@ -71,12 +67,12 @@ public class News extends WorkflowBase {
         this.id = id;
     }
 
-    public String getNewsNumber() {
-        return newsNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNewsNumber(String newsNumber) {
-        this.newsNumber = newsNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getTitle() {
@@ -101,14 +97,6 @@ public class News extends WorkflowBase {
 
     public void setContentmin(String contentmin) {
         this.contentmin = contentmin;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
     }
 
     public String getDeptCode() {

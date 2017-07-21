@@ -1,7 +1,7 @@
 package com.manage.news.spring.message;
 
 import com.manage.news.jpa.kernel.entity.ResourceBundle;
-import com.manage.news.jpa.kernel.repository.ResourceBundleRepository;
+import com.manage.news.jpa.kernel.repository.ResourceBundleRepo;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
 public class MessageSupplier extends AbstractMessageSource implements ResourceLoaderAware, InitializingBean {
 
@@ -25,7 +24,7 @@ public class MessageSupplier extends AbstractMessageSource implements ResourceLo
     private Map<String, String> properties = new HashMap<String, String>();
 
     @Autowired
-    private ResourceBundleRepository resourceBundleRepository;
+    private ResourceBundleRepo resourceBundleRepo;
 
     public void reload() {
         properties.clear();
@@ -64,7 +63,7 @@ public class MessageSupplier extends AbstractMessageSource implements ResourceLo
 
     private List<Resource> getResource() {
 
-        Iterable<ResourceBundle> dbResources = resourceBundleRepository.findAll();
+        Iterable<ResourceBundle> dbResources = resourceBundleRepo.findAll();
         List<Resource> resources = new ArrayList<Resource>();
         Resource resource;
         for (ResourceBundle dbResource : dbResources) {

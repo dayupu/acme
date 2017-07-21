@@ -2,11 +2,10 @@ package com.manage.news.spring;
 
 import com.manage.cache.CacheManager;
 import com.manage.news.jpa.kernel.entity.Permission;
-import com.manage.news.jpa.kernel.entity.ResourceBundle;
 import com.manage.news.jpa.kernel.entity.Role;
-import com.manage.news.jpa.kernel.repository.PermissionRepository;
-import com.manage.news.jpa.kernel.repository.ResourceBundleRepository;
-import com.manage.news.jpa.kernel.repository.RoleRepository;
+import com.manage.news.jpa.kernel.repository.PermissionRepo;
+import com.manage.news.jpa.kernel.repository.ResourceBundleRepo;
+import com.manage.news.jpa.kernel.repository.RoleRepo;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,13 +21,13 @@ public class AppDataCache implements InitializingBean {
     private CacheManager cacheManager;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleRepo roleRepo;
 
     @Autowired
-    private PermissionRepository permissionRepository;
+    private PermissionRepo permissionRepo;
 
     @Autowired
-    private ResourceBundleRepository resourceBundleRepository;
+    private ResourceBundleRepo resourceBundleRepo;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -39,7 +38,7 @@ public class AppDataCache implements InitializingBean {
 
     private void cacheRoleDatas() {
 
-        Iterable<Role> roles = roleRepository.findAll();
+        Iterable<Role> roles = roleRepo.findAll();
         List<Long> privileges = new ArrayList<Long>();
         for (Role role : roles) {
             for (Permission permission : role.getPermissions()) {

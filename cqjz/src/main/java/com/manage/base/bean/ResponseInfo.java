@@ -1,14 +1,13 @@
 package com.manage.base.bean;
 
-import com.manage.base.enums.ApiMessage;
-import com.manage.base.enums.ResponseEnum;
+import com.manage.base.enums.ResponseStatus;
 
 /**
  * Created by bert on 2017/7/2.
  */
 public class ResponseInfo<T> {
 
-    public ResponseEnum status;
+    public ResponseStatus status;
     public String message;
     public T content;
 
@@ -16,26 +15,26 @@ public class ResponseInfo<T> {
 
     }
 
-    public ResponseInfo(ResponseEnum status) {
+    public ResponseInfo(ResponseStatus status) {
         this.status = status;
     }
 
-    public ResponseInfo(ResponseEnum status, String message) {
+    public ResponseInfo(ResponseStatus status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public ResponseInfo(ResponseEnum status, String message, T content) {
+    public ResponseInfo(ResponseStatus status, String message, T content) {
         this.status = status;
         this.message = message;
         this.content = content;
     }
 
-    public ResponseEnum getStatus() {
+    public ResponseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ResponseEnum status) {
+    public void setStatus(ResponseStatus status) {
         this.status = status;
     }
 

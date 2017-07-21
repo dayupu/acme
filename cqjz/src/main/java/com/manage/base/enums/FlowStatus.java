@@ -2,7 +2,7 @@ package com.manage.base.enums;
 
 import com.manage.base.reference.DBMapper;
 
-public enum ProcessState implements DBMapper<Integer> {
+public enum FlowStatus implements DBMapper<Integer> {
 
     INIT(0, "init"),
     SUBMIT(1, "submit"),
@@ -14,7 +14,7 @@ public enum ProcessState implements DBMapper<Integer> {
     private Integer constant;
     private String message;
 
-    ProcessState(Integer constant, String message) {
+    FlowStatus(Integer constant, String message) {
         this.constant = constant;
         this.message = message;
     }
