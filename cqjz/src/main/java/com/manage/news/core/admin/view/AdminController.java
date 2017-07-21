@@ -3,7 +3,7 @@ package com.manage.news.core.admin.view;
 import com.manage.base.utils.StringUtils;
 import com.manage.base.utils.WebUtils;
 import com.manage.news.jpa.kernel.entity.LoginLog;
-import com.manage.news.jpa.kernel.repository.LoginInfoRepo;
+import com.manage.news.jpa.kernel.repository.LoginLogRepo;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +41,7 @@ public class AdminController {
     private SessionAuthenticationStrategy sessionStrategy;
 
     @Autowired
-    private LoginInfoRepo loginInfoRepo;
+    private LoginLogRepo loginLogRepo;
 
     @GetMapping("/login")
     @ResponseBody
@@ -78,7 +78,7 @@ public class AdminController {
         login.setAccount(account);
         login.setClientIP(WebUtils.remoteIP(request));
         login.setMessage(loginResult);
-        loginInfoRepo.save(login);
+        loginLogRepo.save(login);
     }
 
     @RequestMapping("/index")
