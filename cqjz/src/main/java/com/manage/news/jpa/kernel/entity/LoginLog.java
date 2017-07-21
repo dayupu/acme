@@ -26,8 +26,11 @@ public class LoginLog {
     @Column(name = "client_ip")
     private String clientIP;
 
-    @Column(name = "message")
+    @Column(name = "message", length = 100)
     private String message;
+
+    @Column(name = "success")
+    private Boolean success;
 
     @Column(name = "login_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -71,5 +74,13 @@ public class LoginLog {
 
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 }

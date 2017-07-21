@@ -49,7 +49,8 @@ public class AdminController {
             HttpServletResponse response) {
         ResponseInfo responseInfo = new ResponseInfo();
         UsernamePasswordAuthenticationToken authRequest;
-        String loginResult = "success";
+        boolean loginStatus = false;
+        String message = null;
         try {
             if (StringUtils.isEmptyAny(account, password)) {
                 throw new BusinessException();
@@ -62,22 +63,24 @@ public class AdminController {
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
             sessionStrategy.onAuthentication(authentication, request, response);
             responseInfo.status = ResponseStatus.SUCCESS;
+            loginStatus = true;
         } catch (Exception e) {
             LOGGER.info(e);
-            loginResult = "failure";
             responseInfo.status = ResponseStatus.ERROR;
             responseInfo.message = Messages.get("login.user.or.password.error");
+            message = responseInfo.message;
         } finally {
-            recordLoginInfo(account, request, loginResult);
+            recordLoginInfo(account, request, loginStatus, message);
         }
         return responseInfo;
     }
 
-    private void recordLoginInfo(String account, HttpServletRequest request, String loginResult) {
+    private void recordLoginInfo(String account, HttpServletRequest request, boolean status, String message) {
         LoginLog login = new LoginLog();
         login.setAccount(account);
         login.setClientIP(WebUtils.remoteIP(request));
-        login.setMessage(loginResult);
+        login.setSuccess(status);
+        login.setMessage(message);
         loginLogRepo.save(login);
     }
 
