@@ -28,7 +28,7 @@ public class Menu {
     private Long parentId;
 
     @Column(name = "sequence", length = 3)
-    private Integer sequence = 0;
+    private int sequence = 0;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -40,7 +40,7 @@ public class Menu {
     private String url;
 
     @Column(name = "level", length = 2)
-    private Integer level = 0;
+    private int level = 0;
 
     @Column(name = "description")
     private String description;
@@ -67,14 +67,6 @@ public class Menu {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public Integer getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
     }
 
     public String getName() {
@@ -117,19 +109,27 @@ public class Menu {
         this.parent = parent;
     }
 
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
     public List<Menu> getChildrens() {
         return childrens;
     }
 
     public void setChildrens(List<Menu> childrens) {
         this.childrens = childrens;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

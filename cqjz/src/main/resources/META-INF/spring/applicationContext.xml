@@ -37,7 +37,7 @@
     </bean>
 
     <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.PermissionConfig">
-        <property name="basePackages" value="com.manage.news.core.admin.api"/>
+        <property name="basePackages" value="com.manage.news.core.admin.view"/>
         <property name="autoMerge" value="true"/>
     </bean>
 
@@ -50,4 +50,9 @@
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <!--aspect-->
+    <bean id="userPermissionAspect" class="com.manage.news.spring.aspect.UserPermitAspect">
+        <property name="cacheManager" ref="cacheManager"></property>
+    </bean>
 </beans>

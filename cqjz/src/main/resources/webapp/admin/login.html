@@ -4,7 +4,7 @@
     <title>登录</title>
     <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
-    <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all' />
+    <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all'/>
 </head>
 <body>
 <div class="content">
@@ -37,7 +37,9 @@
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <button class="btn btn-primary" ng-click="login(loginForm.$valid)"  ng-disabled="loginForm.$invalid">登录</button>
+                                    <button class="btn btn-primary" ng-click="login(loginForm.$valid)"
+                                            ng-disabled="loginForm.$invalid">登录
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -57,14 +59,13 @@
             if (!valid) {
                 return;
             }
-            $http.get("/admin/login", {params: $scope.user})
-                    .then(function successCallback(response) {
-                        if (response.data.status == "1000") {
-                            location.href = "/admin/index";
-                        } else {
-                            $scope.message = response.data.message;
-                        }
-                    });
+            $http.get("/admin/ajax/login", {params: $scope.user}).then(function successCallback(response) {
+                if (response.data.status == "1000") {
+                    location.href = "/admin/index";
+                } else {
+                    $scope.message = response.data.message;
+                }
+            });
         };
     });
 </script>

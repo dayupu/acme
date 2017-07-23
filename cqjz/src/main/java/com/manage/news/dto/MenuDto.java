@@ -1,5 +1,6 @@
 package com.manage.news.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuDto {
@@ -43,6 +44,9 @@ public class MenuDto {
     }
 
     public List<MenuDto> getSubMenus() {
+        if (subMenus == null) {
+            subMenus = new ArrayList<MenuDto>();
+        }
         return subMenus;
     }
 

@@ -46,8 +46,6 @@ public class UserServiceImpl implements UserService {
     public Pair<User, List<Long>> authUserDetail(String account) {
 
         User user = userRepo.findUserByAccount(account);
-
-
         List<Long> roleIds = new ArrayList<Long>();
         for (Role role : user.getRoles()) {
             roleIds.add(role.getId());

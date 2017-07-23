@@ -1,17 +1,14 @@
 package com.manage.news.jpa.kernel.entity;
 
-import com.manage.news.jpa.kernel.base.FlowBase;
+import com.manage.news.jpa.kernel.base.BaseFlow;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 
 @Entity
 @Table(name = "news")
-public class News extends FlowBase {
+public class News extends BaseFlow {
 
     @Id
     @Column(name = "id")

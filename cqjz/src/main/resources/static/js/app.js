@@ -1,23 +1,20 @@
-var menuApp = angular.module("menuApp",[]);
-menuApp.directive("myDirective",function(){
-  return {
-    scope:{
-      title:"@"
-    },
-    template: function(){
-      return '{{title}}';
-    },
-    link: function(scope, element, attrs){
-          element.ready(function(){
-          alert(scope.title);
+var asideApp = angular.module("asideApp", []);
+var mainApp = angular.module("mainApp", ["asideApp"]);
+asideApp.controller("asideController", function ($http, $scope) {
+    $scope.loadMenu = function () {
+        $http.get("/admin/index/menuList").then(function successCallback(response) {
+            if (requestSuccess(response.data.status)) {
+                $scope.menus = response.data.content;
+            } else {
+                $scope.message = response.data.message;
+            }
         });
     }
-   };
 });
 
-var mainApp = angular.module("mainApp",["menuApp"]);
-var defaultMenus = [{"name":"menu01","childrens":[{"name":"childmenu"}]},{"name":"menu02"},{"name":"menu03"},{"name":"menu04"}]
-menuApp.controller("menuCtrl",function($scope){
-    $scope.name = "aa";
-    $scope.menus=defaultMenus;
-});
+function requestSuccess(status) {
+    if (status == "1000") {
+        return true;
+    }
+    return false;
+}

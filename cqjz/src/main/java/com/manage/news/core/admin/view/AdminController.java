@@ -43,7 +43,7 @@ public class AdminController {
     @Autowired
     private LoginLogRepo loginLogRepo;
 
-    @GetMapping("/login")
+    @GetMapping("/ajax/login")
     @ResponseBody
     public ResponseInfo login(String account, String password, HttpServletRequest request,
             HttpServletResponse response) {

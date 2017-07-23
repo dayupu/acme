@@ -23,6 +23,6 @@ public enum Status implements DBMapper<Integer> {
 
     @Override
     public Integer dbValue() {
-        return null;
+        return this.constant;
     }
 }

@@ -2,9 +2,8 @@ package com.manage.news.jpa.kernel.entity;
 
 import com.manage.base.converter.StatusAttributeConverter;
 import com.manage.base.enums.Status;
-import com.manage.news.jpa.kernel.base.CommonBase;
+import com.manage.news.jpa.kernel.base.BaseCommon;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,17 +17,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "admin_user")
 @SequenceGenerator(name = "seq_admin_user", sequenceName = "seq_admin_user")
-public class User extends CommonBase {
+public class User extends BaseCommon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_admin_user")

@@ -31,6 +31,6 @@ public class AuthUserService implements UserDetailsService {
         Authority authority = new Authority("ROLE_ADMIN");
         AuthUser userDetails = new AuthUser(user.getId(), user.getAccount(), user.getPassword(), enabled, authority);
         userDetails.setRoleIds(userPair.getRight());
-        return new AuthUser(user.getId(), user.getAccount(), user.getPassword(), enabled, authority);
+        return userDetails;
     }
 }

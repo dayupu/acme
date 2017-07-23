@@ -16,6 +16,10 @@ public class AuthUser implements UserDetails {
     private List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
     private List<Long> roleIds = new ArrayList<Long>();
 
+    public AuthUser(){
+
+    }
+
     public AuthUser(Long id, String username, String password, boolean enabled, Authority... authorities) {
         this.id = id;
         this.username = username;

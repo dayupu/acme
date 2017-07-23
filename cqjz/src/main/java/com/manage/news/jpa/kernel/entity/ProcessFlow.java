@@ -4,7 +4,6 @@ package com.manage.news.jpa.kernel.entity;
 import com.manage.base.converter.FlowStatusAttributeConverter;
 import com.manage.base.enums.FlowStatus;
 
-import com.manage.news.jpa.kernel.base.FlowBase;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;

@@ -1,6 +1,6 @@
 package com.manage.news.jpa.kernel.entity;
 
-import com.manage.news.jpa.kernel.base.CommonBase;
+import com.manage.news.jpa.kernel.base.BaseCommon;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "admin_role")
 @SequenceGenerator(name = "seq_admin_role", sequenceName = "seq_admin_role", allocationSize = 1)
-public class Role extends CommonBase {
+public class Role extends BaseCommon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_admin_role")

@@ -1,17 +1,15 @@
 package com.manage.news.jpa.kernel.base;
 
 import com.manage.news.jpa.kernel.entity.ProcessFlow;
-import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public class FlowBase extends CommonBase{
+public class BaseFlow extends BaseCommon {
 
 
     @Column(name = "execution_id", updatable = false, insertable = false)

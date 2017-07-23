@@ -1,5 +1,10 @@
-<div id="menuApp" ng-app="menuApp" ng-controller="menuCtrl">
-    {{name}}
-    <input ng-model="menus" type="text" />
-    <my-directive title="{{menus}}"></my-directive>
+<div ng-app="asideApp" ng-controller="asideController">
+    <div ng-init="loadMenu()"></div>
+    <ul>
+        <li ng-repeat="menu in menus">{{menu.name}}
+          <ul ng-if="menu.subMenus != null">
+              <li ng-repeat="subMenu in menu.subMenus">{{subMenu.name}}</li>
+          </ul>
+        </li>
+    </ul>
 </div>

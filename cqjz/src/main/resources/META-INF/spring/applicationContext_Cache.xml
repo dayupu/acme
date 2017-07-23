@@ -41,9 +41,5 @@
         <property name="ttlSeconds" value="${token.cache.ttl.senconds}"></property>
     </bean>
 
-    <!--aspect-->
-    <bean id="tokenPermissionAspect" class="com.manage.news.spring.aspect.UserPermitAspect">
-        <property name="cacheManager" ref="cacheManager"></property>
-    </bean>
 
 </beans>

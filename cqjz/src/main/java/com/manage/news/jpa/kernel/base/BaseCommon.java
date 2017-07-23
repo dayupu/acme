@@ -10,7 +10,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public class CommonBase {
+public class BaseCommon {
 
     @Column(name = "status", length = 2)
     @Convert(converter = StatusAttributeConverter.class)
