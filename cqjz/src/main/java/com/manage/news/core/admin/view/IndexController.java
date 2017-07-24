@@ -3,7 +3,7 @@ package com.manage.news.core.admin.view;
 
 import com.manage.base.bean.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
-import com.manage.news.core.admin.service.MenuService;
+import com.manage.news.core.admin.service.IMenuService;
 import com.manage.news.dto.MenuDto;
 import com.manage.news.spring.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private MenuService menuService;
+    private IMenuService IMenuService;
 
     @GetMapping("/menuList")
     public ResponseInfo getMenuList(AuthUser authUser) {
         ResponseInfo responseInfo = new ResponseInfo();
         authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<MenuDto> menuDtos = menuService.menuListByRoleIds(authUser.getRoleIds());
+        List<MenuDto> menuDtos = IMenuService.menuListByRoleIds(authUser.getRoleIds());
         responseInfo.status = ResponseStatus.SUCCESS;
         responseInfo.content = menuDtos;
         return responseInfo;

@@ -2,7 +2,7 @@ package com.manage.news.spring.security;
 
 import com.manage.base.bean.Pair;
 import com.manage.base.enums.Status;
-import com.manage.news.core.admin.service.UserService;
+import com.manage.news.core.admin.service.IUserService;
 import com.manage.news.jpa.kernel.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AuthUserService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

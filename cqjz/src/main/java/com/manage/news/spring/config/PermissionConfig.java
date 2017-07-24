@@ -2,7 +2,7 @@ package com.manage.news.spring.config;
 
 import com.manage.base.enums.Permit;
 import com.manage.base.enums.PermitType;
-import com.manage.news.core.admin.service.PermissionService;
+import com.manage.news.core.admin.service.IPermissionService;
 import com.manage.news.jpa.kernel.entity.Permission;
 import com.manage.news.spring.annotation.UserPermit;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class PermissionConfig implements InitializingBean {
     private boolean autoMerge = false;
 
     @Autowired
-    private PermissionService permissionService;
+    private IPermissionService permissionService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
