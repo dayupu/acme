@@ -124,3 +124,36 @@ div {
     color: #a6a8b1;
     background-color: #3a3f51;
 }
+
+.aside-app-div a{
+  display: block;
+  color:#b4b6bd;
+  padding:10px;
+}
+
+.aside-app-menu-div{
+  height:20px;
+}
+
+.aside-app-div .first-menu-a{
+  padding-left:20px;
+}
+
+.aside-app-div .second-menu-a{
+  padding-left:50px;
+  background:#32374a;
+  border-bottom: 1px solid #4b4a5e;
+}
+
+/*overwrite bootstrap style*/
+.aside-app-div .nav > li > a:hover{
+   color:white;
+   background-color: #b63b4d;
+}
+.aside-app-div .nav > li > a:focus {
+  color:white;
+  background-color: #2e3344;
+}
+.navbar, .nav{
+  margin-bottom:0px;
+}
