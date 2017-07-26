@@ -11,8 +11,8 @@
     <div ng-include="'app/header.htm'" class="app-header"></div>
     <div ng-controller="asideController" ng-include="'app/aside.htm'" class="app-aside bg-dark"></div>
     <div ng-controller="contentController" class="app-content">
-        <div>{{navLocation}}
-         <input >
+        <div> {{currentLocation}}
+            <nav-location values="breadcrumb"></nav-location>
         </div>
         <ng-view></ng-view>
     </div>

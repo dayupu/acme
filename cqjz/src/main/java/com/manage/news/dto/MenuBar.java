@@ -3,13 +3,14 @@ package com.manage.news.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuDto {
+public class MenuBar {
 
     private Long id;
     private String name;
     private String image;
     private String url;
-    private List<MenuDto> subMenus;
+    private List<String> locations;
+    private List<MenuBar> subMenus;
 
     public Long getId() {
         return id;
@@ -43,14 +44,22 @@ public class MenuDto {
         this.url = url;
     }
 
-    public List<MenuDto> getSubMenus() {
+    public List<MenuBar> getSubMenus() {
         if (subMenus == null) {
-            subMenus = new ArrayList<MenuDto>();
+            subMenus = new ArrayList<MenuBar>();
         }
         return subMenus;
     }
 
-    public void setSubMenus(List<MenuDto> subMenus) {
+    public void setSubMenus(List<MenuBar> subMenus) {
         this.subMenus = subMenus;
+    }
+
+    public List<String> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<String> locations) {
+        this.locations = locations;
     }
 }

@@ -2,7 +2,7 @@ package com.manage.news.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
 import com.manage.news.core.admin.service.IMenuService;
-import com.manage.news.dto.MenuDto;
+import com.manage.news.dto.MenuBar;
 import com.manage.news.jpa.kernel.entity.Menu;
 import com.manage.news.jpa.kernel.repository.MenuRepo;
 
@@ -21,36 +21,36 @@ public class MenuService implements IMenuService {
 
     @Override
     @Transactional
-    public List<MenuDto> menuListByRoleIds(List<Long> roleIds) {
-        List<MenuDto> menuResults = Lists.newArrayList();
+    public List<MenuBar> menuListByRoleIds(List<Long> roleIds) {
+        List<MenuBar> menuResults = Lists.newArrayList();
         if (roleIds.isEmpty()) {
             return menuResults;
         }
 
         List<Menu> menuList = menuRepo.queryMenuListByRoleIds(roleIds);
-        MenuDto menuDto;
+        MenuBar menuBar;
         for (Menu menu : menuList) {
             if (menu.getLevel() != 1) {
                 continue;
             }
-            menuDto = toMenuDto(menu);
+            menuBar = toMenuDto(menu);
             for (Menu subMenu : menuList) {
                 if (menu.getId().equals(subMenu.getParentId())) {
-                    menuDto.getSubMenus().add(toMenuDto(subMenu));
+                    menuBar.getSubMenus().add(toMenuDto(subMenu));
                 }
             }
-            menuResults.add(menuDto);
+            menuResults.add(menuBar);
         }
         return menuResults;
     }
 
-    private MenuDto toMenuDto(Menu menu) {
-        MenuDto menuDto = new MenuDto();
-        menuDto.setId(menu.getId());
-        menuDto.setName(menu.getName());
-        menuDto.setImage(menu.getImage());
-        menuDto.setUrl(menu.getUrl());
-        return menuDto;
+    private MenuBar toMenuDto(Menu menu) {
+        MenuBar menuBar = new MenuBar();
+        menuBar.setId(menu.getId());
+        menuBar.setName(menu.getName());
+        menuBar.setImage(menu.getImage());
+        menuBar.setUrl(menu.getUrl());
+        return menuBar;
     }
 
 }

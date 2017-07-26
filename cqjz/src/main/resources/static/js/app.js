@@ -1,13 +1,9 @@
-var mainApp = angular.module("mainApp", ["ngRoute","ngAnimate"]);
+var mainApp = angular.module("mainApp", ["ngRoute", "ngAnimate"]);
 mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
 
-mainApp.factory('navLocation', function() {
-    return {name: "Ting"}
-});
-
-mainApp.controller("asideController", function ($http, $scope, $location, navLocation) {
+mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe) {
     $scope.isShow = false;
     $scope.loadMenu = function () {
         $http.get("/admin/index/menuList").then(function successCallback(response) {
@@ -24,20 +20,20 @@ mainApp.controller("asideController", function ($http, $scope, $location, navLoc
             menu.extend = !menu.extend;
             $(secondMenu).slideToggle("fast");
         } else {
-            navLocation.name=menu.name;
+            messageSubscribe.publish("menuLocation", menu);
             $location.path(menu.url);
         }
     }
 });
 
-mainApp.controller("contentController",function($scope, navLocation){
-   $scope.navLocation = navLocation.name;
+mainApp.controller("contentController", function ($scope, messageSubscribe) {
 
-   $scope.test = function(){
-      alert(navLocation.name);
-   }
+    $scope.locationDetails="123456";
+    messageSubscribe.subscribe("menuLocation", function (event, parameters) {
+        $scope.currentLocation = parameters.name;
+        $scope.breadcrumb=parameters.name;
+    });
 });
-
 
 function requestSuccess(status) {
     if (status == "1000") {
@@ -45,10 +41,34 @@ function requestSuccess(status) {
     }
     return false;
 }
+
 // route config
-function routeConfig($routeProvider){
+function routeConfig($routeProvider) {
     $routeProvider.when("/", {template: '这是首页页面'})
         .when("/computers", {template: '这是电脑分类页面'})
         .when("/printers", {template: '这是打印机页面'})
         .otherwise({redirectTo: '/computers'});
 }
+
+// factory
+mainApp.factory("messageSubscribe", function ($rootScope) {
+    return {
+        publish: function (name, parameters) {
+            $rootScope.$emit(name, parameters);
+        },
+        subscribe: function (name, listener) {
+            $rootScope.$on(name, listener);
+        }
+    };
+});
+
+mainApp.directive('navLocation', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            values: "="
+        },
+        template: "<div>{{values}}</div>",
+        replace: true
+    };
+});

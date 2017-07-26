@@ -4,7 +4,7 @@ package com.manage.news.core.admin.view;
 import com.manage.base.bean.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
 import com.manage.news.core.admin.service.IMenuService;
-import com.manage.news.dto.MenuDto;
+import com.manage.news.dto.MenuBar;
 import com.manage.news.spring.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +25,9 @@ public class IndexController {
     public ResponseInfo getMenuList(AuthUser authUser) {
         ResponseInfo responseInfo = new ResponseInfo();
         authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<MenuDto> menuDtos = IMenuService.menuListByRoleIds(authUser.getRoleIds());
+        List<MenuBar> menuBars = IMenuService.menuListByRoleIds(authUser.getRoleIds());
         responseInfo.status = ResponseStatus.SUCCESS;
-        responseInfo.content = menuDtos;
+        responseInfo.content = menuBars;
         return responseInfo;
     }
 }
