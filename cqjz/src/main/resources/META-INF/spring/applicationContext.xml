@@ -45,9 +45,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
-            <bean class="com.manage.news.spring.interceptor.InboundLogInterceptor">
-                <property name="print" value="true"></property>
-            </bean>
+            <bean class="com.manage.news.spring.interceptor.InboundLogInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 

@@ -1,6 +1,10 @@
 package com.manage.news.spring.interceptor;
 
+import com.google.common.collect.Lists;
+import com.manage.base.common.MessageLogging;
 import com.manage.base.utils.JsonUtils;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.util.StringUtils;
@@ -14,55 +18,56 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InboundLogInterceptor extends HandlerInterceptorAdapter {
+public class InboundLogInterceptor extends MessageLogging {
 
     private static final Logger LOGGER = LogManager.getLogger(InboundLogInterceptor.class);
-    private static final String line = System.getProperty("line.separator");
-    private boolean print = false;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
 
-        if (print) {
-            StringBuilder log = new StringBuilder("REQUEST: ").append(line);
-            log.append(request.getMethod()).append(" ").append(request.getRequestURL().toString()).append(line);
-            log.append("parmaters: ").append(getRequestParams(request)).append(line);
-            log.append("haeder: ").append(getRequestHeader(request)).append(line);
-            String payload = getRequestPayload(request);
-            if (!StringUtils.isEmpty(payload)) {
-                log.append("payload:").append(payload);
-            }
-            LOGGER.info(log);
+        if (!LOGGER.isInfoEnabled()) {
+            return true;
         }
+
+        StringBuilder builder = new StringBuilder(line);
+        appendLine(builder, request.getMethod(), request.getRequestURL().toString());
+        List<String> queryParamStrings = new ArrayList<String>();
+        for (Map.Entry<String, String[]> param : request.getParameterMap().entrySet()) {
+            queryParamStrings.add(keyValuePair(param.getKey(), wrap(join(Lists.newArrayList(param.getValue())))));
+        }
+        appendLine(builder, "QueryParams", join(queryParamStrings));
+
+        String key;
+        List<String> headerStrings = new ArrayList<String>();
+        Enumeration<String> requestHeaders = request.getHeaderNames();
+        while (requestHeaders.hasMoreElements()) {
+            key = requestHeaders.nextElement();
+            headerStrings.add(keyValuePair(key, wrap(request.getHeader(key))));
+        }
+        appendLine(builder, "Headers", join(headerStrings));
+
+        String payload = getRequestPayload(request);
+        appendLine(builder, "Payload", payload);
+        LOGGER.info(builder.toString());
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
 
-    }
-
-    public void setPrint(boolean print) {
-        this.print = print;
-    }
-
-    private String getRequestHeader(HttpServletRequest request) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-        Map<String, String> header = new HashMap<String, String>();
-        String key;
-        while (headerNames.hasMoreElements()) {
-            key = headerNames.nextElement();
-            if ("referer".equals(key) || "cookie".equals(key)) {
-                continue;
-            }
-            header.put(key, request.getHeader(key));
+        if (!LOGGER.isInfoEnabled()) {
+            return;
         }
-        return JsonUtils.toJsonString(header);
+
+        StringBuilder builder = new StringBuilder(line);
+        appendLine(builder, "Status", response.getStatus());
+
+        LOGGER.info(builder.toString());
     }
 
-    private String getRequestParams(HttpServletRequest request) {
-        return JsonUtils.toJsonString(request.getParameterMap());
-    }
+
 
     private String getRequestPayload(HttpServletRequest request) {
         try {
