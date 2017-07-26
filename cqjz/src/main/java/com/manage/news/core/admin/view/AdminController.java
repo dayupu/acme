@@ -4,6 +4,7 @@ import com.manage.base.utils.StringUtils;
 import com.manage.base.utils.WebUtils;
 import com.manage.news.jpa.kernel.entity.LoginLog;
 import com.manage.news.jpa.kernel.repository.LoginLogRepo;
+import com.manage.news.spring.annotation.InboundLog;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,8 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,8 +45,9 @@ public class AdminController {
     @Autowired
     private LoginLogRepo loginLogRepo;
 
-    @GetMapping("/ajax/login")
+    @RequestMapping(value = "/ajax/login", method = RequestMethod.GET)
     @ResponseBody
+    @InboundLog
     public ResponseInfo login(String account, String password, HttpServletRequest request,
             HttpServletResponse response) {
         ResponseInfo responseInfo = new ResponseInfo();

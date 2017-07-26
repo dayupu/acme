@@ -3,11 +3,14 @@ package com.manage.news.spring.interceptor;
 import com.google.common.collect.Lists;
 import com.manage.base.common.MessageLogging;
 import com.manage.base.utils.JsonUtils;
+import com.manage.news.spring.annotation.InboundLog;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.util.StringUtils;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,7 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InboundLogInterceptor extends MessageLogging {
+public class InboundLogInterceptor extends MessageLogging implements HandlerInterceptor {
 
     private static final Logger LOGGER = LogManager.getLogger(InboundLogInterceptor.class);
 
@@ -26,6 +29,12 @@ public class InboundLogInterceptor extends MessageLogging {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+        if (((HandlerMethod) handler).getMethod().getAnnotation(InboundLog.class) == null) {
+            return true;
+        }
         if (!LOGGER.isInfoEnabled()) {
             return true;
         }
@@ -49,6 +58,7 @@ public class InboundLogInterceptor extends MessageLogging {
 
         String payload = getRequestPayload(request);
         appendLine(builder, "Payload", payload);
+
         LOGGER.info(builder.toString());
         return true;
     }
@@ -57,17 +67,7 @@ public class InboundLogInterceptor extends MessageLogging {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
 
-        if (!LOGGER.isInfoEnabled()) {
-            return;
-        }
-
-        StringBuilder builder = new StringBuilder(line);
-        appendLine(builder, "Status", response.getStatus());
-
-        LOGGER.info(builder.toString());
     }
-
-
 
     private String getRequestPayload(HttpServletRequest request) {
         try {
@@ -83,5 +83,11 @@ public class InboundLogInterceptor extends MessageLogging {
             LOGGER.error("Get request content error", e);
         }
         return null;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+
     }
 }

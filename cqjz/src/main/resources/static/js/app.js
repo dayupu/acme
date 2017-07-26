@@ -3,7 +3,11 @@ mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
 
-mainApp.controller("asideController", function ($http, $scope, $location) {
+mainApp.factory('navLocation', function() {
+    return {name: "Ting"}
+});
+
+mainApp.controller("asideController", function ($http, $scope, $location, navLocation) {
     $scope.isShow = false;
     $scope.loadMenu = function () {
         $http.get("/admin/index/menuList").then(function successCallback(response) {
@@ -20,10 +24,20 @@ mainApp.controller("asideController", function ($http, $scope, $location) {
             menu.extend = !menu.extend;
             $(secondMenu).slideToggle("fast");
         } else {
+            navLocation.name=menu.name;
             $location.path(menu.url);
         }
     }
 });
+
+mainApp.controller("contentController",function($scope, navLocation){
+   $scope.navLocation = navLocation.name;
+
+   $scope.test = function(){
+      alert(navLocation.name);
+   }
+});
+
 
 function requestSuccess(status) {
     if (status == "1000") {

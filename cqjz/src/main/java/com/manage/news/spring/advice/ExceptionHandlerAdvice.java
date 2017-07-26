@@ -1,4 +1,4 @@
-package com.manage.news.spring.handler;
+package com.manage.news.spring.advice;
 
 import com.manage.base.bean.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class ExceptionHandlerAdvice {
 
     private static final String UTF8 = "UTF-8";
 
