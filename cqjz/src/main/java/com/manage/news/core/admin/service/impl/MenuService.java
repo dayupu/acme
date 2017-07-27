@@ -2,10 +2,10 @@ package com.manage.news.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
 import com.manage.news.core.admin.service.IMenuService;
-import com.manage.news.dto.MenuBar;
+import com.manage.news.dto.MenuNav;
 import com.manage.news.jpa.kernel.entity.Menu;
 import com.manage.news.jpa.kernel.repository.MenuRepo;
-
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,36 +21,38 @@ public class MenuService implements IMenuService {
 
     @Override
     @Transactional
-    public List<MenuBar> menuListByRoleIds(List<Long> roleIds) {
-        List<MenuBar> menuResults = Lists.newArrayList();
+    public List<MenuNav> menuListByRoleIds(List<Long> roleIds) {
+        List<MenuNav> menuResults = Lists.newArrayList();
         if (roleIds.isEmpty()) {
             return menuResults;
         }
 
         List<Menu> menuList = menuRepo.queryMenuListByRoleIds(roleIds);
-        MenuBar menuBar;
+        MenuNav menuNav;
+        MenuNav subMenuNav;
+        List<MenuNav.Location> locations;
+        List<MenuNav.Location> subLocations;
         for (Menu menu : menuList) {
             if (menu.getLevel() != 1) {
                 continue;
             }
-            menuBar = toMenuDto(menu);
+            menuNav = MenuNav.forMenu(menu);
+            locations = new ArrayList<>();
+            locations.add(MenuNav.Location.forMenu(menu));
+            menuNav.setLocations(locations);
             for (Menu subMenu : menuList) {
                 if (menu.getId().equals(subMenu.getParentId())) {
-                    menuBar.getSubMenus().add(toMenuDto(subMenu));
+                    subMenuNav = MenuNav.forMenu(subMenu);
+                    subLocations = new ArrayList<>();
+                    subLocations.addAll(locations);
+                    subLocations.add(MenuNav.Location.forMenu(subMenu));
+                    subMenuNav.setLocations(subLocations);
+                    menuNav.getSubMenus().add(subMenuNav);
                 }
             }
-            menuResults.add(menuBar);
+            menuResults.add(menuNav);
         }
         return menuResults;
-    }
-
-    private MenuBar toMenuDto(Menu menu) {
-        MenuBar menuBar = new MenuBar();
-        menuBar.setId(menu.getId());
-        menuBar.setName(menu.getName());
-        menuBar.setImage(menu.getImage());
-        menuBar.setUrl(menu.getUrl());
-        return menuBar;
     }
 
 }

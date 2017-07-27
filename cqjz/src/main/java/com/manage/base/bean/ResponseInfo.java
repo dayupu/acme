@@ -2,9 +2,6 @@ package com.manage.base.bean;
 
 import com.manage.base.enums.ResponseStatus;
 
-/**
- * Created by bert on 2017/7/2.
- */
 public class ResponseInfo<T> {
 
     public ResponseStatus status;

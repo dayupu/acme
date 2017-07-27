@@ -1,4 +1,4 @@
-var mainApp = angular.module("mainApp", ["ngRoute", "ngAnimate"]);
+var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate"]);
 mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
@@ -28,10 +28,8 @@ mainApp.controller("asideController", function ($http, $scope, $location, messag
 
 mainApp.controller("contentController", function ($scope, messageSubscribe) {
 
-    $scope.locationDetails="123456";
-    messageSubscribe.subscribe("menuLocation", function (event, parameters) {
-        $scope.currentLocation = parameters.name;
-        $scope.breadcrumb=parameters.name;
+    messageSubscribe.subscribe("menuLocation", function (event, menu) {
+        $scope.navLocations=menu.locations;
     });
 });
 
@@ -50,7 +48,7 @@ function routeConfig($routeProvider) {
         .otherwise({redirectTo: '/computers'});
 }
 
-// factory
+// factorys
 mainApp.factory("messageSubscribe", function ($rootScope) {
     return {
         publish: function (name, parameters) {
@@ -62,13 +60,15 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
     };
 });
 
-mainApp.directive('navLocation', function () {
+// directives
+mainApp.directive('menuNav', function () {
     return {
         restrict: 'E',
         scope: {
-            values: "="
+            values:"="
         },
-        template: "<div>{{values}}</div>",
+        template: "<div><ul class='breadcrumb' ng-if='values != null'><li>当前位置：</li>"
+                  +"<li ng-repeat='value in values'><span class='divider' ng-if='$index != 0'>/</span>{{value.name}}</li></ul></div>",
         replace: true
     };
 });
