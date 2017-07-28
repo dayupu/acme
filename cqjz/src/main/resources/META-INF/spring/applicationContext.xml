@@ -20,7 +20,7 @@
         </property>
     </bean>
     <!-- 数据库国际化资源自定义的MessageResource -->
-    <bean id="messageSource" class="com.manage.news.spring.message.MessageSupplier">
+    <bean id="messageSource" class="com.manage.kernel.spring.message.MessageSupplier">
         <property name="parentMessageSource" ref="propertiesMessageSource"/>
     </bean>
     <!--resource-->
@@ -36,8 +36,8 @@
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
-    <bean id="tokenPermissionConfig" class="com.manage.news.spring.config.PermissionConfig">
-        <property name="basePackages" value="com.manage.news.core.admin.view"/>
+    <bean id="tokenPermissionConfig" class="com.manage.kernel.spring.config.PermissionConfig">
+        <property name="basePackages" value="com.manage.kernel.core.admin.view"/>
         <property name="autoMerge" value="true"/>
     </bean>
 
@@ -45,12 +45,12 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
-            <bean class="com.manage.news.spring.interceptor.InboundLogInterceptor"></bean>
+            <bean class="com.manage.kernel.spring.config.interceptor.InboundLogInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 
     <!--aspect-->
-    <bean id="userPermissionAspect" class="com.manage.news.spring.aspect.UserPermitAspect">
+    <bean id="userPermissionAspect" class="com.manage.kernel.spring.config.aspect.UserPermitAspect">
         <property name="cacheManager" ref="cacheManager"></property>
     </bean>
 </beans>

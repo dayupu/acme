@@ -47,6 +47,6 @@
     </beans:bean>
 
     <!--自定义UserDeatilsService-->
-    <beans:bean id="userDetailsService" class="com.manage.news.spring.security.AuthUserService"/>
-    <beans:bean id="passwordEncoder" class="com.manage.news.spring.security.AuthPasswordEncoder"/>
+    <beans:bean id="userDetailsService" class="com.manage.kernel.spring.config.security.AuthUserService"/>
+    <beans:bean id="passwordEncoder" class="com.manage.kernel.spring.config.security.AuthPasswordEncoder"/>
 </beans:beans>

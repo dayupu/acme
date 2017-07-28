@@ -42,7 +42,7 @@
                 <prop key="hibernate.autoReconnect">true</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.manage.news.jpa.kernel.entity"/>
+        <property name="packagesToScan" value="com.manage.kernel.jpa.news.entity"/>
     </bean>
     <bean id="transactionManagerKernel" class="org.springframework.orm.jpa.JpaTransactionManager" primary="true">
         <property name="entityManagerFactory" ref="entityManagerFactoryKernel"></property>
@@ -70,17 +70,17 @@
                 <prop key="hibernate.autoReconnect">true</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.manage.news.jpa.activiti.entity"/>
+        <property name="packagesToScan" value="com.manage.kernel.jpa.activiti.entity"/>
     </bean>
     <bean id="transactionManagerActiviti" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactoryActiviti"></property>
     </bean>
 
     <!--JPA reponsitories-->
-    <jpa:repositories base-package="com.manage.news.jpa.kernel.repository"
+    <jpa:repositories base-package="com.manage.kernel.jpa.news.repository"
                       entity-manager-factory-ref="entityManagerFactoryKernel"
                       transaction-manager-ref="transactionManagerKernel"></jpa:repositories>
-    <jpa:repositories base-package="com.manage.news.jpa.activiti.repository"
+    <jpa:repositories base-package="com.manage.kernel.jpa.activiti.repository"
                       entity-manager-factory-ref="entityManagerFactoryActiviti"
                       transaction-manager-ref="transactionManagerActiviti"></jpa:repositories>
 
