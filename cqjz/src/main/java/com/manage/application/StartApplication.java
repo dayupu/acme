@@ -1,6 +1,5 @@
 package com.manage.application;
 
-import static com.manage.kernel.spring.comm.SpringUtils.getBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

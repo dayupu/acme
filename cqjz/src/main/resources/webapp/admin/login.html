@@ -59,9 +59,9 @@
             if (!valid) {
                 return;
             }
-            $http.get("/admin/ajax/login", {params: $scope.user}).then(function successCallback(response) {
+            $http.get("admin/ajax/login", {params: $scope.user}).then(function successCallback(response) {
                 if (response.data.status == "1000") {
-                    location.href = "/admin/index";
+                    location.href = "admin/index";
                 } else {
                     $scope.message = response.data.message;
                 }
