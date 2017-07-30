@@ -1,9 +1,8 @@
-var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate","ngStorage"]);
 var basePath = "/sp/"
+var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate","ngStorage", 'ui.grid']);
 mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
-
 mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe, $sessionStorage) {
     $scope.loadMenu = function () {
         $http.get(fullPath("admin/index/menuList")).then(function successCallback(response) {
@@ -49,9 +48,9 @@ function requestSuccess(status) {
 // route config
 function routeConfig($routeProvider) {
     $routeProvider.when("/", {template: '这是首页页面'})
-        .when("/menuList", {templateUrl: '/admin/system/menuList.htm'})
-        .when("/roleList", {templateUrl: '/admin/system/roleList.htm'})
-        .when("/userList", {templateUrl: '/admin/system/userList.htm'})
+        .when("/menuList", {templateUrl: 'system/menuList.htm',controller:"systemMenuCtl"})
+        .when("/roleList", {templateUrl: 'system/roleList.htm'})
+        .when("/userList", {templateUrl: 'system/userList.htm'})
         .otherwise({redirectTo: '/'});
 }
 
@@ -64,19 +63,6 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
         subscribe: function (name, listener) {
             $rootScope.$on(name, listener);
         }
-    };
-});
-
-// directives
-mainApp.directive('menuNav', function () {
-    return {
-        restrict: 'E',
-        scope: {
-            values:"="
-        },
-        template: "<div><ul class='breadcrumb' ng-if='values != null'><li>当前位置：</li>"
-                  +"<li ng-repeat='value in values'><span class='divider' ng-if='$index != 0'>/</span>{{value.name}}</li></ul></div>",
-        replace: true
     };
 });
 
