@@ -1,11 +1,13 @@
-mainApp.controller("systemMenuCtl", function ($scope) {
-    $scope.myData = [{name: "Moroni", age: 50},
-        {name: "Tiancum", age: 43},
-        {name: "Jacob", age: 27},
-        {name: "Nephi", age: 29},
-        {name: "Enos", age: 34}];
+mainApp.controller("systemMenuCtl", function ($scope, $parse, smineGrid) {
+    $scope.myData = [{name: "Moroni", age: 50, button: "<button>test</button>"},
+        {name: "Tiancum", age: 43, button: "<button>test</button>"},
+        {name: "Jacob", age: 27, button: "<button>test</button>"},
+        {name: "Nephi", age: 29, button: "<button>test</button>"},
+        {name: "Enos", age: 34, button: "<button>test</button>"}];
 
-        alert($scope.myData);
-        alert($scope.$eval('myData'))
-    $scope.gridOptions = { data: 'myData' };
+    smineGrid.pageGrid("gridOptions", $scope, {data: 'myData'});
+    $scope.getPagedDataAsync = function (pageSize, page) {
+        alert(pageSize + "||" + page);
+    };
+
 });
