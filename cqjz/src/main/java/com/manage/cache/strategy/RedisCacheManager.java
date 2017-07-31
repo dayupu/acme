@@ -1,4 +1,4 @@
-package com.manage.cache.implement;
+package com.manage.cache.strategy;
 
 import com.manage.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;

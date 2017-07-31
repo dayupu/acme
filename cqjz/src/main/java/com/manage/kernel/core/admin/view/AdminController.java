@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import com.manage.base.atomic.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.base.exception.BusinessException;
-import com.manage.cache.TokenManager;
 import com.manage.kernel.spring.message.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,8 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
 
     private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
-    @Autowired
-    private TokenManager tokenManager;
 
     @Autowired
     private AuthenticationManager authenticationManager;

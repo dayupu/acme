@@ -1,5 +1,5 @@
-var basePath = "/sp/"
-var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate","ngStorage", 'ui.grid']);
+var basePath = "/sp/";
+var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate","ngStorage","ngGrid"]);
 mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
@@ -27,12 +27,9 @@ mainApp.controller("asideController", function ($http, $scope, $location, messag
 });
 
 mainApp.controller("contentController", function ($scope, messageSubscribe, $sessionStorage, $location) {
-
-
     messageSubscribe.subscribe("menuLocation", function (event, menu) {
         $scope.navLocations=menu.locations;
     });
-
     if($sessionStorage.menuLocation != null && $location.path() != "/" && $location.path() != ""){
        messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
     }
