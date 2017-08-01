@@ -1,4 +1,4 @@
-package com.manage.kernel.spring.comm;
+package com.manage.kernel.spring;
 
 public class PropertySupplier {
 

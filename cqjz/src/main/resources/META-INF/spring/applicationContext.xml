@@ -29,8 +29,7 @@
         <property name="defaultLocale" value="zh_CN"/>
         <property name="cookieName" value="language"></property>
     </bean>
-    <!--数据绑定支持， 如@Valid支持 -->
-    <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
+
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
         <property name="validationMessageSource" ref="messageSource"/>
@@ -48,6 +47,14 @@
             <bean class="com.manage.kernel.spring.config.interceptor.InboundLogInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <!-- annotaion -->
+    <mvc:annotation-driven validator="validator">
+        <mvc:argument-resolvers>
+            <bean class="com.manage.kernel.spring.config.resolver.AuthUserHandlerMethodArgumentResolver"/>
+            <bean class="com.manage.kernel.spring.config.resolver.PageQueryHandlerMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
 
     <!--aspect-->
     <bean id="userPermissionAspect" class="com.manage.kernel.spring.config.aspect.UserPermitAspect">

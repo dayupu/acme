@@ -6,7 +6,7 @@ import com.manage.base.exception.BusinessException;
 import com.manage.base.utils.JsonUtils;
 import com.manage.base.exception.AuthorizedException;
 import com.manage.base.exception.ApiExeception;
-import com.manage.kernel.spring.message.Messages;
+import com.manage.kernel.spring.comm.Messages;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

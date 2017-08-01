@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
     <!--provide properties-->
-    <bean id="propertySupplier" class="com.manage.kernel.spring.comm.PropertySupplier">
+    <bean id="propertySupplier" class="com.manage.kernel.spring.PropertySupplier">
         <property name="tokenStrategy" value="${token.strategy}"></property>
         <property name="tokenValidMinutes" value="${token.valid.minutes}"></property>
     </bean>

@@ -4,14 +4,16 @@ import com.manage.base.utils.StringUtils;
 import com.manage.base.utils.WebUtils;
 import com.manage.kernel.jpa.news.entity.LoginLog;
 import com.manage.kernel.jpa.news.repository.LoginLogRepo;
+import com.manage.kernel.spring.annotation.AuthUserAon;
 import com.manage.kernel.spring.annotation.InboundLog;
+import com.manage.kernel.spring.config.security.AuthUser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.manage.base.atomic.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.base.exception.BusinessException;
-import com.manage.kernel.spring.message.Messages;
+import com.manage.kernel.spring.comm.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,7 @@ public class AdminController {
     }
 
     @RequestMapping("/index")
-    public ModelAndView index() {
+    public ModelAndView index(@AuthUserAon AuthUser user) {
         return new ModelAndView("admin/index");
     }
 }

@@ -7,7 +7,7 @@ import com.manage.kernel.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;
-import com.manage.kernel.spring.message.Messages;
+import com.manage.kernel.spring.comm.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
