@@ -1,4 +1,4 @@
-package com.manage.kernel.dto;
+package com.manage.kernel.core.admin.dto;
 
 public class UserDto {
 

@@ -1,23 +1,39 @@
 package com.manage.kernel.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
+import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
-import com.manage.kernel.dto.MenuNav;
 import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.repository.MenuRepo;
+
 import java.util.ArrayList;
+import com.manage.kernel.spring.entry.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+
 @Service
 public class MenuService implements IMenuService {
 
     @Autowired
     private MenuRepo menuRepo;
+
+    @Override
+    public Page<Menu> menuList(PageQuery pageQuery) {
+
+        Page<Menu> menuPage = menuRepo.findAll((Specification<Menu>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> list = new ArrayList<>();
+            return criteriaBuilder.and(list.toArray(new Predicate[0]));
+        }, pageQuery.buildPageRequest(false));
+        return menuPage;
+    }
 
     @Override
     @Transactional

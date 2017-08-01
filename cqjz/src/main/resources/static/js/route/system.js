@@ -1,18 +1,18 @@
-mainApp.controller("systemMenuCtl", function ($scope, $parse, smineGrid,$rootScope) {
+mainApp.controller("systemMenuCtl", function ($scope, $http, smineGrid, $rootScope) {
 
 
-    $scope.myData = [{name: "Moroni", age: 50},
-        {name: "Tiancum", age: 43},
-        {name: "Jacob", age: 27},
-        {name: "Nephi", age: 29},
-        {name: "Enos", age: 34}];
-
-    smineGrid.pageGrid("gridOptions", $scope, {data: 'myData', columnDefs: [{field: 'name', displayName: 'Name'}, {field:'age', displayName:'Age'}]});
-    $scope.getPagedDataAsync = function (pageSize, page) {
-        alert(pageSize + "||" + page);
+    $scope.myData = [];
+    $scope.getPagedDataCallback = function (data) {
+        return {data: data.content.rows, total: data.content.total};
     };
-    $scope.test = function(){
-       alert($scope.gridOptions.sortInfo);
-    }
+    $scope.test = function () {
+        alert($scope.gridOptions.sortInfo);
+    };
+    smineGrid.pageGrid("gridOptions", $scope, {
+        data: 'myData',
+        requestUrl: fullPath("admin/system/menuList"),
+        columnDefs: [{field: 'name', displayName: 'Name'},
+            {field: 'level', displayName: 'level'}]
+    });
 
 });

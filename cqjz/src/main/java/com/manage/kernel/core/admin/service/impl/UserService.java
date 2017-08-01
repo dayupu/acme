@@ -2,8 +2,8 @@ package com.manage.kernel.core.admin.service.impl;
 
 import com.manage.base.atomic.Pair;
 import com.manage.base.exception.BusinessException;
+import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.service.IUserService;
-import com.manage.kernel.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;

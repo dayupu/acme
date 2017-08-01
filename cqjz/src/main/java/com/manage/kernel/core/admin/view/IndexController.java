@@ -3,8 +3,8 @@ package com.manage.kernel.core.admin.view;
 
 import com.manage.base.atomic.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
+import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
-import com.manage.kernel.dto.MenuNav;
 import com.manage.kernel.spring.config.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

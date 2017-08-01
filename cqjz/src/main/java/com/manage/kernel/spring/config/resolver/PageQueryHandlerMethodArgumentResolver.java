@@ -15,6 +15,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class PageQueryHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private static final String HEADER_PAGE_SIZE = "page_size";
+    private static final String HEADER_PAGE_NUMBER = "page_number";
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         if (parameter.getParameterAnnotation(PageQueryAon.class) != null) {
@@ -25,8 +28,19 @@ public class PageQueryHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         PageQuery pageQuery = new PageQuery();
+        String pageSize = webRequest.getHeader(HEADER_PAGE_SIZE);
+        String pageNumber = webRequest.getHeader(HEADER_PAGE_NUMBER);
+        pageQuery.setPageNumber(strToInteger(pageNumber, 1));
+        pageQuery.setPageSize(strToInteger(pageSize, 10));
         return pageQuery;
+    }
+
+    private static Integer strToInteger(String value, Integer defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return Integer.parseInt(value);
     }
 }

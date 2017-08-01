@@ -1,7 +1,10 @@
 package com.manage.kernel.spring.entry;
 
-public class PageQuery {
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 
+public class PageQuery {
     private Integer pageSize;
     private Integer pageNumber;
     private String sortName;
@@ -37,5 +40,30 @@ public class PageQuery {
 
     public void setSortOrder(String sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+
+    public PageRequest buildPageRequest(boolean sortable) {
+        if (sortable) {
+            return buildPageRequest(sortName);
+        } else {
+            return new PageRequest(this.pageNumber - 1, this.pageSize);
+        }
+    }
+
+    public PageRequest buildPageRequest(Sort sort) {
+        return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
+    }
+
+    public PageRequest buildPageRequest(String sortName) {
+        Sort sort = null;
+        if (!StringUtils.isEmpty(sortName)) {
+            if ("asc".equalsIgnoreCase(this.sortOrder)) {
+                sort = new Sort(Sort.Direction.ASC, sortName);
+            } else if ("desc".equalsIgnoreCase(this.sortOrder)) {
+                sort = new Sort(Sort.Direction.DESC, sortName);
+            }
+        }
+        return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
     }
 }

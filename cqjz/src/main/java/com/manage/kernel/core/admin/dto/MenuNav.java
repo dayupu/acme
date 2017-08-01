@@ -1,4 +1,4 @@
-package com.manage.kernel.dto;
+package com.manage.kernel.core.admin.dto;
 
 import com.manage.kernel.jpa.news.entity.Menu;
 import java.util.ArrayList;

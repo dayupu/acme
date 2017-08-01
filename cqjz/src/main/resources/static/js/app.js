@@ -45,9 +45,9 @@ function requestSuccess(status) {
 // route config
 function routeConfig($routeProvider) {
     $routeProvider.when("/", {template: '这是首页页面'})
-        .when("/menuList", {templateUrl: 'system/menuList.htm',controller:"systemMenuCtl"})
-        .when("/roleList", {templateUrl: 'system/roleList.htm'})
-        .when("/userList", {templateUrl: 'system/userList.htm'})
+        .when("/menuList", {templateUrl: '_system/menuList.htm',controller:"systemMenuCtl"})
+        .when("/roleList", {templateUrl: '_system/roleList.htm'})
+        .when("/userList", {templateUrl: '_system/userList.htm'})
         .otherwise({redirectTo: '/'});
 }
 
@@ -66,3 +66,4 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
 function fullPath(path){
     return basePath + path;
 }
+
