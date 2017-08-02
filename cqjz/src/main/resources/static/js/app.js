@@ -3,6 +3,7 @@ var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAni
 mainApp.config(function ($routeProvider) {
     routeConfig($routeProvider);
 });
+
 mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe, $sessionStorage) {
     $scope.loadMenu = function () {
         $http.get(fullPath("admin/index/menuList")).then(function successCallback(response) {
@@ -33,6 +34,7 @@ mainApp.controller("contentController", function ($scope, messageSubscribe, $ses
     if($sessionStorage.menuLocation != null && $location.path() != "/" && $location.path() != ""){
        messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
     }
+    alert(angular.toJson($sessionStorage.menuLocation));
 });
 
 function requestSuccess(status) {
