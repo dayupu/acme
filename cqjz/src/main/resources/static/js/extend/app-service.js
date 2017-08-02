@@ -21,6 +21,8 @@ mainApp.service("smineTree", function ($http) {
 // my grid base on ng-grid
 mainApp.service("smineGrid", function ($http, $parse) {
     var defaultSetting = {
+        requestUrl: undefined,
+        requestMethod: "GET",
         multiSelect: false,
         enablePaging: true,
         enableSorting: true,
@@ -28,8 +30,7 @@ mainApp.service("smineGrid", function ($http, $parse) {
         showFooter: true,
         i18n: 'zh-cn',
         initSearch: true,
-        requestUrl: undefined,
-        requestMethod: "GET"
+        sortInfo: { fields: [], columns: [], directions: [] }
     };
     var defaultPagingOptions = {
         pageSizes: [10, 20, 50],
@@ -47,12 +48,12 @@ mainApp.service("smineGrid", function ($http, $parse) {
             return;
         }
 
-        scope.selectedNodes = [];
+        scope.selectedItems = [];
         scope.totalServerItems = 0;
         scope.pagingOptions = defaultPagingOptions;
         var scopeSetting = {
             pagingOptions: scope.pagingOptions,
-            selectedItems: scope.selectedNodes,
+            selectedItems: scope.selectedItems,
             totalServerItems: 'totalServerItems'
         };
         // init angular grid
@@ -62,27 +63,42 @@ mainApp.service("smineGrid", function ($http, $parse) {
 
         if (setting.initSearch) {
             setTimeout(function () {
-                scope.getPagedDataAsync(scope.pagingOptions.pageSize, scope.pagingOptions.currentPage);
+                scope.getPagedDataAsync(scope.pagingOptions);
             }, 100);
         }
 
-        scope.getPagedDataAsync = function (pageSize, pageNumber) {
+        scope.pageQuery = function(params){
+             scope.getPagedDataAsync(scope.pagingOptions, scope.sortInfo, params);
+        }
+
+        scope.getPagedDataAsync = function (pageInfo, sortInfo, customParams) {
+
+            var headers = {
+                page_size: pageInfo.pageSize,
+                page_number: pageInfo.currentPage
+            };
+
+            var params = {}
+            if(angular.isObject(customParams)){
+               $.extend(params, customParams)
+            }
+            if(angular.isObject(sortInfo)){
+               $.extend(headers, {sort_field: sortInfo.field, sort_direction: sortInfo.direction});
+            }
             $http({
                 method: setting.requestMethod,
                 url: setting.requestUrl,
-                headers: {
-                    page_size: pageSize,
-                    page_number: pageNumber
-                }
+                headers: headers,
+                params: params
             }).then(function successCallback(response) {
                 var result = {data: [], total: 0};
-                if (angular.isFunction(scope.getPagedDataCallback)) {
-                    var callBackResult = scope.getPagedDataCallback(response.data);
+                if (angular.isFunction(scope.pageQueryCallback)) {
+                    var callBackResult = scope.pageQueryCallback(response.data);
                     if (angular.isObject(callBackResult)) {
                         $.extend(result, callBackResult);
                     }
                 }
-                scope.myData = result.data;
+                $parse(setting.data).assign(scope, result.data);
                 scope.totalServerItems = result.total;
             }, function errorCallback(response) {
                 console.error("Request failed");
@@ -91,9 +107,26 @@ mainApp.service("smineGrid", function ($http, $parse) {
 
         // binding event when page changed
         scope.$watch('pagingOptions', function (newVal, oldVal) {
-            if (newVal !== oldVal || newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize) {
-                scope.getPagedDataAsync(scope.pagingOptions.pageSize, scope.pagingOptions.currentPage);
+            if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
+                scope.getPagedDataAsync(scope.pagingOptions, scope.sortInfo);
             }
         }, true);
+
+        scope.$watch("selectedItems",function(newValue, oldValue ){
+            if(newValue != oldValue &&  angular.isFunction(scope.pageSelectedItems)){
+                   scope.pageSelectedItems(newValue, oldValue);
+            }
+        },true);
+
+        scope.$on('ngGridEventSorted', function (event, sortInfo) {
+                if(sortInfo.fields[0] && sortInfo.directions[0]){
+                     var sortInfoTemp={field:sortInfo.fields[0],direction:sortInfo.directions[0]};
+                     if(scope.sortInfo && scope.sortInfo.field == sortInfoTemp.field && scope.sortInfo.direction == sortInfoTemp.direction){
+                         return;
+                     }
+                     scope.sortInfo = sortInfoTemp;
+                     scope.getPagedDataAsync(scope.pagingOptions, sortInfoTemp);
+                }
+         });
     };
 });

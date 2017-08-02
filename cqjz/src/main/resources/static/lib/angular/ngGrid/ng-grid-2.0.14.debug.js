@@ -346,7 +346,7 @@ angular.module('ngGrid.services').factory('$domUtilityService',['$utilityService
             var col = cols[i];
             if (col.visible !== false) {
                 var rightPad = 0;
-   /*             if ((i === cols.length - 1) && (sumWidth + col.width < grid.elementDims.rootMaxW)) {
+/*               if ((i === cols.length - 1) && (sumWidth + col.width < grid.elementDims.rootMaxW)) {
                    rightPad = grid.elementDims.rootMaxW - sumWidth - col.width;
                 }*/
                 css += "." + gridId + " .col" + i + " { width: " + (col.width + rightPad) + "px; left: " + sumWidth + "px; height: " + rowHeight + "px }" +

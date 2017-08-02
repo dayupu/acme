@@ -31,7 +31,7 @@ public class MenuService implements IMenuService {
         Page<Menu> menuPage = menuRepo.findAll((Specification<Menu>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
             return criteriaBuilder.and(list.toArray(new Predicate[0]));
-        }, pageQuery.buildPageRequest(false));
+        }, pageQuery.buildPageRequest(true));
         return menuPage;
     }
 

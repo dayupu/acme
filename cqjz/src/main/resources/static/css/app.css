@@ -73,6 +73,8 @@ div {
 
 .app-content {
     padding-top: 50px;
+    padding-left:20px;
+    padding-right:20px;
     height: 100%;
 }
 
@@ -164,9 +166,9 @@ div {
 
 .gridStyle {
     height: 400px;
-    margin: 5px 10px;
     display: block;
     position: relative;
+    margin:10px 0px;
     border: 1px solid #d4d4d4;
 }
 

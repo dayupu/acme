@@ -17,6 +17,8 @@ public class PageQueryHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     private static final String HEADER_PAGE_SIZE = "page_size";
     private static final String HEADER_PAGE_NUMBER = "page_number";
+    private static final String HEADER_SORT_FIELD = "sort_field";
+    private static final String HEADER_SORT_DIRECTION = "sort_direction";
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -28,12 +30,12 @@ public class PageQueryHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         PageQuery pageQuery = new PageQuery();
-        String pageSize = webRequest.getHeader(HEADER_PAGE_SIZE);
-        String pageNumber = webRequest.getHeader(HEADER_PAGE_NUMBER);
-        pageQuery.setPageNumber(strToInteger(pageNumber, 1));
-        pageQuery.setPageSize(strToInteger(pageSize, 10));
+        pageQuery.setPageNumber(strToInteger(webRequest.getHeader(HEADER_PAGE_NUMBER), 1));
+        pageQuery.setPageSize(strToInteger(webRequest.getHeader(HEADER_PAGE_SIZE), 10));
+        pageQuery.setSortField(webRequest.getHeader(HEADER_SORT_FIELD));
+        pageQuery.setSortDirection(webRequest.getHeader(HEADER_SORT_DIRECTION));
         return pageQuery;
     }
 

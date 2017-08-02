@@ -7,8 +7,8 @@ import org.springframework.util.StringUtils;
 public class PageQuery {
     private Integer pageSize;
     private Integer pageNumber;
-    private String sortName;
-    private String sortOrder;
+    private String sortField;
+    private String sortDirection;
 
     public Integer getPageSize() {
         return pageSize;
@@ -26,26 +26,25 @@ public class PageQuery {
         this.pageNumber = pageNumber;
     }
 
-    public String getSortName() {
-        return sortName;
+    public String getSortField() {
+        return sortField;
     }
 
-    public void setSortName(String sortName) {
-        this.sortName = sortName;
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
     }
 
-    public String getSortOrder() {
-        return sortOrder;
+    public String getSortDirection() {
+        return sortDirection;
     }
 
-    public void setSortOrder(String sortOrder) {
-        this.sortOrder = sortOrder;
+    public void setSortDirection(String sortDirection) {
+        this.sortDirection = sortDirection;
     }
-
 
     public PageRequest buildPageRequest(boolean sortable) {
-        if (sortable) {
-            return buildPageRequest(sortName);
+        if (sortable && sortField != null) {
+            return buildPageRequest(sortField);
         } else {
             return new PageRequest(this.pageNumber - 1, this.pageSize);
         }
@@ -55,13 +54,13 @@ public class PageQuery {
         return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
     }
 
-    public PageRequest buildPageRequest(String sortName) {
+    public PageRequest buildPageRequest(String sortField) {
         Sort sort = null;
-        if (!StringUtils.isEmpty(sortName)) {
-            if ("asc".equalsIgnoreCase(this.sortOrder)) {
-                sort = new Sort(Sort.Direction.ASC, sortName);
-            } else if ("desc".equalsIgnoreCase(this.sortOrder)) {
-                sort = new Sort(Sort.Direction.DESC, sortName);
+        if (!StringUtils.isEmpty(sortField)) {
+            if ("asc".equalsIgnoreCase(this.sortDirection)) {
+                sort = new Sort(Sort.Direction.ASC, sortField);
+            } else if ("desc".equalsIgnoreCase(this.sortDirection)) {
+                sort = new Sort(Sort.Direction.DESC, sortField);
             }
         }
         return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
