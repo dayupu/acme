@@ -182,3 +182,8 @@ div {
 .ngRow:hover{
     background-color: #FFFFF0;
 }
+
+.modal-backdrop, .modal-backdrop.fade.in{
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}

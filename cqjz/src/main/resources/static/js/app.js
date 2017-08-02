@@ -1,10 +1,10 @@
 var basePath = "/sp/";
-var mainApp = angular.module("mainApp", ["angular-loading-bar","ngRoute", "ngAnimate","ngStorage","ngGrid"]);
-mainApp.config(function ($routeProvider) {
-    routeConfig($routeProvider);
+var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid","ui.bootstrap"]);
+mainApp.config(function ($stateProvider, $urlRouterProvider) {
+    routeConfig($stateProvider, $urlRouterProvider);
 });
 
-mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe, $sessionStorage) {
+mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe, $sessionStorage, $state) {
     $scope.loadMenu = function () {
         $http.get(fullPath("admin/index/menuList")).then(function successCallback(response) {
             if (requestSuccess(response.data.status)) {
@@ -21,20 +21,20 @@ mainApp.controller("asideController", function ($http, $scope, $location, messag
             $(secondMenu).slideToggle("fast");
         } else {
             messageSubscribe.publish("menuLocation", menu);
-            $location.path(menu.url);
-            $sessionStorage.menuLocation=menu;
+            //$location.path(menu.url);
+            $state.go(menu.url);
+            $sessionStorage.menuLocation = menu;
         }
     }
 });
 
 mainApp.controller("contentController", function ($scope, messageSubscribe, $sessionStorage, $location) {
     messageSubscribe.subscribe("menuLocation", function (event, menu) {
-        $scope.navLocations=menu.locations;
+        $scope.navLocations = menu.locations;
     });
-    if($sessionStorage.menuLocation != null && $location.path() != "/" && $location.path() != ""){
-       messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
+    if ($sessionStorage.menuLocation != null && $location.path() != "/" && $location.path() != "") {
+        messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
     }
-    alert(angular.toJson($sessionStorage.menuLocation));
 });
 
 function requestSuccess(status) {
@@ -45,12 +45,15 @@ function requestSuccess(status) {
 }
 
 // route config
-function routeConfig($routeProvider) {
-    $routeProvider.when("/", {template: '这是首页页面'})
-        .when("/menuList", {templateUrl: '_system/menuList.htm',controller:"systemMenuCtl"})
-        .when("/roleList", {templateUrl: '_system/roleList.htm'})
-        .when("/userList", {templateUrl: '_system/userList.htm'})
-        .otherwise({redirectTo: '/'});
+function routeConfig($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise("/");
+    $stateProvider.state("main", {url: "/", template: '这是首页页面'})
+        .state("menu", {url: "/menu", templateUrl: './_system/menu.htm', controller: "systemMenuCtl"})
+        .state("menu.list", {url: "/list", templateUrl: './_system/menuList.htm', controller: "systemMenuCtl"})
+        .state("menu.add",{url: "/add", templateUrl: './_system/menuAdd.htm'})
+        .state("menu.addSub",{url: "/addSub", templateUrl: './_system/menuAddSub.htm'})
+        .state("role", {url: "/roleList", templateUrl: './_system/roleList.htm'})
+        .state("user", {url: "/userList", templateUrl: './_system/userList.htm'});
 }
 
 // factorys
@@ -65,7 +68,7 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
     };
 });
 
-function fullPath(path){
+function fullPath(path) {
     return basePath + path;
 }
 

@@ -1,10 +1,9 @@
 <div>
     <div>
-        <button class="btn btn-small btn-primary" type="button">新建</button>
+        <button class="btn btn-small btn-primary" type="button" ng-click="open()">新建</button>
         <button class="btn btn-small" ng-class="{'btn-primary':permitModify}" ng-disabled="!permitModify" type="button">修改</button>
         <button class="btn btn-small" ng-class="{'btn-primary':permitDelete}" ng-disabled="!permitDelete" type="button">删除</button>
-        <button class="btn btn-small" ng-class="{'btn-primary':permitAdd}" ng-disabled="!permitAdd" type="button">添加子菜单</button>
+        <button class="btn btn-small" ng-class="{'btn-primary':permitAdd}" ng-disabled="!permitAdd" ui-sref="menu.add" type="button">添加子菜单</button>
     </div>
     <div class="gridStyle" ng-grid="gridOptions"></div>
-    <button ng-click="test();">选中</button>
 </div>
