@@ -30,16 +30,29 @@ mainApp.controller("systemMenuCtl", function ($scope, $http, smineGrid, $uibModa
     };
 
     $scope.open = function () {
-        $uibModal.open({
+        var modalInstance =  $uibModal.open({
             animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: '_system/menuAdd.htm',
             size: 'sm',
-            controller: function ($scope) {
-                $scope.name = 'top';
-            }
+            controller: 'testController'
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            alert(2);
+        }, function () {
+            alert(1);
         });
     };
+
+
+});
+
+mainApp.controller("testController",function($scope, $uibModalInstance){
+
+    $scope.ok = function(){
+        $uibModalInstance.close();
+    }
 
 });
