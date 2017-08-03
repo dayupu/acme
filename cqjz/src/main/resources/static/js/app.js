@@ -71,4 +71,3 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
 function fullPath(path) {
     return basePath + path;
 }
-

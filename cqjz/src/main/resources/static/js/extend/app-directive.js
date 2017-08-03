@@ -1,5 +1,5 @@
 // 导航菜单
-mainApp.directive('mineMenu', function () {
+mainApp.directive('mineBreadcrumb', function () {
     return {
         restrict: 'E',
         scope: {

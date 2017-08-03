@@ -73,8 +73,8 @@ div {
 
 .app-content {
     padding-top: 50px;
-    padding-left:20px;
-    padding-right:20px;
+    padding-left: 20px;
+    padding-right: 20px;
     height: 100%;
 }
 
@@ -168,26 +168,48 @@ div {
     height: 400px;
     display: block;
     position: relative;
-    margin:10px 0px;
+    margin: 10px 0px;
     border: 1px solid #d4d4d4;
 }
 
 /* overwrite ng-grid style*/
-.ngTopPanel, .ngFooterPanel{
+.ngTopPanel, .ngFooterPanel {
     background-color: #f6f8fa;
 }
-.ngRow.selected{
+
+.ngRow.selected {
     background-color: #EAF3FD;
 }
-.ngRow:hover{
+
+.ngRow:hover {
     background-color: #FFFFF0;
 }
 
-.modal-backdrop, .modal-backdrop.fade.in{
+/* overwrite bootstrap modal style*/
+.modal-backdrop,
+.modal-backdrop.fade.in {
     opacity: 0.5;
     filter: alpha(opacity=50);
 }
 
-.modal{
-    top:30%;
+.modal {
+    left: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.modal-header {
+    background-color: #2d6987;
+}
+
+.modal-title {
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.modal-body {
+    min-height: 100px;
+    max-height: 400px;
+    overflow-y: auto;
 }

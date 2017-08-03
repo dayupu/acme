@@ -30,7 +30,7 @@ mainApp.controller("systemMenuCtl", function ($scope, $http, smineGrid, $uibModa
     };
 
     $scope.open = function () {
-        var modalInstance =  $uibModal.open({
+        var modalInstance = $uibModal.open({
             animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
@@ -40,19 +40,18 @@ mainApp.controller("systemMenuCtl", function ($scope, $http, smineGrid, $uibModa
         });
 
         modalInstance.result.then(function (selectedItem) {
-            alert(2);
         }, function () {
-            alert(1);
         });
     };
 
 
 });
 
-mainApp.controller("testController",function($scope, $uibModalInstance){
-
-    $scope.ok = function(){
+mainApp.controller("testController", function ($scope, $uibModalInstance) {
+    $scope.ok = function () {
         $uibModalInstance.close();
-    }
-
+    };
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
