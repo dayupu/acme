@@ -1,12 +1,15 @@
 package com.manage.kernel.core.admin.dto;
 
 
-public class MenuDto {
+import java.io.Serializable;
 
+public class MenuDto implements Serializable {
+    private static final long serialVersionUID = 1696329371362387647L;
     private Long id;
-    private Long parentId;
-    private int sequence;
     private String name;
+    private int sequence;
+    private Long parentId;
+    private String parentName;
     private String image;
     private String url;
     private int level;
@@ -65,5 +68,13 @@ public class MenuDto {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }

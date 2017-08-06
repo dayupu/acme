@@ -1,25 +1,51 @@
+mainApp.service("mineHttp", function ($http) {
+
+    this.send = function (method, url, params, callback) {
+        var setting = {
+            method: method,
+            url: fullPath(url),
+        };
+        $.extend(setting, params);
+        $http(setting).then(function successCallback(response) {
+            callback(response.data);
+        }, function errorCallback(response) {
+            alert("request error")
+        });
+    };
+
+    this.menuLocation = function (menuUrl, callback) {
+        this.send("GET", "admin/menu/location", {params: {url: menuUrl}}, function (data) {
+            callback(data.content);
+        });
+    };
+
+});
+
 // my tree base on zTree
-mainApp.service("smineTree", function ($http) {
-    var setting = {
+mainApp.service("mineTree", function () {
+    var defaultSetting = {
         checkbox: false,
         data: {
             simpleData: {
                 enable: true,
                 idKey: "id",
                 pIdKey: "pid",
-                rootPId: 0
+                rootPId: null
             }
         }
     };
-    this.init = function (id, nodes, options) {
+    this.build = function (obj, nodes, options) {
+        var setting = {};
+        $.extend(setting, defaultSetting);
         if (typeof options != "undefined") {
             $.extend(setting, options);
         }
-        return $.fn.zTree.init($("#" + id), setting, nodes);
+        return $.fn.zTree.init(obj, setting, nodes);
     }
 });
+
 // my grid base on ng-grid
-mainApp.service("smineGrid", function ($http, $parse) {
+mainApp.service("mineGrid", function ($http, $parse) {
     var defaultSetting = {
         requestUrl: undefined,
         requestMethod: "GET",
@@ -29,14 +55,50 @@ mainApp.service("smineGrid", function ($http, $parse) {
         useExternalSorting: true,
         showFooter: true,
         i18n: 'zh-cn',
-        sortInfo: { fields: [], columns: [], directions: [] }
+        sortInfo: {fields: [], columns: [], directions: []}
     };
-    var defaultPagingOptions = {
-        pageSizes: [10, 20, 50],
-        pageSize: "10",
-        currentPage: 1,
-        totalServerItems: 0
+
+    this.gridInit = function (target, scope, options) {
+        if (!angular.isString(target)) {
+            console.error("[target] is not string object");
+            return;
+        }
+        if (!angular.isString(options.requestUrl)) {
+            console.error("[options.url] require is string");
+            return;
+        }
+        scope.gridSelectedItems = [];
+        var scopeSetting = {
+            enablePaging: false,
+            enableSorting: false,
+            useExternalSorting: false,
+            showFooter: false,
+            selectedItems: scope.gridSelectedItems
+        };
+        // init angular grid
+        var setting = {};
+        $.extend(setting, defaultSetting, scopeSetting, options);
+        $parse(target).assign(scope, setting);
+        scope.gridQuery = function (params) {
+            $http({
+                method: setting.requestMethod,
+                url: setting.requestUrl,
+                params: params
+            }).then(function successCallback(response) {
+                var result = {data: []};
+                if (angular.isFunction(scope.gridQueryCallback)) {
+                    var callBackResult = scope.gridQueryCallback(response.data);
+                    if (angular.isObject(callBackResult)) {
+                        $.extend(result, callBackResult);
+                    }
+                }
+                $parse(setting.data).assign(scope, result.data);
+            }, function errorCallback(response) {
+                console.error("Request failed");
+            });
+        };
     };
+
     this.gridPageInit = function (target, scope, options) {
         if (!angular.isString(target)) {
             console.error("[target] is not string object");
@@ -49,7 +111,12 @@ mainApp.service("smineGrid", function ($http, $parse) {
 
         scope.gridSelectedItems = [];
         scope.gridTotalServerItems = 0;
-        scope.gridPagingOptions = defaultPagingOptions;
+        scope.gridPagingOptions = {
+            pageSizes: [10, 20, 50],
+            pageSize: "10",
+            currentPage: 1,
+            totalServerItems: 0
+        };
         var scopeSetting = {
             pagingOptions: scope.gridPagingOptions,
             selectedItems: scope.gridSelectedItems,
@@ -60,9 +127,9 @@ mainApp.service("smineGrid", function ($http, $parse) {
         $.extend(setting, defaultSetting, scopeSetting, options);
         $parse(target).assign(scope, setting);
 
-        scope.gridPageQuery = function(params){
-             scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params);
-        }
+        scope.gridPageQuery = function (params) {
+            scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params);
+        };
 
         scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams) {
 
@@ -71,12 +138,12 @@ mainApp.service("smineGrid", function ($http, $parse) {
                 page_number: pageInfo.currentPage
             };
 
-            var params = {}
-            if(angular.isObject(customParams)){
-               $.extend(params, customParams)
+            var params = {};
+            if (angular.isObject(customParams)) {
+                $.extend(params, customParams)
             }
-            if(angular.isObject(sortInfo)){
-               $.extend(headers, {sort_field: sortInfo.field, sort_direction: sortInfo.direction});
+            if (angular.isObject(sortInfo)) {
+                $.extend(headers, {sort_field: sortInfo.field, sort_direction: sortInfo.direction});
             }
             $http({
                 method: setting.requestMethod,
@@ -105,21 +172,21 @@ mainApp.service("smineGrid", function ($http, $parse) {
             }
         }, true);
         // item select listener
-        scope.$watch("gridSelectedItems",function(newValue, oldValue ){
-            if(newValue != oldValue &&  angular.isFunction(scope.gridPageSelectedItems)){
-                   scope.gridPageSelectedItems(newValue, oldValue);
+        scope.$watch("gridSelectedItems", function (newValue, oldValue) {
+            if (newValue != oldValue && angular.isFunction(scope.gridPageSelectedItems)) {
+                scope.gridPageSelectedItems(newValue, oldValue);
             }
-        },true);
+        }, true);
 
         scope.$on('ngGridEventSorted', function (event, sortInfo) {
-                if(sortInfo.fields[0] && sortInfo.directions[0]){
-                     var sortInfoTemp={field:sortInfo.fields[0],direction:sortInfo.directions[0]};
-                     if(scope.gridSortInfo && scope.gridSortInfo.field == sortInfoTemp.field && scope.gridSortInfo.direction == sortInfoTemp.direction){
-                         return;
-                     }
-                     scope.gridSortInfo = sortInfoTemp;
-                     scope.gridPageLoadDataByAsync(scope.gridPagingOptions, sortInfoTemp);
+            if (sortInfo.fields[0] && sortInfo.directions[0]) {
+                var sortInfoTemp = {field: sortInfo.fields[0], direction: sortInfo.directions[0]};
+                if (scope.gridSortInfo && scope.gridSortInfo.field == sortInfoTemp.field && scope.gridSortInfo.direction == sortInfoTemp.direction) {
+                    return;
                 }
-         });
+                scope.gridSortInfo = sortInfoTemp;
+                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, sortInfoTemp);
+            }
+        });
     };
 });

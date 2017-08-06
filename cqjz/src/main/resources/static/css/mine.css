@@ -1,0 +1,54 @@
+.mine-action {
+    display: inline-table;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.mine-action > a {
+    color: #0e90d2;
+    text-decoration: none;
+}
+
+.mine-action > a:hover {
+    color: #316AC5;
+}
+
+.mine-border {
+    border: 1px solid #edeef2;
+}
+
+.mine-success {
+
+}
+
+.mine-location {
+    margin: 10px 0px;
+    color: #2f332a;
+    height: 28px;
+    border-bottom: 1px solid #edeef2;
+}
+
+.mine-location ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: block;
+    height: 25px;
+    font-size: 12px;
+}
+
+.mine-location ul li {
+    padding: 0;
+    margin-right: 5px;
+    list-style: none;
+    float: left;
+}
+
+.mine-location ul li span {
+    margin-right: 5px;
+}
+
+.mine-required{
+    color: red;
+    margin-left: 5px;
+}

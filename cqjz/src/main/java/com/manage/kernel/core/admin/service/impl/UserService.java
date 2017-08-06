@@ -1,17 +1,24 @@
 package com.manage.kernel.core.admin.service.impl;
 
+import com.manage.base.atomic.PageResult;
 import com.manage.base.atomic.Pair;
 import com.manage.base.exception.BusinessException;
 import com.manage.kernel.core.admin.dto.UserDto;
+import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IUserService;
+import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;
 import com.manage.kernel.spring.comm.Messages;
+import com.manage.kernel.spring.entry.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +27,21 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Override
+    public PageResult<UserDto> getUserListByPage(PageQuery pageQuery) {
+
+        Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> list = new ArrayList<>();
+            return criteriaBuilder.and(list.toArray(new Predicate[0]));
+        }, pageQuery.buildPageRequest(true));
+
+
+        PageResult<UserDto> pageResult = new PageResult<UserDto>();
+        pageResult.setTotal(userPage.getTotalElements());
+        pageResult.setRows(UserParser.toUserDtoList(userPage.getContent()));
+        return pageResult;
+    }
 
     @Override
     public void add(UserDto userDto) {
@@ -51,7 +73,7 @@ public class UserService implements IUserService {
             roleIds.add(role.getId());
         }
 
-        return new Pair<User, List<Long>>(user,roleIds);
+        return new Pair<User, List<Long>>(user, roleIds);
     }
 
     private String msg(String code, Object... params) {

@@ -14,4 +14,13 @@ public interface MenuRepo extends CrudRepository<Menu, Serializable>, JpaSpecifi
     @Query("select distinct m from Role o inner join o.menus m where o.id in (:roleIds) order by m.level asc, m.sequence asc")
     List<Menu> queryMenuListByRoleIds(@Param("roleIds") List<Long> roleIds);
 
+
+    @Query("select m from Menu m order by m.level, m.sequence")
+    List<Menu> queryMenuAll();
+
+    @Query("select m from Menu m where m.parentId = :parentId")
+    List<Menu> queryMenuListByParentId(@Param("parentId") Long parentId);
+
+    @Query("select m from Menu m where m.url = :url")
+    List<Menu> queryMenuListByUrl(@Param("url") String url);
 }

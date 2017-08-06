@@ -36,7 +36,7 @@ div {
     z-index: -1;
     display: block;
     width: inherit;
-    background-color: #f0f3f4;
+    background-color: white;
     border: inherit;
     content: "";
 }
@@ -162,6 +162,39 @@ div {
 
 .navbar, .nav {
     margin-bottom: 0px;
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+    width: 100px;
+}
+
+.form-horizontal .controls {
+    margin-left: 100px;
+}
+
+.form-horizontal .control-title {
+    font-size: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #edeef2;
+    line-height: 30px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.form-horizontal .control-footer {
+    border-top: 1px solid #edeef2;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.help-inline .message {
+    font-size: 12px;
+    margin-left: 5px;
+}
+.help-inline i{
+    font-size: 16px;
 }
 
 .gridStyle {

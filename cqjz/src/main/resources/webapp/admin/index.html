@@ -8,15 +8,13 @@
     <link rel="stylesheet" th:href="@{/lib/zTree/css/zTreeStyle/zTreeStyle.css}"/>
     <link rel="stylesheet" th:href="@{/lib/angular/ngGrid/ng-grid.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mine.css}"/>
 </head>
 <body>
 <div class="app app-header-fixed" ng-app="mainApp">
     <div ng-include="'app/header.htm'" class="app-header"></div>
     <div ng-controller="asideController" ng-include="'app/aside.htm'" class="app-aside bg-dark"></div>
     <div ng-controller="contentController" class="app-content">
-        <div>
-            <mine-breadcrumb values="navLocations"></mine-breadcrumb>
-        </div>
         <div ui-view></div>
     </div>
     <div ng-include="'app/footer.htm'" class="app-footer"></div>
@@ -34,6 +32,7 @@
 <script th:src="@{/js/extend/app-directive.js}"></script>
 <script th:src="@{/js/extend/app-service.js}"></script>
 <script th:src="@{/js/route/system_menu.js}"></script>
+<script th:src="@{/js/route/system_user.js}"></script>
 
 </body>
 </html>

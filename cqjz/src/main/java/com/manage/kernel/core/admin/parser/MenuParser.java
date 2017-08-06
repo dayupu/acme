@@ -2,12 +2,13 @@ package com.manage.kernel.core.admin.parser;
 
 
 import com.manage.kernel.core.admin.dto.MenuDto;
+import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.jpa.news.entity.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuDtoParser {
+public class MenuParser {
 
     public static MenuDto toMenuDto(Menu menu) {
         return toMenuDto(menu, new MenuDto());
@@ -27,8 +28,8 @@ public class MenuDtoParser {
         menuDto.setLevel(menu.getLevel());
         menuDto.setName(menu.getName());
         menuDto.setParentId(menu.getParentId());
+        menuDto.setUrl(menu.getUrl());
         return menuDto;
     }
-
 
 }

@@ -1,53 +1,73 @@
-mainApp.controller("systemMenuCtl", function ($scope, $http, smineGrid, $uibModal) {
+mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, $uibModal) {
 
-    $scope.permitAdd = false;
-    $scope.permitModify = false;
-    $scope.permitDelete = false;
-
-    $scope.myData = [];
-    smineGrid.gridPageInit("gridOptions", $scope, {
-        data: 'myData',
-        requestUrl: fullPath("admin/system/menuList"),
-        columnDefs: [{field: 'name', displayName: 'Name'},
-            {field: 'level', displayName: 'level'}]
+    mineHttp.menuLocation("menu.list", function (data) {
+        $scope.menuLocation = data;
     });
-    // init load datas
-    $scope.gridPageQuery();
-    $scope.test = function () {
-        $scope.gridPageQuery({test: "test"});
+
+    // select menu
+    $scope.ztreeSelected = function (event, treeId, treeNode) {
+        var url = "admin/menu/list/" + treeNode.id;
+        mineHttp.send("GET", url, {}, function (data) {
+            $scope.menu = data.content;
+        });
     };
-    $scope.gridPageQueryCallback = function (data) {
-        return {data: data.content.rows, total: data.content.total};
+
+    // build menu tree
+    var menuTree;
+    $scope.buildTree = function (callback) {
+        mineHttp.send("GET", "admin/menu/treeList", {}, function (data) {
+            var options = {
+                callback: {
+                    onClick: $scope.ztreeSelected
+                }
+            };
+            menuTree = mineTree.build($("#menuTree"), data.content, options);
+
+            if (angular.isFunction(callback)) {
+                callback();
+            }
+        });
     };
-    $scope.gridPageSelectedItems = function (newValue, oldValue) {
-        if (newValue[0].level == "1") {
-            $scope.permitAdd = true;
-        } else {
-            $scope.permitAdd = false;
-        }
-        $scope.permitModify = true;
-        $scope.permitDelete = true;
+
+    $scope.update = function () {
+        var url = "admin/menu/list/" + $scope.menu.id;
+        mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
+            $scope.menu = data.content;
+            $scope.buildTree(function () {
+                if (data.content.parentId != null) {
+                    var node = menuTree.getNodeByParam("id", data.content.parentId);
+                    menuTree.expandNode(node);
+                }
+            });
+        });
     };
+
+    // page init
+    $scope.buildTree();
 
     $scope.open = function () {
         var modalInstance = $uibModal.open({
             animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '_system/menuAdd.htm',
+            templateUrl: '_system/menu/menuAdd.htm',
             size: 'sm',
-            controller: 'testController'
+            controller: 'testController',
+            resolve: {
+                data: function(){
+                    return $scope.menu;
+                }
+            }
         });
-
         modalInstance.result.then(function (selectedItem) {
-        }, function () {
+
         });
     };
 
-
 });
 
-mainApp.controller("testController", function ($scope, $uibModalInstance) {
+mainApp.controller("testController", function ($scope, data, $uibModalInstance) {
+    $scope.menu=data;
     $scope.ok = function () {
         $uibModalInstance.close();
     };

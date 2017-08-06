@@ -2,8 +2,9 @@ package com.manage.base.utils;
 
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public abstract class MessageLogging {
+public abstract class MessageLogging extends HandlerInterceptorAdapter {
 
     protected static final String line = System.getProperty("line.separator");
 

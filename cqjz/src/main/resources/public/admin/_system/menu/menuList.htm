@@ -1,0 +1,61 @@
+<div>
+    <div>
+        <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
+    </div>
+    <table>
+        <tr>
+            <td width="200">
+                <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
+                    <ul id="menuTree" class="ztree"></ul>
+                </div>
+            </td>
+            <td width="20"></td>
+            <td valign="top">
+                <form class="form-horizontal" name="menuForm">
+                    <input type="hidden" ng-model="menu.id">
+                    <div class="control-title">菜单编辑</div>
+                    <div class="control-group" ng-class="{false:'error'}[menuForm.name.$valid]">
+                        <label class="control-label">菜单名称<span class="mine-required">*</span></label>
+                        <div class="controls">
+                            <input type="text" name="name" ng-model="menu.name" required/>
+                            <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid"
+                                            error="不能为空"></mine-validator>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">上级菜单</label>
+                        <div class="controls">
+                            <input type="text" ng-model="menu.parentName" readonly>
+                        </div>
+                    </div>
+                    <div class="control-group" ng-class="{false:'error'}[menuForm.sequence.$valid]">
+                        <label class="control-label">排序<span class="mine-required">*</span></label>
+                        <div class="controls">
+                            <input type="text" name="sequence" ng-model="menu.sequence" required>
+                            <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid"
+                                            error="不能为空"></mine-validator>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">菜单地址</label>
+                        <div class="controls">
+                            <input type="text" name="url" ng-model="menu.url">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <button class="btn btn-primary" type="button" ng-click="update()"
+                                    ng-disabled="menuForm.$invalid">保存
+                            </button>
+                            <button class="btn btn-primary" type="button">删除</button>
+                            <button class="btn btn-primary" ng-disabled="menu.level != 1" type="button"
+                                    ng-click="open()">添加子菜单
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>

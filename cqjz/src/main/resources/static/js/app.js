@@ -1,19 +1,19 @@
 var basePath = "/sp/";
-var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid","ui.bootstrap"]);
+var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap"]);
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
 });
 
-mainApp.controller("asideController", function ($http, $scope, $location, messageSubscribe, $sessionStorage, $state) {
+mainApp.controller("asideController", function ($http, $scope, $location, $sessionStorage, $state, messageSubscribe, mineHttp) {
     $scope.loadMenu = function () {
-        $http.get(fullPath("admin/index/menuList")).then(function successCallback(response) {
-            if (requestSuccess(response.data.status)) {
-                $scope.menus = response.data.content;
+        mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
+            if (requestSuccess(data.status)) {
+                $scope.menus = data.content;
             } else {
-                $scope.message = response.data.message;
+                $scope.message = data.message;
             }
         });
-    }
+    };
     $scope.menuClick = function (event, menu) {
         var secondMenu = $(event.target).next("ul");
         if ($(secondMenu).length > 0) {
@@ -48,12 +48,20 @@ function requestSuccess(status) {
 function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider.state("main", {url: "/", template: '这是首页页面'})
-        .state("menu", {url: "/menu", templateUrl: './_system/menu.htm', controller: "systemMenuCtl"})
-        .state("menu.list", {url: "/list", templateUrl: './_system/menuList.htm', controller: "systemMenuCtl"})
-        .state("menu.add",{url: "/add", templateUrl: './_system/menuAdd.htm'})
-        .state("menu.addSub",{url: "/addSub", templateUrl: './_system/menuAddSub.htm'})
+    // menu
+        .state("menu", {url: "/menu", templateUrl: './_system/menu/menu.htm'})
+        .state("menu.list", {url: "/list", templateUrl: './_system/menu/menuList.htm', controller: "systemMenuListCtl"})
+        .state("menu.add", {url: "/add", templateUrl: './_system/menu/menuAdd.htm'})
+        .state("menu.addSub", {url: "/addSub", templateUrl: './_system/menu/menuAddSub.htm'})
+        // role
         .state("role", {url: "/roleList", templateUrl: './_system/roleList.htm'})
-        .state("user", {url: "/userList", templateUrl: './_system/userList.htm'});
+        // user
+        .state("user", {url: "/user", templateUrl: './_system/user/user.htm'})
+        .state("user.list", {
+            url: "/list",
+            templateUrl: './_system/user/userList.htm',
+            controller: "systemUserListCtl"
+        });
 }
 
 // factorys

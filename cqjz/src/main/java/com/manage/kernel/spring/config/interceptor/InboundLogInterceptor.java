@@ -2,9 +2,13 @@ package com.manage.kernel.spring.config.interceptor;
 
 import com.google.common.collect.Lists;
 import com.manage.base.utils.MessageLogging;
+import com.manage.base.wrapper.APIHttpServletRequestWrapper;
 import com.manage.kernel.spring.annotation.InboundLog;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.method.HandlerMethod;
@@ -17,7 +21,7 @@ import java.io.BufferedReader;
 import java.util.Enumeration;
 import java.util.Map;
 
-public class InboundLogInterceptor extends MessageLogging implements HandlerInterceptor {
+public class InboundLogInterceptor extends MessageLogging {
 
     private static final Logger LOGGER = LogManager.getLogger(InboundLogInterceptor.class);
 
@@ -56,19 +60,21 @@ public class InboundLogInterceptor extends MessageLogging implements HandlerInte
         appendLine(builder, "Payload", payload);
 
         LOGGER.info(builder.toString());
+
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            ModelAndView modelAndView) throws Exception {
+                           ModelAndView modelAndView) throws Exception {
 
     }
 
     private String getRequestPayload(HttpServletRequest request) {
+        BufferedReader reader = null;
         try {
             StringBuilder sb = new StringBuilder();
-            BufferedReader reader = request.getReader();
+            reader = request.getReader();
             char[] buff = new char[1024];
             int len;
             while ((len = reader.read(buff)) != -1) {
@@ -77,6 +83,14 @@ public class InboundLogInterceptor extends MessageLogging implements HandlerInte
             return sb.toString();
         } catch (Exception e) {
             LOGGER.error("Get request content error", e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }

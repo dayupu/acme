@@ -11,8 +11,7 @@ public class MenuNav {
     private String name;
     private String image;
     private String url;
-
-    private List<Location> locations;
+    private int level;
     private List<MenuNav> subMenus;
 
     public Long getId() {
@@ -58,64 +57,12 @@ public class MenuNav {
         this.subMenus = subMenus;
     }
 
-    public List<Location> getLocations() {
-        return locations;
+    public int getLevel() {
+        return level;
     }
 
-    public void setLocations(List<Location> locations) {
-        Location.sortByLevelAsc(locations);
-        this.locations = locations;
-    }
-
-    public static class Location {
-        private int level;
-        private String name;
-        private String url;
-
-        public int getLevel() {
-            return level;
-        }
-
-        public void setLevel(int level) {
-            this.level = level;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public static void sortByLevelAsc(List<Location> relation) {
-            Collections.sort(relation, (first, second) -> {
-                if (first.getLevel() < second.getLevel()) {
-                    return -1;
-                }
-                if (first.getLevel() > second.getLevel()) {
-                    return 1;
-                }
-                return 0;
-            });
-        }
-
-        public static Location forMenu(Menu menu){
-            Location location = new Location();
-            location.setName(menu.getName());
-            location.setUrl(menu.getUrl());
-            location.setLevel(menu.getLevel());
-            return location;
-        }
-
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public static MenuNav forMenu(Menu menu){
@@ -124,6 +71,7 @@ public class MenuNav {
         menuNav.setName(menu.getName());
         menuNav.setImage(menu.getImage());
         menuNav.setUrl(menu.getUrl());
+        menuNav.setLevel(menu.getLevel());
         return menuNav;
     }
 
