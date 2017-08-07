@@ -217,32 +217,3 @@ div {
 .ngRow:hover {
     background-color: #FFFFF0;
 }
-
-/* overwrite bootstrap modal style*/
-.modal-backdrop,
-.modal-backdrop.fade.in {
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-}
-
-.modal {
-    left: 50%;
-    top: 50%;
-    transform: translate(0%, -50%);
-}
-
-.modal-header {
-    background-color: #2d6987;
-}
-
-.modal-title {
-    color: white;
-    font-weight: bold;
-    margin-left: 5px;
-}
-
-.modal-body {
-    min-height: 100px;
-    max-height: 400px;
-    overflow-y: auto;
-}

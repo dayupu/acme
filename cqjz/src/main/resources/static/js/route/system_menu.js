@@ -1,4 +1,4 @@
-mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, $uibModal) {
+mainApp.controller("systemMenuListCtl", function ($scope, $http, $uibModal, mineTree, mineHttp, mineUtils) {
 
     mineHttp.menuLocation("menu.list", function (data) {
         $scope.menuLocation = data;
@@ -35,7 +35,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
             $scope.menu = data.content;
             $scope.messageStatus = verifyData(data);
-            $scope.message=data.message;
+            $scope.message = data.message;
             $scope.buildTree(function () {
                 if (data.content.parentId != null) {
                     var parentNode = menuTree.getNodeByParam("id", data.content.parentId);
@@ -45,18 +45,26 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         });
     };
 
+    // $scope.delete = function () {
+    //     var url = "admin/menu/list/" + $scope.menu.id;
+    //     var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
+    //     mineHttp.send("DELETE", url, {}, function (data) {
+    //         $scope.messageStatus = verifyData(data);
+    //         $scope.message=data.message;
+    //         if(!$scope.messageStatus){
+    //             return;
+    //         }
+    //
+    //         $scope.menu = null;
+    //         $scope.buildTree(function (){
+    //              var parentNode = menuTree.getNodeByParam("id", parentId);
+    //              menuTree.expandNode(parentNode);
+    //         });
+    //     });
+    // };
+
     $scope.delete = function () {
-        var url = "admin/menu/list/" + $scope.menu.id;
-        var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
-        mineHttp.send("DELETE", url, {}, function (data) {
-            $scope.messageStatus = verifyData(data);
-            $scope.menu = null;
-            $scope.message=data.message;
-            $scope.buildTree(function (){
-                 var parentNode = menuTree.getNodeByParam("id", parentId);
-                 menuTree.expandNode(parentNode);
-            });
-        });
+         mineUtils.confirm("test");
     };
 
     // page init
@@ -68,10 +76,9 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: '_system/menu/menuAdd.htm',
-            size: 'sm',
             controller: 'testController',
             resolve: {
-                data: function(){
+                data: function () {
                     return $scope.menu;
                 }
             }
@@ -84,7 +91,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
 });
 
 mainApp.controller("testController", function ($scope, data, $uibModalInstance) {
-    $scope.menu=data;
+    $scope.menu = data;
     $scope.ok = function () {
         $uibModalInstance.close();
     };

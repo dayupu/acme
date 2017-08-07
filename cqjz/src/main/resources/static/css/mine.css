@@ -48,10 +48,32 @@
     margin-right: 5px;
 }
 
-.mine-required{
+.mine-required {
     color: red;
     margin-left: 5px;
 }
+.mine-inline{
+    display: inline-block;
+}
 
-.mine-message{
+/* overwrite bootstrap modal style*/
+.modal-header {
+    background-color: #2d6987;
+    padding: 8px;
+}
+
+.modal-footer {
+    padding: 10px;
+}
+
+.modal-title {
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.modal-body {
+    min-height: 50px;
+    max-height: 400px;
+    overflow-y: auto;
 }

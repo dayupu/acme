@@ -183,13 +183,14 @@ public class MenuService implements IMenuService {
 
         int seqStart = sequence;
         for (Menu subMenu : pMenu.getChildrens()) {
-            if (subMenu.getSequence() < sequence) {
+            if (subMenu.getSequence() < sequence || id.equals(subMenu.getId())) {
                 continue;
             }
 
             subMenu.setSequence(seqStart++);
             menuRepo.save(subMenu);
         }
+
 
     }
 }

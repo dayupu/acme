@@ -21,6 +21,42 @@ mainApp.service("mineHttp", function ($http) {
 
 });
 
+mainApp.service("mineUtils", function ($uibModal) {
+
+    this.confirm = function (message, callback) {
+        var confirmModal = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: fullPath('comm/confirm.htm'),
+            size: 'sm',
+            controller: 'confirmController',
+            resolve: {
+                data: function () {
+                    return message;
+                }
+            }
+        });
+        confirmModal.result.then(function () {
+            callback();
+        }, function(){
+            alert(2);
+        });
+    }
+
+});
+
+mainApp.controller("confirmController", function ($scope, $uibModalInstance, data) {
+    $scope.message = data;
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    }
+});
+
 // my tree base on zTree
 mainApp.service("mineTree", function () {
     var defaultSetting = {
