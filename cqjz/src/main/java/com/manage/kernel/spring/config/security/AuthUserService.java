@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.config.security;
 
-import com.manage.base.atomic.Pair;
+import com.manage.base.supplier.Pair;
 import com.manage.base.extend.enums.Status;
 import com.manage.kernel.core.admin.service.IUserService;
 import com.manage.kernel.jpa.news.entity.User;

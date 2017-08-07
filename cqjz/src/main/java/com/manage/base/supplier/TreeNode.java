@@ -1,4 +1,4 @@
-package com.manage.base.atomic;
+package com.manage.base.supplier;
 
 /**
  * Created by bert on 2017/8/5.

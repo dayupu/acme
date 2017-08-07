@@ -6,7 +6,8 @@ import java.io.Serializable;
 public enum ResponseStatus implements Serializable {
 
     SUCCESS(1000),
-    ERROR(2000);
+    FAIL(2000),
+    ERROR(3000);
 
     private int code;
 

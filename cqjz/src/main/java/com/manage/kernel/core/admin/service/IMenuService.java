@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.service;
 
-import com.manage.base.atomic.TreeNode;
+import com.manage.base.supplier.TreeNode;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
 

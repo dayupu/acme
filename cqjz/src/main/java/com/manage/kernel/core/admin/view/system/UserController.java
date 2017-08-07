@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.view.system;
 
-import com.manage.base.atomic.PageResult;
-import com.manage.base.atomic.ResponseInfo;
+import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.kernel.core.admin.service.IUserService;
 import com.manage.kernel.spring.annotation.PageQueryAon;

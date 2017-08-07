@@ -10,9 +10,9 @@ import com.manage.kernel.spring.config.security.AuthUser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.manage.base.atomic.ResponseInfo;
+import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
-import com.manage.base.exception.BusinessException;
+import com.manage.base.exception.CoreException;
 import com.manage.kernel.spring.comm.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,7 +54,7 @@ public class AdminController {
         String message = null;
         try {
             if (StringUtils.isEmptyAny(account, password)) {
-                throw new BusinessException();
+                throw new CoreException();
             }
 
             authRequest = new UsernamePasswordAuthenticationToken(account, password);

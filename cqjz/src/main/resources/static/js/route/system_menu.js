@@ -33,6 +33,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         var url = "admin/menu/list/" + $scope.menu.id;
         mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
             $scope.menu = data.content;
+            $scope.message=data.message;
             $scope.buildTree(function () {
                 if (data.content.parentId != null) {
                     var node = menuTree.getNodeByParam("id", data.content.parentId);

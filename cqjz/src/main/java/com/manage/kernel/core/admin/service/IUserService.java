@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service;
 
-import com.manage.base.atomic.PageResult;
-import com.manage.base.atomic.Pair;
+import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.Pair;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.spring.entry.PageQuery;

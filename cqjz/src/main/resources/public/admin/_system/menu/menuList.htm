@@ -14,6 +14,7 @@
                 <form class="form-horizontal" name="menuForm">
                     <input type="hidden" ng-model="menu.id">
                     <div class="control-title">菜单编辑</div>
+                    <div>{{message}}</div>
                     <div class="control-group" ng-class="{false:'error'}[menuForm.name.$valid]">
                         <label class="control-label">菜单名称<span class="mine-required">*</span></label>
                         <div class="controls">
@@ -48,7 +49,7 @@
                             <button class="btn btn-primary" type="button" ng-click="update()"
                                     ng-disabled="menuForm.$invalid">保存
                             </button>
-                            <button class="btn btn-primary" type="button">删除</button>
+                            <button class="btn btn-primary" type="button" ng-disabled="menu.id == null">删除</button>
                             <button class="btn btn-primary" ng-disabled="menu.level != 1" type="button"
                                     ng-click="open()">添加子菜单
                             </button>

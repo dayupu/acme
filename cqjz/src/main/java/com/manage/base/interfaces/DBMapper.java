@@ -1,4 +1,4 @@
-package com.manage.base.atomic;
+package com.manage.base.interfaces;
 
 public interface DBMapper<T> {
 

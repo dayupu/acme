@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.view;
 
 
-import com.manage.base.atomic.ResponseInfo;
+import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;

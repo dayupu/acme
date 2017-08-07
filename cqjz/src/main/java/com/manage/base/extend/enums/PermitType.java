@@ -1,6 +1,6 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.atomic.DBMapper;
+import com.manage.base.interfaces.DBMapper;
 
 public enum PermitType implements DBMapper<Integer> {
 

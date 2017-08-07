@@ -1,12 +1,11 @@
 package com.manage.kernel.core.admin.service.impl;
 
-import com.manage.base.atomic.PageResult;
-import com.manage.base.atomic.Pair;
-import com.manage.base.exception.BusinessException;
+import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.Pair;
+import com.manage.base.exception.CoreException;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IUserService;
-import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;
@@ -50,7 +49,7 @@ public class UserService implements IUserService {
 
         User query = userRepo.findUserByAccount(userDto.getAccount());
         if (query != null) {
-            throw new BusinessException(msg("user.register.user.exists"));
+            throw new CoreException(msg("user.register.user.exists"));
         }
 
         user.setAccount(userDto.getAccount());

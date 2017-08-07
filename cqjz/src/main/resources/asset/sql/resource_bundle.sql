@@ -2,3 +2,6 @@ INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_res
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'login.user.or.password.error', 'zh', '用户或密码错误.');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'global.api.access.error', 'zh', '接口访问错误.');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'global.api.unauthorized', 'zh', '接口认证错误.');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.save.success', 'zh', '保存成功.');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.save.failed', 'zh', '保存失败.');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.system.error', 'zh', '系统异常.');

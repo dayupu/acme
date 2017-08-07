@@ -1,4 +1,4 @@
-package com.manage.base.atomic;
+package com.manage.base.supplier;
 
 import java.util.List;
 

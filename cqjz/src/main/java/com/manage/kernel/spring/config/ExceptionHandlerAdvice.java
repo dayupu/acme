@@ -1,8 +1,8 @@
 package com.manage.kernel.spring.config;
 
-import com.manage.base.atomic.ResponseInfo;
+import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
-import com.manage.base.exception.BusinessException;
+import com.manage.base.exception.CoreException;
 import com.manage.base.utils.JsonUtils;
 import com.manage.base.exception.AuthorizedException;
 import com.manage.base.exception.ApiExeception;
@@ -46,10 +46,10 @@ public class ExceptionHandlerAdvice {
         return handleAjaxException(response, message, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(BusinessException.class)
+    @ExceptionHandler(CoreException.class)
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     public ModelAndView handleBusinessException(HttpServletRequest request, HttpServletResponse response,
-                                                BusinessException e) throws Exception {
+                                                CoreException e) throws Exception {
         String message = JsonUtils.toJsonString(new ResponseInfo(ResponseStatus.ERROR, e.getMessage()));
         return handleAjaxException(response, message, HttpStatus.OK);
     }

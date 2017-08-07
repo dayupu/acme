@@ -1,14 +1,16 @@
 package com.manage.kernel.core.admin.view.system;
 
-import com.manage.base.atomic.ResponseInfo;
-import com.manage.base.atomic.TreeNode;
-import com.manage.base.exception.BusinessException;
-import com.manage.base.extend.enums.ResponseStatus;
-import com.manage.base.utils.Validator;
+import com.manage.base.supplier.ResponseInfo;
+import com.manage.base.supplier.TreeNode;
+import com.manage.base.exception.CoreException;
+import com.manage.base.exception.ValidateException;
+import com.manage.base.supplier.msgs.MessageInfos;
+import com.manage.base.utils.Validators;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
 import com.manage.kernel.spring.annotation.InboundLog;
+import com.manage.kernel.spring.comm.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -32,23 +33,22 @@ public class MenuController {
     @Autowired
     private IMenuService menuService;
 
-
     @InboundLog
     @GetMapping("/list/{id}")
     public ResponseInfo menuDetail(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validator.notNull(id);
+            Validators.notNull(id, null);
             MenuDto menuDto = menuService.getMenu(id);
             if (menuDto == null) {
-                throw new BusinessException();
+                throw new CoreException();
             }
-            response.setContent(menuDto);
-            response.setStatus(ResponseStatus.SUCCESS);
+            response.wrapSuccess(menuDto);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn(e);
-            response.setStatus(ResponseStatus.ERROR);
-            response.setMessage(e.getMessage());
+            response.wrapError();
         }
         return response;
     }
@@ -58,18 +58,20 @@ public class MenuController {
     public ResponseInfo menuUpdate(@PathVariable("id") Long id, @RequestBody MenuDto menuObj) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validator.notNull(id);
-            Validator.notNull(menuObj);
+            Validators.notNull(id, null);
+            Validators.notNull(menuObj, null);
             MenuDto menu = menuService.updateMenu(id, menuObj);
             if (menu == null) {
-                throw new BusinessException();
+                throw new CoreException();
             }
-            response.setContent(menu);
-            response.setStatus(ResponseStatus.SUCCESS);
+            response.wrapSuccess(menu, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn(e);
-            response.setStatus(ResponseStatus.ERROR);
-            response.setMessage(e.getMessage());
+            response.wrapError();
         }
         return response;
     }
@@ -80,12 +82,10 @@ public class MenuController {
         ResponseInfo response = new ResponseInfo();
         try {
             List<TreeNode> treeNodes = menuService.menuTree();
-            response.setContent(treeNodes);
-            response.setStatus(ResponseStatus.SUCCESS);
+            response.wrapSuccess(treeNodes);
         } catch (Exception e) {
             LOGGER.warn(e);
-            response.setStatus(ResponseStatus.ERROR);
-            response.setMessage(e.getMessage());
+            response.wrapError();
         }
         return response;
     }
@@ -95,14 +95,14 @@ public class MenuController {
     public ResponseInfo getLocation(@RequestParam("url") String url) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validator.notNull(url);
+            Validators.notNull(url, null);
             List<MenuNav> locations = menuService.menuLocation(url);
-            response.setStatus(ResponseStatus.SUCCESS);
-            response.setContent(locations);
+            response.wrapSuccess(locations);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn(e);
-            response.setStatus(ResponseStatus.ERROR);
-            response.setMessage(e.getMessage());
+            response.wrapError();
         }
         return response;
     }

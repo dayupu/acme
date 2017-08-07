@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
-import com.manage.base.atomic.TreeNode;
+import com.manage.base.supplier.TreeNode;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
@@ -10,7 +10,6 @@ import com.manage.kernel.jpa.news.repository.MenuRepo;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,13 +23,11 @@ public class MenuService implements IMenuService {
     @Autowired
     private MenuRepo menuRepo;
 
-
     @Override
     @Transactional
     public MenuDto updateMenu(Long id, MenuDto menuDto) {
 
         Menu menu = menuRepo.findOne(id);
-
         menu.setName(menuDto.getName());
         menu.setUrl(menuDto.getUrl());
         List<Menu> brotherMenus;
@@ -38,7 +35,7 @@ public class MenuService implements IMenuService {
         int seqNew = menuDto.getSequence();
         int seqOld = menu.getSequence();
         if (seqNew != seqOld) {
-            brotherMenus = menuRepo.findAll((Specification<Menu>) (root, cq, cb) -> {
+            brotherMenus = menuRepo.findAll((root, cq, cb) -> {
                 List<Predicate> list = new ArrayList<>();
                 if (menu.getParentId() == null) {
                     list.add(cb.isNull(root.get("parentId")));

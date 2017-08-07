@@ -24,5 +24,4 @@ public class Messages {
     public static String get(String code, Locale locale, Object... params) {
         return getMessageSupplier().getMessage(code, params, locale);
     }
-
 }
