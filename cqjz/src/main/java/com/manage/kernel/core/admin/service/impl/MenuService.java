@@ -1,6 +1,7 @@
 package com.manage.kernel.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
+import com.manage.base.exception.NotFoundException;
 import com.manage.base.supplier.TreeNode;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
@@ -54,12 +55,10 @@ public class MenuService implements IMenuService {
             int sequence = start;
             boolean isDown = true;
             for (Menu brother : brotherMenus) {
-
                 if (seqNew < seqOld && isDown) {
                     sequence++;
                     isDown = false;
                 }
-
                 if (brother.getId().equals(menu.getId())) {
                     continue;
                 }
@@ -97,6 +96,7 @@ public class MenuService implements IMenuService {
     }
 
     @Override
+    @Transactional
     public List<TreeNode> menuTree() {
 
         Iterable<Menu> menuIterables = menuRepo.queryMenuAll();
@@ -164,5 +164,32 @@ public class MenuService implements IMenuService {
         });
 
         return menuNavs;
+    }
+
+    @Override
+    @Transactional
+    public void deleteMenu(Long id) {
+        Menu menu = menuRepo.findOne(id);
+        if (menu == null) {
+            throw new NotFoundException();
+        }
+
+        int sequence = menu.getSequence();
+        menuRepo.delete(menu);
+        Menu pMenu = menu.getParent();
+        if (pMenu == null) {
+            return;
+        }
+
+        int seqStart = sequence;
+        for (Menu subMenu : pMenu.getChildrens()) {
+            if (subMenu.getSequence() < sequence) {
+                continue;
+            }
+
+            subMenu.setSequence(seqStart++);
+            menuRepo.save(subMenu);
+        }
+
     }
 }

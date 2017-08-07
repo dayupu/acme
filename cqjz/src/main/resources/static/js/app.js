@@ -7,7 +7,7 @@ mainApp.config(function ($stateProvider, $urlRouterProvider) {
 mainApp.controller("asideController", function ($http, $scope, $location, $sessionStorage, $state, messageSubscribe, mineHttp) {
     $scope.loadMenu = function () {
         mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
-            if (requestSuccess(data.status)) {
+            if (verifyData(data)) {
                 $scope.menus = data.content;
             } else {
                 $scope.message = data.message;
@@ -36,13 +36,6 @@ mainApp.controller("contentController", function ($scope, messageSubscribe, $ses
         messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
     }
 });
-
-function requestSuccess(status) {
-    if (status == "1000") {
-        return true;
-    }
-    return false;
-}
 
 // route config
 function routeConfig($stateProvider, $urlRouterProvider) {
@@ -78,4 +71,11 @@ mainApp.factory("messageSubscribe", function ($rootScope) {
 
 function fullPath(path) {
     return basePath + path;
+}
+
+function verifyData(data) {
+    if (data.status == "1000") {
+        return true;
+    }
+    return false;
 }

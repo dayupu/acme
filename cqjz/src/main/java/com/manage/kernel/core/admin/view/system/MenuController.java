@@ -10,10 +10,11 @@ import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
 import com.manage.kernel.spring.annotation.InboundLog;
-import com.manage.kernel.spring.comm.Messages;
+import static java.awt.SystemColor.menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -65,6 +66,25 @@ public class MenuController {
                 throw new CoreException();
             }
             response.wrapSuccess(menu, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn(e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @DeleteMapping("list/{id}")
+    public ResponseInfo menuDelete(@PathVariable("id") Long id) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(id, null);
+            menuService.deleteMenu(id);
+            response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

@@ -6,6 +6,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
 
     // select menu
     $scope.ztreeSelected = function (event, treeId, treeNode) {
+        $scope.messageStatus = null;
         var url = "admin/menu/list/" + treeNode.id;
         mineHttp.send("GET", url, {}, function (data) {
             $scope.menu = data.content;
@@ -33,12 +34,27 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         var url = "admin/menu/list/" + $scope.menu.id;
         mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
             $scope.menu = data.content;
+            $scope.messageStatus = verifyData(data);
             $scope.message=data.message;
             $scope.buildTree(function () {
                 if (data.content.parentId != null) {
-                    var node = menuTree.getNodeByParam("id", data.content.parentId);
-                    menuTree.expandNode(node);
+                    var parentNode = menuTree.getNodeByParam("id", data.content.parentId);
+                    menuTree.expandNode(parentNode);
                 }
+            });
+        });
+    };
+
+    $scope.delete = function () {
+        var url = "admin/menu/list/" + $scope.menu.id;
+        var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
+        mineHttp.send("DELETE", url, {}, function (data) {
+            $scope.messageStatus = verifyData(data);
+            $scope.menu = null;
+            $scope.message=data.message;
+            $scope.buildTree(function (){
+                 var parentNode = menuTree.getNodeByParam("id", parentId);
+                 menuTree.expandNode(parentNode);
             });
         });
     };

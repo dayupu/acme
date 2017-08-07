@@ -16,4 +16,6 @@ public interface IMenuService {
     MenuDto updateMenu(Long id, MenuDto menuDto);
 
     List<MenuNav> menuLocation(String url);
+
+    void deleteMenu(Long id);
 }
