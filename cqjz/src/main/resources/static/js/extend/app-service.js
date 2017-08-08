@@ -21,7 +21,7 @@ mainApp.service("mineHttp", function ($http) {
 
 });
 
-mainApp.service("mineUtils", function ($uibModal) {
+mainApp.service("mineUtil", function ($uibModal) {
 
     this.confirm = function (message, callback) {
         var confirmModal = $uibModal.open({
@@ -39,10 +39,26 @@ mainApp.service("mineUtils", function ($uibModal) {
         });
         confirmModal.result.then(function () {
             callback();
-        }, function(){
+        }, function(){});
+    };
 
-        });
-    }
+    this.modal = function (templateUrl, controller, data, size){
+        var myModal = $uibModal.open({
+                   animation: true,
+                   ariaLabelledBy: 'modal-title',
+                   ariaDescribedBy: 'modal-body',
+                   templateUrl: fullPath(templateUrl),
+                   size: size,
+                   controller: controller,
+                   resolve: {
+                       data: function () {
+                           return data;
+                       }
+                   }
+               });
+
+         return myModal;
+    };
 
 });
 

@@ -12,6 +12,7 @@ public class MenuDto implements Serializable {
     private String parentName;
     private String image;
     private String url;
+    private boolean hasChildren = false;
     private int level;
 
     public Long getId() {
@@ -76,5 +77,13 @@ public class MenuDto implements Serializable {
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
+    }
+
+    public boolean getHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
     }
 }

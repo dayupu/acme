@@ -18,4 +18,6 @@ public interface IMenuService {
     List<MenuNav> menuLocation(String url);
 
     void deleteMenu(Long id);
+
+    void addSubMenu(MenuDto menuDto);
 }

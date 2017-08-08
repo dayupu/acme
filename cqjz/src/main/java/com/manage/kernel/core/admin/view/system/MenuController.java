@@ -1,5 +1,6 @@
 package com.manage.kernel.core.admin.view.system;
 
+import com.manage.base.exception.MenuNotFoundException;
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.exception.CoreException;
@@ -14,9 +15,11 @@ import static java.awt.SystemColor.menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,13 +45,13 @@ public class MenuController {
             Validators.notNull(id, null);
             MenuDto menuDto = menuService.getMenu(id);
             if (menuDto == null) {
-                throw new CoreException();
+                throw new MenuNotFoundException();
             }
             response.wrapSuccess(menuDto);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("system exception", e);
             response.wrapError();
         }
         return response;
@@ -71,7 +74,7 @@ public class MenuController {
         } catch (CoreException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("system exception", e);
             response.wrapError();
         }
         return response;
@@ -90,7 +93,7 @@ public class MenuController {
         } catch (CoreException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("system exception", e);
             response.wrapError();
         }
         return response;
@@ -104,14 +107,14 @@ public class MenuController {
             List<TreeNode> treeNodes = menuService.menuTree();
             response.wrapSuccess(treeNodes);
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("system exception", e);
             response.wrapError();
         }
         return response;
     }
 
     @InboundLog
-    @GetMapping("location")
+    @GetMapping("/location")
     public ResponseInfo getLocation(@RequestParam("url") String url) {
         ResponseInfo response = new ResponseInfo();
         try {
@@ -121,7 +124,28 @@ public class MenuController {
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
-            LOGGER.warn(e);
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @PostMapping("/addSub")
+    public ResponseInfo addSubMenu(@RequestBody MenuDto menuDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(menuDto, null);
+            Validators.notNull(menuDto.getParentId(), null);
+            Validators.notEmpty(menuDto.getName(), null);
+            menuService.addSubMenu(menuDto);
+            response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
             response.wrapError();
         }
         return response;

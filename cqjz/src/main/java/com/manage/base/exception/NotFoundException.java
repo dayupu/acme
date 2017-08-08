@@ -1,27 +1,13 @@
 package com.manage.base.exception;
 
 import com.manage.base.interfaces.CoreMsgs;
+import com.manage.base.supplier.msgs.MessageErrors;
 
 public class NotFoundException extends CoreException {
 
-    private static CoreMsgs ERROR;
+    private static CoreMsgs ERROR = MessageErrors.NOT_FOUND;
 
     public NotFoundException() {
-        this.setCoreMsgs(ERROR);
-    }
-
-    public NotFoundException(String message) {
-        super(message);
-        this.setCoreMsgs(ERROR);
-    }
-
-    public NotFoundException(String message, Throwable cause) {
-        super(message, cause);
-        this.setCoreMsgs(ERROR);
-    }
-
-    public NotFoundException(Throwable cause) {
-        super(cause);
         this.setCoreMsgs(ERROR);
     }
 

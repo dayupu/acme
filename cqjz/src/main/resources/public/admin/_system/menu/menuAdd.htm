@@ -7,40 +7,26 @@
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="menuForm">
-            <input type="hidden" ng-model="menu.id">
-            <div class="form-group" ng-class="{false:'error'}[menuForm.name.$valid]">
-                <label class="col-sm-3 control-label">菜单名称<span
-                        class="mine-required">*</span></label>
+            <input type="hidden" ng-model="menu.parentId">
+            <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
+                <label class="col-sm-3 control-label">菜单名称<span class="mine-required">*</span></label>
                 <div class="col-sm-5">
-                    <input type="text" name="name" ng-model="menu.name" class="form-control input-sm" required/>
+                    <input type="text" class="form-control input-sm" ng-model="menu.name"  name="name" required/>
                 </div>
                 <label class="control-label">
-                    <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid"
-                                    error="不能为空"></mine-validator>
+                    <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid" error="不能为空"></mine-validator>
                 </label>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">上级菜单</label>
                 <div class="col-sm-5">
-                    <input type="text" ng-model="menu.parentName" class="form-control input-sm" readonly>
+                    <input type="text" class="form-control input-sm" ng-model="menu.parentName" readonly>
                 </div>
-            </div>
-            <div class="form-group" ng-class="{false:'error'}[menuForm.sequence.$valid]">
-                <label class="col-sm-3 control-label">排序<span class="mine-required">*</span></label>
-                <div class="col-sm-5">
-                    <input type="text" name="sequence" class="form-control input-sm" ng-model="menu.sequence"
-                           required>
-                </div>
-                <label class="control-label">
-                    <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid"
-                                    error="不能为空"></mine-validator>
-
-                </label>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">菜单地址</label>
                 <div class="col-sm-5">
-                    <input type="text" name="url" ng-model="menu.url" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm"  ng-model="menu.url" name="url" >
                 </div>
             </div>
         </form>

@@ -85,3 +85,6 @@
     max-height: 400px;
     overflow-y: auto;
 }
+.alert{
+ padding:10px;
+}

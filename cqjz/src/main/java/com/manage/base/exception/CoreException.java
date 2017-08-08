@@ -1,10 +1,11 @@
 package com.manage.base.exception;
 
 import com.manage.base.interfaces.CoreMsgs;
+import com.manage.base.supplier.msgs.MessageErrors;
 
 public class CoreException extends RuntimeException {
 
-    private CoreMsgs coreMsgs;
+    private CoreMsgs coreMsgs = MessageErrors.CORE_ERROR;
 
     private String message;
 

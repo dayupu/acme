@@ -1,7 +1,8 @@
 package com.manage.kernel.core.admin.service.impl;
 
 import com.google.common.collect.Lists;
-import com.manage.base.exception.NotFoundException;
+import com.manage.base.exception.DeleteException;
+import com.manage.base.exception.MenuNotFoundException;
 import com.manage.base.supplier.TreeNode;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
@@ -9,6 +10,8 @@ import com.manage.kernel.core.admin.service.IMenuService;
 import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.repository.MenuRepo;
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,18 +20,46 @@ import java.util.Comparator;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class MenuService implements IMenuService {
+
+    private static final Logger LOGGER = LogManager.getLogger(MenuService.class);
 
     @Autowired
     private MenuRepo menuRepo;
 
     @Override
     @Transactional
+    public void addSubMenu(MenuDto menuDto) {
+
+        Menu parent = menuRepo.findOne(menuDto.getParentId());
+        if (parent == null) {
+            LOGGER.warn("Not found the order {}", menuDto.getParentId());
+            throw new MenuNotFoundException();
+        }
+
+        Menu menu = new Menu();
+        menu.setName(menuDto.getName());
+        menu.setLevel(parent.getLevel() + 1);
+        menu.setParent(parent);
+        menu.setSequence(parent.getChildrens().size() + 1);
+        menu.setUrl(menuDto.getUrl());
+
+        menuRepo.save(menu);
+    }
+
+    @Override
+    @Transactional
     public MenuDto updateMenu(Long id, MenuDto menuDto) {
 
         Menu menu = menuRepo.findOne(id);
+        if (menu == null) {
+            LOGGER.warn("Not found the menu {}", id);
+            throw new MenuNotFoundException();
+        }
+
         menu.setName(menuDto.getName());
         menu.setUrl(menuDto.getUrl());
         List<Menu> brotherMenus;
@@ -79,19 +110,25 @@ public class MenuService implements IMenuService {
     public MenuDto getMenu(Long id) {
 
         Menu menu = menuRepo.findOne(id);
-        MenuDto menuDto = null;
-        if (menu != null) {
-            menuDto = new MenuDto();
-            menuDto.setId(menu.getId());
-            menuDto.setName(menu.getName());
-            menuDto.setUrl(menu.getUrl());
-            menuDto.setLevel(menu.getLevel());
-            menuDto.setSequence(menu.getSequence());
-            menuDto.setParentId(menu.getParentId());
-            if (menu.getParent() != null) {
-                menuDto.setParentName(menu.getParent().getName());
-            }
+        if (menu == null) {
+            return null;
         }
+
+        MenuDto menuDto = new MenuDto();
+        menuDto.setId(menu.getId());
+        menuDto.setName(menu.getName());
+        menuDto.setUrl(menu.getUrl());
+        menuDto.setLevel(menu.getLevel());
+        menuDto.setSequence(menu.getSequence());
+        menuDto.setParentId(menu.getParentId());
+
+        if (!CollectionUtils.isEmpty(menu.getChildrens())) {
+            menuDto.setHasChildren(true);
+        }
+        if (menu.getParent() != null) {
+            menuDto.setParentName(menu.getParent().getName());
+        }
+
         return menuDto;
     }
 
@@ -171,26 +208,30 @@ public class MenuService implements IMenuService {
     public void deleteMenu(Long id) {
         Menu menu = menuRepo.findOne(id);
         if (menu == null) {
-            throw new NotFoundException();
+            LOGGER.warn("Not found the menu {}", id);
+            throw new MenuNotFoundException();
+        }
+
+        if (!CollectionUtils.isEmpty(menu.getChildrens())) {
+            LOGGER.warn("The menu {} has childrens, can't delete.", menu.getId());
+            throw new DeleteException();
         }
 
         int sequence = menu.getSequence();
-        menuRepo.delete(menu);
         Menu pMenu = menu.getParent();
-        if (pMenu == null) {
-            return;
-        }
+        if (pMenu != null) {
+            int seqStart = sequence;
+            for (Menu subMenu : pMenu.getChildrens()) {
+                if (subMenu.getSequence() < sequence || id.equals(subMenu.getId())) {
+                    continue;
+                }
 
-        int seqStart = sequence;
-        for (Menu subMenu : pMenu.getChildrens()) {
-            if (subMenu.getSequence() < sequence || id.equals(subMenu.getId())) {
-                continue;
+                subMenu.setSequence(seqStart++);
+                menuRepo.save(subMenu);
             }
-
-            subMenu.setSequence(seqStart++);
-            menuRepo.save(subMenu);
         }
 
+        menuRepo.delete(menu);
 
     }
 }

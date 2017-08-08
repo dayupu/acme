@@ -1,4 +1,4 @@
-mainApp.controller("systemMenuListCtl", function ($scope, $http, $uibModal, mineTree, mineHttp, mineUtils) {
+mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil) {
 
     mineHttp.menuLocation("menu.list", function (data) {
         $scope.menuLocation = data;
@@ -9,7 +9,11 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, $uibModal, mine
         $scope.messageStatus = null;
         var url = "admin/menu/list/" + treeNode.id;
         mineHttp.send("GET", url, {}, function (data) {
-            $scope.menu = data.content;
+            if(verifyData(data)){
+                $scope.menu = data.content;
+            }else{
+                $scope.menu=null;
+            }
         });
     };
 
@@ -46,52 +50,50 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, $uibModal, mine
     };
 
     $scope.delete = function () {
-         mineUtils.confirm("确认删除吗？", function(){
+         mineUtil.confirm("确认删除吗？", function(){
             var url = "admin/menu/list/" + $scope.menu.id;
-                    var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
-                    mineHttp.send("DELETE", url, {}, function (data) {
-                        $scope.messageStatus = verifyData(data);
-                        $scope.message=data.message;
-                        if(!$scope.messageStatus){
-                            return;
-                        }
+                var parentNodeTemp = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode();
+                mineHttp.send("DELETE", url, {}, function (data) {
+                    $scope.messageStatus = verifyData(data);
+                    $scope.message=data.message;
+                    if(!$scope.messageStatus){
+                        return;
+                    }
 
-                        $scope.menu = null;
-                        $scope.buildTree(function (){
-                             var parentNode = menuTree.getNodeByParam("id", parentId);
-                             menuTree.expandNode(parentNode);
-                        });
+                    $scope.menu = null;
+                    $scope.buildTree(function (){
+                        if(parentNodeTemp != null){
+                          var parentNode = menuTree.getNodeByParam("id", parentNodeTemp.id);
+                          menuTree.expandNode(parentNode);
+                        }
                     });
+                });
          });
+    };
+
+    $scope.addMenu = function () {
+        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "testController", $scope.menu);
+        modalInstance.result.then(function (selectedItem) {
+        }, function(){});
     };
 
     // page init
     $scope.buildTree();
-
-    $scope.open = function () {
-        var modalInstance = $uibModal.open({
-            animation: false,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: '_system/menu/menuAdd.htm',
-            controller: 'testController',
-            resolve: {
-                data: function () {
-                    return $scope.menu;
-                }
-            }
-        });
-        modalInstance.result.then(function (selectedItem) {
-
-        });
-    };
-
 });
 
-mainApp.controller("testController", function ($scope, data, $uibModalInstance) {
-    $scope.menu = data;
+mainApp.controller("testController", function ($scope, data, $uibModalInstance, mineHttp) {
+    $scope.initPage = function(){
+        $scope.menu = {};
+        $scope.menu.parentId = data.id;
+        $scope.menu.parentName = data.name;
+    };
+
     $scope.ok = function () {
-        $uibModalInstance.close();
+        mineHttp.send("DELETE", "admin/menu/addSub", {data:$scope.menu}, function (result) {
+           $scope.messageStatus = verifyData(result);
+           $scope.message = result.message;
+           $scope.initPage();
+        });
     };
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
