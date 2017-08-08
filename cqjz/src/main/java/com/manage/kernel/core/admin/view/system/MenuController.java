@@ -139,7 +139,7 @@ public class MenuController {
             Validators.notNull(menuDto.getParentId(), null);
             Validators.notEmpty(menuDto.getName(), null);
             menuService.addSubMenu(menuDto);
-            response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
+            response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

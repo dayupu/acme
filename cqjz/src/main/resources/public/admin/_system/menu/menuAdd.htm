@@ -3,24 +3,24 @@
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
             &times;
         </button>
-        <span class="modal-title-icon"><i class="fa fa-plus-square" aria-hidden="true"></i></span><span class="modal-title">添加子菜单</span>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span class="modal-title">添加子菜单</span>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="menuForm">
             <input type="hidden" ng-model="menu.parentId">
-            <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
-                <label class="col-sm-3 control-label">菜单名称<span class="mine-required">*</span></label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="menu.name"  name="name" required/>
-                </div>
-                <label class="control-label">
-                    <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid" error="不能为空"></mine-validator>
-                </label>
+            <div class="alert" ng-if="messageStatus != null" ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
+                {{message}}
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">上级菜单</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.parentName" readonly>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
+                <label class="col-sm-3 control-label">菜单名称<span class="mine-required">*</span></label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" ng-model="menu.name"  name="name" required/>
                 </div>
             </div>
             <div class="form-group">
@@ -32,7 +32,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">保存</button>
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid" >保存</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

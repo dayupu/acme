@@ -1,4 +1,4 @@
-mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil) {
+mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
 
     mineHttp.menuLocation("menu.list", function (data) {
         $scope.menuLocation = data;
@@ -9,10 +9,10 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         $scope.messageStatus = null;
         var url = "admin/menu/list/" + treeNode.id;
         mineHttp.send("GET", url, {}, function (data) {
-            if(verifyData(data)){
+            if (verifyData(data)) {
                 $scope.menu = data.content;
-            }else{
-                $scope.menu=null;
+            } else {
+                $scope.menu = null;
             }
         });
     };
@@ -50,49 +50,60 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
     };
 
     $scope.delete = function () {
-         mineUtil.confirm("确认删除吗？", function(){
+        mineUtil.confirm("确认删除吗？", function () {
             var url = "admin/menu/list/" + $scope.menu.id;
-                var parentNodeTemp = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode();
-                mineHttp.send("DELETE", url, {}, function (data) {
-                    $scope.messageStatus = verifyData(data);
-                    $scope.message=data.message;
-                    if(!$scope.messageStatus){
-                        return;
-                    }
+            var parentNodeTemp = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode();
+            mineHttp.send("DELETE", url, {}, function (data) {
+                $scope.messageStatus = verifyData(data);
+                $scope.message = data.message;
+                if (!$scope.messageStatus) {
+                    return;
+                }
 
-                    $scope.menu = null;
-                    $scope.buildTree(function (){
-                        if(parentNodeTemp != null){
-                          var parentNode = menuTree.getNodeByParam("id", parentNodeTemp.id);
-                          menuTree.expandNode(parentNode);
-                        }
-                    });
+                $scope.menu = null;
+                $scope.buildTree(function () {
+                    if (parentNodeTemp != null) {
+                        var parentNode = menuTree.getNodeByParam("id", parentNodeTemp.id);
+                        menuTree.expandNode(parentNode);
+                    }
                 });
-         });
+            });
+        });
     };
 
     $scope.addMenu = function () {
-        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "testController", $scope.menu);
+        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "systemMenuAddController", $scope.menu);
         modalInstance.result.then(function (selectedItem) {
-        }, function(){});
+        }, function () {
+        });
     };
 
     // page init
     $scope.buildTree();
+
+    mineMessage.subscribe("systemMenuAdd", function (event, nodeId) {
+        $scope.buildTree(function () {
+            var parentNode = menuTree.getNodeByParam("id", nodeId);
+            menuTree.expandNode(parentNode);
+        });
+    });
 });
 
-mainApp.controller("testController", function ($scope, data, $uibModalInstance, mineHttp) {
-    $scope.initPage = function(){
+mainApp.controller("systemMenuAddController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
+    $scope.initPage = function () {
         $scope.menu = {};
         $scope.menu.parentId = data.id;
         $scope.menu.parentName = data.name;
     };
-
+    $scope.initPage();
     $scope.ok = function () {
-        mineHttp.send("DELETE", "admin/menu/addSub", {data:$scope.menu}, function (result) {
-           $scope.messageStatus = verifyData(result);
-           $scope.message = result.message;
-           $scope.initPage();
+        mineHttp.send("POST", "admin/menu/addSub", {data: $scope.menu}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            if ($scope.messageStatus) {
+                mineMessage.publish("systemMenuAdd", data.id);
+            }
+            $scope.message = result.message;
+            $scope.initPage();
         });
     };
     $scope.cancel = function () {

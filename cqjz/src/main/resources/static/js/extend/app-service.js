@@ -39,25 +39,26 @@ mainApp.service("mineUtil", function ($uibModal) {
         });
         confirmModal.result.then(function () {
             callback();
-        }, function(){});
+        }, function () {
+        });
     };
 
-    this.modal = function (templateUrl, controller, data, size){
+    this.modal = function (templateUrl, controller, data, size) {
         var myModal = $uibModal.open({
-                   animation: true,
-                   ariaLabelledBy: 'modal-title',
-                   ariaDescribedBy: 'modal-body',
-                   templateUrl: fullPath(templateUrl),
-                   size: size,
-                   controller: controller,
-                   resolve: {
-                       data: function () {
-                           return data;
-                       }
-                   }
-               });
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: fullPath(templateUrl),
+            size: size,
+            controller: controller,
+            resolve: {
+                data: function () {
+                    return data;
+                }
+            }
+        });
 
-         return myModal;
+        return myModal;
     };
 
 });

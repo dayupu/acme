@@ -23,7 +23,7 @@
                             <input type="text" class="form-control input-sm" ng-model="menu.name" name="name" required/>
                         </div>
                         <label class="control-label">
-                            <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid" error="不能为空"></mine-validator>
+                            <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid" error="必填项"></mine-validator>
                         </label>
                     </div>
                     <div class="form-group">
@@ -35,10 +35,10 @@
                     <div class="form-group" ng-class="{false:'has-error'}[menuForm.sequence.$valid]">
                         <label class="col-sm-2 control-label">排序<span class="mine-required">*</span></label>
                         <div class="col-sm-5">
-                            <input type="text"  class="form-control input-sm" ng-model="menu.sequence" name="sequence" required>
+                            <input type="text"  class="form-control input-sm" ng-model="menu.sequence" name="sequence" required ng-pattern="/^\d{1,2}$/">
                         </div>
                         <label class="control-label">
-                            <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid" error="不能为空"></mine-validator>
+                            <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid" error="1-99数字"></mine-validator>
                         </label>
                     </div>
                     <div class="form-group">

@@ -4,7 +4,7 @@ mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
 });
 
-mainApp.controller("asideController", function ($http, $scope, $location, $sessionStorage, $state, messageSubscribe, mineHttp) {
+mainApp.controller("asideController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
     $scope.loadMenu = function () {
         mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
             if (verifyData(data)) {
@@ -20,7 +20,7 @@ mainApp.controller("asideController", function ($http, $scope, $location, $sessi
             menu.extend = !menu.extend;
             $(secondMenu).slideToggle("fast");
         } else {
-            messageSubscribe.publish("menuLocation", menu);
+            mineMessage.publish("menuLocation", menu);
             //$location.path(menu.url);
             $state.go(menu.url);
             $sessionStorage.menuLocation = menu;
@@ -28,12 +28,12 @@ mainApp.controller("asideController", function ($http, $scope, $location, $sessi
     }
 });
 
-mainApp.controller("contentController", function ($scope, messageSubscribe, $sessionStorage, $location) {
-    messageSubscribe.subscribe("menuLocation", function (event, menu) {
+mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
+    mineMessage.subscribe("menuLocation", function (event, menu) {
         $scope.navLocations = menu.locations;
     });
     if ($sessionStorage.menuLocation != null && $location.path() != "/" && $location.path() != "") {
-        messageSubscribe.publish("menuLocation", $sessionStorage.menuLocation);
+        mineMessage.publish("menuLocation", $sessionStorage.menuLocation);
     }
 });
 
@@ -58,7 +58,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
 }
 
 // factorys
-mainApp.factory("messageSubscribe", function ($rootScope) {
+mainApp.factory("mineMessage", function ($rootScope) {
     return {
         publish: function (name, parameters) {
             $rootScope.$emit(name, parameters);
