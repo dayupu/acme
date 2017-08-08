@@ -40,7 +40,7 @@ mainApp.service("mineUtils", function ($uibModal) {
         confirmModal.result.then(function () {
             callback();
         }, function(){
-            alert(2);
+
         });
     }
 

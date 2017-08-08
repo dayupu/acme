@@ -45,26 +45,24 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, $uibModal, mine
         });
     };
 
-    // $scope.delete = function () {
-    //     var url = "admin/menu/list/" + $scope.menu.id;
-    //     var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
-    //     mineHttp.send("DELETE", url, {}, function (data) {
-    //         $scope.messageStatus = verifyData(data);
-    //         $scope.message=data.message;
-    //         if(!$scope.messageStatus){
-    //             return;
-    //         }
-    //
-    //         $scope.menu = null;
-    //         $scope.buildTree(function (){
-    //              var parentNode = menuTree.getNodeByParam("id", parentId);
-    //              menuTree.expandNode(parentNode);
-    //         });
-    //     });
-    // };
-
     $scope.delete = function () {
-         mineUtils.confirm("test");
+         mineUtils.confirm("确认删除吗？", function(){
+            var url = "admin/menu/list/" + $scope.menu.id;
+                    var parentId = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode().id;
+                    mineHttp.send("DELETE", url, {}, function (data) {
+                        $scope.messageStatus = verifyData(data);
+                        $scope.message=data.message;
+                        if(!$scope.messageStatus){
+                            return;
+                        }
+
+                        $scope.menu = null;
+                        $scope.buildTree(function (){
+                             var parentNode = menuTree.getNodeByParam("id", parentId);
+                             menuTree.expandNode(parentNode);
+                        });
+                    });
+         });
     };
 
     // page init

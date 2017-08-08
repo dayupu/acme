@@ -57,6 +57,10 @@
 }
 
 /* overwrite bootstrap modal style*/
+.modal{
+  top:20%;
+}
+
 .modal-header {
     background-color: #2d6987;
     padding: 8px;
@@ -72,6 +76,10 @@
     margin-left: 5px;
 }
 
+.modal-title-icon{
+ color:white;
+ font-size:16px;
+}
 .modal-body {
     min-height: 50px;
     max-height: 400px;
