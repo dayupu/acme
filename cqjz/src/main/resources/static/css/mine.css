@@ -21,20 +21,19 @@
 
 }
 
-.mine-layout{
-   padding: 0px 20px;
+.mine-layout {
+    padding: 0px 20px;
 }
 
-.mine-layout-content{
-   background-color:white;
-   padding:8px;
+.mine-layout-content {
+    background-color: white;
+    padding: 8px;
 }
 
 .mine-location {
     margin: 8px 0px;
-    background-color: red;
     color: #2f332a;
-    height: 20px;
+    height: 24px;
     border-bottom: 1px solid #edeef2;
 }
 
@@ -43,32 +42,84 @@
     margin: 0;
     list-style: none;
     display: block;
-    height: 20px;
     font-size: 12px;
 }
 
 .mine-location ul li {
-    padding: 0;
-    margin-right: 5px;
-    list-style: none;
+    /*    margin-right: 0px;
+        list-style: none;*/
     float: left;
+    /*padding-left: 15px;*/
 }
 
-.mine-location ul li span {
+.mine-location ul li a {
+    display: block;
+    float: left;
+    height: 24px;
+    background: #009966;
+    text-align: center;
+    padding: 5px 5px 0px 20px;
+    position: relative;
     margin-right: 5px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.mine-location ul li a:after {
+    content: "";
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #009966;
+    position: absolute;
+    z-index: 9999;
+    right: -12px;
+    top: 0;
+
+}
+
+.mine-location ul li:first-child a {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.mine-location ul li:first-child a:before {
+    display: none;
+}
+
+.mine-location ul li:last-child a {
+    padding-right: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.mine-location ul li:last-child a:after {
+    display: none;
+}
+
+.mine-location ul li a:before {
+    content: "";
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #f3f3f3;
+    position: absolute;
+    z-index: 9998;
+    left: 0;
+    top: 0;
 }
 
 .mine-required {
     color: red;
     margin-left: 5px;
 }
-.mine-inline{
+
+.mine-inline {
     display: inline-block;
 }
 
 /* overwrite bootstrap modal style*/
-.modal{
-  top:20%;
+.modal {
+    top: 20%;
 }
 
 .modal-header {
@@ -86,108 +137,17 @@
     margin-left: 5px;
 }
 
-.modal-title-icon{
-     color:white;
-     font-size:16px;
+.modal-title-icon {
+    color: white;
+    font-size: 16px;
 }
+
 .modal-body {
     min-height: 50px;
     max-height: 400px;
     overflow-y: auto;
 }
-.alert{
-     padding:10px;
-}
 
-#breadcrumb {
-  list-style: none;
-  display: inline-block;
-}
-#breadcrumb .icon {
-  font-size: 14px;
-}
-#breadcrumb li {
-  float: left;
-}
-#breadcrumb li a {
-  color: #FFF;
-  display: block;
-  background: #3498db;
-  text-decoration: none;
-  position: relative;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 10px 0 5px;
-  text-align: center;
-  margin-right: 23px;
-}
-#breadcrumb li:nth-child(even) a {
-  background-color: #2980b9;
-}
-#breadcrumb li:nth-child(even) a:before {
-  border-color: #2980b9;
-  border-left-color: transparent;
-}
-#breadcrumb li:nth-child(even) a:after {
-  border-left-color: #2980b9;
-}
-#breadcrumb li:first-child a {
-  padding-left: 15px;
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
-  border-radius: 4px 0 0 4px;
-}
-#breadcrumb li:first-child a:before {
-  border: none;
-}
-#breadcrumb li:last-child a {
-  padding-right: 15px;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
-  border-radius: 0 4px 4px 0;
-}
-#breadcrumb li:last-child a:after {
-  border: none;
-}
-#breadcrumb li a:before, #breadcrumb li a:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  border: 0 solid #3498db;
-  border-width: 20px 10px;
-  width: 0;
-  height: 0;
-}
-#breadcrumb li a:before {
-  left: -20px;
-  border-left-color: transparent;
-}
-#breadcrumb li a:after {
-  left: 100%;
-  border-color: transparent;
-  border-left-color: #3498db;
-}
-#breadcrumb li a:hover {
-  background-color: #1abc9c;
-}
-#breadcrumb li a:hover:before {
-  border-color: #1abc9c;
-  border-left-color: transparent;
-}
-#breadcrumb li a:hover:after {
-  border-left-color: #1abc9c;
-}
-#breadcrumb li a:active {
-  background-color: #16a085;
-}
-#breadcrumb li a:active:before {
-  border-color: #16a085;
-  border-left-color: transparent;
-}
-#breadcrumb li a:active:after {
-  border-left-color: #16a085;
+.alert {
+    padding: 10px;
 }
