@@ -202,18 +202,41 @@ div {
     display: block;
     position: relative;
     margin: 10px 0px;
-    border: 1px solid #d4d4d4;
 }
 
 /* overwrite ng-grid style*/
-.ngTopPanel, .ngFooterPanel {
-    background-color: #f6f8fa;
+.ngTopPanel {
+    background-color: #337ab7;
+    color:white;
 }
-
-.ngRow.selected {
-    background-color: #EAF3FD;
+.ngFooterPanel{
+    background-color:white;
+    border-top:1px solid #edeef2;
 }
-
-.ngRow:hover {
+.ngSortButtonUp, .ngSortButtonDown{
+   border-color: white transparent;
+}
+/*.ngRow:hover {
     background-color: #FFFFF0;
+}*/
+.ngRow.even{
+    background-color: white;
+}
+.ngRow.odd{
+    background-color: #faf9f9;
+}
+.ngRow.selected {
+    background-color: #d0ddf3;
+}
+.ngCell, .ngHeaderCell{
+   border-bottom:1px solid #edeef2;
+}
+.ngVerticalBarVisible{
+   background-color:transparent;
+}
+.ngSelectionCell{
+  margin-top:5px;
+}
+.ngSelectionHeader{
+  top:5px;
 }
