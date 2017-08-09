@@ -36,7 +36,7 @@ div {
     z-index: -1;
     display: block;
     width: inherit;
-    background-color: white;
+    background-color: #f3f3f3;
     border: inherit;
     content: "";
 }
@@ -73,8 +73,6 @@ div {
 
 .app-content {
     padding-top: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
     height: 100%;
 }
 
@@ -234,9 +232,11 @@ div {
 .ngVerticalBarVisible{
    background-color:transparent;
 }
+/*
 .ngSelectionCell{
-  margin-top:5px;
-}
+  margin-top:2px;
+}*/
 .ngSelectionHeader{
-  top:5px;
+  top:8px;
 }
+

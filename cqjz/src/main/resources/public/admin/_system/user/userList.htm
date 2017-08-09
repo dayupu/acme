@@ -1,9 +1,19 @@
-<div>
+<div class="mine-layout">
+    <ul id="breadcrumb">
+        <li><a href="#"><span class="icon icon-home"> </span></a></li>
+        <li><a href="#"><span class="icon icon-beaker"> </span> Projects</a></li>
+        <li><a href="#"><span class="icon icon-double-angle-right"></span> Breadcrumb</a></li>
+        <li><a href="#"><span class="icon icon-rocket"> </span> Getting started</a></li>
+        <li><a href="#"><span class="icon icon-arrow-down"> </span> Download</a></li>
+        <li><a href="#"><span class="icon icon-arrow-down"> </span> Download</a></li>
+    </ul>
     <mine-breadcrumb values="locations"></mine-breadcrumb>
-    <div>
-        <button class="btn btn-small btn-primary" type="button" ng-click="open()">新建</button>
-        <button class="btn btn-small btn-primary" type="button" ng-click="open()">禁用</button>
-        <button class="btn btn-small btn-primary" type="button" ng-click="open()">启用</button>
+    <div class="mine-layout-content">
+        <div>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="open()">新建</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="open()">禁用</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="open()">启用</button>
+        </div>
+        <div class="gridStyle" ng-grid="gridOptions"></div>
     </div>
-    <div class="gridStyle" ng-grid="gridOptions"></div>
 </div>

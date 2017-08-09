@@ -22,7 +22,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $http, mineHttp, mineG
                 displayName: '操作',
                 width: 200,
                 cellTemplate: "<div><mine-action action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action action='edit(row)' name='查看'></mine-action></div>"
+                "<mine-action action='edit(row.entity)' name='查看'></mine-action></div>"
             }
 
         ]
