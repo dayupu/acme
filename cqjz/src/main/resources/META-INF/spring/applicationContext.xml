@@ -55,6 +55,7 @@
             <bean class="com.manage.kernel.spring.config.resolver.PageQueryHandlerMethodArgumentResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
+    <mvc:view-controller path="/error/loginLimit" view-name="/error/loginLimit"/>
 
     <!--aspect-->
     <bean id="userPermissionAspect" class="com.manage.kernel.spring.config.aspect.UserPermitAspect">
