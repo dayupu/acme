@@ -93,6 +93,7 @@ div {
     bottom: 0;
     left: 0;
     z-index: 1005;
+    background-color: #3a3f51;
 }
 
 @media (min-width: 768px) {
