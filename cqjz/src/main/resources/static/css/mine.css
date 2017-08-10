@@ -65,7 +65,6 @@
     font-size: 12px;
     text-decoration: none;
     color: #336699;
-    font-weight: bold;
 }
 
 .mine-location ul li a:after {
@@ -100,17 +99,13 @@
     display: none;
 }
 
-/*.mine-location ul li:last-child a {
-    padding-right: 10px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+.mine-location ul li:last-child a {
+    font-weight: bold;
 }
 
-.mine-location ul li:last-child a:after {
+/*.mine-location ul li:last-child a:after {
     display: none;
 }*/
-
-
 
 .mine-required {
     color: red;
