@@ -45,13 +45,6 @@
     font-size: 12px;
 }
 
-.mine-location ul li {
-    /*    margin-right: 0px;
-        list-style: none;*/
-    float: left;
-    /*padding-left: 15px;*/
-}
-
 .mine-location ul li a {
     display: block;
     float: left;
@@ -64,7 +57,7 @@
     margin-right: 5px;
     font-size: 12px;
     text-decoration: none;
-    color: #336699;
+    color: gray;
 }
 
 .mine-location ul li a:after {
@@ -99,13 +92,19 @@
     display: none;
 }
 
-.mine-location ul li:last-child a {
+.mine-title {
+    font-size: 14px;
     font-weight: bold;
+    border-bottom: 1px solid #edeef2;
+    line-height: 25px;
+    color: black;
+    margin-bottom: 20px;
+    color:#336699;
 }
 
-/*.mine-location ul li:last-child a:after {
-    display: none;
-}*/
+.mine-title > i{
+    margin-right:5px;
+}
 
 .mine-required {
     color: red;

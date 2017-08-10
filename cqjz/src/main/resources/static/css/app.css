@@ -171,15 +171,6 @@ div {
     margin-left: 100px;
 }
 
-.form-horizontal .control-title {
-    font-size: 15px;
-    font-weight: bold;
-    border-bottom: 1px solid #edeef2;
-    line-height: 30px;
-    color: black;
-    margin-bottom: 20px;
-}
-
 .form-horizontal .control-footer {
     border-top: 1px solid #edeef2;
     margin-top: 20px;

@@ -1,6 +1,7 @@
 <div class="mine-layout">
     <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-television"></i>菜单维护</div>
         <table>
             <tr>
                 <td width="200">
@@ -12,7 +13,6 @@
                 <td valign="top">
                     <form class="form-horizontal" name="menuForm">
                         <input type="hidden" ng-model="menu.id">
-                        <div class="control-title">菜单信息</div>
                         <div class="alert" ng-if="messageStatus != null"
                              ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                             {{message}}
