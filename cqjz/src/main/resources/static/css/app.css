@@ -191,7 +191,8 @@ div {
     font-size: 12px;
     margin-left: 5px;
 }
-.help-inline i{
+
+.help-inline i {
     font-size: 16px;
 }
 
@@ -204,39 +205,80 @@ div {
 
 /* overwrite ng-grid style*/
 .ngTopPanel {
-    background-color: #336699;
-    color:white;
+    background-color: #eeeeee;
+    color: #336699;
 }
-.ngFooterPanel{
-    background-color:white;
-    border-top:1px solid #edeef2;
+
+.ngFooterPanel {
+    background-color: white;
+    border-top: 1px solid #edeef2;
 }
-.ngSortButtonUp, .ngSortButtonDown{
-   border-color: white transparent;
+
+.ngSortButtonUp, .ngSortButtonDown {
+    border-color: #336699 transparent;
 }
+
 /*.ngRow:hover {
     background-color: #FFFFF0;
 }*/
-.ngRow.even{
+.ngRow.even {
     background-color: white;
 }
-.ngRow.odd{
+
+.ngRow.odd {
     background-color: #faf9f9;
 }
+
 .ngRow.selected {
-    background-color: #d0ddf3;
+    background-color: #337ab7;
+    color: white;
 }
-.ngCell, .ngHeaderCell{
-   border-bottom:1px solid #edeef2;
+
+.ngRow.selected a {
+    color: white;
 }
-.ngVerticalBarVisible{
-   background-color:transparent;
+
+.ngCell {
+    border-bottom: 1px solid #edeef2;
 }
+
+.ngHeaderCell {
+    border-bottom: 1px solid #99CCFF;
+    font-weight: normal;
+}
+
+.ngVerticalBarVisible {
+    background-color: transparent;
+}
+
 /*
 .ngSelectionCell{
   margin-top:2px;
 }*/
-.ngSelectionHeader{
-  top:8px;
+.ngSelectionHeader {
+    top: 8px;
 }
 
+.ngPagerButton {
+    background-color: #337ab7;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-color: #2e6da4;
+}
+
+.ngPagerButton[disabled] {
+    background-color: #97CBFF;
+    border-color: white;
+}
+
+.ngPagerFirstBar, .ngPagerLastBar {
+    border-color: white;
+}
+
+.ngPagerFirstTriangle {
+    border-color: transparent white transparent transparent;
+}
+
+.ngPagerLastTriangle, .ngPagerNextTriangle {
+    border-color: transparent transparent transparent white;
+}

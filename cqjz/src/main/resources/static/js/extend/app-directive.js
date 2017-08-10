@@ -5,8 +5,8 @@ mainApp.directive('mineBreadcrumb', function () {
         scope: {
             values: "="
         },
-        template: "<div class='mine-location'><ul ng-if='values != null'><li><i class='fa fa-home' aria-hidden='true'></i></li><li>当前位置：</li>"
-        + "<li ng-repeat='value in values'><span ng-if='$index != 0'>&gt;</span>{{value.name}}</li></ul></div>",
+        template: "<div class='mine-location'><ul><li><a href='javascript:void(0)'><i class='fa fa-home'></i></a></li>"+
+        "<li ng-repeat='value in values'><a href='javascript:void(0)'>{{value.name}}</a></li></ul></div>",
         replace: true
     };
 });
