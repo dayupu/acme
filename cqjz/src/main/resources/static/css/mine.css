@@ -19,10 +19,6 @@
     border: 1px solid #edeef2;
 }
 
-.mine-success {
-
-}
-
 .mine-layout {
     padding: 0px 20px;
 }
@@ -68,7 +64,7 @@
     border-bottom: 12px solid transparent;
     border-left: 12px solid white;
     position: absolute;
-    z-index: 9999;
+    z-index: 100;
     right: -12px;
     top: 0;
 
@@ -80,7 +76,7 @@
     border-bottom: 12px solid transparent;
     border-left: 12px solid #f3f3f3;
     position: absolute;
-    z-index: 9998;
+    z-index: 99;
     left: 0;
     top: 0;
 }
