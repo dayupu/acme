@@ -1,4 +1,4 @@
-var basePath = "/sp/";
+var appContextPath = null;
 var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap"]);
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
@@ -70,7 +70,10 @@ mainApp.factory("mineMessage", function ($rootScope) {
 });
 
 function fullPath(path) {
-    return basePath + path;
+    if(appContextPath == null){
+       appContextPath = $("#appContextPath").val();
+    }
+    return appContextPath + path;
 }
 
 function verifyData(data) {

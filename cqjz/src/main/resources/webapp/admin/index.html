@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/css/mine.css}"/>
 </head>
 <body>
+<input id="appContextPath" type="hidden" th:value="@{/}" />
 <div class="app app-header-fixed" ng-app="mainApp">
     <div ng-include="'app/header.htm'" class="app-header"></div>
     <div ng-controller="asideController" ng-include="'app/aside.htm'" class="app-aside bg-dark"></div>
