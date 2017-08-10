@@ -16,9 +16,10 @@ mainApp.directive("mineAction", function () {
         restrict: 'E',
         scope: {
             name: "@",
-            action: "&"
+            action: "&",
+            icon:"@"
         },
-        template: "<span class='mine-action'><a href='javascript:void(0);' ng-click='action()'>{{name}}</a></span>",
+        template: "<span class='mine-action'><a href='javascript:void(0);' ng-click='action()'><i ng-if='icon != null' ng-class='icon'></i>{{name}}</a></span>",
         replace: true
     }
 });

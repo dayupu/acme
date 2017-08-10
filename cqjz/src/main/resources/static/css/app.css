@@ -74,6 +74,7 @@ div {
 .app-content {
     padding-top: 50px;
     height: 100%;
+    font-size: 13px;
 }
 
 .app-content:before,
@@ -196,7 +197,7 @@ div {
 
 /* overwrite ng-grid style*/
 .ngTopPanel {
-    background-color: #eeeeee;
+    background-color: #f9f6f1;
     color: #336699;
 }
 
@@ -231,11 +232,13 @@ div {
 
 .ngCell {
     border-bottom: 1px solid #edeef2;
+    font-size: 13px;
 }
 
 .ngHeaderCell {
-    border-bottom: 1px solid #99CCFF;
-    font-weight: normal;
+    border-bottom: 1px solid #edeef2;
+    border-left: 1px solid white;
+    font-size: 13px;
 }
 
 .ngVerticalBarVisible {
@@ -272,4 +275,7 @@ div {
 
 .ngPagerLastTriangle, .ngPagerNextTriangle {
     border-color: transparent transparent transparent white;
+}
+.ngTotalSelectContainer{
+    font-size: 12px;
 }

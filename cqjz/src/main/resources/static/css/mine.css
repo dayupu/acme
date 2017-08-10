@@ -2,15 +2,17 @@
     display: inline-table;
     margin-top: 5px;
     margin-left: 10px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .mine-action > a {
-    color: #0e90d2;
+    color: #337ab7;
     text-decoration: none;
 }
 
 .mine-action > a:hover {
-    color: #316AC5;
+    color: orangered;
 }
 
 .mine-border {
