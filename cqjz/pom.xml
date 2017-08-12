@@ -121,9 +121,13 @@
             <version>${swagger.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.8</version>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.extended</artifactId>
+            <version>5.0.0.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
     </dependencies>
     <build>

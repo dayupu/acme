@@ -10,9 +10,11 @@ import java.util.List;
 
 public interface IUserService {
 
-    void add(UserDto userDto);
+    void addUser(UserDto userDto);
 
-    void modify(UserDto userDto);
+    void modifyUser(UserDto userDto);
+
+    UserDto getUser(Long userId);
 
     Pair<User, List<Long>> authUserDetail(String account);
 

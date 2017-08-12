@@ -57,6 +57,7 @@
     </mvc:annotation-driven>
     <mvc:view-controller path="/error/loginLimit" view-name="/error/loginLimit"/>
 
+
     <!--aspect-->
     <bean id="userPermissionAspect" class="com.manage.kernel.spring.config.aspect.UserPermitAspect">
         <property name="cacheManager" ref="cacheManager"></property>

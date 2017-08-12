@@ -1,0 +1,63 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">修改用户</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="userForm">
+            <div class="alert" ng-if="messageStatus != null"
+                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
+                {{message}}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">账号</label>
+                <div class="col-sm-5">
+                    <label class="control-label">{{user.account}}</label>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
+                <label class="col-sm-3 control-label">用户名<span class="mine-required">*</span></label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" ng-model="user.name" name="name" ng-pattern="/^.{1,20}$/" required>
+                </div>
+                <div class="mine-validator">
+                    <mine-validator valid="userForm.name.$valid" when="userForm.name.$dirty" error="长度20位以内"></mine-validator>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[userForm.email.$valid]">
+                <label class="col-sm-3 control-label">邮箱</label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control input-sm" ng-model="user.email" name="email">
+                </div>
+                <div class="mine-validator">
+                    <mine-validator valid="userForm.email.$valid"  when="userForm.email.$dirty"  error="请输入正确的邮箱地址"></mine-validator>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[userForm.mobile.$valid]">
+                <label class="col-sm-3 control-label">手机号</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" ng-model="user.mobile" name="mobile" ng-pattern="/^\d{11}$/">
+                </div>
+                <div class="mine-validator">
+                    <mine-validator valid="userForm.mobile.$valid"  when="userForm.mobile.$dirty" error="请输入11位的手机号码"></mine-validator>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[userForm.telephone.$valid]">
+                <label class="col-sm-3 control-label">座机</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" ng-model="user.telephone" name="telephone" ng-pattern="/^([0-9]{3,4}-)?(\d{5,10})$/">
+                </div>
+                <div class="mine-validator">
+                    <mine-validator valid="userForm.telephone.$valid" when="userForm.telephone.$dirty" error="座机号码，形如：023-88888888"></mine-validator>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="userForm.$invalid">保存</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

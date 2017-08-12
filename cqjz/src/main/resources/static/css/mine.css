@@ -114,7 +114,18 @@
     display: inline-block;
 }
 
+.mine-validator{
+    line-height: 30px;
+}
+.mine-label{
+    padding-top: 8px;
+    font-weight: normal;
+}
 /* overwrite bootstrap modal style*/
+.has-error .mine-validator {
+    color: #a94442;
+}
+
 .modal {
     top: 20%;
 }

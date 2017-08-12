@@ -1,8 +1,10 @@
 package com.manage.kernel.core.admin.service.impl;
 
+import com.manage.base.exception.UserNotFoundException;
 import com.manage.base.supplier.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.exception.CoreException;
+import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IUserService;
@@ -10,7 +12,9 @@ import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;
 import com.manage.kernel.spring.comm.Messages;
+import com.manage.kernel.spring.config.security.AuthPasswordEncoder;
 import com.manage.kernel.spring.entry.PageQuery;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +30,20 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private AuthPasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDto getUser(Long userId) {
+
+        User user = userRepo.findOne(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        return UserParser.toUserDto(user);
+    }
 
     @Override
     public PageResult<UserDto> getUserListByPage(PageQuery pageQuery) {
@@ -43,23 +61,37 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void add(UserDto userDto) {
-
-        User user = new User();
-
+    @Transactional
+    public void addUser(UserDto userDto) {
         User query = userRepo.findUserByAccount(userDto.getAccount());
         if (query != null) {
-            throw new CoreException(msg("user.register.user.exists"));
+            throw new CoreException(MessageErrors.USER_HAS_EXISTS);
         }
-
+        User user = new User();
         user.setAccount(userDto.getAccount());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setName(userDto.getName());
+        user.setMobile(userDto.getMobile());
+        user.setTelephone(userDto.getTelephone());
+        user.setEmail(userDto.getEmail());
+        user.setCreatedAt(LocalDateTime.now());
         userRepo.save(user);
     }
 
     @Override
-    public void modify(UserDto userDto) {
+    @Transactional
+    public void modifyUser(UserDto userDto) {
+        User user = userRepo.findOne(userDto.getId());
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
 
+        user.setName(userDto.getName());
+        user.setMobile(userDto.getMobile());
+        user.setTelephone(userDto.getTelephone());
+        user.setEmail(userDto.getEmail());
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepo.save(user);
     }
 
     @Override

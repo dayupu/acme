@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.parser;
 
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
+import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,14 @@ public class UserParser {
     }
 
     private static UserDto toUserDto(User user, UserDto userDto) {
+        userDto.setId(user.getId());
         userDto.setAccount(user.getAccount());
         userDto.setName(user.getName());
-        userDto.setId(user.getId());
+        userDto.setEmail(user.getEmail());
+        userDto.setTelephone(user.getTelephone());
+        userDto.setMobile(user.getMobile());
+        userDto.setCreatedAt(user.getCreatedAt());
+        userDto.setUpdatedAt(user.getUpdatedAt());
         return userDto;
     }
 }

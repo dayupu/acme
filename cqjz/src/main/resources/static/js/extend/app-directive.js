@@ -32,7 +32,7 @@ mainApp.directive("mineValidator", function () {
             when:"="
         },
         template: "<span><span class='help-inline' ng-show='(when == null || when) && !valid'><i class='fa fa-exclamation-circle'></i><span class='message'>{{error}}</span></span>" +
-        "<span class='help-inline' style='color:green;' ng-show='when && valid'><i class='fa fa-check-circle'></i></span></span>",
+        "<span class='help-inline' style='color:green;' ng-show='(when == null || when) && valid'><i class='fa fa-check-circle'></i></span></span>",
         replace: true
     }
 });

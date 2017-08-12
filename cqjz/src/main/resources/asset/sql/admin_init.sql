@@ -4,9 +4,9 @@ INSERT INTO ad_user (id, created_at, created_by, status, updated_by, updated_at,
 INSERT INTO ad_role (id, created_at, created_by, status, updated_by, updated_at, description, "name", parent_id) VALUES(nextval('seq_role'), now(), 0, 0, 0, now(), NULL, '管理员', null);
 -- ad_menu
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 1, '系统设置', NULL, 1, NULL);
-INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '角色管理', 1, 1, NULL);
-INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '用户管理', 1, 2, NULL);
-INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '菜单管理', 1, 3, NULL);
+INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '角色管理', 1, 1, 'role.list');
+INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '用户管理', 1, 2, 'user.list');
+INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '菜单管理', 1, 3, 'menu.list');
 -- ad_role_menu
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 4);
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 3);

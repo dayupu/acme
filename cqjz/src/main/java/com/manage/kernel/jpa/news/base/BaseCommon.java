@@ -2,6 +2,10 @@ package com.manage.kernel.jpa.news.base;
 
 import com.manage.base.extend.converter.StatusAttributeConverter;
 import com.manage.base.extend.enums.Status;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -20,15 +24,15 @@ public class BaseCommon {
     private Long createdBy;
 
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_by")
     private Long udpatedBy;
 
     @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime updatedAt;
 
     public Status getStatus() {
         return status;
@@ -46,11 +50,11 @@ public class BaseCommon {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -62,11 +66,11 @@ public class BaseCommon {
         this.udpatedBy = udpatedBy;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
