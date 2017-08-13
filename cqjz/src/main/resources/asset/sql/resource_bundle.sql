@@ -5,3 +5,5 @@ INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_res
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.save.success', 'zh', '保存成功.');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.save.failed', 'zh', '保存失败.');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.system.error', 'zh', '系统异常.');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.gender.male', 'zh', '男.');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.gender.female', 'zh', '女.');

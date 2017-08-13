@@ -22,6 +22,8 @@ public class UserDto {
     private String email;
     private String mobile;
     private String telephone;
+    private String gender;
+    private Integer genderValue;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -31,6 +33,9 @@ public class UserDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedAt;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime createdAtEnd;
 
     public String getAccount() {
         return account;
@@ -102,5 +107,29 @@ public class UserDto {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAtEnd() {
+        return createdAtEnd;
+    }
+
+    public void setCreatedAtEnd(LocalDateTime createdAtEnd) {
+        this.createdAtEnd = createdAtEnd;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Integer getGenderValue() {
+        return genderValue;
+    }
+
+    public void setGenderValue(Integer genderValue) {
+        this.genderValue = genderValue;
     }
 }

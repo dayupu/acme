@@ -2,7 +2,7 @@
     <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-bars"></i>菜单维护</div>
-        <table>
+        <table width="600">
             <tr>
                 <td width="200">
                     <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
@@ -23,10 +23,10 @@
                                 <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
                                        required/>
                             </div>
-                            <label class="control-label">
+                            <div class="mine-validator">
                                 <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid"
                                                 error="必填项"></mine-validator>
-                            </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">上级菜单</label>
@@ -41,10 +41,10 @@
                                        name="sequence"
                                        required ng-pattern="/^\d{1,2}$/">
                             </div>
-                            <label class="control-label">
+                            <div class="mine-validator">
                                 <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid"
                                                 error="1-99数字"></mine-validator>
-                            </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">菜单地址</label>
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-7">
-                                <button class="btn btn-primary btn-sm" type="button" ng-click="update()"
+                                <button class="btn btn-primary btn-sm" type="button" ng-click="edit()"
                                         ng-disabled="menu.id == null || menuForm.$invalid">保存
                                 </button>
                                 <button class="btn btn-primary btn-sm" type="button" ng-click="delete()"

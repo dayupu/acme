@@ -7,9 +7,11 @@ import com.manage.kernel.jpa.news.repository.LoginLogRepo;
 import com.manage.kernel.spring.annotation.AuthUserAon;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.config.security.AuthUser;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
@@ -47,7 +49,7 @@ public class AdminController {
     @ResponseBody
     @InboundLog
     public ResponseInfo login(String account, String password, HttpServletRequest request,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
         ResponseInfo responseInfo = new ResponseInfo();
         UsernamePasswordAuthenticationToken authRequest;
         boolean loginStatus = false;
@@ -66,7 +68,7 @@ public class AdminController {
             responseInfo.status = ResponseStatus.SUCCESS;
             loginStatus = true;
         } catch (Exception e) {
-            LOGGER.info(e);
+            LOGGER.info("login failed", e);
             responseInfo.status = ResponseStatus.ERROR;
             responseInfo.message = Messages.get("login.user.or.password.error");
             message = responseInfo.message;

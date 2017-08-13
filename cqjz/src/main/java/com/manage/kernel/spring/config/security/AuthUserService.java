@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class AuthUserService implements UserDetailsService {
@@ -17,6 +18,7 @@ public class AuthUserService implements UserDetailsService {
     private IUserService userService;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Pair<User, List<Long>> userPair = userService.authUserDetail(username);

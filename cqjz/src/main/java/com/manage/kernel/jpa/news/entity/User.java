@@ -1,8 +1,12 @@
 package com.manage.kernel.jpa.news.entity;
 
 import com.manage.base.extend.converter.StatusAttributeConverter;
+import com.manage.base.extend.enums.Gender;
 import com.manage.base.extend.enums.Status;
 import com.manage.kernel.jpa.news.base.BaseCommon;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -29,7 +33,7 @@ public class User extends BaseCommon {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
     private Long id;
 
-    @Column(name = "account", length = 50)
+    @Column(name = "account", nullable = false, length = 50)
     private String account;
 
     @Column(name = "name", length = 50)
@@ -37,6 +41,11 @@ public class User extends BaseCommon {
 
     @Column(name = "password", length = 200)
     private String password;
+
+    @Column(name = "gender")
+    @Type(type = "com.manage.base.extend.define.DBEnum",
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender")})
+    private Gender gender;
 
     @Column(name = "telephone", length = 50)
     private String telephone;
@@ -151,5 +160,13 @@ public class User extends BaseCommon {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

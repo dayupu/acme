@@ -20,4 +20,16 @@ public class StringUtils extends org.springframework.util.StringUtils {
         }
         return false;
     }
+
+    public static boolean isBlank(String str) {
+        return str == null || "".equals(str.trim());
+    }
+
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
+    }
+
+    public static boolean isNotNull(Object obj) {
+        return obj != null;
+    }
 }

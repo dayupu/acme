@@ -20,7 +20,7 @@ public class DateTimeDeserializer extends JsonDeserializer<DateTime> {
     public DateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
 
         String dateTime = jsonParser.getText();
-        if (dateTime == null) {
+        if (dateTime == null || "".equals(dateTime.trim())) {
             return null;
         }
 

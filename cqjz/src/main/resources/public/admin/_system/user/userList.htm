@@ -2,6 +2,51 @@
     <mine-breadcrumb values="locations"></mine-breadcrumb>
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-circle"></i>用户信息查询</div>
+        <div class="mine-query">
+            <span class="mine-query-group">
+                <label class="mine-query-lable">账户</label>
+                <span class="mine-query-span">
+                   <input type="text" class="form-control input-sm" ng-model="userQuery.account"/>
+                </span>
+            </span>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">姓名</label>
+                <span class="mine-query-span">
+                   <input type="text" class="form-control input-sm" ng-model="userQuery.name"/>
+                </span>
+            </span>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">手机</label>
+                <span class="mine-query-span">
+                   <input type="text" class="form-control input-sm" ng-model="userQuery.mobile"/>
+                </span>
+            </span>
+            <br/>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">创建时间</label>
+                <span class="mine-query-span">
+                    <div class='input-group date' style="float: left">
+                        <input id='userQueryCreatedAt' style="width: 140px;" name="requestTimeStart" type='text'
+                               class="form-control input-sm" ng-model="userQuery.createdAt"
+                        value="{{userQuery.createdAt * 1000 | date:'yy-MM-dd HH:mm:ss'}}"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </span>
+            </span>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">至</label>
+                <span class="mine-query-span">
+                    <div class='input-group date' style="float: left">
+                        <input id='userQueryCreatedAtEnd' style="width: 140px;" name="requestTimeStart" type='text' class="form-control input-sm" ng-model="userQuery.createdAtEnd"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </span>
+            </span>
+        </div>
+        <div class="mine-query-button">
+            <button class="btn btn-sm btn-success" type="button" ng-click="query()">查询</button>
+        </div>
+        <br/>
         <div>
             <button class="btn btn-sm btn-primary" type="button" ng-click="add()">新建</button>
             <button class="btn btn-sm btn-primary" type="button" ng-click="modify()">禁用</button>

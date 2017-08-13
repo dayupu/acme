@@ -18,5 +18,5 @@ public interface IUserService {
 
     Pair<User, List<Long>> authUserDetail(String account);
 
-    PageResult<UserDto> getUserListByPage(PageQuery pageQuery);
+    PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery);
 }

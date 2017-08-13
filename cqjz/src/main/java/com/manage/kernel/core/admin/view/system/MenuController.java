@@ -58,8 +58,8 @@ public class MenuController {
     }
 
     @InboundLog
-    @PutMapping("list/{id}")
-    public ResponseInfo menuUpdate(@PathVariable("id") Long id, @RequestBody MenuDto menuObj) {
+    @PutMapping("{id}")
+    public ResponseInfo modifyMenu(@PathVariable("id") Long id, @RequestBody MenuDto menuObj) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(id, null);
@@ -81,7 +81,7 @@ public class MenuController {
     }
 
     @InboundLog
-    @DeleteMapping("list/{id}")
+    @DeleteMapping("{id}")
     public ResponseInfo menuDelete(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {

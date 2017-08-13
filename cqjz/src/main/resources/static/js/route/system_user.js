@@ -9,15 +9,18 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.permitDelete = false;
 
     $scope.myData = [];
-
+    $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
+    $("#userQueryCreatedAtEnd").datetimepicker({format: 'Y-m-d H:i:s'});
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         showSelectionCheckbox: true,
         multiSelect: true,
         selectWithCheckboxOnly: true,
+        requestMethod: "POST",
         requestUrl: fullPath("admin/user/list"),
         columnDefs: [{field: 'account', displayName: '账号'},
             {field: 'name', displayName: '姓名'},
+            {field: 'gender', displayName: '性别'},
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
             {field: 'createdAt', displayName: '创建时间'},
@@ -25,6 +28,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
                 field: 'id',
                 displayName: '操作',
                 width: 200,
+                sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
                 "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action></div>"
             }
@@ -33,9 +37,6 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     });
     // init load datas
     $scope.gridPageQuery();
-    $scope.test = function () {
-        $scope.gridPageQuery({test: "test"});
-    };
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
@@ -49,21 +50,27 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         $scope.permitDelete = true;
     };
 
+    $scope.query = function () {
+        $scope.gridPageQuery({}, $scope.userQuery);
+    };
+
     $scope.add = function () {
         var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", $scope.menu);
-        modalInstance.result.then(function (selectedItem) {
+        modalInstance.result.then(function () {
         }, function () {
+            $scope.query();
         });
     };
     $scope.edit = function (user) {
         var modalInstance = mineUtil.modal("admin/_system/user/userModify.htm", "systemUserModifyController", user);
-        modalInstance.result.then(function (selectedItem) {
+        modalInstance.result.then(function () {
         }, function () {
+            $scope.query();
         });
     };
     $scope.detail = function (user) {
         var modalInstance = mineUtil.modal("admin/_system/user/userDetail.htm", "systemUserDetailController", user);
-        modalInstance.result.then(function (selectedItem) {
+        modalInstance.result.then(function () {
         }, function () {
         });
     }

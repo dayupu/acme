@@ -5,6 +5,8 @@ import com.manage.base.supplier.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.exception.CoreException;
 import com.manage.base.supplier.msgs.MessageErrors;
+import com.manage.base.utils.EnumUtils;
+import com.manage.base.utils.StringUtils;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IUserService;
@@ -46,11 +48,27 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public PageResult<UserDto> getUserListByPage(PageQuery pageQuery) {
+    @Transactional
+    public PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery) {
 
-        Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> {
+        Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
-            return criteriaBuilder.and(list.toArray(new Predicate[0]));
+            if (StringUtils.isNotBlank(userQuery.getAccount())) {
+                list.add(cb.equal(root.get("account").as(String.class), userQuery.getAccount()));
+            }
+            if (StringUtils.isNotBlank(userQuery.getName())) {
+                list.add(cb.like(root.get("name").as(String.class), "%" + userQuery.getName() + "%"));
+            }
+            if (StringUtils.isNotBlank(userQuery.getMobile())) {
+                list.add(cb.equal(root.get("mobile").as(String.class), userQuery.getMobile()));
+            }
+            if (StringUtils.isNotNull(userQuery.getCreatedAt())) {
+                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), userQuery.getCreatedAt()));
+            }
+            if (StringUtils.isNotNull(userQuery.getCreatedAtEnd())) {
+                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), userQuery.getCreatedAtEnd()));
+            }
+            return cb.and(list.toArray(new Predicate[0]));
         }, pageQuery.buildPageRequest(true));
 
 
@@ -71,6 +89,7 @@ public class UserService implements IUserService {
         user.setAccount(userDto.getAccount());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setName(userDto.getName());
+        user.setGender(EnumUtils.toGender(userDto.getGenderValue()));
         user.setMobile(userDto.getMobile());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
@@ -87,6 +106,7 @@ public class UserService implements IUserService {
         }
 
         user.setName(userDto.getName());
+        user.setGender(EnumUtils.toGender(userDto.getGenderValue()));
         user.setMobile(userDto.getMobile());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());

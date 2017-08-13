@@ -180,11 +180,11 @@ mainApp.service("mineGrid", function ($http, $parse) {
         $.extend(setting, defaultSetting, scopeSetting, options);
         $parse(target).assign(scope, setting);
 
-        scope.gridPageQuery = function (params) {
-            scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params);
+        scope.gridPageQuery = function (params, data) {
+            scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params, data);
         };
 
-        scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams) {
+        scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams, data) {
 
             var headers = {
                 page_size: pageInfo.pageSize,
@@ -198,11 +198,15 @@ mainApp.service("mineGrid", function ($http, $parse) {
             if (angular.isObject(sortInfo)) {
                 $.extend(headers, {sort_field: sortInfo.field, sort_direction: sortInfo.direction});
             }
+            if (!angular.isObject(data)) {
+                data = {};
+            }
             $http({
                 method: setting.requestMethod,
                 url: setting.requestUrl,
                 headers: headers,
-                params: params
+                params: params,
+                data: data
             }).then(function successCallback(response) {
                 var result = {data: [], total: 0};
                 if (angular.isFunction(scope.gridPageQueryCallback)) {

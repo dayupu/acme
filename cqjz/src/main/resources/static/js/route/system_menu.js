@@ -34,8 +34,8 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         });
     };
 
-    $scope.update = function () {
-        var url = "admin/menu/list/" + $scope.menu.id;
+    $scope.edit = function () {
+        var url = "admin/menu/" + $scope.menu.id;
         mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
             $scope.menu = data.content;
             $scope.messageStatus = verifyData(data);
@@ -51,7 +51,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
 
     $scope.delete = function () {
         mineUtil.confirm("确认删除吗？", function () {
-            var url = "admin/menu/list/" + $scope.menu.id;
+            var url = "admin/menu/" + $scope.menu.id;
             var parentNodeTemp = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode();
             mineHttp.send("DELETE", url, {}, function (data) {
                 $scope.messageStatus = verifyData(data);

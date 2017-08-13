@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.parser;
 
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
+import com.manage.kernel.spring.comm.Messages;
 import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class UserParser {
         userDto.setMobile(user.getMobile());
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
+        userDto.setGender(Messages.get(user.getGender().messageKey()));
+        userDto.setGenderValue(user.getGender().dbValue());
         return userDto;
     }
 }

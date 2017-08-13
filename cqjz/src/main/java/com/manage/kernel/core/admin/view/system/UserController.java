@@ -9,6 +9,7 @@ import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.Validators;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.service.IUserService;
+import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
 import com.manage.kernel.spring.entry.PageQuery;
 import org.apache.logging.log4j.LogManager;
@@ -33,15 +34,17 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/list")
-    public ResponseInfo getUserList(@PageQueryAon PageQuery pageQuery) {
+    @InboundLog
+    @PostMapping("/list")
+    public ResponseInfo getUserList(@PageQueryAon PageQuery pageQuery,@RequestBody UserDto userQuery) {
         ResponseInfo response = new ResponseInfo();
-        PageResult result = userService.getUserListByPage(pageQuery);
+        PageResult result = userService.getUserListByPage(pageQuery, userQuery);
         response.setStatus(ResponseStatus.SUCCESS);
         response.setContent(result);
         return response;
     }
 
+    @InboundLog
     @PostMapping
     public ResponseInfo addUser(@RequestBody UserDto user) {
         ResponseInfo response = new ResponseInfo();
@@ -62,6 +65,7 @@ public class UserController {
         return response;
     }
 
+    @InboundLog
     @GetMapping("/{id}")
     public ResponseInfo getUser(@PathVariable("id") Long userId) {
         ResponseInfo response = new ResponseInfo();
@@ -80,6 +84,7 @@ public class UserController {
         return response;
     }
 
+    @InboundLog
     @PutMapping("/{id}")
     public ResponseInfo modifyUser(@PathVariable("id") Long userId, @RequestBody UserDto user) {
         ResponseInfo response = new ResponseInfo();
@@ -100,6 +105,7 @@ public class UserController {
         return response;
     }
 
+    @InboundLog
     @DeleteMapping("/{id}")
     public ResponseInfo deleteUser(@PathVariable("id") Long userId) {
         ResponseInfo response = new ResponseInfo();

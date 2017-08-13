@@ -7,53 +7,45 @@
             class="modal-title">用户详情</span>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" name="userForm">
-            <div class="alert alert-danger" ng-if="message != null">
-                {{message}}
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">账号：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.account}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
-                <label class="col-sm-3 control-label">用户名：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.name}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.email.$valid]">
-                <label class="col-sm-3 control-label">邮箱：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.email}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.mobile.$valid]">
-                <label class="col-sm-3 control-label">手机号：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.mobile}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.telephone.$valid]">
-                <label class="col-sm-3 control-label">座机：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.telephone}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.telephone.$valid]">
-                <label class="col-sm-3 control-label">创建时间：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.createdAt}}</label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.telephone.$valid]">
-                <label class="col-sm-3 control-label">修改时间：</label>
-                <div class="col-sm-6">
-                    <label class="mine-label">{{user.updatedAt}}</label>
-                </div>
-            </div>
-        </form>
+        <div class="alert alert-danger" ng-if="message != null">
+            {{message}}
+        </div>
+        <table class="table table-bordered table-striped">
+            <tbody>
+            <tr>
+                <td width="100" class="mine-title-td">账号</td>
+                <td>{{user.account}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">用户名</td>
+                <td>{{user.name}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">性别</td>
+                <td>{{user.gender}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">邮箱</td>
+                <td>{{user.email}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">手机号</td>
+                <td>{{user.mobile}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">座机</td>
+                <td>{{user.telephone}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">创建时间</td>
+                <td>{{user.createdAt}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">修改时间</td>
+                <td>{{user.updatedAt}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <div class="modal-footer">
         <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
