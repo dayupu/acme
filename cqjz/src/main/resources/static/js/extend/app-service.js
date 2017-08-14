@@ -43,6 +43,25 @@ mainApp.service("mineUtil", function ($uibModal) {
         });
     };
 
+    this.alert = function (message) {
+        var alertModal = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: fullPath('comm/alert.htm'),
+            size: 'sm',
+            controller: 'alertController',
+            resolve: {
+                data: function () {
+                    return message;
+                }
+            }
+        });
+        alertModal.result.then(function () {
+        }, function () {
+        });
+    };
+
     this.modal = function (templateUrl, controller, data, size) {
         var myModal = $uibModal.open({
             animation: true,
@@ -69,6 +88,15 @@ mainApp.controller("confirmController", function ($scope, $uibModalInstance, dat
         $uibModalInstance.close();
     };
 
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    }
+});
+mainApp.controller("alertController", function ($scope, $uibModalInstance, data) {
+    $scope.message = data;
+    $scope.ok = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     }

@@ -160,6 +160,13 @@
     padding-bottom: 5px;
     border-bottom: 1px solid #edeef2;
 }
+.mine-normal-button{
+    padding-left: 10px;
+    text-align: left;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #edeef2;
+    margin-bottom: 5px;
+}
 
 .mine-input-date {
     width: 140px;

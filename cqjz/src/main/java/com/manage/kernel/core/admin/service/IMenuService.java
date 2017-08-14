@@ -19,5 +19,5 @@ public interface IMenuService {
 
     void deleteMenu(Long id);
 
-    void addSubMenu(MenuDto menuDto);
+    void addMenu(MenuDto menuDto);
 }
