@@ -7,7 +7,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
     // select menu
     $scope.ztreeSelected = function (event, treeId, treeNode) {
         $scope.messageStatus = null;
-        var url = "admin/menu/list/" + treeNode.id;
+        var url = "admin/menu/" + treeNode.id;
         mineHttp.send("GET", url, {}, function (data) {
             if (verifyData(data)) {
                 $scope.menu = data.content;
@@ -35,17 +35,9 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
     };
 
     $scope.edit = function () {
-        var url = "admin/menu/" + $scope.menu.id;
-        mineHttp.send("PUT", url, {data: $scope.menu}, function (data) {
-            $scope.menu = data.content;
-            $scope.messageStatus = verifyData(data);
-            $scope.message = data.message;
-            $scope.buildTree(function () {
-                if (data.content.parentId != null) {
-                    var parentNode = menuTree.getNodeByParam("id", data.content.parentId);
-                    menuTree.expandNode(parentNode);
-                }
-            });
+        var modalInstance = mineUtil.modal("admin/_system/menu/menuEdit.htm", "systemMenuEditController", $scope.menu);
+        modalInstance.result.then(function (selectedItem) {
+        }, function () {
         });
     };
 
@@ -54,12 +46,14 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
             var url = "admin/menu/" + $scope.menu.id;
             var parentNodeTemp = menuTree.getNodeByParam("id", $scope.menu.id).getParentNode();
             mineHttp.send("DELETE", url, {}, function (data) {
-                $scope.messageStatus = verifyData(data);
-                $scope.message = data.message;
-                if (!$scope.messageStatus) {
+
+                if (!verifyData(data)) {
+                    $scope.messageStatus = false;
+                    $scope.message = data.message;
                     return;
                 }
 
+                mineUtil.alert("删除成功");
                 $scope.menu = null;
                 $scope.buildTree(function () {
                     if (parentNodeTemp != null) {
@@ -71,8 +65,12 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         });
     };
 
-    $scope.addMenu = function () {
-        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "systemMenuAddController", $scope.menu);
+    $scope.add = function (flag) {
+        var params = null;
+        if (flag == 2) {
+            params = $scope.menu;
+        }
+        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "systemMenuAddController", params);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
         });
@@ -81,7 +79,7 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
     // page init
     $scope.buildTree();
 
-    mineMessage.subscribe("systemMenuAdd", function (event, nodeId) {
+    mineMessage.subscribe("systemMenuTreeRefresh", function (event, nodeId) {
         $scope.buildTree(function () {
             var parentNode = menuTree.getNodeByParam("id", nodeId);
             menuTree.expandNode(parentNode);
@@ -90,20 +88,54 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
 });
 
 mainApp.controller("systemMenuAddController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
+
+
     $scope.initPage = function () {
         $scope.menu = {};
-        $scope.menu.parentId = data.id;
-        $scope.menu.parentName = data.name;
+        if (data == null) {
+            $scope.title = "一级菜单";
+        } else {
+            $scope.title = "二级菜单";
+            $scope.menu.parentId = data.id;
+            $scope.menu.parentName = data.name;
+        }
     };
+
     $scope.initPage();
     $scope.ok = function () {
-        mineHttp.send("POST", "admin/menu/addSub", {data: $scope.menu}, function (result) {
+        mineHttp.send("POST", "admin/menu", {data: $scope.menu}, function (result) {
             $scope.messageStatus = verifyData(result);
-            if ($scope.messageStatus) {
-                mineMessage.publish("systemMenuAdd", data.id);
-            }
             $scope.message = result.message;
+            if ($scope.messageStatus) {
+                var nodeId = data == null ? null : data.id;
+                mineMessage.publish("systemMenuTreeRefresh", nodeId);
+            }
             $scope.initPage();
+        });
+    };
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("systemMenuEditController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
+
+    mineHttp.send("GET", "admin/menu/" + data.id, {}, function (data) {
+        if (verifyData(data)) {
+            $scope.menu = data.content;
+        } else {
+            $scope.menu = null;
+        }
+    });
+
+    $scope.ok = function () {
+        mineHttp.send("PUT", "admin/menu/" + $scope.menu.id, {data: $scope.menu}, function (data) {
+            $scope.menu = data.content;
+            $scope.messageStatus = verifyData(data);
+            $scope.message = data.message;
+            if ($scope.messageStatus) {
+                mineMessage.publish("systemMenuTreeRefresh", data.content.id);
+            }
         });
     };
     $scope.cancel = function () {

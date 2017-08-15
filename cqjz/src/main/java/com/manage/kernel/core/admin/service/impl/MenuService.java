@@ -9,17 +9,23 @@ import com.manage.kernel.core.admin.dto.MenuNav;
 import com.manage.kernel.core.admin.service.IMenuService;
 import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.repository.MenuRepo;
+
 import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.criteria.Predicate;
+
 import org.springframework.util.CollectionUtils;
 
 @Service
@@ -32,21 +38,25 @@ public class MenuService implements IMenuService {
 
     @Override
     @Transactional
-    public void addSubMenu(MenuDto menuDto) {
-
-        Menu parent = menuRepo.findOne(menuDto.getParentId());
-        if (parent == null) {
-            LOGGER.warn("Not found the order {}", menuDto.getParentId());
-            throw new MenuNotFoundException();
-        }
+    public void addMenu(MenuDto menuDto) {
 
         Menu menu = new Menu();
         menu.setName(menuDto.getName());
-        menu.setLevel(parent.getLevel() + 1);
-        menu.setParent(parent);
-        menu.setSequence(parent.getChildrens().size() + 1);
         menu.setUrl(menuDto.getUrl());
-
+        if (menuDto.getParentId() == null) {
+            List<Menu> menus = menuRepo.queryMenuListByLevel(1);
+            menu.setLevel(1);
+            menu.setSequence(menus.size());
+        } else {
+            Menu parent = menuRepo.findOne(menuDto.getParentId());
+            if (parent == null) {
+                LOGGER.warn("Not found the order {}", menuDto.getParentId());
+                throw new MenuNotFoundException();
+            }
+            menu.setLevel(parent.getLevel() + 1);
+            menu.setParent(parent);
+            menu.setSequence(parent.getChildrens().size() + 1);
+        }
         menuRepo.save(menu);
     }
 

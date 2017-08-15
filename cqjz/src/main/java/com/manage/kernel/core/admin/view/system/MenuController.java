@@ -38,7 +38,7 @@ public class MenuController {
     private IMenuService menuService;
 
     @InboundLog
-    @GetMapping("/list/{id}")
+    @GetMapping("{id}")
     public ResponseInfo menuDetail(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
@@ -131,14 +131,13 @@ public class MenuController {
     }
 
     @InboundLog
-    @PostMapping("/addSub")
+    @PostMapping
     public ResponseInfo addSubMenu(@RequestBody MenuDto menuDto) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(menuDto, null);
-            Validators.notNull(menuDto.getParentId(), null);
             Validators.notEmpty(menuDto.getName(), null);
-            menuService.addSubMenu(menuDto);
+            menuService.addMenu(menuDto);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

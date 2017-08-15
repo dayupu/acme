@@ -23,4 +23,8 @@ public interface MenuRepo extends CrudRepository<Menu, Serializable>, JpaSpecifi
 
     @Query("select m from Menu m where m.url = :url")
     List<Menu> queryMenuListByUrl(@Param("url") String url);
+
+    @Query("select m from Menu m where m.level = :level")
+    List<Menu> queryMenuListByLevel(@Param("level") Integer level);
+
 }
