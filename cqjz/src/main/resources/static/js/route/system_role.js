@@ -9,21 +9,18 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.permitDelete = false;
 
     $scope.myData = [];
-    $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
-    $("#userQueryCreatedAtEnd").datetimepicker({format: 'Y-m-d H:i:s'});
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         showSelectionCheckbox: true,
         multiSelect: true,
         selectWithCheckboxOnly: true,
         requestMethod: "POST",
-        requestUrl: fullPath("admin/user/list"),
-        columnDefs: [{field: 'account', displayName: '账号'},
-            {field: 'name', displayName: '姓名'},
-            {field: 'gender', displayName: '性别'},
-            {field: 'email', displayName: '电子邮箱'},
-            {field: 'mobile', displayName: '联系电话'},
+        requestUrl: fullPath("admin/role/list"),
+        columnDefs: [
+            {field: 'name', displayName: '角色名'},
+            {field: 'description', displayName: '描述'},
             {field: 'createdAt', displayName: '创建时间'},
+            {field: 'createdBy', displayName: '创建者'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -51,25 +48,25 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
     };
 
     $scope.query = function () {
-        $scope.gridPageQuery({}, $scope.userQuery);
+        $scope.gridPageQuery({}, $scope.roleQuery);
     };
 
     $scope.add = function () {
-        var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", $scope.menu);
+        var modalInstance = mineUtil.modal("admin/_system/role/roleAdd.htm", "systemRoleAddController", {});
         modalInstance.result.then(function () {
         }, function () {
             $scope.query();
         });
     };
-    $scope.edit = function (user) {
-        var modalInstance = mineUtil.modal("admin/_system/user/userModify.htm", "systemUserModifyController", user);
+    $scope.edit = function (role) {
+        var modalInstance = mineUtil.modal("admin/_system/role/roleEdit.htm", "systemRoleEditController", role);
         modalInstance.result.then(function () {
         }, function () {
             $scope.query();
         });
     };
-    $scope.detail = function (user) {
-        var modalInstance = mineUtil.modal("admin/_system/user/userDetail.htm", "systemUserDetailController", user);
+    $scope.detail = function (role) {
+        var modalInstance = mineUtil.modal("admin/_system/role/roleDetail.htm", "systemRoleDetailController", role);
         modalInstance.result.then(function () {
         }, function () {
         });
@@ -77,13 +74,13 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
 
 });
 
-mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp) {
+mainApp.controller("systemRoleAddController", function ($scope, $uibModalInstance, mineHttp) {
     $scope.ok = function () {
-        mineHttp.send("POST", "admin/user", {data: $scope.user}, function (result) {
+        mineHttp.send("POST", "admin/role", {data: $scope.role}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                $scope.user = null;
+                $scope.role = null;
             }
         });
     };
@@ -92,18 +89,18 @@ mainApp.controller("systemUserAddController", function ($scope, $uibModalInstanc
     };
 });
 
-mainApp.controller("systemUserModifyController", function ($scope, $uibModalInstance, mineHttp, data) {
+mainApp.controller("systemRoleEditController", function ($scope, $uibModalInstance, mineHttp, data) {
 
-    mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
+    mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
             $scope.messageStatus = false;
             $scope.message = result.message;
         }
-        $scope.user = result.content;
+        $scope.role = result.content;
     });
 
     $scope.ok = function () {
-        mineHttp.send("PUT", "admin/user/1000", {data: $scope.user}, function (result) {
+        mineHttp.send("PUT", "admin/role/" + data.id, {data: $scope.role}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
         });
@@ -113,11 +110,11 @@ mainApp.controller("systemUserModifyController", function ($scope, $uibModalInst
     };
 });
 
-mainApp.controller("systemUserDetailController", function ($scope, $uibModalInstance, mineHttp, data) {
+mainApp.controller("systemRoleDetailController", function ($scope, $uibModalInstance, mineHttp, data) {
 
-    mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
+    mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         $scope.message = result.message;
-        $scope.user = result.content;
+        $scope.role = result.content;
     });
 
     $scope.cancel = function () {

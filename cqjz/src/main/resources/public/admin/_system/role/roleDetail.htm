@@ -1,0 +1,45 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">角色详情</span>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-if="message != null">
+            {{message}}
+        </div>
+        <table class="table table-bordered table-striped">
+            <tbody>
+            <tr>
+                <td width="100" class="mine-title-td">角色名</td>
+                <td>{{role.name}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">描述</td>
+                <td>{{role.description}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">创建时间</td>
+                <td>{{role.createdAt}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">创建者</td>
+                <td>{{role.createdBy}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">修改时间</td>
+                <td>{{role.updatedAt}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td">修改者</td>
+                <td>{{role.updatedBy}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

@@ -56,14 +56,14 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     };
 
     $scope.add = function () {
-        var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", $scope.menu);
+        var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", {});
         modalInstance.result.then(function () {
         }, function () {
             $scope.query();
         });
     };
     $scope.edit = function (user) {
-        var modalInstance = mineUtil.modal("admin/_system/user/userModify.htm", "systemUserModifyController", user);
+        var modalInstance = mineUtil.modal("admin/_system/user/userEdit.htm", "systemUserEditController", user);
         modalInstance.result.then(function () {
         }, function () {
             $scope.query();
@@ -93,7 +93,7 @@ mainApp.controller("systemUserAddController", function ($scope, $uibModalInstanc
     };
 });
 
-mainApp.controller("systemUserModifyController", function ($scope, $uibModalInstance, mineHttp, data) {
+mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, data) {
 
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
@@ -104,7 +104,7 @@ mainApp.controller("systemUserModifyController", function ($scope, $uibModalInst
     });
 
     $scope.ok = function () {
-        mineHttp.send("PUT", "admin/user/1000", {data: $scope.user}, function (result) {
+        mineHttp.send("PUT", "admin/user/" + data.id, {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
         });

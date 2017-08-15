@@ -28,9 +28,6 @@ public class Role extends StatusBase {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "parent_id")
-    private Long parentId;
-
     @Column(name = "description", length = 200)
     private String description;
 
@@ -59,14 +56,6 @@ public class Role extends StatusBase {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public String getDescription() {
