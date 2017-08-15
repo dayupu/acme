@@ -1,6 +1,6 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.kernel.jpa.news.base.BaseCommon;
+import com.manage.kernel.jpa.news.base.StatusBase;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ad_role")
 @SequenceGenerator(name = "seq_role", sequenceName = "seq_role", allocationSize = 1)
-public class Role extends BaseCommon {
+public class Role extends StatusBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_role")

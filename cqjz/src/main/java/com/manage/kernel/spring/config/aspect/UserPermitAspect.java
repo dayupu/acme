@@ -31,7 +31,7 @@ public class UserPermitAspect extends ServiceBase {
     public void doBefore(JoinPoint point) throws ApiExeception {
 
         try {
-            AuthUser authUser =  currentUser();
+            AuthUser authUser =  sessionUser();
             if (authUser == null) {
                 throw new AuthorizedException();
             }

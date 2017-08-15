@@ -14,6 +14,7 @@ import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.UserRepo;
 import com.manage.kernel.spring.comm.Messages;
+import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.kernel.spring.config.security.AuthPasswordEncoder;
 import com.manage.kernel.spring.entry.PageQuery;
 import org.joda.time.LocalDateTime;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements IUserService {
+public class UserService extends ServiceBase implements IUserService {
 
     @Autowired
     private UserRepo userRepo;
@@ -37,6 +38,7 @@ public class UserService implements IUserService {
     private AuthPasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public UserDto getUser(Long userId) {
 
         User user = userRepo.findOne(userId);
@@ -94,6 +96,7 @@ public class UserService implements IUserService {
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
         user.setCreatedAt(LocalDateTime.now());
+        user.setCreatedUser(currentUser());
         userRepo.save(user);
     }
 
@@ -111,6 +114,7 @@ public class UserService implements IUserService {
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setUpdatedUser(currentUser());
         userRepo.save(user);
     }
 
@@ -127,7 +131,4 @@ public class UserService implements IUserService {
         return new Pair<User, List<Long>>(user, roleIds);
     }
 
-    private String msg(String code, Object... params) {
-        return Messages.get(code, params);
-    }
 }

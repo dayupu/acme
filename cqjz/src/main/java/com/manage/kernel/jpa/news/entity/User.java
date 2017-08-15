@@ -1,17 +1,13 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.base.extend.converter.StatusAttributeConverter;
 import com.manage.base.extend.enums.Gender;
-import com.manage.base.extend.enums.Status;
-import com.manage.kernel.jpa.news.base.BaseCommon;
+import com.manage.kernel.jpa.news.base.StatusBase;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ad_user")
 @SequenceGenerator(name = "seq_user", sequenceName = "seq_user")
-public class User extends BaseCommon {
+public class User extends StatusBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
@@ -43,8 +39,8 @@ public class User extends BaseCommon {
     private String password;
 
     @Column(name = "gender")
-    @Type(type = "com.manage.base.extend.define.DBEnumType",
-            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender")})
+    @Type(type = "com.manage.base.extend.define.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender") })
     private Gender gender;
 
     @Column(name = "telephone", length = 50)
@@ -55,10 +51,6 @@ public class User extends BaseCommon {
 
     @Column(name = "email", length = 50)
     private String email;
-
-    @Column(name = "status")
-    @Convert(converter = StatusAttributeConverter.class)
-    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id", referencedColumnName = "id")
@@ -71,6 +63,14 @@ public class User extends BaseCommon {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ad_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<Role>();
+
+    public User() {
+
+    }
+
+    public User(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -142,16 +142,6 @@ public class User extends BaseCommon {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public Status getStatus() {
-        return status;
-    }
-
-    @Override
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public Department getDepartment() {

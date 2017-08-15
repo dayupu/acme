@@ -1,6 +1,6 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.kernel.jpa.news.base.BaseFlow;
+import com.manage.kernel.jpa.news.base.FlowBase;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "news")
-public class News extends BaseFlow {
+public class News extends FlowBase {
 
     @Id
     @Column(name = "id")

@@ -1,6 +1,5 @@
 package com.manage.kernel.core.admin.parser;
 
-
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.spring.comm.Messages;
@@ -34,6 +33,8 @@ public class UserParser {
         userDto.setUpdatedAt(user.getUpdatedAt());
         userDto.setGender(Messages.get(user.getGender().messageKey()));
         userDto.setGenderValue(user.getGender().getConstant());
+        userDto.setCreatedBy(user.getCreatedUserName());
+        userDto.setUpdatedBy(user.getUpdatedUserName());
         return userDto;
     }
 }

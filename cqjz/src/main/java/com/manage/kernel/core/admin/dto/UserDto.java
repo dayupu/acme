@@ -1,17 +1,10 @@
 package com.manage.kernel.core.admin.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.extend.serialize.DateTimeDeserializer;
-import com.manage.base.extend.serialize.DateTimeSerializer;
 import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
 import com.manage.base.extend.serialize.LocalDateTimeSerializer;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 public class UserDto {
 
@@ -36,6 +29,9 @@ public class UserDto {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAtEnd;
+
+    private String createdBy;
+    private String updatedBy;
 
     public String getAccount() {
         return account;
@@ -131,5 +127,21 @@ public class UserDto {
 
     public void setGenderValue(Integer genderValue) {
         this.genderValue = genderValue;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }

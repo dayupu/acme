@@ -9,22 +9,21 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
 @MappedSuperclass
-public class BaseFlow extends BaseCommon {
-
+public class FlowBase extends StatusBase {
 
     @Column(name = "execution_id", updatable = false, insertable = false)
-    private String execution_id;
+    private String executionId;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "execution_id", referencedColumnName = "execution_id")
     private ProcessFlow processFlow;
 
-    public String getExecution_id() {
-        return execution_id;
+    public String getExecutionId() {
+        return executionId;
     }
 
-    public void setExecution_id(String execution_id) {
-        this.execution_id = execution_id;
+    public void setExecutionId(String executionId) {
+        this.executionId = executionId;
     }
 
     public ProcessFlow getProcessFlow() {

@@ -1,28 +1,34 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.interfaces.DBMapper;
+import com.manage.base.extend.define.DBEnum;
+import com.manage.base.extend.define.Localisable;
 
-public enum Status implements DBMapper<Integer> {
+public enum Status implements DBEnum, Localisable {
 
-    INIT(0, "Init"),
-    AVALID(1, "Avalid"),
-    INVALID(2, "Invalid"),
-    DELETE(3, "Deleted"),
-    RETRY(5, "Retry"),
-    EXPIRE(6, "Expired"),
-    FAILURE(7, "Failed"),
-    SUCCESS(9, "Success");
+    INIT(0, "resource.constant.status.init"),
+    AVALID(1, "resource.constant.status.avalid"),
+    INVALID(2, "resource.constant.status.invalid"),
+    DELETE(3, "resource.constant.status.deleted"),
+    RETRY(5, "resource.constant.status.retry"),
+    EXPIRE(6, "resource.constant.status.expired"),
+    FAILURE(7, "resource.constant.status.failed"),
+    SUCCESS(9, "resource.constant.status.success");
 
     private int constant;
-    private String message;
+    private String messageKey;
 
-    Status(int constant, String message) {
+    Status(int constant, String messageKey) {
         this.constant = constant;
-        this.message = message;
+        this.messageKey = messageKey;
     }
 
     @Override
-    public Integer dbValue() {
+    public Integer getConstant() {
         return this.constant;
+    }
+
+    @Override
+    public String messageKey() {
+        return messageKey;
     }
 }

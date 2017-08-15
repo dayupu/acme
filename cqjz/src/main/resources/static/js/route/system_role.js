@@ -1,6 +1,6 @@
-mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
+mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
 
-    mineHttp.menuLocation("user.list", function (data) {
+    mineHttp.menuLocation("role.list", function (data) {
         $scope.locations = data;
     });
 
@@ -24,7 +24,6 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
             {field: 'createdAt', displayName: '创建时间'},
-            {field: 'createdBy', displayName: '创建者'},
             {
                 field: 'id',
                 displayName: '操作',
