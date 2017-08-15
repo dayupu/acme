@@ -43,7 +43,7 @@ public class User extends BaseCommon {
     private String password;
 
     @Column(name = "gender")
-    @Type(type = "com.manage.base.extend.define.DBEnum",
+    @Type(type = "com.manage.base.extend.define.DBEnumType",
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender")})
     private Gender gender;
 

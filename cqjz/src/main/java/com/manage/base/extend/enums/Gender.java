@@ -1,12 +1,12 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.extend.define.DBMapper;
+import com.manage.base.extend.define.DBEnum;
 import com.manage.base.extend.define.SourceMessage;
 
 /**
  * Created by bert on 2017/8/13.
  */
-public enum Gender implements DBMapper, SourceMessage {
+public enum Gender implements DBEnum, SourceMessage {
 
     MALE(1, "resource.constant.gender.male"),
     FEMALE(0, "resource.constant.gender.female");;
@@ -26,7 +26,7 @@ public enum Gender implements DBMapper, SourceMessage {
 
 
     @Override
-    public Integer dbValue() {
+    public Integer getConstant() {
         return constant;
     }
 

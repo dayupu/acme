@@ -10,7 +10,7 @@ public class EnumUtils {
     public static Gender toGender(Integer value) {
         if (value != null) {
             for (Gender gender : Gender.values()) {
-                if (value.equals(gender.dbValue())) {
+                if (value.equals(gender.getConstant())) {
                     return gender;
                 }
             }

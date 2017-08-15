@@ -33,7 +33,7 @@ public class UserParser {
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
         userDto.setGender(Messages.get(user.getGender().messageKey()));
-        userDto.setGenderValue(user.getGender().dbValue());
+        userDto.setGenderValue(user.getGender().getConstant());
         return userDto;
     }
 }
