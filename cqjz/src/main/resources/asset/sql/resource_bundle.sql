@@ -7,3 +7,9 @@ INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_res
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'common.message.system.error', 'zh', '系统异常.');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.gender.male', 'zh', '男');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.gender.female', 'zh', '女');
+
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.init', 'zh', '初始化');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.enabled', 'zh', '正常');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.disabled', 'zh', '无效');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.deleted', 'zh', '已删除');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.expired', 'zh', '已过期');

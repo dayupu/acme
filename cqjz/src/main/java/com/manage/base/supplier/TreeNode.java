@@ -8,6 +8,7 @@ public class TreeNode {
     private Long id;
     private Long pid;
     private String name;
+    private boolean checked = false;
 
     public Long getId() {
         return id;
@@ -31,5 +32,13 @@ public class TreeNode {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

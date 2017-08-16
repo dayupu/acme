@@ -1,7 +1,6 @@
 package com.manage.kernel.jpa.news.entity;
 
 
-import com.manage.base.extend.converter.FlowStatusAttributeConverter;
 import com.manage.base.extend.enums.FlowStatus;
 
 import javax.persistence.Column;
@@ -15,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "ad_process_flow")
@@ -28,7 +29,8 @@ public class ProcessFlow{
     private String processId;
 
     @Column(name = "state", nullable = false, length = 3)
-    @Convert(converter = FlowStatusAttributeConverter.class)
+    @Type(type = "com.manage.base.extend.define.DBEnumType",
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.FlowStatus")})
     private FlowStatus status;
 
     @Column(name = "news_id", insertable = false, updatable = false)

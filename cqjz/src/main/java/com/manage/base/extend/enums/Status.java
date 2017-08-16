@@ -5,14 +5,11 @@ import com.manage.base.extend.define.Localisable;
 
 public enum Status implements DBEnum, Localisable {
 
-    INIT(0, "resource.constant.status.init"),
-    AVALID(1, "resource.constant.status.avalid"),
-    INVALID(2, "resource.constant.status.invalid"),
-    DELETE(3, "resource.constant.status.deleted"),
-    RETRY(5, "resource.constant.status.retry"),
-    EXPIRE(6, "resource.constant.status.expired"),
-    FAILURE(7, "resource.constant.status.failed"),
-    SUCCESS(9, "resource.constant.status.success");
+    INIT(0, "resource.constant.data.status.init"),
+    ENABLE(1, "resource.constant.data.status.enabled"),
+    DISABLE(2, "resource.constant.data.status.disabled"),
+    DELETE(3, "resource.constant.data.status.deleted"),
+    EXPIRE(4, "resource.constant.data.status.expired");
 
     private int constant;
     private String messageKey;

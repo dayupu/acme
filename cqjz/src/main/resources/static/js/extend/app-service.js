@@ -105,7 +105,6 @@ mainApp.controller("alertController", function ($scope, $uibModalInstance, data)
 // my tree base on zTree
 mainApp.service("mineTree", function () {
     var defaultSetting = {
-        checkbox: false,
         data: {
             simpleData: {
                 enable: true,

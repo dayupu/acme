@@ -1,20 +1,25 @@
 package com.manage.kernel.core.admin.service.impl;
 
+import com.google.common.collect.Lists;
 import com.manage.base.exception.RoleNotFoundException;
 import com.manage.base.extend.enums.Status;
 import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.TreeNode;
 import com.manage.base.utils.StringUtils;
 import com.manage.kernel.core.admin.dto.RoleDto;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.RoleParser;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IRoleService;
+import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.entity.Role;
+import com.manage.kernel.jpa.news.repository.MenuRepo;
 import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.kernel.spring.entry.PageQuery;
 import java.util.ArrayList;
 import java.util.List;
+import static javafx.scene.input.KeyCode.L;
 import javax.persistence.criteria.Predicate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,9 @@ public class RoleService extends ServiceBase implements IRoleService {
 
     @Autowired
     private RoleRepo roleRepo;
+
+    @Autowired
+    private MenuRepo menuRepo;
 
     @Override
     @Transactional
@@ -98,5 +106,31 @@ public class RoleService extends ServiceBase implements IRoleService {
         pageResult.setTotal(rolePage.getTotalElements());
         pageResult.setRows(RoleParser.toRoleDtoList(rolePage.getContent()));
         return pageResult;
+    }
+
+    @Override
+    @Transactional
+    public List<TreeNode> roleMenus(Long roleId) {
+        Role role = roleRepo.findOne(roleId);
+        if (role == null) {
+            throw new RoleNotFoundException();
+        }
+
+        List<Menu> menus = menuRepo.queryMenuAll();
+        List<TreeNode> roleMenus = new ArrayList<>();
+        TreeNode treeNode;
+        for (Menu menu : menus) {
+            treeNode = new TreeNode();
+            treeNode.setId(menu.getId());
+            treeNode.setName(menu.getName());
+            treeNode.setPid(menu.getParentId());
+            for (Menu roleMenu : role.getMenus()) {
+                if (roleMenu.getId().equals(menu.getId())) {
+                    treeNode.setChecked(true);
+                }
+            }
+            roleMenus.add(treeNode);
+        }
+        return roleMenus;
     }
 }

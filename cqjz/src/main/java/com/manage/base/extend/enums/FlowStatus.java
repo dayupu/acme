@@ -1,8 +1,8 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.interfaces.DBMapper;
+import com.manage.base.extend.define.DBEnum;
 
-public enum FlowStatus implements DBMapper<Integer> {
+public enum FlowStatus implements DBEnum {
 
     INIT(0, "init"),
     SUBMIT(1, "submit"),
@@ -19,7 +19,7 @@ public enum FlowStatus implements DBMapper<Integer> {
         this.message = message;
     }
 
-
+    @Override
     public Integer getConstant() {
         return constant;
     }
@@ -27,10 +27,4 @@ public enum FlowStatus implements DBMapper<Integer> {
     public void setConstant(Integer constant) {
         this.constant = constant;
     }
-
-    @Override
-    public Integer dbValue() {
-        return this.constant;
-    }
-
 }

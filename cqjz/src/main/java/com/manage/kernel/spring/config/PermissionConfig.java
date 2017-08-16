@@ -5,6 +5,7 @@ import com.manage.base.extend.enums.PermitType;
 import com.manage.kernel.core.admin.service.IPermissionService;
 import com.manage.kernel.jpa.news.entity.Permission;
 import com.manage.kernel.spring.annotation.UserPermit;
+import com.manage.kernel.spring.annotation.UserPermitGroup;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -50,19 +51,19 @@ public class PermissionConfig implements InitializingBean {
         List<String> classNames = getClassNames();
         Class clazz;
         Permit permit;
-        Permit permitGroup;
+        Permit parentPermit;
         UserPermit userPermit;
-        UserPermit userPermitGroup;
+        UserPermitGroup userPermitGroup;
         Permission permission;
         List<Permission> permissionList = new ArrayList<Permission>();
         for (String className : classNames) {
             clazz = Class.forName(className);
-            userPermitGroup = (UserPermit) clazz.getAnnotation(UserPermit.class);
+            userPermitGroup = (UserPermitGroup) clazz.getAnnotation(UserPermitGroup.class);
             if (userPermitGroup == null) {
                 continue;
             }
 
-            permitGroup = userPermitGroup.group();
+            parentPermit = userPermitGroup.value();
             for (Method method : clazz.getMethods()) {
                 userPermit = method.getAnnotation(UserPermit.class);
                 if (userPermit == null) {
@@ -71,13 +72,14 @@ public class PermissionConfig implements InitializingBean {
 
                 permit = userPermit.value();
                 if (userPermit.group() != Permit.GROUP_DEFAULT) {
-                    permitGroup = userPermit.group();
+                    parentPermit = userPermit.group();
                 }
 
                 permission = new Permission();
+                permission.setCode(parentPermit.getCode() + permit.getCode());
                 permission.setPermit(permit);
-                permission.setResource(permit.getResource());
-                permission.setPermitGroup(permitGroup);
+                permission.setMessageKey(permit.messageKey());
+                permission.setParentCode(parentPermit.getCode());
                 permission.setType(permit.getType());
                 permission.setCreatedOn(new Date());
                 permissionList.add(permission);
@@ -94,24 +96,25 @@ public class PermissionConfig implements InitializingBean {
         Map<String, Boolean> existMap = new HashMap<String, Boolean>();
 
         Permission permissionGroup;
-        for(Permit permit : Permit.values()){
-            if(permit.getType() != PermitType.GROUP){
+        for (Permit permit : Permit.values()) {
+            if (permit.getType() != PermitType.GROUP) {
                 continue;
             }
             permissionGroup = new Permission();
+            permissionGroup.setCode(permit.getCode());
             permissionGroup.setPermit(permit);
-            permissionGroup.setResource(permit.getResource());
+            permissionGroup.setMessageKey(permit.messageKey());
             permissionGroup.setType(permit.getType());
             permissionGroup.setCreatedOn(new Date());
             permissions.add(permissionGroup);
         }
 
         for (Permission permission : permissionList) {
-            if (existMap.containsKey(permission.permitKey())) {
+            if (existMap.containsKey(permission.getCode())) {
                 continue;
             }
             permissions.add(permission);
-            existMap.put(permission.permitKey(), true);
+            existMap.put(permission.getCode(), true);
         }
 
         permissionService.mergePermission(permissions);

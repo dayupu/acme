@@ -27,7 +27,8 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action></div>"
+                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>"+
+                "<mine-action icon='fa fa-sticky-note-o' action='privilege(row.entity)' name='权限'></mine-action></div>"
             }
 
         ]
@@ -70,6 +71,11 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         modalInstance.result.then(function () {
         }, function () {
         });
+    }
+    $scope.privilege = function(role){
+         var modalInstance = mineUtil.modal("admin/_system/role/rolePrivilege.htm", "systemRolePrivilegeController", role);
+         modalInstance.result.then(function () {
+         }, function () {});
     }
 
 });
@@ -117,6 +123,37 @@ mainApp.controller("systemRoleDetailController", function ($scope, $uibModalInst
         $scope.role = result.content;
     });
 
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalInstance, mineHttp, data, mineTree) {
+
+    mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
+        $scope.message = result.message;
+        $scope.role = result.content;
+    });
+
+     $scope.buildMenuTree = function (callback) {
+        mineHttp.send("GET", "admin/role/" + data.id + "/menuTree", {}, function (data) {
+            var options = {
+                check: {
+                 enable:true
+                },
+                callback: {
+                    onClick: $scope.ztreeSelected
+                }
+            };
+            menuTree = mineTree.build($("#menuTree"), data.content, options);
+
+            if (angular.isFunction(callback)) {
+                callback();
+            }
+        });
+    };
+
+    $scope.buildMenuTree();
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

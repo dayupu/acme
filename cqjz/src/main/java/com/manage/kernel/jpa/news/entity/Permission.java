@@ -1,6 +1,5 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.base.extend.converter.PermitAttributeConverter;
 import com.manage.base.extend.enums.Permit;
 import com.manage.base.extend.enums.PermitType;
 import java.util.ArrayList;
@@ -8,41 +7,41 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
-@Table(name = "ad_permission", uniqueConstraints = { @UniqueConstraint(columnNames = { "permit", "permit_group" }) })
-@SequenceGenerator(name = "seq_permission", sequenceName = "seq_permission", allocationSize = 1)
+@Table(name = "ad_permission")
 public class Permission {
 
     @Id
-    @GeneratedValue(generator = "seq_permission", strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @Column(length = 20)
+    private String code;
 
     @Column(name = "permit", length = 60, nullable = false)
-    @Convert(converter = PermitAttributeConverter.class)
+    @Type(type = "com.manage.base.extend.define.VarDBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Permit") })
     private Permit permit;
 
-    @Column(name = "permit_group", length = 60)
-    @Convert(converter = PermitAttributeConverter.class)
-    private Permit permitGroup;
+    @Column(name = "parent_code", length = 20)
+    private String parentCode;
 
-    @Column(name = "resource", length = 200)
-    private String resource;
+    @Column(name = "message_key", length = 200)
+    private String messageKey;
 
     @Column(name = "type", length = 20)
+    @Type(type = "com.manage.base.extend.define.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.PermitType") })
     private PermitType type;
 
     @Column(name = "created_on")
@@ -59,45 +58,16 @@ public class Permission {
 
     }
 
-    @Transient
-    public String permitKey() {
-        String permitKey = permit.getCode();
-        if (permitGroup != null) {
-            permitKey += ":" + permitGroup.getCode();
-        }
-        return permitKey;
+    public Permission(String code) {
+        this.code = code;
     }
 
-    public Long getId() {
-        return id;
+    public String getMessageKey() {
+        return messageKey;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Permit getPermit() {
-        return permit;
-    }
-
-    public void setPermit(Permit permit) {
-        this.permit = permit;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
-
-    public Permit getPermitGroup() {
-        return permitGroup;
-    }
-
-    public void setPermitGroup(Permit permitGroup) {
-        this.permitGroup = permitGroup;
+    public void setMessageKey(String messageKey) {
+        this.messageKey = messageKey;
     }
 
     public PermitType getType() {
@@ -130,5 +100,29 @@ public class Permission {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Permit getPermit() {
+        return permit;
+    }
+
+    public void setPermit(Permit permit) {
+        this.permit = permit;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 }

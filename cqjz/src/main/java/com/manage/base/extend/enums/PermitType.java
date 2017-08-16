@@ -1,8 +1,8 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.interfaces.DBMapper;
+import com.manage.base.extend.define.DBEnum;
 
-public enum PermitType implements DBMapper<Integer> {
+public enum PermitType implements DBEnum {
 
     GROUP(0, "group"),
     FUNCTION(1, "function");
@@ -23,8 +23,4 @@ public enum PermitType implements DBMapper<Integer> {
         return message;
     }
 
-    @Override
-    public Integer dbValue() {
-        return this.constant;
-    }
 }

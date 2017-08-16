@@ -1,34 +1,33 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.interfaces.DBMapper;
+import com.manage.base.extend.define.Localisable;
+import com.manage.base.extend.define.VarDBEnum;
 
-public enum Permit implements DBMapper<String> {
+public enum Permit implements VarDBEnum, Localisable {
 
-    TEST("test", "permission.test"),
-    GROUP_DEFAULT("default", "permission.group.default", PermitType.GROUP);
+    // FUNCTION
+    CREATE("01", "resource.permission.function.create"),
+    UPDATE("02", "resource.permission.function.update"),
+    DELETE("03", "resource.permission.function.delete"),
+
+    // GROUP
+    GROUP_DEFAULT("99", "resource.permission.group.default", PermitType.GROUP),
+    GROUP_ROLE("10", "resource.permission.group.role", PermitType.GROUP);
 
     private String code;
-    private String resource;
+    private String messageKey;
     private PermitType type;
 
-    Permit(String code, String resource) {
+    Permit(String code, String messageKey) {
         this.code = code;
-        this.resource = resource;
+        this.messageKey = messageKey;
         this.type = PermitType.FUNCTION;
     }
 
-    Permit(String code, String resource, PermitType type) {
+    Permit(String code, String messageKey, PermitType type) {
         this.code = code;
-        this.resource = resource;
+        this.messageKey = messageKey;
         this.type = type;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getResource() {
-        return resource;
     }
 
     public PermitType getType() {
@@ -36,7 +35,12 @@ public enum Permit implements DBMapper<String> {
     }
 
     @Override
-    public String dbValue() {
+    public String messageKey() {
+        return messageKey;
+    }
+
+    @Override
+    public String getCode() {
         return code;
     }
 }

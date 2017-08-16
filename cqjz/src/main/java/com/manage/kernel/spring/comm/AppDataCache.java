@@ -39,10 +39,10 @@ public class AppDataCache implements InitializingBean {
     private void cacheRoleDatas() {
 
         Iterable<Role> roles = roleRepo.findAll();
-        List<Long> privileges = new ArrayList<Long>();
+        List<String> privileges = new ArrayList<String>();
         for (Role role : roles) {
             for (Permission permission : role.getPermissions()) {
-                privileges.add(permission.getId());
+                privileges.add(permission.getCode());
             }
             cacheManager.put(PREFIX_ROLE + role.getId(), privileges);
         }

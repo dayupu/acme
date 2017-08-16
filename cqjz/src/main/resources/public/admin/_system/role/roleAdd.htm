@@ -24,7 +24,7 @@
             <div class="form-group" ng-class="{false:'has-error'}[userForm.description.$valid]">
                 <label class="col-sm-3 control-label">描述<span class="mine-required">*</span></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="role.description" name="name" ng-pattern="/^.{1,20}$/" />
+                    <input type="text" class="form-control input-sm" ng-model="role.description" name="description" ng-pattern="/^.{1,20}$/" />
                 </div>
                 <div class="mine-validator">
                     <mine-validator valid="userForm.description.$valid" when="userForm.description.$dirty" error="长度20位以内"></mine-validator>
