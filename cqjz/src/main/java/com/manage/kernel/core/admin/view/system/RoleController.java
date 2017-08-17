@@ -5,6 +5,7 @@ import com.manage.base.exception.ValidateException;
 import com.manage.base.extend.enums.Permit;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageInfos;
@@ -16,7 +17,11 @@ import com.manage.kernel.spring.annotation.PageQueryAon;
 import com.manage.kernel.spring.annotation.UserPermit;
 import com.manage.kernel.spring.annotation.UserPermitGroup;
 import com.manage.kernel.spring.entry.PageQuery;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,13 +134,37 @@ public class RoleController {
     }
 
     @InboundLog
-    @GetMapping("/{id}/menuTree")
-    public ResponseInfo roleMenus(@PathVariable("id") Long roleId) {
+    @GetMapping("/{id}/privilege")
+    public ResponseInfo rolePermits(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(roleId, null);
-            List<TreeNode> roleMenus = roleService.roleMenus(roleId);
-            response.wrapSuccess(roleMenus);
+            Pair rolePrivilege = roleService.rolePrivilege(roleId);
+            Map privilege = new HashMap();
+            privilege.put("roleMenus", rolePrivilege.getLeft());
+            privilege.put("rolePermits", rolePrivilege.getRight());
+            response.wrapSuccess(privilege);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @PutMapping("/{id}/privilege")
+    public ResponseInfo rolePrivilege(@PathVariable("id") Long roleId, @RequestBody RoleDto roleDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(roleId, null);
+            Validators.notNull(roleDto.getId(), null);
+
+            roleService.resetPrivilege(roleDto);
+            response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

@@ -27,7 +27,7 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>"+
+                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>" +
                 "<mine-action icon='fa fa-sticky-note-o' action='privilege(row.entity)' name='权限'></mine-action></div>"
             }
 
@@ -72,10 +72,11 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         }, function () {
         });
     }
-    $scope.privilege = function(role){
-         var modalInstance = mineUtil.modal("admin/_system/role/rolePrivilege.htm", "systemRolePrivilegeController", role);
-         modalInstance.result.then(function () {
-         }, function () {});
+    $scope.privilege = function (role) {
+        var modalInstance = mineUtil.modal("admin/_system/role/rolePrivilege.htm", "systemRolePrivilegeController", role);
+        modalInstance.result.then(function () {
+        }, function () {
+        });
     }
 
 });
@@ -135,25 +136,39 @@ mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalI
         $scope.role = result.content;
     });
 
-     $scope.buildMenuTree = function (callback) {
-        mineHttp.send("GET", "admin/role/" + data.id + "/menuTree", {}, function (data) {
-            var options = {
-                check: {
-                 enable:true
-                },
-                callback: {
-                    onClick: $scope.ztreeSelected
-                }
-            };
-            menuTree = mineTree.build($("#menuTree"), data.content, options);
-
-            if (angular.isFunction(callback)) {
-                callback();
-            }
+    var menuTree = {};
+    var permitTree = {};
+    $scope.buildTree = function (callback) {
+        mineHttp.send("GET", "admin/role/" + data.id + "/privilege", {}, function (data) {
+            var options = {check: {enable: true}};
+            menuTree = mineTree.build($("#menuTree"), data.content.roleMenus, options);
+            permitTree = mineTree.build($("#functionTree"), data.content.rolePermits, options);
         });
     };
 
-    $scope.buildMenuTree();
+    $scope.buildTree();
+
+    $scope.ok = function () {
+
+        $scope.rolePrivilege = {};
+        $scope.rolePrivilege.id = data.id;
+        $scope.rolePrivilege.roleMenus = new Array();
+        $scope.rolePrivilege.rolePermits = new Array();
+        var menuNodes = menuTree.getCheckedNodes(true);
+        for (var index in menuNodes) {
+            $scope.rolePrivilege.roleMenus.push(menuNodes[index].id);
+        }
+        var permitNodes = permitTree.getCheckedNodes(true);
+        for (var index in permitNodes) {
+            $scope.rolePrivilege.rolePermits.push(permitNodes[index].id);
+        }
+
+        mineHttp.send("PUT", "admin/role/" + data.id + "/privilege", {data: $scope.rolePrivilege}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
+        });
+    };
+
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

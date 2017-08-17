@@ -24,7 +24,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
             {field: 'createdAt', displayName: '创建时间'},
-            {field: 'createdBy', displayName: '创建者'},
+            {field: 'status', displayName: '状态'},
             {
                 field: 'id',
                 displayName: '操作',

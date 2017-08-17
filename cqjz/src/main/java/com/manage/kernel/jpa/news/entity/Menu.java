@@ -1,5 +1,6 @@
 package com.manage.kernel.jpa.news.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -17,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_menu")
-@SequenceGenerator(name = "seq_menu", sequenceName="seq_menu", allocationSize = 1)
+@SequenceGenerator(name = "seq_menu", sequenceName = "seq_menu", allocationSize = 1)
 public class Menu {
 
     @Id
@@ -49,9 +52,21 @@ public class Menu {
     @JoinColumn(name = "parent_id")
     private Menu parent;
 
-    @OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY, mappedBy = "parent")
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "parent")
     @OrderBy("sequence asc")
     private List<Menu> childrens;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ad_role_menu", joinColumns = @JoinColumn(name = "menu_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<Role>();
+
+    public Menu() {
+
+    }
+
+    public Menu(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -131,5 +146,13 @@ public class Menu {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

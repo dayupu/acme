@@ -7,6 +7,7 @@ import com.manage.kernel.core.admin.dto.RoleDto;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.spring.entry.PageQuery;
+
 import java.util.List;
 
 public interface IRoleService {
@@ -19,7 +20,9 @@ public interface IRoleService {
 
     void deleteRole(Long roleId);
 
-    List<TreeNode> roleMenus(Long roleId);
+    Pair<List<TreeNode>, List<TreeNode>> rolePrivilege(Long roleId);
 
     PageResult<RoleDto> getRoleListByPage(PageQuery pageQuery, RoleDto roleQuery);
+
+    void resetPrivilege(RoleDto roleDto);
 }

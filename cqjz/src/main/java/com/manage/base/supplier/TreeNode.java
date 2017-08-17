@@ -3,26 +3,26 @@ package com.manage.base.supplier;
 /**
  * Created by bert on 2017/8/5.
  */
-public class TreeNode {
+public class TreeNode<T> {
 
-    private Long id;
-    private Long pid;
+    private T id;
+    private T pid;
     private String name;
     private boolean checked = false;
 
-    public Long getId() {
+    public T getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(T id) {
         this.id = id;
     }
 
-    public Long getPid() {
+    public T getPid() {
         return pid;
     }
 
-    public void setPid(Long pid) {
+    public void setPid(T pid) {
         this.pid = pid;
     }
 

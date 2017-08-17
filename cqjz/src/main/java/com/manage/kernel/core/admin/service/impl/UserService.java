@@ -96,7 +96,7 @@ public class UserService extends ServiceBase implements IUserService {
         user.setMobile(userDto.getMobile());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
-        user.setStatus(Status.INIT);
+        user.setStatus(Status.ENABLE);
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(currentUser());
         userRepo.save(user);

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.manage.base.exception.RoleNotFoundException;
 import com.manage.base.extend.enums.Status;
 import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.utils.StringUtils;
 import com.manage.kernel.core.admin.dto.RoleDto;
@@ -12,15 +13,22 @@ import com.manage.kernel.core.admin.parser.RoleParser;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IRoleService;
 import com.manage.kernel.jpa.news.entity.Menu;
+import com.manage.kernel.jpa.news.entity.Permission;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.repository.MenuRepo;
+import com.manage.kernel.jpa.news.repository.PermissionRepo;
 import com.manage.kernel.jpa.news.repository.RoleRepo;
+import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.kernel.spring.entry.PageQuery;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static javafx.scene.input.KeyCode.L;
+
 import javax.persistence.criteria.Predicate;
+
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +47,9 @@ public class RoleService extends ServiceBase implements IRoleService {
 
     @Autowired
     private MenuRepo menuRepo;
+
+    @Autowired
+    private PermissionRepo permissionRepo;
 
     @Override
     @Transactional
@@ -110,15 +121,16 @@ public class RoleService extends ServiceBase implements IRoleService {
 
     @Override
     @Transactional
-    public List<TreeNode> roleMenus(Long roleId) {
+    public Pair rolePrivilege(Long roleId) {
+
         Role role = roleRepo.findOne(roleId);
         if (role == null) {
             throw new RoleNotFoundException();
         }
-
-        List<Menu> menus = menuRepo.queryMenuAll();
-        List<TreeNode> roleMenus = new ArrayList<>();
+        Pair pair = new Pair<>();
         TreeNode treeNode;
+        List<Menu> menus = menuRepo.queryListAll();
+        List<TreeNode> roleMenus = new ArrayList<>();
         for (Menu menu : menus) {
             treeNode = new TreeNode();
             treeNode.setId(menu.getId());
@@ -131,6 +143,43 @@ public class RoleService extends ServiceBase implements IRoleService {
             }
             roleMenus.add(treeNode);
         }
-        return roleMenus;
+
+        List<Permission> permissions = permissionRepo.queryListAll();
+        List<TreeNode> rolePermits = new ArrayList<>();
+        for (Permission permit : permissions) {
+            treeNode = new TreeNode();
+            treeNode.setId(permit.getCode());
+            treeNode.setName(Messages.get(permit.getMessageKey()));
+            treeNode.setPid(permit.getParentCode());
+            for (Permission permission : role.getPermissions()) {
+                if (permit.getCode().equals(permission.getCode())) {
+                    treeNode.setChecked(true);
+                }
+            }
+            rolePermits.add(treeNode);
+        }
+
+        return new Pair<>(roleMenus, rolePermits);
+    }
+
+    @Override
+    public void resetPrivilege(RoleDto roleDto) {
+        Role role = roleRepo.findOne(roleDto.getId());
+        if (role == null) {
+            throw new RoleNotFoundException();
+        }
+
+        List<Permission> permissions = new ArrayList<>();
+        if (!roleDto.getRolePermits().isEmpty()) {
+            permissions = permissionRepo.queryListByCode(roleDto.getRolePermits());
+        }
+        role.setPermissions(permissions);
+
+        List<Menu> menus = new ArrayList<>();
+        if (!roleDto.getRoleMenus().isEmpty()) {
+            menus = menuRepo.queryListByIds(roleDto.getRoleMenus());
+        }
+        role.setMenus(menus);
+        roleRepo.save(role);
     }
 }

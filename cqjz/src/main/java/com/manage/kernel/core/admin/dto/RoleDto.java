@@ -6,6 +6,8 @@ import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
 import com.manage.base.extend.serialize.LocalDateTimeSerializer;
 import org.joda.time.LocalDateTime;
 
+import java.util.List;
+
 /**
  * Created by bert on 17-8-15.
  */
@@ -13,9 +15,7 @@ public class RoleDto {
 
     private Long id;
     private String name;
-
     private String status;
-
     private String description;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -28,6 +28,9 @@ public class RoleDto {
 
     private String createdBy;
     private String updatedBy;
+
+    private List<Long> roleMenus;
+    private List<String> rolePermits;
 
     public String getName() {
         return name;
@@ -91,5 +94,22 @@ public class RoleDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public List<Long> getRoleMenus() {
+        return roleMenus;
+    }
+
+    public void setRoleMenus(List<Long> roleMenus) {
+        this.roleMenus = roleMenus;
+    }
+
+    public List<String> getRolePermits() {
+        return rolePermits;
+    }
+
+    public void setRolePermits(List<String> rolePermits) {
+        this.rolePermits = rolePermits;
     }
 }

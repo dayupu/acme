@@ -2,6 +2,7 @@ package com.manage.kernel.jpa.news.entity;
 
 import com.manage.base.extend.enums.Permit;
 import com.manage.base.extend.enums.PermitType;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
@@ -30,7 +33,7 @@ public class Permission {
 
     @Column(name = "permit", length = 60, nullable = false)
     @Type(type = "com.manage.base.extend.define.VarDBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Permit") })
+            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Permit")})
     private Permit permit;
 
     @Column(name = "parent_code", length = 20)
@@ -41,7 +44,7 @@ public class Permission {
 
     @Column(name = "type", length = 20)
     @Type(type = "com.manage.base.extend.define.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.PermitType") })
+            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.PermitType")})
     private PermitType type;
 
     @Column(name = "created_on")

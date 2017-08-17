@@ -146,7 +146,7 @@ public class MenuService implements IMenuService {
     @Transactional
     public List<TreeNode> menuTree() {
 
-        Iterable<Menu> menuIterables = menuRepo.queryMenuAll();
+        Iterable<Menu> menuIterables = menuRepo.queryListAll();
         List<TreeNode> treeNodes = new ArrayList<>();
         TreeNode treeNode;
         for (Menu menu : menuIterables) {
@@ -241,6 +241,7 @@ public class MenuService implements IMenuService {
             }
         }
 
+        menu.setRoles(new ArrayList<>());
         menuRepo.delete(menu);
 
     }

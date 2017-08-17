@@ -13,3 +13,9 @@ INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_res
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.disabled', 'zh', '无效');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.deleted', 'zh', '已删除');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.data.status.expired', 'zh', '已过期');
+
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.function.create', 'zh', '创建');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.function.update', 'zh', '修改');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.function.delete', 'zh', '删除');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.group.default', 'zh', '默认');
+INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.group.role', 'zh', '角色管理');

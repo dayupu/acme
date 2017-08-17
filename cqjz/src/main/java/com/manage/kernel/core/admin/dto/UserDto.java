@@ -33,6 +33,8 @@ public class UserDto {
     private String createdBy;
     private String updatedBy;
 
+    private String status;
+
     public String getAccount() {
         return account;
     }
@@ -143,5 +145,13 @@ public class UserDto {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

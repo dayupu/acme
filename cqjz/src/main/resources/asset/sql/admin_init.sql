@@ -1,7 +1,7 @@
 -- ad_user
 INSERT INTO ad_user (id, created_at, created_by, status, updated_by, updated_at, account, email, mobile, "name", password, telephone, dept_id) VALUES(0, NULL, NULL, 0, NULL, NULL, 'admin', NULL, NULL, NULL, '707f8e47f7fab4f5cb2f7733e2a8afe017d64897e072ad09814d9fcc6fddcb440a2e8346a16a4c5a', NULL, NULL);
 -- ad_role
-INSERT INTO ad_role (id, created_at, created_by, status, updated_by, updated_at, description, "name", parent_id) VALUES(nextval('seq_role'), now(), 0, 0, 0, now(), NULL, '管理员', null);
+INSERT INTO ad_role (id, created_at, created_by, status, updated_by, updated_at, description, "name") VALUES(nextval('seq_role'), now(), 0, 0, 0, now(), NULL, '管理员');
 -- ad_menu
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 1, '系统设置', NULL, 1, NULL);
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '角色管理', 1, 1, 'role.list');
