@@ -31,7 +31,8 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action></div>"
+                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>"+
+                "<mine-action icon='fa fa-sticky-note-o' action='setRole(row.entity)' name='角色'></mine-action></div>"
             }
 
         ]
@@ -75,6 +76,13 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         }, function () {
         });
     }
+    $scope.setRole = function (user) {
+        var modalInstance = mineUtil.modal("admin/_system/user/userRole.htm", "systemUserRoleController", user);
+        modalInstance.result.then(function () {
+        }, function () {
+        });
+    }
+
 
 });
 
@@ -119,6 +127,21 @@ mainApp.controller("systemUserDetailController", function ($scope, $uibModalInst
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         $scope.message = result.message;
         $scope.user = result.content;
+    });
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstance, mineHttp,mineTree, data) {
+
+    var roleTree = {};
+    mineHttp.send("GET", "admin/user/" + data.id+"/role", {}, function (result) {
+        $scope.message = result.message;
+        $scope.user = result.content.user;
+        var options = {check: {enable: true}};
+        roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
     });
 
     $scope.cancel = function () {

@@ -27,7 +27,7 @@ public class AuthUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         boolean enabled = false;
-        if (user.getStatus() == Status.INIT) {
+        if (user.getStatus().isEnabled()) {
             enabled = true;
         }
         Authority authority = new Authority("ROLE_ADMIN");

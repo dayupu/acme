@@ -28,4 +28,8 @@ public enum Status implements DBEnum, Localisable {
     public String messageKey() {
         return messageKey;
     }
+
+    public boolean isEnabled() {
+        return this == INIT || this == ENABLE;
+    }
 }

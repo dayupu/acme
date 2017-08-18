@@ -5,6 +5,7 @@ import com.manage.base.extend.enums.Status;
 import com.manage.base.supplier.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.exception.CoreException;
+import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.EnumUtils;
 import com.manage.base.utils.StringUtils;
@@ -13,6 +14,7 @@ import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IUserService;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
+import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.jpa.news.repository.UserRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.ServiceBase;
@@ -37,6 +39,9 @@ public class UserService extends ServiceBase implements IUserService {
 
     @Autowired
     private AuthPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepo roleRepo;
 
     @Override
     @Transactional
@@ -66,14 +71,15 @@ public class UserService extends ServiceBase implements IUserService {
                 list.add(cb.equal(root.get("mobile").as(String.class), userQuery.getMobile()));
             }
             if (StringUtils.isNotNull(userQuery.getCreatedAt())) {
-                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), userQuery.getCreatedAt()));
+                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
+                        userQuery.getCreatedAt()));
             }
             if (StringUtils.isNotNull(userQuery.getCreatedAtEnd())) {
-                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), userQuery.getCreatedAtEnd()));
+                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
+                        userQuery.getCreatedAtEnd()));
             }
             return cb.and(list.toArray(new Predicate[0]));
         }, pageQuery.buildPageRequest(true));
-
 
         PageResult<UserDto> pageResult = new PageResult<UserDto>();
         pageResult.setTotal(userPage.getTotalElements());
@@ -133,4 +139,29 @@ public class UserService extends ServiceBase implements IUserService {
         return new Pair<User, List<Long>>(user, roleIds);
     }
 
+    @Override
+    @Transactional
+    public Pair<UserDto, List<TreeNode>> userRolePair(Long userId) {
+        User user = userRepo.findOne(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        List<Role> roles = roleRepo.queryListAll();
+        List<TreeNode> treeNodes = new ArrayList<>();
+        TreeNode treeNode;
+        for (Role role : roles) {
+            treeNode = new TreeNode();
+            treeNode.setId(role.getId());
+            treeNode.setName(role.getName());
+
+            for (Role userRole : user.getRoles()) {
+                if (userRole.getId().equals(role.getId())) {
+                    treeNode.setChecked(true);
+                }
+            }
+            treeNodes.add(treeNode);
+        }
+        return new Pair<>(UserParser.toUserDto(user), treeNodes);
+    }
 }
