@@ -23,5 +23,7 @@ public interface IUserService {
 
     Pair<UserDto, List<TreeNode>> userRolePair(Long userId);
 
-    void resetUserRole(UserDto user);
+    void resetUserRole(UserDto userDto);
+
+    void modifyUserStatus(UserDto userDto);
 }

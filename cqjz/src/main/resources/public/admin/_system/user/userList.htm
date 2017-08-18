@@ -49,8 +49,8 @@
         <br/>
         <div>
             <button class="btn btn-sm btn-primary" type="button" ng-click="add()">新建</button>
-            <button class="btn btn-sm btn-primary" type="button" ng-click="modify()">禁用</button>
-            <button class="btn btn-sm btn-primary" type="button" ng-click="open()">启用</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="enable(false)">禁用</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="enable(true)">启用</button>
         </div>
         <div class="gridStyle" ng-grid="gridOptions"></div>
     </div>

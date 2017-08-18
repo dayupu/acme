@@ -36,6 +36,9 @@ public class UserDto {
     private String status;
     private List<Long> roleIds;
 
+    private List<Long> userIds;
+    private boolean enabled;
+
     public String getAccount() {
         return account;
     }
@@ -162,5 +165,21 @@ public class UserDto {
 
     public void setRoleIds(List<Long> roleIds) {
         this.roleIds = roleIds;
+    }
+
+    public List<Long> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

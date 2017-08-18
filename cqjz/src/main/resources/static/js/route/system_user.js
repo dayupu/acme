@@ -42,12 +42,8 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
+
     $scope.gridPageSelectedItems = function (newValue, oldValue) {
-        if (newValue[0].level == "1") {
-            $scope.permitAdd = true;
-        } else {
-            $scope.permitAdd = false;
-        }
         $scope.permitModify = true;
         $scope.permitDelete = true;
     };
@@ -82,8 +78,23 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         }, function () {
         });
     }
-
-
+    $scope.enable = function (enabled) {
+         var selectedItems = $scope.gridSelectedItems;
+         if(selectedItems == null || selectedItems.length == 0){
+            return;
+         }
+         $scope.userSelect = {};
+         $scope.userSelect.enabled = enabled;
+         $scope.userSelect.userIds = new Array();
+         for(var index in selectedItems){
+            $scope.userSelect.userIds.push(selectedItems[index].id);
+         }
+         mineHttp.send("PUT", "admin/user/list/status", {data: $scope.userSelect}, function (result) {
+             if(verifyData(result)){
+                $scope.query();
+             }
+         });
+    }
 });
 
 mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp) {

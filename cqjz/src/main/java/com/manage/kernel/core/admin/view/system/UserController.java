@@ -169,4 +169,23 @@ public class UserController {
         return response;
     }
 
+    @InboundLog
+    @PutMapping("/list/status")
+    public ResponseInfo userStatus(@RequestBody UserDto userDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(userDto.getUserIds(), null);
+            Validators.notEmpty(userDto.getUserIds(), null);
+            userService.modifyUserStatus(userDto);
+            response.wrapSuccess(null);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
 }

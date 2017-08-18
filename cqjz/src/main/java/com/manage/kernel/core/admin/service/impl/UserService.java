@@ -166,6 +166,7 @@ public class UserService extends ServiceBase implements IUserService {
     }
 
     @Override
+    @Transactional
     public void resetUserRole(UserDto userDto) {
         User user = userRepo.findOne(userDto.getId());
         if (user == null) {
@@ -179,5 +180,20 @@ public class UserService extends ServiceBase implements IUserService {
         user.setRoles(userRoles);
         userRepo.save(user);
 
+    }
+
+    @Override
+    @Transactional
+    public void modifyUserStatus(UserDto userDto) {
+
+        List<User> users = userRepo.findListByIds(userDto.getUserIds());
+        for (User user : users) {
+            if (userDto.isEnabled()) {
+                user.setStatus(Status.ENABLE);
+            } else {
+                user.setStatus(Status.DISABLE);
+            }
+            userRepo.save(user);
+        }
     }
 }
