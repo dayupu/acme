@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
 import com.manage.base.extend.serialize.LocalDateTimeSerializer;
+import java.util.List;
 import org.joda.time.LocalDateTime;
 
 public class UserDto {
@@ -32,8 +33,8 @@ public class UserDto {
 
     private String createdBy;
     private String updatedBy;
-
     private String status;
+    private List<Long> roleIds;
 
     public String getAccount() {
         return account;
@@ -153,5 +154,13 @@ public class UserDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 }

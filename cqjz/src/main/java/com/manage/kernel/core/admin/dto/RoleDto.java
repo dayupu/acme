@@ -29,8 +29,8 @@ public class RoleDto {
     private String createdBy;
     private String updatedBy;
 
-    private List<Long> roleMenus;
-    private List<String> rolePermits;
+    private List<Long> menuIds;
+    private List<String> permitCodes;
 
     public String getName() {
         return name;
@@ -96,20 +96,19 @@ public class RoleDto {
         this.description = description;
     }
 
-
-    public List<Long> getRoleMenus() {
-        return roleMenus;
+    public List<Long> getMenuIds() {
+        return menuIds;
     }
 
-    public void setRoleMenus(List<Long> roleMenus) {
-        this.roleMenus = roleMenus;
+    public void setMenuIds(List<Long> menuIds) {
+        this.menuIds = menuIds;
     }
 
-    public List<String> getRolePermits() {
-        return rolePermits;
+    public List<String> getPermitCodes() {
+        return permitCodes;
     }
 
-    public void setRolePermits(List<String> rolePermits) {
-        this.rolePermits = rolePermits;
+    public void setPermitCodes(List<String> permitCodes) {
+        this.permitCodes = permitCodes;
     }
 }

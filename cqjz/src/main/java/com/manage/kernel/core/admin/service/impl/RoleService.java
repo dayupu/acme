@@ -163,6 +163,7 @@ public class RoleService extends ServiceBase implements IRoleService {
     }
 
     @Override
+    @Transactional
     public void resetPrivilege(RoleDto roleDto) {
         Role role = roleRepo.findOne(roleDto.getId());
         if (role == null) {
@@ -170,14 +171,14 @@ public class RoleService extends ServiceBase implements IRoleService {
         }
 
         List<Permission> permissions = new ArrayList<>();
-        if (!roleDto.getRolePermits().isEmpty()) {
-            permissions = permissionRepo.queryListByCode(roleDto.getRolePermits());
+        if (!roleDto.getPermitCodes().isEmpty()) {
+            permissions = permissionRepo.queryListByCode(roleDto.getPermitCodes());
         }
         role.setPermissions(permissions);
 
         List<Menu> menus = new ArrayList<>();
-        if (!roleDto.getRoleMenus().isEmpty()) {
-            menus = menuRepo.queryListByIds(roleDto.getRoleMenus());
+        if (!roleDto.getMenuIds().isEmpty()) {
+            menus = menuRepo.queryListByIds(roleDto.getMenuIds());
         }
         role.setMenus(menus);
         roleRepo.save(role);

@@ -21,5 +21,7 @@ public interface IUserService {
 
     PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery);
 
-    Pair<UserDto,List<TreeNode>> userRolePair(Long userId);
+    Pair<UserDto, List<TreeNode>> userRolePair(Long userId);
+
+    void resetUserRole(UserDto user);
 }

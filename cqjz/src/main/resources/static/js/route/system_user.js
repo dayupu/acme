@@ -32,7 +32,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
                 "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>"+
-                "<mine-action icon='fa fa-sticky-note-o' action='setRole(row.entity)' name='角色'></mine-action></div>"
+                "<mine-action icon='fa fa-user-o' action='setRole(row.entity)' name='角色'></mine-action></div>"
             }
 
         ]
@@ -143,6 +143,20 @@ mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstan
         var options = {check: {enable: true}};
         roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
     });
+
+     $scope.ok = function () {
+            $scope.userRole = {};
+            $scope.userRole.id = data.id;
+            $scope.userRole.roleIds = new Array();
+            var roleNodes = roleTree.getCheckedNodes(true);
+            for (var index in roleNodes) {
+                $scope.userRole.roleIds.push(roleNodes[index].id);
+            }
+            mineHttp.send("PUT", "admin/user/" + data.id + "/role", {data: $scope.userRole}, function (result) {
+                $scope.messageStatus = verifyData(result);
+                $scope.message = result.message;
+            });
+     };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');

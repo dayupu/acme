@@ -35,7 +35,7 @@ public class Role extends StatusBase {
     @JoinTable(name = "ad_role_permission", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
     private List<Permission> permissions = new ArrayList<Permission>();
 
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<User>();
 
     @ManyToMany(fetch = FetchType.LAZY)

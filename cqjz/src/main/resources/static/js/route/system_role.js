@@ -28,7 +28,7 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
                 "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='privilege(row.entity)' name='权限'></mine-action></div>"
+                "<mine-action icon='fa fa-street-view' action='privilege(row.entity)' name='权限'></mine-action></div>"
             }
 
         ]
@@ -152,15 +152,15 @@ mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalI
 
         $scope.rolePrivilege = {};
         $scope.rolePrivilege.id = data.id;
-        $scope.rolePrivilege.roleMenus = new Array();
-        $scope.rolePrivilege.rolePermits = new Array();
+        $scope.rolePrivilege.menuIds = new Array();
+        $scope.rolePrivilege.permitCodes = new Array();
         var menuNodes = menuTree.getCheckedNodes(true);
         for (var index in menuNodes) {
-            $scope.rolePrivilege.roleMenus.push(menuNodes[index].id);
+            $scope.rolePrivilege.menuIds.push(menuNodes[index].id);
         }
         var permitNodes = permitTree.getCheckedNodes(true);
         for (var index in permitNodes) {
-            $scope.rolePrivilege.rolePermits.push(permitNodes[index].id);
+            $scope.rolePrivilege.permitCodes.push(permitNodes[index].id);
         }
 
         mineHttp.send("PUT", "admin/role/" + data.id + "/privilege", {data: $scope.rolePrivilege}, function (result) {

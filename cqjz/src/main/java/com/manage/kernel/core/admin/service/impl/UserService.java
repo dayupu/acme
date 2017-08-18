@@ -164,4 +164,20 @@ public class UserService extends ServiceBase implements IUserService {
         }
         return new Pair<>(UserParser.toUserDto(user), treeNodes);
     }
+
+    @Override
+    public void resetUserRole(UserDto userDto) {
+        User user = userRepo.findOne(userDto.getId());
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        List<Role> userRoles = new ArrayList<>();
+        if (!userDto.getRoleIds().isEmpty()) {
+            userRoles = roleRepo.queryListByIds(userDto.getRoleIds());
+        }
+        user.setRoles(userRoles);
+        userRepo.save(user);
+
+    }
 }

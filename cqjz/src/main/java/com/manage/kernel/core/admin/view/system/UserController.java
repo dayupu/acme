@@ -149,4 +149,24 @@ public class UserController {
         return response;
     }
 
+    @InboundLog
+    @PutMapping("/{id}/role")
+    public ResponseInfo modifyUserRole(@PathVariable("id") Long userId, @RequestBody UserDto userDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(userId, null);
+            Validators.notNull(userDto.getId(), null);
+            userService.resetUserRole(userDto);
+            response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
 }
