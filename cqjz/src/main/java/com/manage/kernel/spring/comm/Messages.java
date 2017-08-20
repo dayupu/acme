@@ -1,6 +1,7 @@
 package com.manage.kernel.spring.comm;
 
 import com.manage.kernel.spring.message.MessageSupplier;
+
 import java.util.Locale;
 
 public class Messages {

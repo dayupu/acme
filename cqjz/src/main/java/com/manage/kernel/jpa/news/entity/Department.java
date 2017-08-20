@@ -16,19 +16,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ad_department")
-@SequenceGenerator(name = "seq_department", sequenceName = "seq_department")
+@Table(name = "department")
 public class Department {
 
     @Id
-    @GeneratedValue(generator = "seq_department", strategy = GenerationType.SEQUENCE)
-    private Long id;
-
     @Column(name = "code")
     private String code;
 
-    @Column(name = "parent_id", insertable = false, updatable = false)
-    private Long parentId;
+    @Column(name = "full_code")
+    private String fullCode;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "parent_code", insertable = false, updatable = false)
+    private String parentCode;
 
     @Column(name = "sequence")
     private int sequence;
@@ -36,24 +38,16 @@ public class Department {
     @Column(name = "level")
     private int level;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name="is_leaf")
+    private boolean isLeaf;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_code")
     private Department parent;
 
     @OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY, mappedBy = "parent")
     @OrderBy("sequence asc")
     private List<Department> childrens;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -63,12 +57,28 @@ public class Department {
         this.code = code;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public String getFullCode() {
+        return fullCode;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setFullCode(String fullCode) {
+        this.fullCode = fullCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 
     public int getSequence() {
@@ -103,11 +113,11 @@ public class Department {
         this.childrens = childrens;
     }
 
-    public String getDescription() {
-        return description;
+    public boolean isLeaf() {
+        return isLeaf;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLeaf(boolean leaf) {
+        isLeaf = leaf;
     }
 }

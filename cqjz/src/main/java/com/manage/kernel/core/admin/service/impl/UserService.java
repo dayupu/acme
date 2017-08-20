@@ -58,7 +58,6 @@ public class UserService extends ServiceBase implements IUserService {
     @Override
     @Transactional
     public PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery) {
-
         Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtils.isNotBlank(userQuery.getAccount())) {
@@ -79,7 +78,7 @@ public class UserService extends ServiceBase implements IUserService {
                         userQuery.getCreatedAtEnd()));
             }
             return cb.and(list.toArray(new Predicate[0]));
-        }, pageQuery.buildPageRequest(true));
+        }, pageQuery.sortPageDefault("id"));
 
         PageResult<UserDto> pageResult = new PageResult<UserDto>();
         pageResult.setTotal(userPage.getTotalElements());

@@ -26,7 +26,7 @@
     <!-- 单点登录 -->
     <beans:bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
         <beans:constructor-arg type="org.springframework.security.core.session.SessionRegistry" ref="sessionRegistry"/>
-        <beans:constructor-arg type="java.lang.String" value="/error/loginLimit"/>
+        <beans:constructor-arg type="java.lang.String" value="/loginLimit"/>
         <beans:property name="redirectStrategy" ref="redirectStrategy"></beans:property>
     </beans:bean>
     <beans:bean id="redirectStrategy" class="org.springframework.security.web.DefaultRedirectStrategy"></beans:bean>

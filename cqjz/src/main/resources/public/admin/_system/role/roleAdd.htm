@@ -15,10 +15,10 @@
             <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
                 <label class="col-sm-3 control-label">角色名<span class="mine-required">*</span></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="role.name" name="name" ng-pattern="/^\w{3,20}$/" required />
+                    <input type="text" class="form-control input-sm" ng-model="role.name" name="name" ng-pattern="/^.{1,20}$/" required />
                 </div>
                 <div class="mine-validator">
-                    <mine-validator valid="userForm.name.$valid" when="userForm.name.$dirty" error="3-20字母，数字或下划线字符组成"></mine-validator>
+                    <mine-validator valid="userForm.name.$valid" when="userForm.name.$dirty" error="长度1-20位以内"></mine-validator>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[userForm.description.$valid]">

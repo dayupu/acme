@@ -111,7 +111,7 @@ public class RoleService extends ServiceBase implements IRoleService {
                 list.add(cb.like(root.get("name").as(String.class), "%" + roleQuery.getName() + "%"));
             }
             return cb.and(list.toArray(new Predicate[0]));
-        }, pageQuery.buildPageRequest(true));
+        }, pageQuery.sortPageDefault("id"));
 
         PageResult<RoleDto> pageResult = new PageResult<RoleDto>();
         pageResult.setTotal(rolePage.getTotalElements());

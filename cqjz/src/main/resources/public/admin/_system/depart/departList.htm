@@ -1,10 +1,10 @@
 <div class="mine-layout">
     <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
-        <div class="mine-title"><i class="fa fa-bars"></i>菜单维护</div>
+        <div class="mine-title"><i class="fa fa-bars"></i>组织机构管理</div>
         <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(1)">一级菜单</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(2)" ng-disabled="menu.level != 1">子菜单
+            <button class="btn btn-sm btn-success" type="button" ng-click="add()">顶级组织</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-click="add()" ng-disabled="depart.level != 1">下级组织
             </button>
             <button class="btn btn-primary btn-sm" type="button" ng-click="edit()"
                     ng-disabled="menu.id == null || menuForm.$invalid">编辑
@@ -28,16 +28,20 @@
                     <table class="table table-bordered table-striped">
                         <tbody>
                             <tr>
-                                <td class="mine-title-td">上级菜单</td>
-                                <td>{{menu.parentName}}</td>
+                                <td class="mine-title-td">上级机构</td>
+                                <td>{{depart.parentName}}</td>
                             </tr>
                             <tr>
-                                <td width="100" class="mine-title-td">菜单名称</td>
-                                <td>{{menu.name}}</td>
+                                <td width="100" class="mine-title-td">机构代码</td>
+                                <td>{{depart.code}}</td>
                             </tr>
                             <tr>
-                                <td class="mine-title-td">菜单地址</td>
-                                <td>{{menu.url}}</td>
+                                <td width="100" class="mine-title-td">机构全码</td>
+                                <td>{{depart.fullCode}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td">机构名</td>
+                                <td>{{depart.name}}</td>
                             </tr>
                         </tbody>
                     </table>

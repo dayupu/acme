@@ -14,7 +14,7 @@
 <body>
 <input id="appContextPath" type="hidden" th:value="@{/}" />
 <div class="app app-header-fixed" ng-app="mainApp">
-    <div ng-include="'app/header.htm'" class="app-header"></div>
+    <div ng-controller="headerController" ng-include="'app/header.htm'" class="app-header"></div>
     <div ng-controller="asideController" ng-include="'app/aside.htm'" class="app-aside bg-dark"></div>
     <div ng-controller="contentController" class="app-content">
         <div ui-view></div>
@@ -38,5 +38,6 @@
 <script th:src="@{/js/route/system_menu.js}"></script>
 <script th:src="@{/js/route/system_user.js}"></script>
 <script th:src="@{/js/route/system_role.js}"></script>
+<script th:src="@{/js/route/system_depart.js}"></script>
 </body>
 </html>

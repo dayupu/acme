@@ -4,10 +4,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         $scope.locations = data;
     });
 
-    $scope.permitAdd = false;
-    $scope.permitModify = false;
-    $scope.permitDelete = false;
-
+    $scope.selectedFlag = false;
     $scope.myData = [];
     $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
     $("#userQueryCreatedAtEnd").datetimepicker({format: 'Y-m-d H:i:s'});
@@ -31,7 +28,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>"+
+                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>" +
                 "<mine-action icon='fa fa-user-o' action='setRole(row.entity)' name='角色'></mine-action></div>"
             }
 
@@ -44,8 +41,11 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     };
 
     $scope.gridPageSelectedItems = function (newValue, oldValue) {
-        $scope.permitModify = true;
-        $scope.permitDelete = true;
+        if (newValue != 0) {
+            $scope.selectedFlag = true;
+        } else {
+            $scope.selectedFlag = false;
+        }
     };
 
     $scope.query = function () {
@@ -71,29 +71,29 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         modalInstance.result.then(function () {
         }, function () {
         });
-    }
+    };
     $scope.setRole = function (user) {
         var modalInstance = mineUtil.modal("admin/_system/user/userRole.htm", "systemUserRoleController", user);
         modalInstance.result.then(function () {
         }, function () {
         });
-    }
+    };
     $scope.enable = function (enabled) {
-         var selectedItems = $scope.gridSelectedItems;
-         if(selectedItems == null || selectedItems.length == 0){
+        var selectedItems = $scope.gridSelectedItems;
+        if (selectedItems == null || selectedItems.length == 0) {
             return;
-         }
-         $scope.userSelect = {};
-         $scope.userSelect.enabled = enabled;
-         $scope.userSelect.userIds = new Array();
-         for(var index in selectedItems){
+        }
+        $scope.userSelect = {};
+        $scope.userSelect.enabled = enabled;
+        $scope.userSelect.userIds = new Array();
+        for (var index in selectedItems) {
             $scope.userSelect.userIds.push(selectedItems[index].id);
-         }
-         mineHttp.send("PUT", "admin/user/list/status", {data: $scope.userSelect}, function (result) {
-             if(verifyData(result)){
+        }
+        mineHttp.send("PUT", "admin/user/list/status", {data: $scope.userSelect}, function (result) {
+            if (verifyData(result)) {
                 $scope.query();
-             }
-         });
+            }
+        });
     }
 });
 
@@ -145,29 +145,29 @@ mainApp.controller("systemUserDetailController", function ($scope, $uibModalInst
     };
 });
 
-mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstance, mineHttp,mineTree, data) {
+mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstance, mineHttp, mineTree, data) {
 
     var roleTree = {};
-    mineHttp.send("GET", "admin/user/" + data.id+"/role", {}, function (result) {
+    mineHttp.send("GET", "admin/user/" + data.id + "/role", {}, function (result) {
         $scope.message = result.message;
         $scope.user = result.content.user;
         var options = {check: {enable: true}};
         roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
     });
 
-     $scope.ok = function () {
-            $scope.userRole = {};
-            $scope.userRole.id = data.id;
-            $scope.userRole.roleIds = new Array();
-            var roleNodes = roleTree.getCheckedNodes(true);
-            for (var index in roleNodes) {
-                $scope.userRole.roleIds.push(roleNodes[index].id);
-            }
-            mineHttp.send("PUT", "admin/user/" + data.id + "/role", {data: $scope.userRole}, function (result) {
-                $scope.messageStatus = verifyData(result);
-                $scope.message = result.message;
-            });
-     };
+    $scope.ok = function () {
+        $scope.userRole = {};
+        $scope.userRole.id = data.id;
+        $scope.userRole.roleIds = new Array();
+        var roleNodes = roleTree.getCheckedNodes(true);
+        for (var index in roleNodes) {
+            $scope.userRole.roleIds.push(roleNodes[index].id);
+        }
+        mineHttp.send("PUT", "admin/user/" + data.id + "/role", {data: $scope.userRole}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
+        });
+    };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');

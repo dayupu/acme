@@ -4,10 +4,6 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         $scope.locations = data;
     });
 
-    $scope.permitAdd = false;
-    $scope.permitModify = false;
-    $scope.permitDelete = false;
-
     $scope.myData = [];
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -37,15 +33,6 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.gridPageQuery();
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
-    };
-    $scope.gridPageSelectedItems = function (newValue, oldValue) {
-        if (newValue[0].level == "1") {
-            $scope.permitAdd = true;
-        } else {
-            $scope.permitAdd = false;
-        }
-        $scope.permitModify = true;
-        $scope.permitDelete = true;
     };
 
     $scope.query = function () {

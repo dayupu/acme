@@ -59,7 +59,7 @@ public class RoleController {
     public ResponseInfo addRole(@RequestBody RoleDto role) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notBlank(role.getName(), null);
+            Validators.notBlank(role.getName());
             roleService.addRole(role);
             response.wrapSuccess(role, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
@@ -78,7 +78,7 @@ public class RoleController {
     public ResponseInfo getRole(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(roleId, null);
+            Validators.notNull(roleId);
             RoleDto role = roleService.getRole(roleId);
             response.wrapSuccess(role);
         } catch (ValidateException e) {
@@ -97,9 +97,9 @@ public class RoleController {
     public ResponseInfo modifyRole(@PathVariable("id") Long roleId, @RequestBody RoleDto role) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(roleId, null);
-            Validators.notNull(role, null);
-            Validators.notNull(role.getId(), null);
+            Validators.notNull(roleId);
+            Validators.notNull(role);
+            Validators.notNull(role.getId());
             roleService.modifyRole(role);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
@@ -119,7 +119,7 @@ public class RoleController {
     public ResponseInfo deleteRole(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(roleId, null);
+            Validators.notNull(roleId);
             roleService.deleteRole(roleId);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
@@ -138,7 +138,7 @@ public class RoleController {
     public ResponseInfo rolePermits(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(roleId, null);
+            Validators.notNull(roleId);
             Pair rolePrivilege = roleService.rolePrivilege(roleId);
             Map privilege = new HashMap();
             privilege.put("roleMenus", rolePrivilege.getLeft());
@@ -160,8 +160,8 @@ public class RoleController {
     public ResponseInfo rolePrivilege(@PathVariable("id") Long roleId, @RequestBody RoleDto roleDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(roleId, null);
-            Validators.notNull(roleDto.getId(), null);
+            Validators.notNull(roleId);
+            Validators.notNull(roleDto.getId());
 
             roleService.resetPrivilege(roleDto);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);

@@ -7,10 +7,14 @@ INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequenc
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '角色管理', 1, 1, 'role.list');
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '用户管理', 1, 2, 'user.list');
 INSERT INTO ad_menu(id, description, image, "level", "name", parent_id, "sequence", url)VALUES(nextval('seq_menu'), NULL, NULL, 2, '菜单管理', 1, 3, 'menu.list');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url) VALUES(nextval('seq_menu'), NULL, NULL, 2, '组织机构', 1, 4, 'depart.list');
+
 -- ad_role_menu
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 4);
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 3);
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 2);
 INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 1);
+INSERT INTO ad_role_menu(role_id, menu_id)VALUES(1, 5);
+
 -- ad_user_role
 INSERT INTO ad_user_role(user_id, role_id)VALUES(0, 1);

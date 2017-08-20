@@ -44,7 +44,7 @@ public class MenuService implements IMenuService {
         menu.setName(menuDto.getName());
         menu.setUrl(menuDto.getUrl());
         if (menuDto.getParentId() == null) {
-            List<Menu> menus = menuRepo.queryMenuListByLevel(1);
+            List<Menu> menus = menuRepo.queryListByLevel(1);
             menu.setLevel(1);
             menu.setSequence(menus.size());
         } else {
@@ -187,7 +187,7 @@ public class MenuService implements IMenuService {
     @Override
     @Transactional
     public List<MenuNav> menuLocation(String url) {
-        List<Menu> menus = menuRepo.queryMenuListByUrl(url);
+        List<Menu> menus = menuRepo.queryListByUrl(url);
         if (menus.isEmpty()) {
             return new ArrayList<>();
         }

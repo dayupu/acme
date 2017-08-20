@@ -52,9 +52,9 @@ public class User extends StatusBase {
     @Column(name = "email", length = 50)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dept_id", referencedColumnName = "id")
-    private Department department;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "dept_id", referencedColumnName = "id")
+//    private Department department;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ad_user_permission", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
@@ -142,14 +142,6 @@ public class User extends StatusBase {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     public Gender getGender() {

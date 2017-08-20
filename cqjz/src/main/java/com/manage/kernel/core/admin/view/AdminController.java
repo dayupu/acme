@@ -23,8 +23,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,9 +47,8 @@ public class AdminController {
     @Autowired
     private LoginLogRepo loginLogRepo;
 
-    @RequestMapping(value = "/ajax/login", method = RequestMethod.GET)
     @ResponseBody
-    @InboundLog
+    @GetMapping("/ajax/login")
     public ResponseInfo login(String account, String password, HttpServletRequest request,
                               HttpServletResponse response) {
         ResponseInfo responseInfo = new ResponseInfo();
@@ -85,6 +86,16 @@ public class AdminController {
         login.setSuccess(status);
         login.setMessage(message);
         loginLogRepo.save(login);
+    }
+
+    @GetMapping("/loginOut")
+    public String loginOut(String account, String password, HttpServletRequest request,
+                           HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/admin/login";
     }
 
     @RequestMapping("/index")

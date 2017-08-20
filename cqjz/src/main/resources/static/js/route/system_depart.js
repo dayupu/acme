@@ -1,6 +1,6 @@
-mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
+mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
 
-    mineHttp.menuLocation("menu.list", function (data) {
+    mineHttp.menuLocation("depart.list", function (data) {
         $scope.menuLocation = data;
     });
 
@@ -65,12 +65,9 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
         });
     };
 
-    $scope.add = function (flag) {
+    $scope.add = function () {
         var params = null;
-        if (flag == 2) {
-            params = $scope.menu;
-        }
-        var modalInstance = mineUtil.modal("admin/_system/menu/menuAdd.htm", "systemMenuAddController", params);
+        var modalInstance = mineUtil.modal("admin/_system/depart/departAdd.htm", "systemDepartAddController", params);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
         });
@@ -87,23 +84,21 @@ mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineH
     });
 });
 
-mainApp.controller("systemMenuAddController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
-
-
+mainApp.controller("systemDepartAddController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
     $scope.initPage = function () {
-        $scope.menu = {};
+        $scope.depart = {};
         if (data == null) {
-            $scope.title = "一级菜单";
+            $scope.title = "顶级机构";
         } else {
-            $scope.title = "二级菜单";
-            $scope.menu.parentId = data.id;
-            $scope.menu.parentName = data.name;
+            $scope.title = "下级机构";
+            $scope.depart.parentCode = data.code;
+            $scope.depart.parentName = data.name;
         }
     };
 
     $scope.initPage();
     $scope.ok = function () {
-        mineHttp.send("POST", "admin/menu", {data: $scope.menu}, function (result) {
+        mineHttp.send("POST", "admin/depart", {data: $scope.depart}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {

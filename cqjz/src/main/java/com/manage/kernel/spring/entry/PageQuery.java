@@ -5,6 +5,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
 public class PageQuery {
+
+    private static final String ORDER_DESC = "desc";
+    private static final String ORDER_ASC = "asc";
+
     private Integer pageSize;
     private Integer pageNumber;
     private String sortField;
@@ -42,26 +46,29 @@ public class PageQuery {
         this.sortDirection = sortDirection;
     }
 
-    public PageRequest buildPageRequest(boolean sortable) {
-        if (sortable && sortField != null) {
+    public PageRequest sortPage() {
+        if (sortField != null) {
             return buildPageRequest(sortField);
         } else {
             return new PageRequest(this.pageNumber - 1, this.pageSize);
         }
     }
 
-    public PageRequest buildPageRequest(Sort sort) {
-        return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
+    public PageRequest sortPageDefault(String defaultColumn) {
+        if (sortField == null) {
+            setSortField(defaultColumn);
+        }
+        return buildPageRequest(sortField);
     }
 
-    public PageRequest buildPageRequest(String sortField) {
+    private PageRequest buildPageRequest(String sortField) {
         Sort sort = null;
-        if (!StringUtils.isEmpty(sortField)) {
-            if ("asc".equalsIgnoreCase(this.sortDirection)) {
-                sort = new Sort(Sort.Direction.ASC, sortField);
-            } else if ("desc".equalsIgnoreCase(this.sortDirection)) {
-                sort = new Sort(Sort.Direction.DESC, sortField);
-            }
+        if (ORDER_ASC.equalsIgnoreCase(this.sortDirection)) {
+            sort = new Sort(Sort.Direction.ASC, sortField);
+        } else if (ORDER_DESC.equalsIgnoreCase(this.sortDirection)) {
+            sort = new Sort(Sort.Direction.DESC, sortField);
+        } else {
+            sort = new Sort(Sort.Direction.DESC, sortField);
         }
         return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
     }
