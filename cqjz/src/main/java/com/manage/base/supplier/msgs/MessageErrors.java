@@ -16,7 +16,8 @@ public enum MessageErrors implements CoreMsgs {
     USER_NOT_FOUND(200010, "NOT found the user"),
     USER_HAS_EXISTS(200011, "The user has exists"),
     ROLE_NOT_FOUND(200020, "NOT found the role"),
-    DEPART_NOT_FOUND(200030, "NOT found the department");
+    DEPART_NOT_FOUND(200030, "NOT found the department"),
+    DEPART_HAS_CHILDREN(200031, "The department has sub deparments");
 
     private int code;
     private String message;

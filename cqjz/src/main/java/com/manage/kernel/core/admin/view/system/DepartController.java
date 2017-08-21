@@ -60,12 +60,13 @@ public class DepartController {
 
     @InboundLog
     @PutMapping("{id}")
-    public ResponseInfo departEdit(@PathVariable("id") Long id, @RequestBody DepartDto departDto) {
+    public ResponseInfo departEdit(@PathVariable("id") String code, @RequestBody DepartDto departDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
+            Validators.notNull(code);
             Validators.notNull(departDto);
-            DepartDto result = departService.updateDepart(id, departDto);
+            departDto.setCode(code);
+            DepartDto result = departService.updateDepart(departDto);
             if (result == null) {
                 throw new CoreException();
             }
@@ -83,11 +84,11 @@ public class DepartController {
 
     @InboundLog
     @DeleteMapping("{id}")
-    public ResponseInfo departDrop(@PathVariable("id") Long id) {
+    public ResponseInfo departDrop(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
-            departService.deleteDepart(id);
+            Validators.notNull(code);
+            departService.deleteDepart(code);
             response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

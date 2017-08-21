@@ -8,7 +8,6 @@ public class DepartDto {
     private String code;
     private String fullCode;
     private String name;
-    private int sequence;
     private int level;
     private boolean isLeaf;
     private String parentCode;
@@ -36,14 +35,6 @@ public class DepartDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
     }
 
     public int getLevel() {

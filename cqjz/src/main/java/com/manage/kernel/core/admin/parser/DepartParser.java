@@ -29,7 +29,6 @@ public class DepartParser {
         departDto.setFullCode(depart.getFullCode());
         departDto.setLeaf(depart.isLeaf());
         departDto.setLevel(depart.getLevel());
-        departDto.setSequence(depart.getSequence());
         if (depart.getParentCode() != null) {
             departDto.setParentCode(depart.getParentCode());
             departDto.setParentName(depart.getParent().getName());

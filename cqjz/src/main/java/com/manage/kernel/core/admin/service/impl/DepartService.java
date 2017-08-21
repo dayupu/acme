@@ -1,7 +1,9 @@
 package com.manage.kernel.core.admin.service.impl;
 
+import com.manage.base.exception.CoreException;
 import com.manage.base.exception.DepartNotFoundException;
 import com.manage.base.supplier.TreeNode;
+import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.CoreUtils;
 import com.manage.base.utils.StringUtils;
 import com.manage.kernel.core.admin.dto.DepartDto;
@@ -9,12 +11,17 @@ import com.manage.kernel.core.admin.parser.DepartParser;
 import com.manage.kernel.core.admin.service.IDepartService;
 import com.manage.kernel.jpa.news.entity.Department;
 import com.manage.kernel.jpa.news.repository.DepartRepo;
+
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -42,13 +49,32 @@ public class DepartService implements IDepartService {
     }
 
     @Override
-    public DepartDto updateDepart(Long id, DepartDto departDto) {
-        return null;
+    @Transactional
+    public DepartDto updateDepart(DepartDto departDto) {
+
+        Department department = departRepo.findOne(departDto.getCode());
+        if (department == null) {
+            throw new DepartNotFoundException();
+        }
+
+        department.setName(departDto.getName());
+        departRepo.save(department);
+        return DepartParser.toDepartDto(department);
     }
 
     @Override
-    public void deleteDepart(Long id) {
+    @Transactional
+    public void deleteDepart(String code) {
+        Department department = departRepo.findOne(code);
+        if (department == null) {
+            throw new DepartNotFoundException();
+        }
 
+        if (!department.getChildrens().isEmpty()) {
+            throw new CoreException(MessageErrors.DEPART_HAS_CHILDREN);
+        }
+
+        departRepo.delete(department);
     }
 
     @Override
@@ -60,18 +86,12 @@ public class DepartService implements IDepartService {
         department.setFullCode(CoreUtils.departCodeFull(departDto.getCode()));
         department.setLevel(CoreUtils.departLevel(departDto.getCode()));
         department.setLeaf(true);
-        if (StringUtils.isBlank(departDto.getParentCode())) {
-            int count = departRepo.queryListByLevelCount(department.getLevel());
-            department.setSequence(count + 1);
-        } else {
-
+        if (StringUtils.isNotBlank(departDto.getParentCode())) {
             Department parent = departRepo.findOne(departDto.getParentCode());
             if (parent == null) {
                 throw new DepartNotFoundException();
             }
-
             department.setParent(parent);
-            department.setSequence(parent.getChildrens().size() + 1);
             if (parent.isLeaf()) {
                 parent.setLeaf(false);
                 departRepo.save(parent);

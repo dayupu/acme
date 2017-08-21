@@ -1,0 +1,57 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">编辑机构</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="departForm">
+            <div class="alert" ng-if="messageStatus != null"
+                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
+                {{message}}
+            </div>
+            <div class="form-group" ng-if="depart.parentCode != null">
+                <label class="col-sm-2 control-label">上级机构</label>
+                <div class="col-sm-5">
+                    <label class="control-label">{{depart.parentName}}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">机构代码</label>
+                <div class="col-sm-5">
+                    <label class="control-label">{{depart.code}}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">机构全码</label>
+                <div class="col-sm-5">
+                    <label class="control-label">{{depart.fullCode}}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">机构级别</label>
+                <div class="col-sm-5">
+                    <label class="control-label">{{depart.level}}</label>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
+                <label class="col-sm-2 control-label">机构名称<span class="mine-required">*</span></label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" ng-model="depart.name" name="name"
+                           required/>
+                </div>
+                <div class="mine-validator">
+                    <mine-validator when="departForm.name.$dirty" valid="departForm.name.$valid"
+                                    error="必填项"></mine-validator>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="departForm.$invalid">保存
+        </button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

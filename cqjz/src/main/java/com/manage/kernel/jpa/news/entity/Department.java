@@ -32,9 +32,6 @@ public class Department {
     @Column(name = "parent_code", insertable = false, updatable = false)
     private String parentCode;
 
-    @Column(name = "sequence")
-    private int sequence;
-
     @Column(name = "level")
     private int level;
 
@@ -46,7 +43,7 @@ public class Department {
     private Department parent;
 
     @OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY, mappedBy = "parent")
-    @OrderBy("sequence asc")
+    @OrderBy("code asc")
     private List<Department> childrens;
 
     public String getCode() {
@@ -79,14 +76,6 @@ public class Department {
 
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
-    }
-
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
     }
 
     public int getLevel() {

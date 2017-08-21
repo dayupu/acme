@@ -15,7 +15,7 @@ public interface DepartRepo extends CrudRepository<Department, Serializable>, Jp
     @Query("from Department order by level, sequence")
     List<Department> queryListAll();
 
-    @Query("from Department where parentCode = :parentCode")
+    @Query("from Department where parentCode = :parentCode order by code asc")
     List<Department> queryListByParentCode(@Param("parentCode") String parentCode);
 
     @Query("from Department where level = :level")

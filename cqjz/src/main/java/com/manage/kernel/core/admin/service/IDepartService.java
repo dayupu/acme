@@ -13,9 +13,9 @@ public interface IDepartService {
 
     DepartDto getDepart(String code);
 
-    DepartDto updateDepart(Long id, DepartDto departDto);
+    DepartDto updateDepart(DepartDto departDto);
 
-    void deleteDepart(Long id);
+    void deleteDepart(String code);
 
     void addDepart(DepartDto departDto);
 
