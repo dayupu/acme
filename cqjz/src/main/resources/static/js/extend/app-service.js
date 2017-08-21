@@ -121,6 +121,25 @@ mainApp.service("mineTree", function () {
             $.extend(setting, options);
         }
         return $.fn.zTree.init(obj, setting, nodes);
+    };
+
+    this.buildAsync = function(obj, url, nodes, options){
+        var filter = function(treeId, parentNode, childNodes){
+           return childNodes;
+        };
+        var setting = {
+           async:{
+           autoParam:["id", "name", "level"],
+           enable:true,
+           type:"GET",
+           url: fullPath(url),
+           dataFilter:filter,
+       }};
+        $.extend(setting, defaultSetting);
+        if (typeof options != "undefined") {
+            $.extend(setting, options);
+        }
+        return $.fn.zTree.init(obj, setting, nodes);
     }
 });
 

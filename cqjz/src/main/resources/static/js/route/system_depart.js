@@ -6,13 +6,11 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
 
     // select menu
     $scope.ztreeSelected = function (event, treeId, treeNode) {
-        $scope.messageStatus = null;
-        var url = "admin/menu/" + treeNode.id;
-        mineHttp.send("GET", url, {}, function (data) {
+        mineHttp.send("GET", "admin/depart/" + treeNode.id, {}, function (data) {
             if (verifyData(data)) {
-                $scope.menu = data.content;
+                $scope.depart = data.content;
             } else {
-                $scope.menu = null;
+                $scope.depart = null;
             }
         });
     };
@@ -20,14 +18,13 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
     // build menu tree
     var menuTree;
     $scope.buildTree = function (callback) {
-        mineHttp.send("GET", "admin/menu/treeList", {}, function (data) {
+        mineHttp.send("GET", "admin/depart/rootTree", {}, function (data) {
             var options = {
                 callback: {
                     onClick: $scope.ztreeSelected
                 }
             };
-            menuTree = mineTree.build($("#menuTree"), data.content, options);
-
+            menuTree = mineTree.buildAsync($("#menuTree"), "admin/depart/asyncTree", data, options);
             if (angular.isFunction(callback)) {
                 callback();
             }
@@ -65,8 +62,11 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
         });
     };
 
-    $scope.add = function () {
+    $scope.add = function (flag) {
         var params = null;
+        if(flag == 2){
+           params = $scope.depart;
+        }
         var modalInstance = mineUtil.modal("admin/_system/depart/departAdd.htm", "systemDepartAddController", params);
         modalInstance.result.then(function (selectedItem) {
         }, function () {

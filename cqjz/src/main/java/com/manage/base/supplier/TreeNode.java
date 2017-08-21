@@ -9,6 +9,7 @@ public class TreeNode<T> {
     private T pid;
     private String name;
     private boolean checked = false;
+    private boolean isParent;
 
     public T getId() {
         return id;
@@ -40,5 +41,13 @@ public class TreeNode<T> {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(boolean parent) {
+        isParent = parent;
     }
 }

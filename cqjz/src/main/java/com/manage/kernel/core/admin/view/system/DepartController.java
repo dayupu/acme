@@ -14,6 +14,7 @@ import com.manage.kernel.spring.annotation.InboundLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,16 +38,18 @@ public class DepartController {
 
     @InboundLog
     @GetMapping("{id}")
-    public ResponseInfo departDetail(@PathVariable("id") Long id) {
+    public ResponseInfo departDetail(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
-            DepartDto departDto = departService.getDepart(id);
+            Validators.notNull(code);
+            DepartDto departDto = departService.getDepart(code);
             if (departDto == null) {
                 throw new DepartNotFoundException();
             }
             response.wrapSuccess(departDto);
         } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn("system exception", e);
@@ -110,7 +114,6 @@ public class DepartController {
         return response;
     }
 
-
     @InboundLog
     @PostMapping
     public ResponseInfo addDepart(@RequestBody DepartDto departDto) {
@@ -129,5 +132,20 @@ public class DepartController {
             response.wrapError();
         }
         return response;
+    }
+
+
+    @InboundLog
+    @GetMapping("/rootTree")
+    public List<TreeNode> treeRoot(){
+        List<TreeNode> treeNodes = departService.getTreeRoot();
+        return treeNodes;
+    }
+
+    @InboundLog
+    @GetMapping("/asyncTree")
+    public List<TreeNode> asyncTree(@RequestParam("id") String id) {
+        List<TreeNode> treeNodes = departService.getTreeChildrens(id);
+        return treeNodes;
     }
 }

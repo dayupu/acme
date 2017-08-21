@@ -11,11 +11,15 @@ public interface IDepartService {
 
     List<TreeNode> departTree();
 
-    DepartDto getDepart(Long id);
+    DepartDto getDepart(String code);
 
     DepartDto updateDepart(Long id, DepartDto departDto);
 
     void deleteDepart(Long id);
 
     void addDepart(DepartDto departDto);
+
+    List<TreeNode> getTreeChildrens(String code);
+
+    List<TreeNode> getTreeRoot();
 }

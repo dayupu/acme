@@ -32,7 +32,7 @@ public class DepartParser {
         departDto.setSequence(depart.getSequence());
         if (depart.getParentCode() != null) {
             departDto.setParentCode(depart.getParentCode());
-            departDto.setParentName(depart.getParent().getCode());
+            departDto.setParentName(depart.getParent().getName());
         }
         return departDto;
     }
