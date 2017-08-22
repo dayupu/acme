@@ -46,7 +46,7 @@ public class RoleController {
 
     @InboundLog
     @PostMapping("/list")
-    public ResponseInfo getRoleList(@PageQueryAon PageQuery pageQuery, @RequestBody RoleDto roleQuery) {
+    public ResponseInfo roleListPage(@PageQueryAon PageQuery pageQuery, @RequestBody RoleDto roleQuery) {
         ResponseInfo response = new ResponseInfo();
         PageResult result = roleService.getRoleListByPage(pageQuery, roleQuery);
         response.setStatus(ResponseStatus.SUCCESS);
@@ -94,7 +94,7 @@ public class RoleController {
 
     @InboundLog
     @PutMapping("/{id}")
-    public ResponseInfo modifyRole(@PathVariable("id") Long roleId, @RequestBody RoleDto role) {
+    public ResponseInfo editRole(@PathVariable("id") Long roleId, @RequestBody RoleDto role) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(roleId);
@@ -116,7 +116,7 @@ public class RoleController {
     @InboundLog
     @DeleteMapping("/{id}")
     @UserPermit(value = Permit.DELETE)
-    public ResponseInfo deleteRole(@PathVariable("id") Long roleId) {
+    public ResponseInfo dropRole(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(roleId);

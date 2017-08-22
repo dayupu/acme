@@ -15,8 +15,8 @@
             </div>
             <div class="form-group" ng-if="menu.parentId != null">
                 <label class="col-sm-3 control-label">上级菜单</label>
-                <div class="col-sm-5 mine-query-lable">
-                    {{menu.parentName}}
+                <div class="col-sm-5">
+                    <label class="mine-label">{{menu.parentName}}</label>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">

@@ -42,7 +42,7 @@ public class UserController {
 
     @InboundLog
     @PostMapping("/list")
-    public ResponseInfo getUserList(@PageQueryAon PageQuery pageQuery, @RequestBody UserDto userQuery) {
+    public ResponseInfo userListPage(@PageQueryAon PageQuery pageQuery, @RequestBody UserDto userQuery) {
         ResponseInfo response = new ResponseInfo();
         PageResult result = userService.getUserListByPage(pageQuery, userQuery);
         response.setStatus(ResponseStatus.SUCCESS);
@@ -92,7 +92,7 @@ public class UserController {
 
     @InboundLog
     @PutMapping("/{id}")
-    public ResponseInfo modifyUser(@PathVariable("id") Long userId, @RequestBody UserDto user) {
+    public ResponseInfo editUser(@PathVariable("id") Long userId, @RequestBody UserDto user) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(userId);
@@ -113,7 +113,7 @@ public class UserController {
 
     @InboundLog
     @DeleteMapping("/{id}")
-    public ResponseInfo deleteUser(@PathVariable("id") Long userId) {
+    public ResponseInfo dropUser(@PathVariable("id") Long userId) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(userId);
@@ -153,7 +153,7 @@ public class UserController {
 
     @InboundLog
     @PutMapping("/{id}/role")
-    public ResponseInfo modifyUserRole(@PathVariable("id") Long userId, @RequestBody UserDto userDto) {
+    public ResponseInfo editUserRole(@PathVariable("id") Long userId, @RequestBody UserDto userDto) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(userId);

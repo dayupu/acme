@@ -1,5 +1,4 @@
 mainApp.service("mineHttp", function ($http) {
-
     this.send = function (method, url, params, callback) {
         var setting = {
             method: method,
@@ -12,7 +11,6 @@ mainApp.service("mineHttp", function ($http) {
             alert("request error")
         });
     };
-
     this.menuLocation = function (menuUrl, callback) {
         this.send("GET", "admin/menu/location", {params: {url: menuUrl}}, function (data) {
             callback(data.content);
@@ -20,9 +18,7 @@ mainApp.service("mineHttp", function ($http) {
     };
 
 });
-
 mainApp.service("mineUtil", function ($uibModal) {
-
     this.confirm = function (message, callback) {
         var confirmModal = $uibModal.open({
             animation: true,
@@ -42,7 +38,6 @@ mainApp.service("mineUtil", function ($uibModal) {
         }, function () {
         });
     };
-
     this.alert = function (message) {
         var alertModal = $uibModal.open({
             animation: true,
@@ -61,7 +56,6 @@ mainApp.service("mineUtil", function ($uibModal) {
         }, function () {
         });
     };
-
     this.modal = function (templateUrl, controller, data, size) {
         var myModal = $uibModal.open({
             animation: true,
@@ -76,12 +70,9 @@ mainApp.service("mineUtil", function ($uibModal) {
                 }
             }
         });
-
         return myModal;
     };
-
 });
-
 mainApp.controller("confirmController", function ($scope, $uibModalInstance, data) {
     $scope.message = data;
     $scope.ok = function () {
@@ -101,8 +92,6 @@ mainApp.controller("alertController", function ($scope, $uibModalInstance, data)
         $uibModalInstance.dismiss('cancel');
     }
 });
-
-// my tree base on zTree
 mainApp.service("mineTree", function () {
     var defaultSetting = {
         data: {
@@ -142,8 +131,6 @@ mainApp.service("mineTree", function () {
         return $.fn.zTree.init(obj, setting, nodes);
     }
 });
-
-// my grid base on ng-grid
 mainApp.service("mineGrid", function ($http, $parse) {
     var defaultSetting = {
         requestUrl: undefined,
@@ -197,7 +184,6 @@ mainApp.service("mineGrid", function ($http, $parse) {
             });
         };
     };
-
     this.gridPageInit = function (target, scope, options) {
         if (!angular.isString(target)) {
             console.error("[target] is not string object");
@@ -207,7 +193,6 @@ mainApp.service("mineGrid", function ($http, $parse) {
             console.error("[options.url] require is string");
             return;
         }
-
         scope.gridSelectedItems = [];
         scope.gridTotalServerItems = 0;
         scope.gridPagingOptions = {
@@ -229,7 +214,6 @@ mainApp.service("mineGrid", function ($http, $parse) {
         scope.gridPageQuery = function (params, data) {
             scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params, data);
         };
-
         scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams, data) {
 
             var headers = {
@@ -267,7 +251,6 @@ mainApp.service("mineGrid", function ($http, $parse) {
                 console.error("Request failed");
             });
         };
-
         // binding event when page changed
         scope.$watch('gridPagingOptions', function (newVal, oldVal) {
             if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
@@ -280,7 +263,6 @@ mainApp.service("mineGrid", function ($http, $parse) {
                 scope.gridPageSelectedItems(newValue, oldValue);
             }
         }, true);
-
         scope.$on('ngGridEventSorted', function (event, sortInfo) {
             if (sortInfo.fields[0] && sortInfo.directions[0]) {
                 var sortInfoTemp = {field: sortInfo.fields[0], direction: sortInfo.directions[0]};

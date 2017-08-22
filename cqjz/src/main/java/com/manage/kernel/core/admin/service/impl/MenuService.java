@@ -46,15 +46,15 @@ public class MenuService implements IMenuService {
         if (menuDto.getParentId() == null) {
             List<Menu> menus = menuRepo.queryListByLevel(1);
             menu.setLevel(1);
-            menu.setSequence(menus.size());
+            menu.setSequence(menus.size() + 1);
         } else {
             Menu parent = menuRepo.findOne(menuDto.getParentId());
             if (parent == null) {
                 LOGGER.warn("Not found the order {}", menuDto.getParentId());
                 throw new MenuNotFoundException();
             }
-            menu.setLevel(parent.getLevel() + 1);
             menu.setParent(parent);
+            menu.setLevel(parent.getLevel() + 1);
             menu.setSequence(parent.getChildrens().size() + 1);
         }
         menuRepo.save(menu);
@@ -243,6 +243,5 @@ public class MenuService implements IMenuService {
 
         menu.setRoles(new ArrayList<>());
         menuRepo.delete(menu);
-
     }
 }

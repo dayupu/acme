@@ -1,9 +1,5 @@
 mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
-
-    mineHttp.menuLocation("role.list", function (data) {
-        $scope.locations = data;
-    });
-
+    mineHttp.menuLocation("role.list", function (data) {$scope.locations = data;});
     $scope.myData = [];
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -34,11 +30,9 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
-
     $scope.query = function () {
         $scope.gridPageQuery({}, $scope.roleQuery);
     };
-
     $scope.add = function () {
         var modalInstance = mineUtil.modal("admin/_system/role/roleAdd.htm", "systemRoleAddController", {});
         modalInstance.result.then(function () {
@@ -65,9 +59,7 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         }, function () {
         });
     }
-
 });
-
 mainApp.controller("systemRoleAddController", function ($scope, $uibModalInstance, mineHttp) {
     $scope.ok = function () {
         mineHttp.send("POST", "admin/role", {data: $scope.role}, function (result) {
@@ -82,9 +74,7 @@ mainApp.controller("systemRoleAddController", function ($scope, $uibModalInstanc
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemRoleEditController", function ($scope, $uibModalInstance, mineHttp, data) {
-
     mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
             $scope.messageStatus = false;
@@ -92,7 +82,6 @@ mainApp.controller("systemRoleEditController", function ($scope, $uibModalInstan
         }
         $scope.role = result.content;
     });
-
     $scope.ok = function () {
         mineHttp.send("PUT", "admin/role/" + data.id, {data: $scope.role}, function (result) {
             $scope.messageStatus = verifyData(result);
@@ -103,26 +92,20 @@ mainApp.controller("systemRoleEditController", function ($scope, $uibModalInstan
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemRoleDetailController", function ($scope, $uibModalInstance, mineHttp, data) {
-
     mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         $scope.message = result.message;
         $scope.role = result.content;
     });
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalInstance, mineHttp, data, mineTree) {
-
     mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         $scope.message = result.message;
         $scope.role = result.content;
     });
-
     var menuTree = {};
     var permitTree = {};
     $scope.buildTree = function (callback) {
@@ -132,11 +115,8 @@ mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalI
             permitTree = mineTree.build($("#functionTree"), data.content.rolePermits, options);
         });
     };
-
     $scope.buildTree();
-
     $scope.ok = function () {
-
         $scope.rolePrivilege = {};
         $scope.rolePrivilege.id = data.id;
         $scope.rolePrivilege.menuIds = new Array();
@@ -149,13 +129,11 @@ mainApp.controller("systemRolePrivilegeController", function ($scope, $uibModalI
         for (var index in permitNodes) {
             $scope.rolePrivilege.permitCodes.push(permitNodes[index].id);
         }
-
         mineHttp.send("PUT", "admin/role/" + data.id + "/privilege", {data: $scope.rolePrivilege}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
         });
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

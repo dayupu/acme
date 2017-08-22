@@ -3,12 +3,12 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-bars"></i>组织机构管理</div>
         <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(1)">顶级组织</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(2)" ng-disabled="depart == null">下级组织
+            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">顶级组织</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="depart == null">下级组织
             </button>
             <button class="btn btn-primary btn-sm" type="button" ng-click="edit()" ng-disabled="depart == null">编辑
             </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="delete()" ng-disabled="depart == null">删除
+            <button class="btn btn-primary btn-sm" type="button" ng-click="drop()" ng-disabled="depart == null">删除
             </button>
 
         </div>

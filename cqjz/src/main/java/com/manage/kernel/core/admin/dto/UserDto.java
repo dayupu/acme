@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
 import com.manage.base.extend.serialize.LocalDateTimeSerializer;
+import java.io.Serializable;
 import java.util.List;
 import org.joda.time.LocalDateTime;
 
-public class UserDto {
+public class UserDto implements Serializable {
 
+    private static final long serialVersionUID = 2194137124361317421L;
     private Long id;
     private String account;
     private String name;

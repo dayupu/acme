@@ -5,7 +5,7 @@ import com.manage.base.extend.enums.ApiMessage;
 
 public class ApiExeception extends Exception {
 
-    private ApiMessage apiMessage = ApiMessage.SERVER_ERROR;
+    private ApiMessage apiMessage = ApiMessage.API_ERROR;
 
     public ApiExeception() {
         super();

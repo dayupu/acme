@@ -28,7 +28,6 @@ public class PermissionService implements IPermissionService {
         Iterable<Permission> existPermissions = permissionRepo.findAll();
 
         Map<String, Boolean> existMap = new HashMap<String, Boolean>();
-        Map<String, Permission> groupMap = new HashMap<>();
         for (Permission permission : existPermissions) {
             existMap.put(permission.getCode(), true);
         }
@@ -39,9 +38,5 @@ public class PermissionService implements IPermissionService {
             }
             permissionRepo.save(permission);
         }
-    }
-
-    public void test() {
-        System.out.println(11);
     }
 }

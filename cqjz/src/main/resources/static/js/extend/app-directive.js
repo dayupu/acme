@@ -1,4 +1,3 @@
-// 导航菜单
 mainApp.directive('mineBreadcrumb', function () {
     return {
         restrict: 'E',
@@ -10,7 +9,6 @@ mainApp.directive('mineBreadcrumb', function () {
         replace: true
     };
 });
-
 mainApp.directive("mineAction", function () {
     return {
         restrict: 'E',

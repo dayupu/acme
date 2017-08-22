@@ -1,6 +1,5 @@
 package com.manage.kernel.core.admin.service.impl;
 
-import com.google.common.collect.Lists;
 import com.manage.base.exception.RoleNotFoundException;
 import com.manage.base.extend.enums.Status;
 import com.manage.base.supplier.PageResult;
@@ -8,9 +7,7 @@ import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.utils.StringUtils;
 import com.manage.kernel.core.admin.dto.RoleDto;
-import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.RoleParser;
-import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.IRoleService;
 import com.manage.kernel.jpa.news.entity.Menu;
 import com.manage.kernel.jpa.news.entity.Permission;
@@ -21,14 +18,11 @@ import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.kernel.spring.entry.PageQuery;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.L;
-
 import javax.persistence.criteria.Predicate;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class RoleService extends ServiceBase implements IRoleService {
+
+    private static final Logger LOGGER = LogManager.getLogger(RoleService.class);
 
     @Autowired
     private RoleRepo roleRepo;
@@ -71,6 +67,7 @@ public class RoleService extends ServiceBase implements IRoleService {
 
         Role role = roleRepo.findOne(roleDto.getId());
         if (role == null) {
+            LOGGER.info("Not found the role {}", roleDto.getId());
             throw new RoleNotFoundException();
         }
 
@@ -87,6 +84,7 @@ public class RoleService extends ServiceBase implements IRoleService {
 
         Role role = roleRepo.findOne(roleId);
         if (role == null) {
+            LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
         }
 
@@ -97,6 +95,7 @@ public class RoleService extends ServiceBase implements IRoleService {
     public void deleteRole(Long roleId) {
         Role role = roleRepo.findOne(roleId);
         if (role == null) {
+            LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
         }
         roleRepo.delete(role);
@@ -125,9 +124,9 @@ public class RoleService extends ServiceBase implements IRoleService {
 
         Role role = roleRepo.findOne(roleId);
         if (role == null) {
+            LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
         }
-        Pair pair = new Pair<>();
         TreeNode treeNode;
         List<Menu> menus = menuRepo.queryListAll();
         List<TreeNode> roleMenus = new ArrayList<>();
@@ -167,6 +166,7 @@ public class RoleService extends ServiceBase implements IRoleService {
     public void resetPrivilege(RoleDto roleDto) {
         Role role = roleRepo.findOne(roleDto.getId());
         if (role == null) {
+            LOGGER.info("Not found the role {}", roleDto.getId());
             throw new RoleNotFoundException();
         }
 

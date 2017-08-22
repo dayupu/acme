@@ -1,9 +1,5 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
-
-    mineHttp.menuLocation("user.list", function (data) {
-        $scope.locations = data;
-    });
-
+    mineHttp.menuLocation("user.list", function (data) { $scope.locations = data;});
     $scope.selectedFlag = false;
     $scope.myData = [];
     $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
@@ -39,7 +35,6 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
-
     $scope.gridPageSelectedItems = function (newValue, oldValue) {
         if (newValue != 0) {
             $scope.selectedFlag = true;
@@ -47,11 +42,9 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             $scope.selectedFlag = false;
         }
     };
-
     $scope.query = function () {
         $scope.gridPageQuery({}, $scope.userQuery);
     };
-
     $scope.add = function () {
         var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", {});
         modalInstance.result.then(function () {
@@ -96,7 +89,6 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         });
     }
 });
-
 mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp) {
     $scope.ok = function () {
         mineHttp.send("POST", "admin/user", {data: $scope.user}, function (result) {
@@ -111,9 +103,7 @@ mainApp.controller("systemUserAddController", function ($scope, $uibModalInstanc
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, data) {
-
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
             $scope.messageStatus = false;
@@ -121,7 +111,6 @@ mainApp.controller("systemUserEditController", function ($scope, $uibModalInstan
         }
         $scope.user = result.content;
     });
-
     $scope.ok = function () {
         mineHttp.send("PUT", "admin/user/" + data.id, {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
@@ -132,21 +121,16 @@ mainApp.controller("systemUserEditController", function ($scope, $uibModalInstan
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemUserDetailController", function ($scope, $uibModalInstance, mineHttp, data) {
-
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         $scope.message = result.message;
         $scope.user = result.content;
     });
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 });
-
 mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstance, mineHttp, mineTree, data) {
-
     var roleTree = {};
     mineHttp.send("GET", "admin/user/" + data.id + "/role", {}, function (result) {
         $scope.message = result.message;
@@ -154,7 +138,6 @@ mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstan
         var options = {check: {enable: true}};
         roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
     });
-
     $scope.ok = function () {
         $scope.userRole = {};
         $scope.userRole.id = data.id;
@@ -168,7 +151,6 @@ mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstan
             $scope.message = result.message;
         });
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

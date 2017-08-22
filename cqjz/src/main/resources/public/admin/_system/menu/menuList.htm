@@ -3,13 +3,13 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-bars"></i>菜单维护</div>
         <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(1)">一级菜单</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(2)" ng-disabled="menu.level != 1">子菜单
+            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">一级菜单</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="menu.level != 1">子菜单
             </button>
             <button class="btn btn-primary btn-sm" type="button" ng-click="edit()"
                     ng-disabled="menu.id == null || menuForm.$invalid">编辑
             </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="delete()"
+            <button class="btn btn-primary btn-sm" type="button" ng-click="drop()"
                     ng-disabled="menu.id == null || menu.hasChildren">删除
             </button>
 

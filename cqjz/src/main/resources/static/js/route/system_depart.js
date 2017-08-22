@@ -1,10 +1,6 @@
 mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
-
-    mineHttp.menuLocation("depart.list", function (data) {
-        $scope.menuLocation = data;
-    });
-
-    // select menu
+    mineHttp.menuLocation("depart.list", function (data) {$scope.menuLocation = data;});
+    var departTree;
     $scope.ztreeSelected = function (event, treeId, treeNode) {
         mineHttp.send("GET", "admin/depart/" + treeNode.id, {}, function (data) {
             if (verifyData(data)) {
@@ -14,9 +10,6 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
             }
         });
     };
-
-    // build menu tree
-    var departTree;
     $scope.buildTree = function (callback) {
         mineHttp.send("GET", "admin/depart/rootTree", {}, function (data) {
             var options = {
@@ -38,7 +31,7 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
         });
     };
 
-    $scope.delete = function () {
+    $scope.drop = function () {
         mineUtil.confirm("确认删除吗？", function () {
             var nodes = departTree.getSelectedNodes();
             var parentNode = departTree.getNodeByTId(nodes[0].parentTId);
@@ -48,17 +41,15 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
                     $scope.message = data.message;
                     return;
                 }
-
                 mineUtil.alert("删除成功");
                 $scope.depart = null;
                 departTree.reAsyncChildNodes(parentNode, "refresh", false);
             });
         });
     };
-
-    $scope.add = function (flag) {
+    $scope.add = function (oneLevelFlag) {
         var params = null;
-        if (flag == 2) {
+        if (!oneLevelFlag) {
             params = $scope.depart;
         }
         var modalInstance = mineUtil.modal("admin/_system/depart/departAdd.htm", "systemDepartAddController", params);
@@ -67,12 +58,10 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
         });
     };
 
-    // page init
     $scope.buildTree();
-
-    mineMessage.subscribe("systemDepartTreeRefresh", function (event, type) {
+    mineMessage.subscribe("systemDepartTreeRefresh", function (event, addFlag) {
         var nodes = departTree.getSelectedNodes();
-        if (type == "add") {
+        if (addFlag) {
             departTree.reAsyncChildNodes(nodes[0], "refresh", false);
         } else {
             var parentNode = departTree.getNodeByTId(nodes[0].parentTId);
@@ -92,14 +81,13 @@ mainApp.controller("systemDepartAddController", function ($scope, data, $uibModa
             $scope.depart.parentName = data.name;
         }
     };
-
     $scope.initPage();
     $scope.ok = function () {
         mineHttp.send("POST", "admin/depart", {data: $scope.depart}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", "add");
+                mineMessage.publish("systemDepartTreeRefresh", true);
             }
             $scope.initPage();
         });
@@ -110,7 +98,6 @@ mainApp.controller("systemDepartAddController", function ($scope, data, $uibModa
 });
 
 mainApp.controller("systemDepartEditController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
-
     mineHttp.send("GET", "admin/depart/" + data.code, {}, function (data) {
         if (verifyData(data)) {
             $scope.depart = data.content;
@@ -118,14 +105,13 @@ mainApp.controller("systemDepartEditController", function ($scope, data, $uibMod
             $scope.depart = null;
         }
     });
-
     $scope.ok = function () {
         mineHttp.send("PUT", "admin/depart/" + $scope.depart.code, {data: $scope.depart}, function (data) {
             $scope.messageStatus = verifyData(data);
             $scope.message = data.message;
             $scope.depart = data.content;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", "edit");
+                mineMessage.publish("systemDepartTreeRefresh", false);
             }
         });
     };

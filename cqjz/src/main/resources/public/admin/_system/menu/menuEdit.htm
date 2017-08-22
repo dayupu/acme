@@ -16,7 +16,7 @@
             <div class="form-group" ng-if="menu.parentId != null">
                 <label class="col-sm-2 control-label">上级菜单</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="menu.parentName" readonly>
+                    <label class="mine-label">{{menu.parentName}}</label>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">

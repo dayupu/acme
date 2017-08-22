@@ -16,10 +16,11 @@ import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.jpa.news.repository.UserRepo;
-import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.kernel.spring.config.security.AuthPasswordEncoder;
 import com.manage.kernel.spring.entry.PageQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,8 @@ import java.util.List;
 
 @Service
 public class UserService extends ServiceBase implements IUserService {
+
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
     @Autowired
     private UserRepo userRepo;
@@ -49,6 +52,7 @@ public class UserService extends ServiceBase implements IUserService {
 
         User user = userRepo.findOne(userId);
         if (user == null) {
+            LOGGER.info("Not found the user {}", userId);
             throw new UserNotFoundException();
         }
 
@@ -91,7 +95,8 @@ public class UserService extends ServiceBase implements IUserService {
     public void addUser(UserDto userDto) {
         User query = userRepo.findUserByAccount(userDto.getAccount());
         if (query != null) {
-            throw new CoreException(MessageErrors.USER_HAS_EXISTS);
+            LOGGER.info("The user {} is exists", userDto.getAccount());
+            throw new CoreException(MessageErrors.USER_IS_EXISTS);
         }
         User user = new User();
         user.setAccount(userDto.getAccount());
@@ -112,6 +117,7 @@ public class UserService extends ServiceBase implements IUserService {
     public void modifyUser(UserDto userDto) {
         User user = userRepo.findOne(userDto.getId());
         if (user == null) {
+            LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
         }
 
@@ -135,7 +141,7 @@ public class UserService extends ServiceBase implements IUserService {
             roleIds.add(role.getId());
         }
 
-        return new Pair<User, List<Long>>(user, roleIds);
+        return new Pair<>(user, roleIds);
     }
 
     @Override
@@ -143,6 +149,7 @@ public class UserService extends ServiceBase implements IUserService {
     public Pair<UserDto, List<TreeNode>> userRolePair(Long userId) {
         User user = userRepo.findOne(userId);
         if (user == null) {
+            LOGGER.info("Not found the user {}", userId);
             throw new UserNotFoundException();
         }
 
@@ -169,6 +176,7 @@ public class UserService extends ServiceBase implements IUserService {
     public void resetUserRole(UserDto userDto) {
         User user = userRepo.findOne(userDto.getId());
         if (user == null) {
+            LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
         }
 

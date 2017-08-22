@@ -3,7 +3,8 @@ package com.manage.base.extend.enums;
 public enum ApiMessage {
 
     SERVER_ERROR("10000", "server error"),
-    ACCESS_DENIED("10001", "access denied");
+    ACCESS_DENIED("10001", "access denied"),
+    API_ERROR("10002","API ERROR");
 
     private String code;
     private String message;

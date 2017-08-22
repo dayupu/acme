@@ -38,7 +38,7 @@ public class DepartController {
 
     @InboundLog
     @GetMapping("{id}")
-    public ResponseInfo departDetail(@PathVariable("id") String code) {
+    public ResponseInfo getDepart(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(code);
@@ -60,7 +60,7 @@ public class DepartController {
 
     @InboundLog
     @PutMapping("{id}")
-    public ResponseInfo departEdit(@PathVariable("id") String code, @RequestBody DepartDto departDto) {
+    public ResponseInfo editDepart(@PathVariable("id") String code, @RequestBody DepartDto departDto) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(code);
@@ -84,7 +84,7 @@ public class DepartController {
 
     @InboundLog
     @DeleteMapping("{id}")
-    public ResponseInfo departDrop(@PathVariable("id") String code) {
+    public ResponseInfo dropDepart(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(code);
@@ -135,10 +135,9 @@ public class DepartController {
         return response;
     }
 
-
     @InboundLog
     @GetMapping("/rootTree")
-    public List<TreeNode> treeRoot(){
+    public List<TreeNode> treeRoot() {
         List<TreeNode> treeNodes = departService.getTreeRoot();
         return treeNodes;
     }

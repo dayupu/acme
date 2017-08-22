@@ -3,7 +3,6 @@ var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ng
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
 });
-
 mainApp.controller("asideController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
     $scope.loadMenu = function () {
         mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
@@ -27,13 +26,11 @@ mainApp.controller("asideController", function ($http, $scope, $location, $sessi
         }
     }
 });
-
 mainApp.controller("headerController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
     $scope.loginOut = function () {
         location.href = fullPath("admin/loginOut");
     }
 });
-
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {
         $scope.navLocations = menu.locations;
@@ -42,7 +39,6 @@ mainApp.controller("contentController", function ($scope, mineMessage, $sessionS
         mineMessage.publish("menuLocation", $sessionStorage.menuLocation);
     }
 });
-
 // route config
 function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
@@ -61,7 +57,6 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state("depart.list", {url: "/list", templateUrl: './_system/depart/departList.htm', controller: "systemDepartListCtl"})
         ;
 }
-
 // factorys
 mainApp.factory("mineMessage", function ($rootScope) {
     return {
@@ -73,14 +68,12 @@ mainApp.factory("mineMessage", function ($rootScope) {
         }
     };
 });
-
 function fullPath(path) {
     if (appContextPath == null) {
         appContextPath = $("#appContextPath").val();
     }
     return appContextPath + path;
 }
-
 function verifyData(data) {
     if (data.status == "1000") {
         return true;

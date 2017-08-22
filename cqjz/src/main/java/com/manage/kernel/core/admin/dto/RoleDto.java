@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
 import com.manage.base.extend.serialize.LocalDateTimeSerializer;
+import java.io.Serializable;
 import org.joda.time.LocalDateTime;
 
 import java.util.List;
@@ -11,7 +12,9 @@ import java.util.List;
 /**
  * Created by bert on 17-8-15.
  */
-public class RoleDto {
+public class RoleDto implements Serializable {
+
+    private static final long serialVersionUID = 8769741194270103340L;
 
     private Long id;
     private String name;

@@ -146,6 +146,14 @@
     line-height: 30px;
 }
 
+.mine-label {
+    width: 90px;
+    text-align: left;
+    font-weight:normal;
+    margin-right: 10px;
+    line-height: 30px;
+}
+
 .mine-query-span {
     float: left;
 }
@@ -209,4 +217,9 @@
 
 .alert {
     padding: 10px;
+}
+
+.modal-body .form-group .control-label{
+  padding-bottom:3px;
+  border-bottom: 1px solid #edeef2;
 }

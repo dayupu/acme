@@ -1,9 +1,13 @@
 package com.manage.kernel.core.admin.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by bert on 2017/8/20.
  */
-public class DepartDto {
+public class DepartDto implements Serializable{
+
+    private static final long serialVersionUID = 2702748339411631586L;
 
     private String code;
     private String fullCode;

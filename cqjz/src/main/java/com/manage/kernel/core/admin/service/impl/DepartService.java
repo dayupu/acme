@@ -14,6 +14,8 @@ import com.manage.kernel.jpa.news.repository.DepartRepo;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
@@ -30,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DepartService implements IDepartService {
 
+    private static final Logger LOGGER = LogManager.getLogger(DepartService.class);
+
     @Autowired
     private DepartRepo departRepo;
 
@@ -43,6 +47,7 @@ public class DepartService implements IDepartService {
     public DepartDto getDepart(String code) {
         Department department = departRepo.findOne(code);
         if (department == null) {
+            LOGGER.info("Not found the department {}", code);
             throw new DepartNotFoundException();
         }
         return DepartParser.toDepartDto(department);
@@ -54,6 +59,7 @@ public class DepartService implements IDepartService {
 
         Department department = departRepo.findOne(departDto.getCode());
         if (department == null) {
+            LOGGER.info("Not found the department {}", departDto.getCode());
             throw new DepartNotFoundException();
         }
 
@@ -67,10 +73,12 @@ public class DepartService implements IDepartService {
     public void deleteDepart(String code) {
         Department department = departRepo.findOne(code);
         if (department == null) {
+            LOGGER.info("Not found the department {}", code);
             throw new DepartNotFoundException();
         }
 
         if (!department.getChildrens().isEmpty()) {
+            LOGGER.info("The department {} has childrens, delete failed.", code);
             throw new CoreException(MessageErrors.DEPART_HAS_CHILDREN);
         }
 
@@ -89,6 +97,7 @@ public class DepartService implements IDepartService {
         if (StringUtils.isNotBlank(departDto.getParentCode())) {
             Department parent = departRepo.findOne(departDto.getParentCode());
             if (parent == null) {
+                LOGGER.info("Not found the department {}", departDto.getParentCode());
                 throw new DepartNotFoundException();
             }
             department.setParent(parent);

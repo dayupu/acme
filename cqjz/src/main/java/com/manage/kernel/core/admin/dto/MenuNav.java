@@ -1,11 +1,14 @@
 package com.manage.kernel.core.admin.dto;
 
 import com.manage.kernel.jpa.news.entity.Menu;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MenuNav {
+public class MenuNav implements Serializable {
+
+    private static final long serialVersionUID = 3648786481665816491L;
 
     private Long id;
     private String name;
