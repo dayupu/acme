@@ -59,22 +59,24 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
     };
 
     $scope.buildTree();
-    mineMessage.subscribe("systemDepartTreeRefresh", function (event, addFlag) {
-        var nodes = departTree.getSelectedNodes();
-        if (addFlag) {
-            departTree.reAsyncChildNodes(nodes[0], "refresh", false);
+    mineMessage.subscribe("systemDepartTreeRefresh", function (event, make) {
+
+        if (make.addFlag && make.oneLevelFlag) {
+           $scope.buildTree();
         } else {
+            var nodes = departTree.getSelectedNodes();
             var parentNode = departTree.getNodeByTId(nodes[0].parentTId);
             departTree.reAsyncChildNodes(parentNode, "refresh", false);
         }
     });
 });
-
 mainApp.controller("systemDepartAddController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
+    var oneLevelFlag = false;
     $scope.initPage = function () {
         $scope.depart = {};
         if (data == null) {
             $scope.title = "顶级机构";
+            oneLevelFlag = true;
         } else {
             $scope.title = "下级机构";
             $scope.depart.parentCode = data.code;
@@ -87,7 +89,7 @@ mainApp.controller("systemDepartAddController", function ($scope, data, $uibModa
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", true);
+                mineMessage.publish("systemDepartTreeRefresh", {addFlag:true, oneLevelFlag:oneLevelFlag});
             }
             $scope.initPage();
         });
@@ -111,7 +113,7 @@ mainApp.controller("systemDepartEditController", function ($scope, data, $uibMod
             $scope.message = data.message;
             $scope.depart = data.content;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", false);
+                mineMessage.publish("systemDepartTreeRefresh", {addFlag:false});
             }
         });
     };

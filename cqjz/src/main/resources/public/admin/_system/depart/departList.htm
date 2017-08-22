@@ -1,16 +1,15 @@
 <div class="mine-layout">
     <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
-        <div class="mine-title"><i class="fa fa-bars"></i>组织机构管理</div>
+        <div class="mine-title"><i class="fa fa-bars"></i>机构管理</div>
         <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">顶级组织</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="depart == null">下级组织
+            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">顶级机构</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="depart == null">下级机构
             </button>
             <button class="btn btn-primary btn-sm" type="button" ng-click="edit()" ng-disabled="depart == null">编辑
             </button>
             <button class="btn btn-primary btn-sm" type="button" ng-click="drop()" ng-disabled="depart == null">删除
             </button>
-
         </div>
         <table width="600">
             <tr>
@@ -40,6 +39,10 @@
                         <tr>
                             <td width="100" class="mine-title-td">机构名</td>
                             <td>{{depart.name}}</td>
+                        </tr>
+                        <tr>
+                            <td width="100" class="mine-title-td">机构级别</td>
+                            <td>{{depart.level}}</td>
                         </tr>
                         </tbody>
                     </table>
