@@ -3,14 +3,16 @@
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
             &times;
         </button>
-        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span class="modal-title">
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">
           {{title}}
         </span>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="menuForm">
             <input type="hidden" ng-model="menu.parentId">
-            <div class="alert" ng-if="messageStatus != null" ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
+            <div class="alert" ng-if="messageStatus != null"
+                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                 {{message}}
             </div>
             <div class="form-group" ng-if="menu.parentId != null">
@@ -20,21 +22,26 @@
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
-                <label class="col-sm-3 control-label">菜单名称<span class="mine-required">*</span></label>
+                <label class="col-sm-3 control-label">菜单名称
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="menu.name"  name="name" required/>
+                    <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
+                           ng-pattern="/^.{1,20}$/" required/>
                 </div>
+                <mine-validator class="mine-validator" right="true" valid="menuForm.name.$valid"
+                                when="menuForm.name.$dirty" error="长度1-20位以内"></mine-validator>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">菜单地址</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm"  ng-model="menu.url" name="url" >
+                    <input type="text" class="form-control input-sm" ng-model="menu.url" name="url">
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid" >保存</button>
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid">保存</button>
         <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

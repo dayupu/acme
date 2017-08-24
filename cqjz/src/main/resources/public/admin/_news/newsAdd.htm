@@ -1,0 +1,57 @@
+<div class="mine-layout">
+    <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
+    <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-user-o"></i>新闻发布</div>
+        <div>
+            <form class="form-horizontal" name="newsForm">
+                <table class="table">
+                    <tr>
+                        <td width="90" class="mine-query-lable">标题
+                            <mine-required/>
+                        </td>
+                        <td><input type="text" class="form-control input-sm" style="width:500px;" ng-model="news.title"
+                                   name="title" required/>
+                            <mine-validator valid="newsForm.title.$valid" when="newsForm.title.$dirty"
+                                            error="3-20字母，数字或下划线字符组成"></mine-validator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mine-query-lable">新闻类别
+                            <mine-required/>
+                        </td>
+                        <td>
+                            <select ng-model="news.type" name="type" class="form-control input-sm" style="width:200px;"
+                                    required>
+                                <option>军事</option>
+                                <option>科技</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mine-query-lable">图片</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">上传</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mine-query-lable">正文
+                            <mine-required/>
+                        </td>
+                        <td>
+                            <text-angular ng-model="news.context" style="height:200px;" name="context">
+                            </text-angular>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" ng-click="test();">保存</button>
+                            <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid">提交</button>
+                            <button class="btn btn-primary btn-sm">预览</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

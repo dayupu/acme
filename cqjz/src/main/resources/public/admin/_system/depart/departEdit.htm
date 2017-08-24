@@ -37,15 +37,16 @@
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
-                <label class="col-sm-2 control-label">机构名称<span class="mine-required">*</span></label>
+                <label class="col-sm-2 control-label">机构名称
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="depart.name" name="name"
                            required/>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator when="departForm.name.$dirty" valid="departForm.name.$valid"
-                                    error="必填项"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" when="departForm.name.$dirty"
+                                valid="departForm.name.$valid"
+                                error="必填项"></mine-validator>
             </div>
         </form>
     </div>

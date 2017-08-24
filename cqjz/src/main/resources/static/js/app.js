@@ -1,5 +1,5 @@
 var appContextPath = null;
-var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap"]);
+var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap","textAngular"]);
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
 });
@@ -53,8 +53,13 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         // user
         .state("user", {url: "/user", templateUrl: './_system/user/user.htm'})
         .state("user.list", {url: "/list", templateUrl: './_system/user/userList.htm', controller: "systemUserListCtl"})
+        // department
         .state("depart", {url: "/depart", templateUrl: './_system/depart/depart.htm'})
         .state("depart.list", {url: "/list", templateUrl: './_system/depart/departList.htm', controller: "systemDepartListCtl"})
+        // news
+        .state("news",{url:"/news",templateUrl:'./_news/news.htm'})
+        .state("news.create",{url:"/create",templateUrl:'./_news/newsAdd.htm', controller: "newsAddCtl"})
+        .state("news.list",{url:"/list",templateUrl:'./_news/newsList.htm', controller: "newsListCtl"})
         ;
 }
 // factorys

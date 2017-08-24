@@ -3,14 +3,16 @@
         <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
             &times;
         </button>
-        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span class="modal-title">
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">
          添加{{title}}
         </span>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="departForm">
             <input type="hidden" ng-model="menu.parentId">
-            <div class="alert" ng-if="messageStatus != null" ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
+            <div class="alert" ng-if="messageStatus != null"
+                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                 {{message}}
             </div>
             <div class="form-group" ng-if="depart.parentCode != null">
@@ -20,27 +22,31 @@
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.code.$valid]">
-                <label class="col-sm-3 control-label">机构代码<span class="mine-required">*</span></label>
+                <label class="col-sm-3 control-label">机构代码
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="depart.code"  name="code" ng-pattern="/^\d{2,12}$/" required/>
+                    <input type="text" class="form-control input-sm" ng-model="depart.code" name="code"
+                           ng-pattern="/^\d{2,12}$/" required/>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator valid="departForm.code.$valid" when="departForm.code.$dirty" error="不符合机构代码规则，例:50"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" valid="departForm.code.$valid"
+                                when="departForm.code.$dirty" error="不符合机构代码规则，例:50"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
-                <label class="col-sm-3 control-label">机构名称<span class="mine-required">*</span></label>
+                <label class="col-sm-3 control-label">机构名称
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm"  ng-model="depart.name" name="name" required>
+                    <input type="text" class="form-control input-sm" ng-model="depart.name" name="name" required>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator valid="departForm.name.$valid" when="departForm.name.$dirty" error="机构名必须填写"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" valid="departForm.name.$valid"
+                                when="departForm.name.$dirty" error="机构名必须填写"></mine-validator>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="departForm.$invalid" >保存</button>
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="departForm.$invalid">保存
+        </button>
         <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

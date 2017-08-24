@@ -25,12 +25,21 @@ mainApp.directive("mineValidator", function () {
     return {
         restrict: 'E',
         scope: {
+            ok:"@",
             error: "@",
             valid:"=",
-            when:"="
+            when:"=",
+            right:"="
         },
-        template: "<span><span class='help-inline' ng-show='(when == null || when) && !valid'><i class='fa fa-exclamation-circle'></i><span class='message'>{{error}}</span></span>" +
-        "<span class='help-inline' style='color:green;' ng-show='(when == null || when) && valid'><i class='fa fa-check-circle'></i></span></span>",
+        template: "<span><span class='help-inline' style='color:#a94442;' ng-show='(when == null || when) && !valid'><i class='fa fa-exclamation-circle'></i><span class='message'>{{error}}</span></span>" +
+        "<span ng-if='right' class='help-inline' style='color:green;' ng-show='(when == null || when) && valid'><i class='fa fa-check-circle-o'></i><span class='message'>{{ok}}</span></span></span>",
         replace: true
     }
+});
+mainApp.directive("mineRequired",function(){
+  return{
+      restrict: 'E',
+      template:"<span class='mine-required'>*</span>",
+      replace: true
+  }
 });

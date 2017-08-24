@@ -181,8 +181,8 @@
 }
 
 /* overwrite bootstrap modal style*/
-.has-error .mine-validator {
-    color: #a94442;
+.mine-validator {
+    line-height:30px;
 }
 
 .modal {

@@ -13,23 +13,26 @@
                 {{message}}
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
-                <label class="col-sm-3 control-label">角色名<span class="mine-required">*</span></label>
+                <label class="col-sm-3 control-label">角色名
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="role.name" name="name"
                            ng-pattern="/^.{1,20}$/" required>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator valid="userForm.name.$valid" when="userForm.name.$dirty"
-                                    error="长度1-20位以内"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
+                                when="userForm.name.$dirty"
+                                error="长度1-20位以内"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[userForm.description.$valid]">
                 <label class="col-sm-3 control-label">描述</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="role.description" name="description" ng-pattern="/^.{1,50}$/" />
-                <div class="mine-validator">
-                    <mine-validator valid="userForm.description.$valid" when="userForm.description.$dirty" error="长度50位以内"></mine-validator>
+                    <input type="text" class="form-control input-sm" ng-model="role.description" name="description"
+                           ng-pattern="/^.{1,50}$/"/>
                 </div>
+                <mine-validator class="mine-validator" valid="userForm.description.$valid"
+                                when="userForm.description.$dirty"
+                                error="长度50位以内"></mine-validator>
             </div>
         </form>
     </div>

@@ -20,27 +20,30 @@
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
-                <label class="col-sm-2 control-label">菜单名称<span class="mine-required">*</span></label>
+                <label class="col-sm-2 control-label">菜单名称
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
+                           ng-pattern="/^.{1,20}$/"
                            required/>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator when="menuForm.name.$dirty" valid="menuForm.name.$valid"
-                                    error="必填项"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" when="menuForm.name.$dirty"
+                                valid="menuForm.name.$valid"
+                                error="长度1-20位以内"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.sequence.$valid]">
-                <label class="col-sm-2 control-label">排序<span class="mine-required">*</span></label>
+                <label class="col-sm-2 control-label">排序
+                    <mine-required/>
+                </label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.sequence"
                            name="sequence"
-                           required ng-pattern="/^\d{1,2}$/">
+                           ng-pattern="/^\d{1,2}$/" required>
                 </div>
-                <div class="mine-validator">
-                    <mine-validator when="menuForm.sequence.$dirty" valid="menuForm.sequence.$valid"
-                                    error="1-99数字"></mine-validator>
-                </div>
+                <mine-validator class="mine-validator" right="true" when="menuForm.sequence.$dirty"
+                                valid="menuForm.sequence.$valid"
+                                error="1-99数字"></mine-validator>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">菜单地址</label>
