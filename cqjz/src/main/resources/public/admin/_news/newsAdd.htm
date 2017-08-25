@@ -10,9 +10,9 @@
                             <mine-required/>
                         </td>
                         <td><input type="text" class="form-control input-sm" style="width:500px;" ng-model="news.title"
-                                   name="title" required/>
-                            <mine-validator valid="newsForm.title.$valid" when="newsForm.title.$dirty"
-                                            error="3-20字母，数字或下划线字符组成"></mine-validator>
+                                   name="title" ng-pattern="/^.{1,100}$/" required/>
+                            <mine-validator valid="newsForm.title.$valid"
+                                            error="长度100字符以内"></mine-validator>
                         </td>
                     </tr>
                     <tr>
@@ -30,7 +30,9 @@
                     <tr>
                         <td class="mine-query-lable">图片</td>
                         <td>
-                            <button class="btn btn-primary btn-sm">上传</button>
+                            <button class="btn btn-primary btn-sm" ngf-select="submit()" ng-model="file" name="file"
+                                    ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">上传
+                            </button>
                         </td>
                     </tr>
                     <tr>

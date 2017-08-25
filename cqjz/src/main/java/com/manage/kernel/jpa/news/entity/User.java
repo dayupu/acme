@@ -39,7 +39,7 @@ public class User extends StatusBase {
     private String password;
 
     @Column(name = "gender")
-    @Type(type = "com.manage.base.extend.define.DBEnumType", parameters = {
+    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender") })
     private Gender gender;
 

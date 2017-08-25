@@ -29,7 +29,7 @@ public class ProcessFlow{
     private String processId;
 
     @Column(name = "state", nullable = false, length = 3)
-    @Type(type = "com.manage.base.extend.define.DBEnumType",
+    @Type(type = "com.manage.base.extend.model.DBEnumType",
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.FlowStatus")})
     private FlowStatus status;
 

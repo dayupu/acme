@@ -11,7 +11,7 @@ import org.joda.time.LocalDateTime;
 public class StatusBase extends EntityBase {
 
     @Column(name = "status", length = 2)
-    @Type(type = "com.manage.base.extend.define.DBEnumType",
+    @Type(type = "com.manage.base.extend.model.DBEnumType",
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Status")})
     private Status status;
 

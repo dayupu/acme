@@ -1,7 +1,7 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.extend.define.DBEnum;
-import com.manage.base.extend.define.Localisable;
+import com.manage.base.extend.model.DBEnum;
+import com.manage.base.extend.model.Localisable;
 
 public enum Status implements DBEnum, Localisable {
 

@@ -4,17 +4,16 @@ import com.manage.base.extend.model.DBEnum;
 import com.manage.base.extend.model.Localisable;
 
 /**
- * Created by bert on 2017/8/13.
+ * Created by bert on 17-8-25.
  */
-public enum Gender implements DBEnum, Localisable {
+public enum FileType implements DBEnum, Localisable {
 
-    MALE(1, "resource.constant.gender.male"),
-    FEMALE(0, "resource.constant.gender.female");;
+    IMAGE(1, "news.image");
 
-    private int constant;
+    private Integer constant;
     private String messageKey;
 
-    Gender(int constant, String messageKey) {
+    FileType(Integer constant, String messageKey) {
         this.constant = constant;
         this.messageKey = messageKey;
     }
@@ -24,10 +23,8 @@ public enum Gender implements DBEnum, Localisable {
         return messageKey;
     }
 
-
     @Override
     public Integer getConstant() {
         return constant;
     }
-
 }

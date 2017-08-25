@@ -1,4 +1,4 @@
-package com.manage.base.extend.define;
+package com.manage.base.extend.model;
 
 /**
  * Created by bert on 2017/8/13.

@@ -1,6 +1,6 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.extend.define.DBEnum;
+import com.manage.base.extend.model.DBEnum;
 
 public enum PermitType implements DBEnum {
 

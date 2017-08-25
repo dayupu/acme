@@ -1,9 +1,11 @@
 package com.manage.kernel.spring.config;
 
+import javax.servlet.MultipartConfigElement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,6 +23,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private int serverPort = 8080;
     @Value("${server.sessionTimeout}")
     private int sessionTimeout = 30;
+    @Value("${server.multipart.location}")
+    private String multipartLocation;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -34,6 +38,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         factory.setPort(serverPort);
         factory.setSessionTimeout(sessionTimeout, TimeUnit.MINUTES);
         return factory;
+    }
+
+    @Bean
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setLocation(multipartLocation);
+        return factory.createMultipartConfig();
     }
 
 }

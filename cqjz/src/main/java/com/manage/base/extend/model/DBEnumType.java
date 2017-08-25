@@ -1,4 +1,4 @@
-package com.manage.base.extend.define;
+package com.manage.base.extend.model;
 
 import java.util.HashMap;
 import java.util.Map;

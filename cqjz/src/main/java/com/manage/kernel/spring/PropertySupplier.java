@@ -1,24 +1,31 @@
 package com.manage.kernel.spring;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class PropertySupplier {
 
-    private String tokenStrategy;
-    private int tokenValidMinutes;
 
+    @Value("${file.temporary.dir}")
+    private String fileTempDir;
 
-    public String getTokenStrategy() {
-        return tokenStrategy;
+    @Value("${file.upload.local}")
+    private String fileUploadLocal;
+
+    public String getFileUploadLocal() {
+        return fileUploadLocal;
     }
 
-    public void setTokenStrategy(String tokenStrategy) {
-        this.tokenStrategy = tokenStrategy;
+    public void setFileUploadLocal(String fileUploadLocal) {
+        this.fileUploadLocal = fileUploadLocal;
     }
 
-    public int getTokenValidMinutes() {
-        return tokenValidMinutes;
+    public String getFileTempDir() {
+        return fileTempDir;
     }
 
-    public void setTokenValidMinutes(int tokenValidMinutes) {
-        this.tokenValidMinutes = tokenValidMinutes;
+    public void setFileTempDir(String fileTempDir) {
+        this.fileTempDir = fileTempDir;
     }
 }

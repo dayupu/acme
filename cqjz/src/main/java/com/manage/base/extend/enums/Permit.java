@@ -1,7 +1,7 @@
 package com.manage.base.extend.enums;
 
-import com.manage.base.extend.define.Localisable;
-import com.manage.base.extend.define.VarDBEnum;
+import com.manage.base.extend.model.Localisable;
+import com.manage.base.extend.model.VarDBEnum;
 
 public enum Permit implements VarDBEnum, Localisable {
 

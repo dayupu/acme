@@ -32,7 +32,7 @@ public class Permission {
     private String code;
 
     @Column(name = "permit", length = 60, nullable = false)
-    @Type(type = "com.manage.base.extend.define.VarDBEnumType", parameters = {
+    @Type(type = "com.manage.base.extend.model.VarDBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Permit")})
     private Permit permit;
 
@@ -43,7 +43,7 @@ public class Permission {
     private String messageKey;
 
     @Column(name = "type", length = 20)
-    @Type(type = "com.manage.base.extend.define.DBEnumType", parameters = {
+    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.PermitType")})
     private PermitType type;
 
