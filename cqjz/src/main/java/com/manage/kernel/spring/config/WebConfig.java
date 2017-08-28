@@ -1,6 +1,8 @@
 package com.manage.kernel.spring.config;
 
 import javax.servlet.MultipartConfigElement;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -23,8 +25,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private int serverPort = 8080;
     @Value("${server.sessionTimeout}")
     private int sessionTimeout = 30;
-    @Value("${server.multipart.location}")
-    private String multipartLocation;
+    @Value("${server.upload.file.max.size}")
+    private int maxFileSize = 10;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -41,9 +43,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    MultipartConfigElement multipartConfigElement() {
+    public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setLocation(multipartLocation);
+        factory.setMaxFileSize(maxFileSize * 1024 * 1024);
         return factory.createMultipartConfig();
     }
 

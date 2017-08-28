@@ -1,4 +1,4 @@
-mainApp.service("mineHttp", function ($http) {
+mainApp.service("mineHttp", function ($http, Upload) {
     this.send = function (method, url, params, callback) {
         var setting = {
             method: method,
@@ -14,6 +14,21 @@ mainApp.service("mineHttp", function ($http) {
     this.menuLocation = function (menuUrl, callback) {
         this.send("GET", "admin/menu/location", {params: {url: menuUrl}}, function (data) {
             callback(data.content);
+        });
+    };
+    this.upload = function (url, data, callback) {
+        Upload.upload({
+            url: fullPath(url),
+            data: data,
+            file: data.file
+        }).progress(function (evt) {
+            //进度条
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progess:' + progressPercentage + '%' + evt.config.file.name);
+        }).success(function (data, status, headers, config) {
+            callback(data);
+        }).error(function (data, status, headers, config) {
+            alert("上传失败")
         });
     };
 
@@ -112,18 +127,19 @@ mainApp.service("mineTree", function () {
         return $.fn.zTree.init(obj, setting, nodes);
     };
 
-    this.buildAsync = function(obj, url, nodes, options){
-        var filter = function(treeId, parentNode, childNodes){
-           return childNodes;
+    this.buildAsync = function (obj, url, nodes, options) {
+        var filter = function (treeId, parentNode, childNodes) {
+            return childNodes;
         };
         var setting = {
-           async:{
-           autoParam:["id", "name", "level"],
-           enable:true,
-           type:"GET",
-           url: fullPath(url),
-           dataFilter:filter,
-       }};
+            async: {
+                autoParam: ["id", "name", "level"],
+                enable: true,
+                type: "GET",
+                url: fullPath(url),
+                dataFilter: filter,
+            }
+        };
         $.extend(setting, defaultSetting);
         if (typeof options != "undefined") {
             $.extend(setting, options);

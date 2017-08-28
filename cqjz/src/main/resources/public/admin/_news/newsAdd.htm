@@ -31,8 +31,28 @@
                         <td class="mine-query-lable">图片</td>
                         <td>
                             <button class="btn btn-primary btn-sm" ngf-select="submit()" ng-model="file" name="file"
-                                    ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">上传
+                                    ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB"
+                                    ngf-min-height="100">上传
                             </button>
+                            <table ng-show="images.length > 0"
+                                   class="table table-bordered table-striped table-condensed"
+                                   style="margin-bottom: 0px;margin-top: 5px;">
+                                <tr>
+                                    <td align="center" width="50">序号</td>
+                                    <td>名称</td>
+                                    <td>引用地址</td>
+                                    <td>大小</td>
+                                    <td>操作</td>
+                                </tr>
+                                <tr ng-repeat="image in images">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{image.originName}}</td>
+                                    <td>{{image.accessUrl}}</td>
+                                    <td>{{image.humanSize}}</td>
+                                    <td><a href="javascript:void(0);" ng-click="preview(image)">预览</a>
+                                        <a href="javascript:void(0);" ng-click="preview(image)">删除</a></td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>

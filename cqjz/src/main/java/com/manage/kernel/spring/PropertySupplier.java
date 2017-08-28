@@ -13,6 +13,10 @@ public class PropertySupplier {
     @Value("${file.upload.local}")
     private String fileUploadLocal;
 
+    @Value("${file.service.url}")
+    private String fileServiceUrl;
+
+
     public String getFileUploadLocal() {
         return fileUploadLocal;
     }
@@ -27,5 +31,13 @@ public class PropertySupplier {
 
     public void setFileTempDir(String fileTempDir) {
         this.fileTempDir = fileTempDir;
+    }
+
+    public String getFileServiceUrl() {
+        return fileServiceUrl;
+    }
+
+    public void setFileServiceUrl(String fileServiceUrl) {
+        this.fileServiceUrl = fileServiceUrl;
     }
 }

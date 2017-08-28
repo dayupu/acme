@@ -2,11 +2,15 @@ package com.manage.base.utils;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
+
+import com.manage.kernel.core.admin.model.FileModel;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StreamUtils;
 import sun.plugin2.util.SystemUtil;
 
 /**
@@ -14,18 +18,20 @@ import sun.plugin2.util.SystemUtil;
  */
 public class FileUtils {
 
-    public static void save(InputStream is, File file) throws IOException {
-        if (file.exists()) {
-            file.delete();
+    public static void save(InputStream inputStream, String filePath) throws Exception {
+        save(inputStream, new File(filePath));
+    }
+
+    public static void save(InputStream inputStream, File file) throws Exception {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            StreamUtils.copy(inputStream, fos);
+            fos.flush();
+        } finally {
+            inputStream.close();
+            fos.close();
         }
-        DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
-        byte[] buff = new byte[1024];
-        while (is.read(buff) != -1) {
-            dos.write(buff);
-        }
-        dos.flush();
-        is.close();
-        dos.close();
     }
 
     public static synchronized String generateName(String extensionName) {
@@ -53,10 +59,6 @@ public class FileUtils {
         }
 
         return fileName.substring(index);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(generateFileId());
     }
 
     public static boolean copyFile(File origin, File newFile) {

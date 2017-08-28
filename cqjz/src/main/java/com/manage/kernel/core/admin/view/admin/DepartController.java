@@ -1,4 +1,4 @@
-package com.manage.kernel.core.admin.view.system;
+package com.manage.kernel.core.admin.view.admin;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.DepartNotFoundException;
@@ -6,10 +6,9 @@ import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageInfos;
-import com.manage.base.utils.Validators;
+import com.manage.base.utils.ValidatorUtil;
 import com.manage.kernel.core.admin.dto.DepartDto;
 import com.manage.kernel.core.admin.service.IDepartService;
-import com.manage.kernel.spring.PropertySupplier;
 import com.manage.kernel.spring.annotation.InboundLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +39,7 @@ public class DepartController {
     public ResponseInfo getDepart(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
+            ValidatorUtil.notNull(code);
             DepartDto departDto = departService.getDepart(code);
             if (departDto == null) {
                 throw new DepartNotFoundException();
@@ -62,8 +61,8 @@ public class DepartController {
     public ResponseInfo editDepart(@PathVariable("id") String code, @RequestBody DepartDto departDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
-            Validators.notNull(departDto);
+            ValidatorUtil.notNull(code);
+            ValidatorUtil.notNull(departDto);
             departDto.setCode(code);
             DepartDto result = departService.updateDepart(departDto);
             if (result == null) {
@@ -86,7 +85,7 @@ public class DepartController {
     public ResponseInfo dropDepart(@PathVariable("id") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
+            ValidatorUtil.notNull(code);
             departService.deleteDepart(code);
             response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
@@ -119,8 +118,8 @@ public class DepartController {
     public ResponseInfo addDepart(@RequestBody DepartDto departDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(departDto);
-            Validators.notEmpty(departDto.getName());
+            ValidatorUtil.notNull(departDto);
+            ValidatorUtil.notEmpty(departDto.getName());
             departService.addDepart(departDto);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {

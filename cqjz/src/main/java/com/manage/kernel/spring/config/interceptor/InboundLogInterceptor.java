@@ -1,8 +1,7 @@
 package com.manage.kernel.spring.config.interceptor;
 
 import com.google.common.collect.Lists;
-import com.manage.base.utils.MessageLogging;
-import com.manage.base.wrapper.APIHttpServletRequestWrapper;
+import com.manage.base.extend.model.MessageLogging;
 import com.manage.kernel.spring.annotation.InboundLog;
 
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;

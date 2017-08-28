@@ -5,11 +5,11 @@ import com.manage.kernel.spring.comm.Messages;
 
 public enum MessageErrors implements CoreMsgs {
 
-    SYSTEM_ERROR(20000, "System error"),
-    CORE_ERROR(20001, "Business exception"),
-    SAVE_FAILED(20002, "Save failed"),
-    DELETE_FAILED(20003, "Delete failed"),
-
+    SYSTEM_ERROR(20000, "System Error"),
+    CORE_ERROR(20001, "Business Exception"),
+    SAVE_FAILED(20002, "Save Fail"),
+    DELETE_FAILED(20003, "Delete Fail"),
+    UPLOAD_FAILED(20004, "Upload Fail"),
     NOT_FOUND(200001, "Not found"),
     MENU_NOT_FOUND(200002, "Not found the menu"),
     MENU_HAS_CHILDREN(200003, "The menu has sub menus"),

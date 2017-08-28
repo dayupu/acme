@@ -6,14 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class JsonUtils {
+public class JsonUtil {
 
     private static ObjectMapper mapper = new ObjectMapper();
     static{
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public static String toJsonString(Object object) {
+    public static String toJson(Object object) {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -22,7 +22,7 @@ public class JsonUtils {
         return null;
     }
 
-    public static <T> T toJson(String jsonString, Class<T> clazz) {
+    public static <T> T fromJson(String jsonString, Class<T> clazz) {
 
         try {
             return mapper.readValue(jsonString, clazz);

@@ -7,7 +7,7 @@ import com.manage.kernel.spring.comm.Messages;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Validators {
+public class ValidatorUtil {
 
     public static void notNull(Object obj) {
         if (obj == null) {

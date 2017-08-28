@@ -1,4 +1,4 @@
-package com.manage.base.utils;
+package com.manage.base.extend.model;
 
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;

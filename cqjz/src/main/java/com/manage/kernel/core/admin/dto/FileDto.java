@@ -1,22 +1,21 @@
 package com.manage.kernel.core.admin.dto;
 
-import java.io.InputStream;
-
 /**
  * Created by bert on 17-8-25.
  */
 public class FileDto {
 
-    private String fileName;
+    private Long id;
+    private String originName;
     private String accessUrl;
-    private InputStream inputStream;
+    private String humanSize;
 
-    public String getFileName() {
-        return fileName;
+    public String getOriginName() {
+        return originName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setOriginName(String originName) {
+        this.originName = originName;
     }
 
     public String getAccessUrl() {
@@ -25,5 +24,21 @@ public class FileDto {
 
     public void setAccessUrl(String accessUrl) {
         this.accessUrl = accessUrl;
+    }
+
+    public String getHumanSize() {
+        return humanSize;
+    }
+
+    public void setHumanSize(String humanSize) {
+        this.humanSize = humanSize;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

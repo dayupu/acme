@@ -1,29 +1,40 @@
-mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage, textAngularManager, Upload) {
-  mineHttp.menuLocation("news.create", function (data) {$scope.menuLocation = data;});
+mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage, textAngularManager) {
+    mineHttp.menuLocation("news.create", function (data) {
+        $scope.menuLocation = data;
+    });
 
-  $scope.test = function(){
-    alert($scope.news.context);
-  };
-  $scope.submit = function() {
+    $scope.images = [];
+    $scope.test = function () {
+        alert($scope.news.context);
+    };
+    $scope.submit = function () {
         if ($scope.file) {
             $scope.upload($scope.file);
-          }
-        };
-        $scope.upload = function (file) {
-        Upload.upload({
-            url: fullPath("admin/news/upload"),
-            data: {file: file, 'username': $scope.username},
-            file: file
-        }).then(function (resp) {
-            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        }
+    };
+    $scope.upload = function (file) {
+        mineHttp.upload("admin/news/upload", {file: file}, function (data) {
+            $scope.images.push(data.content);
         });
-  };
+    };
+
+    $scope.preview = function (image) {
+        var modalInstance = mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewController", image, "lg");
+        modalInstance.result.then(function () {
+        }, function () {
+        });
+    };
+
 });
 mainApp.controller("newsListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
-  mineHttp.menuLocation("news.list", function (data) {$scope.menuLocation = data;});
+    mineHttp.menuLocation("news.list", function (data) {
+        $scope.menuLocation = data;
+    });
+});
+
+mainApp.controller("newsPreviewController", function ($scope, $uibModalInstance, data) {
+    $scope.imgUrl = fullPath(data.accessUrl);
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });

@@ -1,20 +1,27 @@
 package com.manage.kernel.core.admin.service.impl;
 
+import com.manage.base.exception.FileUploadException;
 import com.manage.base.extend.enums.FileSource;
+import com.manage.base.utils.Constants;
 import com.manage.base.utils.FileUtils;
 import com.manage.kernel.core.admin.dto.FileDto;
 import com.manage.kernel.core.admin.model.FileModel;
+import com.manage.kernel.core.admin.parser.FileParser;
 import com.manage.kernel.core.admin.service.IResourceFileService;
 import com.manage.kernel.jpa.news.entity.ResourceFile;
 import com.manage.kernel.jpa.news.repository.ResourceFileRepo;
 import com.manage.kernel.spring.PropertySupplier;
 import com.manage.kernel.spring.comm.ServiceBase;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.transaction.Transactional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +34,8 @@ import org.springframework.util.StreamUtils;
  */
 @Service
 public class ResourceFileService extends ServiceBase implements IResourceFileService {
+
+    private final static Logger LOGGER = LogManager.getLogger(ResourceFileService.class);
 
     @Autowired
     private PropertySupplier supplier;
@@ -42,42 +51,29 @@ public class ResourceFileService extends ServiceBase implements IResourceFileSer
         String extensionName = FileUtils.extensionName(fileModel.getFileName());
         String fileName = FileUtils.generateName(extensionName);
         String fullPath = localDir + fileName;
-        FileOutputStream fos = null;
-        InputStream is = null;
+        String accessUrl = supplier.getFileTempDir() + Constants.SEPARATOR + fileName;
         try {
-            fos = new FileOutputStream(new File(fullPath));
-            is = fileModel.getInputStream();
-            StreamUtils.copy(fileModel.getInputStream(), fos);
-            fos.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            FileUtils.save(fileModel.getInputStream(), fullPath);
+        } catch (Exception e) {
+            LOGGER.warn("File upload failed");
+            throw new FileUploadException();
         }
-
+        copyToTempDir(fullPath, accessUrl);
         ResourceFile resourceFile = new ResourceFile();
         resourceFile.setFileId(FileUtils.generateFileId());
         resourceFile.setFileName(fileName);
         resourceFile.setOriginName(fileModel.getFileName());
         resourceFile.setExtension(extensionName);
-        resourceFile.setLocalPath(localPath(fullPath));
-        resourceFile.setAccessUrl(supplier.getFileTempDir() + File.separator + fileName);
+        resourceFile.setLocalPath(fullPath.substring(supplier.getFileUploadLocal().length()));
+        resourceFile.setAccessUrl(supplier.getFileServiceUrl() + accessUrl);
         resourceFile.setType(fileModel.getFileType());
         resourceFile.setSource(fileModel.getFileSource());
         resourceFile.setFileSize(fileModel.getFileSize());
         resourceFile.setCreatedAt(LocalDateTime.now());
-
         resourceFileRepo.save(resourceFile);
-        return null;
+        return FileParser.toFileDto(resourceFile);
     }
+
 
     @Override
     public FileDto getImage(String fileId) {
@@ -87,21 +83,6 @@ public class ResourceFileService extends ServiceBase implements IResourceFileSer
             return null;
         }
 
-        String tempPath = tempPath();
-        String filePath = tempPath + resourceFile.getAccessUrl();
-
-        File image = new File(filePath);
-        if (!image.exists()) {
-            String localPath = supplier.getFileUploadLocal() + resourceFile.getLocalPath();
-            File originFile = new File(localPath);
-            if (!originFile.exists()) {
-                return null;
-            }
-            boolean result = FileUtils.copyFile(originFile, image);
-            if (!result) {
-                return null;
-            }
-        }
         FileDto fileDto = new FileDto();
         fileDto.setAccessUrl(resourceFile.getAccessUrl());
         return fileDto;
@@ -110,11 +91,11 @@ public class ResourceFileService extends ServiceBase implements IResourceFileSer
     private String localDir(FileSource source) {
         StringBuilder path = new StringBuilder();
         path.append(supplier.getFileUploadLocal());
-        path.append(File.separator);
+        path.append(Constants.SEPARATOR);
         path.append(source.getDir());
-        path.append(File.separator);
+        path.append(Constants.SEPARATOR);
         path.append(LocalDate.now().toString("yyyyMMdd"));
-        path.append(File.separator);
+        path.append(Constants.SEPARATOR);
         File sourceFile = new File(path.toString());
         if (!sourceFile.exists()) {
             sourceFile.mkdirs();
@@ -122,20 +103,26 @@ public class ResourceFileService extends ServiceBase implements IResourceFileSer
         return path.toString();
     }
 
-    private String localPath(String localPath) {
-        return localPath.substring(supplier.getFileUploadLocal().length());
+    private void copyToTempDir(String fullPath, String accessUrl) {
+        String tempPath = tempPath();
+        String filePath = tempPath + accessUrl;
+        File image = new File(filePath);
+        if (image.exists()) {
+            return;
+        }
+        File originFile = new File(fullPath);
+        if (!originFile.exists()) {
+            LOGGER.warn("Origin file is not exists");
+            throw new FileUploadException();
+        }
+        boolean result = FileUtils.copyFile(originFile, image);
+        if (!result) {
+            LOGGER.warn("Copy file failed");
+            throw new FileUploadException();
+        }
     }
 
     private String tempPath() {
-        return ClassUtils.getDefaultClassLoader().getResource("public").getPath();
-    }
-
-    private synchronized String generateName() {
-        return null;
-    }
-
-    public static void main(String[] args) {
-        String result = FileUtils.generateName(".png");
-        System.out.println(result);
+        return ClassUtils.getDefaultClassLoader().getResource(Constants.IMAGE_PATH).getPath();
     }
 }

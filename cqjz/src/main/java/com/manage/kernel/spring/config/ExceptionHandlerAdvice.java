@@ -3,7 +3,7 @@ package com.manage.kernel.spring.config;
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.extend.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
-import com.manage.base.utils.JsonUtils;
+import com.manage.base.utils.JsonUtil;
 import com.manage.base.exception.AuthorizedException;
 import com.manage.base.exception.ApiExeception;
 import com.manage.kernel.spring.comm.Messages;
@@ -31,7 +31,7 @@ public class ExceptionHandlerAdvice {
         ResponseInfo responseInfo = new ResponseInfo();
         responseInfo.status = ResponseStatus.ERROR;
         responseInfo.message = Messages.get("global.api.access.error");
-        String message = JsonUtils.toJsonString(responseInfo);
+        String message = JsonUtil.toJson(responseInfo);
         return handleAjaxException(response, message, HttpStatus.ACCEPTED);
     }
 
@@ -42,7 +42,7 @@ public class ExceptionHandlerAdvice {
         ResponseInfo responseInfo = new ResponseInfo();
         responseInfo.status = ResponseStatus.ERROR;
         responseInfo.message = Messages.get("global.api.unauthorized");
-        String message = JsonUtils.toJsonString(responseInfo);
+        String message = JsonUtil.toJson(responseInfo);
         return handleAjaxException(response, message, HttpStatus.UNAUTHORIZED);
     }
 
@@ -50,7 +50,7 @@ public class ExceptionHandlerAdvice {
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     public ModelAndView handleBusinessException(HttpServletRequest request, HttpServletResponse response,
                                                 CoreException e) throws Exception {
-        String message = JsonUtils.toJsonString(new ResponseInfo(ResponseStatus.ERROR, e.getMessage()));
+        String message = JsonUtil.toJson(new ResponseInfo(ResponseStatus.ERROR, e.getMessage()));
         return handleAjaxException(response, message, HttpStatus.OK);
     }
 
