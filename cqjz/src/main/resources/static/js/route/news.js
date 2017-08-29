@@ -1,11 +1,12 @@
-mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage, textAngularManager) {
+mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mineUtil) {
     mineHttp.menuLocation("news.create", function (data) {
         $scope.menuLocation = data;
     });
-
+    umeditorInit($);
+    var um = UM.getEditor('myEditor');
     $scope.images = [];
     $scope.test = function () {
-        alert($scope.news.context);
+        alert(UM.getEditor('myEditor').getContent());
     };
     $scope.submit = function () {
         if ($scope.file) {
