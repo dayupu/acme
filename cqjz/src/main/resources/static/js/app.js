@@ -81,6 +81,9 @@ function fullPath(path) {
     if (appContextPath == null) {
         appContextPath = $("#appContextPath").val();
     }
+    if(path == null){
+       return appContextPath;
+    }
     return appContextPath + path;
 }
 function verifyData(data) {

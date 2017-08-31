@@ -186,6 +186,7 @@
         uploadComplete: function(r){
             var me = this;
             try{
+                alert(r);
                 var json = eval('('+r+')');
                 Base.callback(me.editor, me.dialog, json.url, json.state);
             }catch (e){

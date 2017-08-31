@@ -139,8 +139,8 @@ etpl.config({
         UMEDITOR_HOME_URL : URL
 
         //图片上传配置区
-        ,imageUrl:URL+"jsp/imageUp.jsp"             //图片上传提交地址
-        ,imagePath:URL + "jsp/"                     //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
+        ,imageUrl:fullPath("umedit/imageUp")           //图片上传提交地址
+        ,imagePath:fullPath(null)                     //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
         ,imageFieldName:"upfile"                   //图片数据的key,若此处修改，需要在后台对应文件修改对应参数
 
 

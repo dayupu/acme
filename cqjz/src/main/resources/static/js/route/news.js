@@ -6,6 +6,7 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
     var um = UM.getEditor('myEditor');
     $scope.images = [];
     $scope.test = function () {
+        alert(URL);
         alert(UM.getEditor('myEditor').getContent());
     };
     $scope.submit = function () {
