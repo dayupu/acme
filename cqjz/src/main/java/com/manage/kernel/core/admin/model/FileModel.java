@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.model;
 
-import com.manage.base.extend.enums.FileSource;
-import com.manage.base.extend.enums.FileType;
+import com.manage.base.database.enums.FileSource;
+import com.manage.base.database.enums.FileType;
 import java.io.InputStream;
 
 /**

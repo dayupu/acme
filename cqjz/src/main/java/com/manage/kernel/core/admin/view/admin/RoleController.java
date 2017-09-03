@@ -2,15 +2,15 @@ package com.manage.kernel.core.admin.view.admin;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
-import com.manage.base.extend.enums.Permit;
-import com.manage.base.extend.enums.ResponseStatus;
+import com.manage.base.database.enums.Permit;
+import com.manage.base.enums.ResponseStatus;
 import com.manage.base.supplier.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.ResponseInfo;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.ValidatorUtil;
 import com.manage.kernel.core.admin.dto.RoleDto;
-import com.manage.kernel.core.admin.service.IRoleService;
+import com.manage.kernel.core.admin.service.system.IRoleService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
 import com.manage.kernel.spring.annotation.UserPermit;

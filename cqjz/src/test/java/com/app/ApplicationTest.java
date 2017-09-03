@@ -1,7 +1,7 @@
 package com.app;
 
 import com.manage.application.StartApplication;
-import com.manage.kernel.core.admin.service.IMenuService;
+import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.spring.comm.SpringUtils;
 import java.util.ArrayList;
 import java.util.List;

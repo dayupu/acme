@@ -1,8 +1,8 @@
 package com.manage.kernel.spring.config;
 
-import com.manage.base.extend.enums.Permit;
-import com.manage.base.extend.enums.PermitType;
-import com.manage.kernel.core.admin.service.IPermissionService;
+import com.manage.base.database.enums.Permit;
+import com.manage.base.database.enums.PermitType;
+import com.manage.kernel.core.admin.service.comm.IPermissionService;
 import com.manage.kernel.jpa.news.entity.Permission;
 import com.manage.kernel.spring.annotation.UserPermit;
 import com.manage.kernel.spring.annotation.UserPermitGroup;

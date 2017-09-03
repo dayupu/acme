@@ -1,8 +1,7 @@
 package com.manage.kernel.jpa.news.repository;
 
-import com.manage.base.extend.enums.Permit;
-import com.manage.base.extend.enums.PermitType;
-import com.manage.kernel.jpa.news.entity.Menu;
+import com.manage.base.database.enums.Permit;
+import com.manage.base.database.enums.PermitType;
 import com.manage.kernel.jpa.news.entity.Permission;
 
 import java.io.Serializable;

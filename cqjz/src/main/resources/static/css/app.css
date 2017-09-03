@@ -52,7 +52,7 @@ div {
 }
 
 .app-header {
-    z-index: 1025;
+    z-index: 999;
 }
 
 .app-aside {

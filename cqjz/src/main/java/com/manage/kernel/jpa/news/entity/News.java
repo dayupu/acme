@@ -1,7 +1,12 @@
 package com.manage.kernel.jpa.news.entity;
 
+import com.manage.base.database.enums.NewsType;
 import com.manage.kernel.jpa.news.base.FlowBase;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -26,9 +31,6 @@ public class News extends FlowBase {
     @Column(name = "contentmin", length = 500)
     private String contentmin;
 
-    @Column(name = "dept_code", length = 50)
-    private String deptCode;
-
     @Column(name = "hits")
     private Integer hits = 0;
 
@@ -41,8 +43,10 @@ public class News extends FlowBase {
     @Column(name = "show_pic_news")
     private Integer showPicNews;
 
-    @Column(name = "type", length = 50)
-    private String type;
+    @Column(name = "type", nullable = false)
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType")})
+    private NewsType type;
 
     @Column(name = "purview", length = 200)
     private String purview;
@@ -96,14 +100,6 @@ public class News extends FlowBase {
         this.contentmin = contentmin;
     }
 
-    public String getDeptCode() {
-        return deptCode;
-    }
-
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode;
-    }
-
     public Integer getHits() {
         return hits;
     }
@@ -136,11 +132,11 @@ public class News extends FlowBase {
         this.showPicNews = showPicNews;
     }
 
-    public String getType() {
+    public NewsType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(NewsType type) {
         this.type = type;
     }
 

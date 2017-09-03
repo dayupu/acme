@@ -31,9 +31,8 @@ public class UserParser {
         userDto.setMobile(user.getMobile());
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setUpdatedAt(user.getUpdatedAt());
-        userDto.setGender(Messages.get(user.getGender().messageKey()));
-        userDto.setStatus(Messages.get(user.getStatus().messageKey()));
-        userDto.setGenderValue(user.getGender().getConstant());
+        userDto.setGender(user.getGender());
+        userDto.setStatus(Messages.get(user.getStatus()));
         userDto.setCreatedBy(user.getCreatedUserName());
         userDto.setUpdatedBy(user.getUpdatedUserName());
         return userDto;

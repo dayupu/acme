@@ -1,18 +1,17 @@
 package com.manage.kernel.jpa.news.base;
 
-import com.manage.base.extend.enums.Status;
+import com.manage.base.database.enums.Status;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDateTime;
 
 @MappedSuperclass
 public class StatusBase extends EntityBase {
 
     @Column(name = "status", length = 2)
-    @Type(type = "com.manage.base.extend.model.DBEnumType",
-            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Status")})
+    @Type(type = "com.manage.base.database.model.DBEnumType",
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.Status")})
     private Status status;
 
     public Status getStatus() {

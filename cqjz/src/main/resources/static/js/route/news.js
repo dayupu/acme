@@ -2,13 +2,23 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
     mineHttp.menuLocation("news.create", function (data) {
         $scope.menuLocation = data;
     });
-    umeditorInit($);
-    var um = UM.getEditor('myEditor');
+    var newsEditor = createUeditor("newsEditor");
     $scope.images = [];
     $scope.test = function () {
-        alert(URL);
-        alert(UM.getEditor('myEditor').getContent());
+        mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (data) {
+
+        });
     };
+
+    $scope.newsTypes = [];
+    $scope.loadTypes = function () {
+        mineHttp.send("GET", "admin/news/types", {}, function (data) {
+            if (verifyData(data)) {
+                $scope.newsTypes = data.content;
+            }
+        });
+    };
+
     $scope.submit = function () {
         if ($scope.file) {
             $scope.upload($scope.file);
@@ -27,6 +37,7 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
         });
     };
 
+    $scope.loadTypes();
 });
 mainApp.controller("newsListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
     mineHttp.menuLocation("news.list", function (data) {

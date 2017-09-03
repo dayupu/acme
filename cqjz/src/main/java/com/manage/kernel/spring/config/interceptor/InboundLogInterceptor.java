@@ -1,7 +1,7 @@
 package com.manage.kernel.spring.config.interceptor;
 
 import com.google.common.collect.Lists;
-import com.manage.base.extend.model.MessageLogging;
+import com.manage.base.database.model.MessageLogging;
 import com.manage.kernel.spring.annotation.InboundLog;
 
 import java.io.IOException;

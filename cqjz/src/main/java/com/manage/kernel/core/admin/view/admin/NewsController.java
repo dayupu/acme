@@ -1,34 +1,32 @@
 package com.manage.kernel.core.admin.view.admin;
 
+import com.manage.base.database.enums.NewsType;
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
-import com.manage.base.extend.enums.FileSource;
-import com.manage.base.extend.enums.FileType;
+import com.manage.base.database.enums.FileSource;
+import com.manage.base.database.enums.FileType;
 import com.manage.base.supplier.ResponseInfo;
+import com.manage.base.supplier.SelectOption;
 import com.manage.kernel.core.admin.dto.FileDto;
+import com.manage.kernel.core.admin.dto.NewsDto;
 import com.manage.kernel.core.admin.model.FileModel;
-import com.manage.kernel.core.admin.service.INewsService;
-import com.manage.kernel.core.admin.service.IResourceFileService;
-import com.manage.kernel.spring.PropertySupplier;
+import com.manage.kernel.core.admin.service.business.INewsService;
+import com.manage.kernel.core.admin.service.comm.IResourceFileService;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.manage.kernel.spring.comm.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bert on 17-8-25.
@@ -45,7 +43,30 @@ public class NewsController {
     @Autowired
     private IResourceFileService fileService;
 
-    @PostMapping("upload")
+    @GetMapping("/types")
+    public ResponseInfo newsTypes() {
+        ResponseInfo response = new ResponseInfo();
+        List<SelectOption> options = new ArrayList<>();
+        SelectOption<Integer, String> option;
+        for (NewsType type : NewsType.values()) {
+            option = new SelectOption<>();
+            option.setKey(type.getConstant());
+            option.setValue(Messages.get(type));
+            options.add(option);
+        }
+        response.wrapSuccess(options);
+        return response;
+    }
+
+
+    @PostMapping("/save")
+    public ResponseInfo saveNews(@RequestBody NewsDto newsDto) {
+        ResponseInfo response = new ResponseInfo();
+
+        return response;
+    }
+
+    @PostMapping("/upload")
     public ResponseInfo upload(@RequestParam("file") MultipartFile file) {
         ResponseInfo response = new ResponseInfo();
         try {

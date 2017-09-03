@@ -8,7 +8,7 @@ import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.ValidatorUtil;
 import com.manage.kernel.core.admin.dto.DepartDto;
-import com.manage.kernel.core.admin.service.IDepartService;
+import com.manage.kernel.core.admin.service.system.IDepartService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

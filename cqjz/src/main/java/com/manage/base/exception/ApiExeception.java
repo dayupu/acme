@@ -1,7 +1,7 @@
 package com.manage.base.exception;
 
 
-import com.manage.base.extend.enums.ApiMessage;
+import com.manage.base.enums.ApiMessage;
 
 public class ApiExeception extends Exception {
 

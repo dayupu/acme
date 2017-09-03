@@ -1,6 +1,6 @@
 package com.manage.base.supplier;
 
-import com.manage.base.extend.enums.ResponseStatus;
+import com.manage.base.enums.ResponseStatus;
 import com.manage.base.interfaces.CoreMsgs;
 import com.manage.base.supplier.msgs.MessageErrors;
 

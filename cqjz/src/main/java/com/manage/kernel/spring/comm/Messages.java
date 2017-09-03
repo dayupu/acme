@@ -1,5 +1,6 @@
 package com.manage.kernel.spring.comm;
 
+import com.manage.base.database.model.Localisable;
 import com.manage.kernel.spring.message.MessageSupplier;
 
 import java.util.Locale;
@@ -25,4 +26,9 @@ public class Messages {
     public static String get(String code, Locale locale, Object... params) {
         return getMessageSupplier().getMessage(code, params, locale);
     }
+
+    public static String get(Localisable localisable) {
+        return get(localisable.messageKey());
+    }
+
 }

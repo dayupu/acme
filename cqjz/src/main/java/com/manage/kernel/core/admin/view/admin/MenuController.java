@@ -9,7 +9,7 @@ import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.ValidatorUtil;
 import com.manage.kernel.core.admin.dto.MenuDto;
 import com.manage.kernel.core.admin.dto.MenuNav;
-import com.manage.kernel.core.admin.service.IMenuService;
+import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.spring.annotation.InboundLog;
 
 import org.apache.logging.log4j.LogManager;

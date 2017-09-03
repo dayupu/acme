@@ -5,7 +5,7 @@ import com.manage.kernel.spring.comm.Messages;
 
 public enum MessageInfos implements CoreMsgs {
 
-    SAVE_SUCCESS(10000, "save success"),
+    SAVE_SUCCESS(10000, "upload success"),
     DELETE_SUCCESS(10001, "delete success"),
     ;
 

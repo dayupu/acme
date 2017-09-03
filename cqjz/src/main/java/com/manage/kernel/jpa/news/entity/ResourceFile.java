@@ -1,7 +1,7 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.base.extend.enums.FileSource;
-import com.manage.base.extend.enums.FileType;
+import com.manage.base.database.enums.FileSource;
+import com.manage.base.database.enums.FileType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,13 +43,13 @@ public class ResourceFile {
     private Long fileSize;
 
     @Column(name = "source", nullable = false)
-    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.FileSource") })
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.FileSource") })
     private FileSource source;
 
     @Column(name = "type", nullable = false)
-    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.FileType") })
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.FileType") })
     private FileType type;
 
     @Column(name = "local_path")

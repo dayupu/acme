@@ -1,12 +1,11 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.base.extend.enums.Gender;
+import com.manage.base.database.enums.Gender;
 import com.manage.kernel.jpa.news.base.StatusBase;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -39,8 +37,8 @@ public class User extends StatusBase {
     private String password;
 
     @Column(name = "gender")
-    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Gender") })
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Gender") })
     private Gender gender;
 
     @Column(name = "telephone", length = 50)

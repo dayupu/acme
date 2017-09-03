@@ -1,6 +1,6 @@
 package com.manage.base.utils;
 
-import com.manage.base.extend.enums.Gender;
+import com.manage.base.database.enums.Gender;
 
 /**
  * Created by bert on 2017/8/13.

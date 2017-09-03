@@ -1,7 +1,7 @@
 package com.manage.kernel.jpa.news.entity;
 
-import com.manage.base.extend.enums.Permit;
-import com.manage.base.extend.enums.PermitType;
+import com.manage.base.database.enums.Permit;
+import com.manage.base.database.enums.PermitType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,17 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
 @Table(name = "ad_permission")
@@ -32,8 +28,8 @@ public class Permission {
     private String code;
 
     @Column(name = "permit", length = 60, nullable = false)
-    @Type(type = "com.manage.base.extend.model.VarDBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.Permit")})
+    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Permit")})
     private Permit permit;
 
     @Column(name = "parent_code", length = 20)
@@ -43,8 +39,8 @@ public class Permission {
     private String messageKey;
 
     @Column(name = "type", length = 20)
-    @Type(type = "com.manage.base.extend.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.extend.enums.PermitType")})
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.PermitType")})
     private PermitType type;
 
     @Column(name = "created_on")

@@ -20,14 +20,15 @@
                             <mine-required/>
                         </td>
                         <td>
-                            <select ng-model="news.type" name="type" class="form-control input-sm" style="width:200px;"
-                                    required>
-                                <option>军事</option>
-                                <option>科技</option>
+                            <select ng-model="news.type" name="type" ng-init="news.type=''"
+                                    class="form-control input-sm" style="width:200px;">
+                                <option value="">-- 请选择 --</option>
+                                <option ng-repeat="newsType in newsTypes" ng-value="newsType.key">{{newsType.value}}
+                                </option>
                             </select>
                         </td>
                     </tr>
-                    <tr>
+                    <tr ng-show="news.type == '10' || news.type=='17'">
                         <td class="mine-query-lable">图片</td>
                         <td>
                             <button class="btn btn-primary btn-sm" ngf-select="submit()" ng-model="file" name="file"
@@ -60,8 +61,11 @@
                             <mine-required/>
                         </td>
                         <td>
-                            <script type="text/plain" id="myEditor" style="width:100%;height:240px;">
+                            <script type="text/plain" id="newsEditor" style="width:100%;height:240px;">
                                   <p>这里我可以写一些输入提示</p>
+
+
+
                             </script>
                         </td>
                     </tr>

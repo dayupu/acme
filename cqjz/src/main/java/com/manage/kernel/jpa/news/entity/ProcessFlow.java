@@ -1,10 +1,9 @@
 package com.manage.kernel.jpa.news.entity;
 
 
-import com.manage.base.extend.enums.FlowStatus;
+import com.manage.base.database.enums.FlowStatus;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -29,8 +28,8 @@ public class ProcessFlow{
     private String processId;
 
     @Column(name = "state", nullable = false, length = 3)
-    @Type(type = "com.manage.base.extend.model.DBEnumType",
-            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.extend.enums.FlowStatus")})
+    @Type(type = "com.manage.base.database.model.DBEnumType",
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.FlowStatus")})
     private FlowStatus status;
 
     @Column(name = "news_id", insertable = false, updatable = false)

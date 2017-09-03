@@ -2,10 +2,15 @@ package com.manage.kernel.core.admin.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
-import com.manage.base.extend.serialize.LocalDateTimeSerializer;
+import com.manage.base.database.enums.Gender;
+import com.manage.base.database.serialize.EnumDeserializer;
+import com.manage.base.database.serialize.EnumSerializer;
+import com.manage.base.database.serialize.LocalDateTimeDeserializer;
+import com.manage.base.database.serialize.LocalDateTimeSerializer;
+
 import java.io.Serializable;
 import java.util.List;
+
 import org.joda.time.LocalDateTime;
 
 public class UserDto implements Serializable {
@@ -18,8 +23,9 @@ public class UserDto implements Serializable {
     private String email;
     private String mobile;
     private String telephone;
-    private String gender;
-    private Integer genderValue;
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
+    private Gender gender;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -121,20 +127,12 @@ public class UserDto implements Serializable {
         this.createdAtEnd = createdAtEnd;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public Integer getGenderValue() {
-        return genderValue;
-    }
-
-    public void setGenderValue(Integer genderValue) {
-        this.genderValue = genderValue;
     }
 
     public String getCreatedBy() {

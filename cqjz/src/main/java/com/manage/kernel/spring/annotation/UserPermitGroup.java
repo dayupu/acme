@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.annotation;
 
-import com.manage.base.extend.enums.Permit;
+import com.manage.base.database.enums.Permit;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

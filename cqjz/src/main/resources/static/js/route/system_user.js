@@ -1,5 +1,7 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
-    mineHttp.menuLocation("user.list", function (data) { $scope.locations = data;});
+    mineHttp.menuLocation("user.list", function (data) {
+        $scope.locations = data;
+    });
     $scope.selectedFlag = false;
     $scope.myData = [];
     $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
@@ -13,7 +15,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         requestUrl: fullPath("admin/user/list"),
         columnDefs: [{field: 'account', displayName: '账号'},
             {field: 'name', displayName: '姓名'},
-            {field: 'gender', displayName: '性别'},
+            {field: 'gender', displayName: '性别', cellTemplate: "<span class='mine-table-span'>{{row.entity.genderMessage}}</span>"},
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
             {field: 'createdAt', displayName: '创建时间'},

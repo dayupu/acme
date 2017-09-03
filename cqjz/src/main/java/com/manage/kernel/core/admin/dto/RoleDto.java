@@ -2,8 +2,8 @@ package com.manage.kernel.core.admin.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.extend.serialize.LocalDateTimeDeserializer;
-import com.manage.base.extend.serialize.LocalDateTimeSerializer;
+import com.manage.base.database.serialize.LocalDateTimeDeserializer;
+import com.manage.base.database.serialize.LocalDateTimeSerializer;
 import java.io.Serializable;
 import org.joda.time.LocalDateTime;
 

@@ -8,5 +8,5 @@ public class Constants {
 
     public final static String SEPARATOR = "/";
 
-    public final static String IMAGE_PATH = "public";
+    public final static String STATIC_RESOURCE_PATH = "public";
 }
