@@ -43,3 +43,56 @@ mainApp.directive("mineRequired",function(){
       replace: true
   }
 });
+mainApp.directive("mineUmeditor",function($rootScope){
+   return{
+      restrict: 'EA',
+      require: 'ngModel',
+      link: function(scope, ele, attrs, ngModel) {
+          var ctrl = {
+              initialized: false,
+              editorInstance: null,
+              placeholder: attrs['metaUmeditorPlaceholder'] || '',
+              focus: false
+          };
+          ctrl.init =function(){
+              ctrl.createEditor();
+              ngModel.$render = function () {
+                 if (ctrl.initialized) {
+                     ctrl.editorInstance.ready(function(){
+                          ctrl.editorInstance.setContent(ngModel.$viewValue || '');
+                          ctrl.checkPlaceholder();
+                     });
+                 }
+              };
+          };
+          ctrl.createEditor = function(){
+               if (!ctrl.initialized) {
+                    umeditorInit($);
+                    ctrl.editorInstance = UM.getEditor(attrs['id']);
+                    ctrl.initialized = true;
+                    ctrl.initListener();
+                }
+          }
+          //修改ngModel Value
+          ctrl.updateModelView = function () {
+              var modelContent = ctrl.editorInstance.getContent();
+              ngModel.$setViewValue(modelContent);
+              if (!scope.$root.$$phase) {
+                  scope.$apply();
+              }
+          };
+           //监听多个事件
+          ctrl.initListener = function () {
+              ctrl.editorInstance.addListener('contentChange',
+                  function () {
+                      scope.$evalAsync(ctrl.updateModelView);
+                  });
+          };
+          ctrl.checkPlaceholder = function () {}
+          ctrl.init();
+          $rootScope.$on('$locationChangeStart', function(event) {
+                ctrl.editorInstance && ctrl.editorInstance.destroy();
+           });
+     }
+  }
+});

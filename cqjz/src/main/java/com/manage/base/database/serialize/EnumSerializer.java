@@ -19,12 +19,19 @@ import java.io.IOException;
 public class EnumSerializer extends JsonSerializer<Enum> {
 
     @Override
-    public void serialize(Enum anEnum, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(Enum anEnum, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+            throws IOException {
+
+        if (anEnum == null) {
+            return;
+        }
+
         if (anEnum instanceof DBEnum) {
             jsonGenerator.writeNumber(((DBEnum) anEnum).getConstant());
         } else if (anEnum instanceof VarDBEnum) {
             jsonGenerator.writeString(((VarDBEnum) anEnum).getCode());
         }
+
         if (anEnum instanceof Localisable) {
             String fieldName = jsonGenerator.getOutputContext().getCurrentName();
             jsonGenerator.writeStringField(fieldName + "Message", Messages.get((Localisable) anEnum));

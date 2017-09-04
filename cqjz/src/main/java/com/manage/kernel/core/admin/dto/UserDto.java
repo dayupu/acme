@@ -23,6 +23,7 @@ public class UserDto implements Serializable {
     private String email;
     private String mobile;
     private String telephone;
+
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private Gender gender;
@@ -43,7 +44,6 @@ public class UserDto implements Serializable {
     private String updatedBy;
     private String status;
     private List<Long> roleIds;
-
     private List<Long> userIds;
     private boolean enabled;
 

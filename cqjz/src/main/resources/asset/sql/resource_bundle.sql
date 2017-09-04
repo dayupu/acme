@@ -20,7 +20,6 @@ INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_res
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.function.delete', 'zh', '删除');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.group.default', 'zh', '默认');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.permission.group.role', 'zh', '角色管理');
-
 -- 新闻类型
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.news.type.tpxw', 'zh', '图片新闻');
 INSERT INTO resource_bundle (id, "key", locale, "value") VALUES(nextval('seq_resource_bundle'), 'resource.constant.news.type.jqkx', 'zh', '警情快讯');

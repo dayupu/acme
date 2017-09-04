@@ -2,7 +2,6 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
     mineHttp.menuLocation("news.create", function (data) {
         $scope.menuLocation = data;
     });
-    var newsEditor = createUeditor("newsEditor");
     $scope.images = [];
     $scope.test = function () {
         mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (data) {
@@ -10,6 +9,8 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
         });
     };
 
+    $scope.news={};
+    $scope.news.content="hahahwww";
     $scope.newsTypes = [];
     $scope.loadTypes = function () {
         mineHttp.send("GET", "admin/news/types", {}, function (data) {
