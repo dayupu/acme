@@ -3,6 +3,7 @@ package com.manage.kernel.jpa.news.entity;
 import com.manage.base.database.enums.NewsType;
 import com.manage.kernel.jpa.news.base.EntityBase;
 import com.manage.kernel.jpa.news.base.Process;
+import com.manage.kernel.jpa.news.base.StatusBase;
 import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "news")
-public class News extends EntityBase {
+public class News extends StatusBase {
 
     @Id
     @Column(name = "id")
