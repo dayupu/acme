@@ -1,19 +1,23 @@
 package com.manage.kernel.jpa.news.entity;
 
 import com.manage.base.database.enums.NewsType;
-import com.manage.kernel.jpa.news.base.FlowBase;
+import com.manage.kernel.jpa.news.base.EntityBase;
+import com.manage.kernel.jpa.news.base.Process;
+import java.util.List;
+import javax.persistence.Embedded;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "news")
-public class News extends FlowBase {
+public class News extends EntityBase {
 
     @Id
     @Column(name = "id")
@@ -22,43 +26,35 @@ public class News extends FlowBase {
     @Column(name = "number", nullable = false, length = 50)
     private String number;
 
+    @Column(name = "type", nullable = false)
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType") })
+    private NewsType type;
+
     @Column(name = "title", nullable = false, columnDefinition = "text")
     private String title;
+
+    @Column(name = "source", length = 200)
+    private String source;
 
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
-    @Column(name = "contentmin", length = 500)
-    private String contentmin;
-
     @Column(name = "hits")
     private Integer hits = 0;
 
-    @Column(name = "pic_url", length = 50)
-    private String picUrl;
+    @Embedded
+    private Process process;
 
-    @Column(name = "pic_count")
-    private Integer picCount;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
+    private List<NewsPicture> pictures;
 
-    @Column(name = "show_pic_news")
-    private Integer showPicNews;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
+    private List<NewsAttach> attaches;
 
-    @Column(name = "type", nullable = false)
-    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType")})
-    private NewsType type;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
+    private List<NewsTempImage> tempImages;
 
-    @Column(name = "purview", length = 200)
-    private String purview;
-
-    @Column(name = "contribute_tag")
-    private Integer contributeTag;
-
-    @Column(name = "contribute_name", length = 50)
-    private String contributeName;
-
-    @Column(name = "source", length = 50)
-    private String source;
 
     public Long getId() {
         return id;
@@ -76,12 +72,28 @@ public class News extends FlowBase {
         this.number = number;
     }
 
+    public NewsType getType() {
+        return type;
+    }
+
+    public void setType(NewsType type) {
+        this.type = type;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getContent() {
@@ -92,14 +104,6 @@ public class News extends FlowBase {
         this.content = content;
     }
 
-    public String getContentmin() {
-        return contentmin;
-    }
-
-    public void setContentmin(String contentmin) {
-        this.contentmin = contentmin;
-    }
-
     public Integer getHits() {
         return hits;
     }
@@ -108,67 +112,35 @@ public class News extends FlowBase {
         this.hits = hits;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public List<NewsPicture> getPictures() {
+        return pictures;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setPictures(List<NewsPicture> pictures) {
+        this.pictures = pictures;
     }
 
-    public Integer getPicCount() {
-        return picCount;
+    public List<NewsAttach> getAttaches() {
+        return attaches;
     }
 
-    public void setPicCount(Integer picCount) {
-        this.picCount = picCount;
+    public void setAttaches(List<NewsAttach> attaches) {
+        this.attaches = attaches;
     }
 
-    public Integer getShowPicNews() {
-        return showPicNews;
+    public List<NewsTempImage> getTempImages() {
+        return tempImages;
     }
 
-    public void setShowPicNews(Integer showPicNews) {
-        this.showPicNews = showPicNews;
+    public void setTempImages(List<NewsTempImage> tempImages) {
+        this.tempImages = tempImages;
     }
 
-    public NewsType getType() {
-        return type;
+    public Process getProcess() {
+        return process;
     }
 
-    public void setType(NewsType type) {
-        this.type = type;
-    }
-
-    public String getPurview() {
-        return purview;
-    }
-
-    public void setPurview(String purview) {
-        this.purview = purview;
-    }
-
-    public Integer getContributeTag() {
-        return contributeTag;
-    }
-
-    public void setContributeTag(Integer contributeTag) {
-        this.contributeTag = contributeTag;
-    }
-
-    public String getContributeName() {
-        return contributeName;
-    }
-
-    public void setContributeName(String contributeName) {
-        this.contributeName = contributeName;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
+    public void setProcess(Process process) {
+        this.process = process;
     }
 }

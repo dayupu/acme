@@ -3,13 +3,14 @@ package com.manage.kernel.jpa.news.base;
 import com.manage.kernel.jpa.news.entity.ProcessFlow;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
-@MappedSuperclass
-public class FlowBase extends StatusBase {
+@Embeddable
+public class Process {
 
     @Column(name = "execution_id", updatable = false, insertable = false)
     private String executionId;
