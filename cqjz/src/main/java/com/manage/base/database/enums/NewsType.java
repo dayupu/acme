@@ -1,14 +1,12 @@
 package com.manage.base.database.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.manage.base.database.model.DBEnum;
-import com.manage.base.database.model.Localisable;
+import com.manage.base.database.model.Localizable;
 
 /**
  * Created by bert on 2017/9/3.
  */
-public enum NewsType implements DBEnum, Localisable {
+public enum NewsType implements DBEnum, Localizable {
 
     TPXW(10, "resource.constant.news.type.tpxw", true),// 图片新闻
     JQKX(11, "resource.constant.news.type.jqkx", false),//警情快讯

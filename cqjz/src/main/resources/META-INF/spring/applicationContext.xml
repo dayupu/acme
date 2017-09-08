@@ -15,6 +15,7 @@
         <property name="defaultEncoding" value="UTF-8"></property>
         <property name="basenames">
             <list>
+                <value>META-INF/locale/resource</value>
                 <value>META-INF/locale/message</value>
             </list>
         </property>

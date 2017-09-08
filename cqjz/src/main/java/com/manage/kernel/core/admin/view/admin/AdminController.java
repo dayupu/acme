@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.view.admin;
 
-import com.manage.base.utils.StringUtils;
-import com.manage.base.utils.WebUtils;
+import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.WebUtil;
 import com.manage.kernel.jpa.news.entity.LoginLog;
 import com.manage.kernel.jpa.news.repository.LoginLogRepo;
 import com.manage.kernel.spring.annotation.AuthUserAon;
@@ -54,7 +54,7 @@ public class AdminController {
         boolean loginStatus = false;
         String message = null;
         try {
-            if (StringUtils.isEmptyAny(account, password)) {
+            if (StringUtil.isEmptyAny(account, password)) {
                 throw new CoreException();
             }
 
@@ -80,7 +80,7 @@ public class AdminController {
     private void recordLoginInfo(String account, HttpServletRequest request, boolean status, String message) {
         LoginLog login = new LoginLog();
         login.setAccount(account);
-        login.setClientIP(WebUtils.remoteIP(request));
+        login.setClientIP(WebUtil.remoteIP(request));
         login.setSuccess(status);
         login.setMessage(message);
         loginLogRepo.save(login);

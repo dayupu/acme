@@ -1,9 +1,9 @@
 package com.manage.base.database.enums;
 
-import com.manage.base.database.model.Localisable;
+import com.manage.base.database.model.Localizable;
 import com.manage.base.database.model.VarDBEnum;
 
-public enum Permit implements VarDBEnum, Localisable {
+public enum Permit implements VarDBEnum, Localizable {
 
     // FUNCTION
     CREATE("01", "resource.permission.function.create"),

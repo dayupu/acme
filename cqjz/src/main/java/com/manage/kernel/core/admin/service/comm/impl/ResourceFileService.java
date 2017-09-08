@@ -2,7 +2,7 @@ package com.manage.kernel.core.admin.service.comm.impl;
 
 import com.manage.base.exception.FileUploadException;
 import com.manage.base.database.enums.FileSource;
-import com.manage.base.utils.Constants;
+import com.manage.base.constant.Constants;
 import com.manage.base.utils.FileUtil;
 import com.manage.kernel.core.admin.dto.FileDto;
 import com.manage.kernel.core.admin.model.FileModel;

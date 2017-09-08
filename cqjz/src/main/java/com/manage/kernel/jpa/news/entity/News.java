@@ -24,7 +24,7 @@ public class News extends StatusBase {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "number", nullable = false, length = 50)
+    @Column(name = "number", nullable = false, length = 50, unique = true)
     private String number;
 
     @Column(name = "type", nullable = false)

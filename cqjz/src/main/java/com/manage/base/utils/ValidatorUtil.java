@@ -1,11 +1,7 @@
 package com.manage.base.utils;
 
-import com.manage.base.exception.ValidateException;
 import com.manage.base.exception.ValidateParamException;
-import com.manage.kernel.spring.comm.Messages;
-
 import java.util.Collection;
-import java.util.Collections;
 
 public class ValidatorUtil {
 

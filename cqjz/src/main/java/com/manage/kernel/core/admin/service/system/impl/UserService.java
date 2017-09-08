@@ -7,8 +7,7 @@ import com.manage.base.supplier.Pair;
 import com.manage.base.exception.CoreException;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
-import com.manage.base.utils.EnumUtils;
-import com.manage.base.utils.StringUtils;
+import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.dto.UserDto;
 import com.manage.kernel.core.admin.parser.UserParser;
 import com.manage.kernel.core.admin.service.system.IUserService;
@@ -64,20 +63,20 @@ public class UserService extends ServiceBase implements IUserService {
     public PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery) {
         Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
-            if (StringUtils.isNotBlank(userQuery.getAccount())) {
+            if (StringUtil.isNotBlank(userQuery.getAccount())) {
                 list.add(cb.equal(root.get("account").as(String.class), userQuery.getAccount()));
             }
-            if (StringUtils.isNotBlank(userQuery.getName())) {
+            if (StringUtil.isNotBlank(userQuery.getName())) {
                 list.add(cb.like(root.get("name").as(String.class), "%" + userQuery.getName() + "%"));
             }
-            if (StringUtils.isNotBlank(userQuery.getMobile())) {
+            if (StringUtil.isNotBlank(userQuery.getMobile())) {
                 list.add(cb.equal(root.get("mobile").as(String.class), userQuery.getMobile()));
             }
-            if (StringUtils.isNotNull(userQuery.getCreatedAt())) {
+            if (StringUtil.isNotNull(userQuery.getCreatedAt())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
                         userQuery.getCreatedAt()));
             }
-            if (StringUtils.isNotNull(userQuery.getCreatedAtEnd())) {
+            if (StringUtil.isNotNull(userQuery.getCreatedAtEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
                         userQuery.getCreatedAtEnd()));
             }

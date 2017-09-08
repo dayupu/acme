@@ -1,5 +1,7 @@
 package com.manage.kernel.core.admin.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.enums.UploadState;
 
 /**
@@ -10,6 +12,7 @@ public class UploadModel {
     private String name;
     private String originalName;
     private Long size;
+    @JsonSerialize(using = EnumSerializer.class)
     private UploadState state;
     private String type;
     private String url;

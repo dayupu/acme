@@ -11,9 +11,9 @@ import com.manage.base.database.serialize.EnumSerializer;
  */
 public class NewsDto {
 
+    private Long id;
     private String title;
     private String content;
-
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private NewsType type;
@@ -40,5 +40,13 @@ public class NewsDto {
 
     public void setType(NewsType type) {
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

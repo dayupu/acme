@@ -1,4 +1,3 @@
-var appContextPath = null;
 var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap", "ngFileUpload"]);
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);

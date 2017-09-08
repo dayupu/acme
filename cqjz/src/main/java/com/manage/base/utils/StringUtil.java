@@ -3,7 +3,7 @@ package com.manage.base.utils;
 
 import java.text.DecimalFormat;
 
-public class StringUtils extends org.springframework.util.StringUtils {
+public class StringUtil extends org.springframework.util.StringUtils {
 
     public static boolean isEmptyAll(Object... objects) {
         for (Object object : objects) {

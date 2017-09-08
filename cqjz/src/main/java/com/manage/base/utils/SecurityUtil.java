@@ -3,7 +3,7 @@ package com.manage.base.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SecurityUtils {
+public class SecurityUtil {
 
     private static final String ALGORITHM_MD5 = "MD5";
 

@@ -3,7 +3,7 @@ package com.manage.base.utils;
 import javax.servlet.http.HttpServletRequest;
 
 
-public class WebUtils {
+public class WebUtil {
 
     /**
      * 获取用户真实IP地址，不使用request.getRemoteAddr()的原因是有可能用户使用了代理软件方式避免真实IP地址,

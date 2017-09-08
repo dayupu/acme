@@ -1,4 +1,4 @@
-package com.manage.base.utils;
+package com.manage.base.constant;
 
 
 /**

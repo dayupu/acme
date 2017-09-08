@@ -4,16 +4,16 @@ import com.manage.base.database.model.DBEnum;
 import com.manage.base.database.model.Localizable;
 
 /**
- * Created by bert on 17-8-25.
+ * Created by bert on 17-9-6.
  */
-public enum FileType implements DBEnum, Localizable {
+public enum NewsStatus implements DBEnum, Localizable {
 
-    IMAGE(1, "news.image");
+    DRAFT(0, "resource.constant.news.status.draft");
 
-    private Integer constant;
+    private int constant;
     private String messageKey;
 
-    FileType(Integer constant, String messageKey) {
+    NewsStatus(int constant, String messageKey) {
         this.constant = constant;
         this.messageKey = messageKey;
     }

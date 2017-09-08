@@ -14,6 +14,10 @@ import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.core.admin.service.comm.IResourceFileService;
 
 import com.manage.kernel.spring.comm.Messages;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +68,20 @@ public class NewsController {
         ResponseInfo response = new ResponseInfo();
 
         return response;
+    }
+
+
+    public String test(String cookieKey, HttpServletRequest request, HttpServletResponse response){
+
+        Cookie[] cookies = request.getCookies();//获取所有cookie
+        for(Cookie cookie : cookies){ //遍历cookies
+            if(cookie.getName().equals(cookieKey)){ // 判断是否待删除的cookie，
+                cookie.setValue(null);// 设置待删除cookie值为空
+                cookie.setMaxAge(0);// 立即删除cookie
+            }
+            response.addCookie(cookie);
+        }
+        return "ok";
     }
 
     @PostMapping("/upload")

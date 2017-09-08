@@ -1,5 +1,6 @@
 package com.manage.base.utils;
 
+import com.manage.base.constant.Constants;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,6 +61,11 @@ public class FileUtil {
         return uuid.replaceAll("-", "0");
     }
 
+    /**
+     * 获取文件名后缀(例:.png)
+     * @param fileName
+     * @return
+     */
     public static String fileSuffix(String fileName) {
 
         if (fileName == null) {

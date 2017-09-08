@@ -4,8 +4,8 @@ import com.manage.base.exception.CoreException;
 import com.manage.base.exception.DepartNotFoundException;
 import com.manage.base.supplier.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
-import com.manage.base.utils.CoreUtils;
-import com.manage.base.utils.StringUtils;
+import com.manage.base.utils.CoreUtil;
+import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.dto.DepartDto;
 import com.manage.kernel.core.admin.parser.DepartParser;
 import com.manage.kernel.core.admin.service.system.IDepartService;
@@ -88,11 +88,11 @@ public class DepartService implements IDepartService {
     public void addDepart(DepartDto departDto) {
         Department department = new Department();
         department.setName(departDto.getName());
-        department.setCode(CoreUtils.departCodeSimple(departDto.getCode()));
-        department.setFullCode(CoreUtils.departCodeFull(departDto.getCode()));
-        department.setLevel(CoreUtils.departLevel(departDto.getCode()));
+        department.setCode(CoreUtil.departCodeSimple(departDto.getCode()));
+        department.setFullCode(CoreUtil.departCodeFull(departDto.getCode()));
+        department.setLevel(CoreUtil.departLevel(departDto.getCode()));
         department.setLeaf(true);
-        if (StringUtils.isNotBlank(departDto.getParentCode())) {
+        if (StringUtil.isNotBlank(departDto.getParentCode())) {
             Department parent = departRepo.findOne(departDto.getParentCode());
             if (parent == null) {
                 LOGGER.info("Not found the department {}", departDto.getParentCode());
@@ -111,7 +111,7 @@ public class DepartService implements IDepartService {
     @Transactional
     public List<TreeNode> getTreeChildrens(String code) {
 
-        List<Department> departments = departRepo.queryListByParentCode(CoreUtils.departCodeSimple(code));
+        List<Department> departments = departRepo.queryListByParentCode(CoreUtil.departCodeSimple(code));
         List<TreeNode> treeNodes = new ArrayList<>();
         TreeNode treeNode;
         for (Department department : departments) {

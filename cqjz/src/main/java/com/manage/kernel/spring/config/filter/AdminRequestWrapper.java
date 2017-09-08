@@ -1,9 +1,7 @@
-package com.manage.base.wrapper;
+package com.manage.kernel.spring.config.filter;
 
 
-import org.springframework.mock.web.DelegatingServletInputStream;
 import org.springframework.util.StreamUtils;
-
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +11,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class APIHttpServletRequestWrapper extends HttpServletRequestWrapper {
+public class AdminRequestWrapper extends HttpServletRequestWrapper {
 
     private final byte[] body;
 
-    public APIHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
+    public AdminRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
         body = StreamUtils.copyToByteArray(request.getInputStream());
     }

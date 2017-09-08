@@ -1,15 +1,12 @@
 package com.manage.base.database.serialize;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.manage.base.database.model.DBEnum;
-import com.manage.base.database.model.Localisable;
+import com.manage.base.database.model.Localizable;
 import com.manage.base.database.model.VarDBEnum;
 import com.manage.kernel.spring.comm.Messages;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.IOException;
 
@@ -28,13 +25,17 @@ public class EnumSerializer extends JsonSerializer<Enum> {
 
         if (anEnum instanceof DBEnum) {
             jsonGenerator.writeNumber(((DBEnum) anEnum).getConstant());
-        } else if (anEnum instanceof VarDBEnum) {
-            jsonGenerator.writeString(((VarDBEnum) anEnum).getCode());
+            if (anEnum instanceof Localizable) {
+                String fieldName = jsonGenerator.getOutputContext().getCurrentName();
+                jsonGenerator.writeStringField(fieldName + "Message", Messages.get((Localizable) anEnum));
+            }
+            return;
         }
 
-        if (anEnum instanceof Localisable) {
-            String fieldName = jsonGenerator.getOutputContext().getCurrentName();
-            jsonGenerator.writeStringField(fieldName + "Message", Messages.get((Localisable) anEnum));
+        if (anEnum instanceof Localizable) {
+            jsonGenerator.writeString(Messages.get((Localizable) anEnum));
+            return;
         }
+
     }
 }

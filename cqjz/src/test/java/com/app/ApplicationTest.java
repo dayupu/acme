@@ -22,5 +22,4 @@ public class ApplicationTest {
         IMenuService.menuListByRoleIds(roleIds);
     }
 
-
 }

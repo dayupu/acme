@@ -1,9 +1,6 @@
 package com.manage.kernel.spring.config.filter;
 
-import com.manage.base.wrapper.APIHttpServletRequestWrapper;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -27,7 +24,7 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         if (servletRequest instanceof HttpServletRequest) {
-            filterChain.doFilter(new APIHttpServletRequestWrapper((HttpServletRequest) servletRequest), servletResponse);
+            filterChain.doFilter(new AdminRequestWrapper((HttpServletRequest) servletRequest), servletResponse);
             return;
         }
 
