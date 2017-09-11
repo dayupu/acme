@@ -1,0 +1,30 @@
+<div class="mine-htm">
+    <h3 style="color: white;">订单事件查询</h3>
+    <div class="mine-content">
+        <div class="mine-query">
+            <span class="mine-query-group">
+                <label class="mine-query-lable">推送时间</label>
+                <span class="mine-query-span">
+                    <div class='input-group date' style="float: left">
+                        <input id='pushAt' style="width: 140px;" name="requestTimeStart" type='text'
+                               class="form-control input-sm" ng-model="userQuery.createdAt"
+                               value="{{userQuery.createdAt * 1000 | date:'yy-MM-dd HH:mm:ss'}}"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </span>
+            </span>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">至</label>
+                <span class="mine-query-span">
+                    <div class='input-group date' style="float: left">
+                        <input id='pushEnd' style="width: 140px;" name="requestTimeStart" type='text'
+                               class="form-control input-sm" ng-model="userQuery.createdAtEnd"/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </span>
+            </span>
+            &nbsp;&nbsp;<button class="btn btn-sm btn-primary" type="button" ng-click="query()">查询</button>
+        </div>
+        <div class="gridStyle" ng-grid="gridOptions"></div>
+    </div>
+</div>
