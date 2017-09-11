@@ -5,23 +5,18 @@ import com.manage.kernel.jpa.news.base.EntityBase;
 import com.manage.kernel.jpa.news.base.Process;
 import com.manage.kernel.jpa.news.base.StatusBase;
 import java.util.List;
-import javax.persistence.Embedded;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
 @Table(name = "news")
+@SequenceGenerator(name = "seq_news", sequenceName = "seq_news", allocationSize = 1)
 public class News extends StatusBase {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_news")
     private Long id;
 
     @Column(name = "number", nullable = false, length = 50, unique = true)

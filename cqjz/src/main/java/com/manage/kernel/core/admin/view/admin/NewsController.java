@@ -66,7 +66,16 @@ public class NewsController {
     @PostMapping("/save")
     public ResponseInfo saveNews(@RequestBody NewsDto newsDto) {
         ResponseInfo response = new ResponseInfo();
-
+        try {
+            newsService.addNews(newsDto);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
         return response;
     }
 

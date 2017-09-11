@@ -10,7 +10,6 @@ public class Employee {
 
     private String name;
     private List<Employee> children;
-a
     public static void main(String[] args) {
         Employee one = new Employee();
         one.setName("张三");

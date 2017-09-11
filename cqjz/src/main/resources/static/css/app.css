@@ -16,6 +16,7 @@ body {
     color: #58666e;
     background-color: transparent;
     overflow-x: hidden;
+    overflow-y: auto;
 }
 
 div {
@@ -52,7 +53,7 @@ div {
 }
 
 .app-header {
-    z-index: 999;
+    z-index: 1000;
 }
 
 .app-aside {
@@ -277,9 +278,19 @@ div {
 .ngPagerLastTriangle, .ngPagerNextTriangle {
     border-color: transparent transparent transparent white;
 }
-.ngTotalSelectContainer{
+
+.ngTotalSelectContainer {
     font-size: 12px;
 }
 
-.edui-container *{-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}
-.edui-container *:before,.edui-container *:after {-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}
+.edui-container * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.edui-container *:before, .edui-container *:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}

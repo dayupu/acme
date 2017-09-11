@@ -5,7 +5,7 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
     $scope.images = [];
     $scope.test = function () {
         mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (data) {
-
+             alert(data)
         });
     };
 

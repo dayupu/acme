@@ -9782,7 +9782,7 @@ UM.ui.define('separator', {
         setTopEditor: function(editor){
             $.each(_editors, function(i, o){
                 if(editor == o) {
-                    editor.$container && editor.$container.css('zIndex', _maxZIndex + 1);
+                    editor.$container && editor.$container.css('zIndex', _maxZIndex + 1000);
                 } else {
                     o.$container && o.$container.css('zIndex', o.getOpt('zIndex'));
                 }

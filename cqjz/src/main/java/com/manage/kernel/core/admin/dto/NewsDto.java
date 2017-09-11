@@ -17,6 +17,7 @@ public class NewsDto {
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private NewsType type;
+    private String source;
 
     public String getTitle() {
         return title;
@@ -48,5 +49,13 @@ public class NewsDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

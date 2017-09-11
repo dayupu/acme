@@ -4,15 +4,27 @@
         <div class="mine-title"><i class="fa fa-user-o"></i>新闻发布</div>
         <div>
             <form class="form-horizontal" name="newsForm">
-                <input type="hidden" ng-model="news.id" />
+                <input type="hidden" ng-model="news.id"/>
                 <table class="table">
                     <tr>
                         <td width="90" class="mine-query-lable">标题
                             <mine-required/>
                         </td>
-                        <td><input type="text" class="form-control input-sm" style="width:500px;" ng-model="news.title"
-                                   name="title" ng-pattern="/^.{1,100}$/" required/>
-                            <mine-validator valid="newsForm.title.$valid"
+                        <td><input type="text" ng-model="news.title"
+                                   name="title" ng-pattern="/^.{1,100}$/"
+                                   class="form-control input-sm"
+                                   style="width:400px;float: left;margin-right: 5px;" required/>
+                            <mine-validator class="mine-validator" valid="newsForm.title.$valid"
+                                            error="长度100字符以内"></mine-validator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="90" class="mine-query-lable">来源
+                        </td>
+                        <td><input type="text" class="form-control input-sm"
+                                   style="width:400px;float: left;margin-right: 5px;" ng-model="news.source"
+                                   name="source" ng-pattern="/^.{1,100}$/"/>
+                            <mine-validator class="mine-validator" valid="newsForm.source.$valid"
                                             error="长度100字符以内"></mine-validator>
                         </td>
                     </tr>
@@ -61,12 +73,13 @@
                         <td class="mine-query-lable">正文
                             <mine-required/>
                         </td>
-                        <td>
-                            <div mine-umeditor ng-model="news.content" id="newsEditor" style="width:100%;height:240px;"></div>
+                        <td height="300">
+                            <div mine-umeditor ng-model="news.content" id="newsEditor" height="300"
+                                 style="width:100%;"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>ww</td>
                         <td>
                             <button class="btn btn-primary btn-sm" ng-click="test();">保存</button>
                             <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid">提交</button>
