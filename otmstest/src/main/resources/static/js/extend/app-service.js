@@ -87,8 +87,8 @@ mainApp.service("mineGrid", function ($http, $parse) {
         scope.gridSelectedItems = [];
         scope.gridTotalServerItems = 0;
         scope.gridPagingOptions = {
-            pageSizes: [10, 20, 50],
-            pageSize: "10",
+            pageSizes: [20, 50, 100],
+            pageSize: "20",
             currentPage: 1,
             totalServerItems: 0
         };

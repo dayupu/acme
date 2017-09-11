@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 import org.omg.CORBA.DoubleHolder;
@@ -22,6 +23,9 @@ public class OrderEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_order_event")
     private Long id;
+
+    @Column(name = "mark", length = 50)
+    private String mark;
 
     @Column(name = "event_id")
     private Long eventId;
@@ -47,7 +51,7 @@ public class OrderEvent {
     @Column(name = "damage")
     private Integer damage;
 
-    @Column(name = "truck_plate")
+    @Column(name = "truck_plate", length = 50)
     private String truckPlate;
 
     @Column(name = "remark")
@@ -151,5 +155,13 @@ public class OrderEvent {
 
     public void setEventTime(LocalDateTime eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 }

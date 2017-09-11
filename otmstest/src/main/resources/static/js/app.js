@@ -5,6 +5,7 @@ mainApp.config(function ($stateProvider, $urlRouterProvider) {
 // route config
 function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
-    $stateProvider.state("event", {url: "/event", templateUrl: './event.htm'})
-    .state("event.order", {url: "/order", templateUrl: './event/order.htm',controller: "eventOrderCtl"});
+    $stateProvider.state("event", {url: "/event", templateUrl: './htm/event.htm'})
+    .state("event.order", {url: "/order", templateUrl: './htm/event/order.htm',controller: "eventOrderCtl"})
+    .state("event.jobSheet", {url: "/jobSheet", templateUrl: './htm/event/jobSheet.htm',controller: "eventJobSheetCtl"});
 }

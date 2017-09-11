@@ -31,6 +31,8 @@ public class OrderEventDto {
 
     private String remark;
 
+    private String mark;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime eventTime;
@@ -121,5 +123,13 @@ public class OrderEventDto {
 
     public void setEventTime(LocalDateTime eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 }

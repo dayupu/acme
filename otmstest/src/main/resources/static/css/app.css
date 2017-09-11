@@ -37,6 +37,7 @@ div {
     display: block;
     width: inherit;
     background-color: #f3f3f3;
+    background: url("../images/bg6.png") repeat #f3f3f3;
     border: inherit;
     content: "";
 }

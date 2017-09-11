@@ -8,6 +8,7 @@ mainApp.controller("eventOrderCtl",function($scope, mineGrid){
             requestMethod: "POST",
             requestUrl: fullPath("admin/user/list"),
             columnDefs: [
+                {field: 'mark', displayName: '标记', width:"150"},
                 {field: 'eventId', displayName: 'eventId'},
                 {field: 'orderNumber', displayName: 'orderNumber'},
                 {field: 'erpNumber', displayName: 'erpNumber'},

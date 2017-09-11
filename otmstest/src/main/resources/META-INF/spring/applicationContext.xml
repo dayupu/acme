@@ -11,5 +11,9 @@
 
     <!--load properties-->
     <context:property-placeholder location="classpath:META-INF/spring/application.properties" file-encoding="UTF-8"/>
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.otms.support.spring.resolver.PageQueryHandlerMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
 </beans>
