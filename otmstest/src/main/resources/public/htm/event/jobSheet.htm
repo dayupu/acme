@@ -1,5 +1,8 @@
 <div class="mine-htm">
-    <h3 style="color: white;">运输单事件查询</h3>
+    <h3 style="color: orange;">运输单事件查询</h3>
+    <h4 style="color: #BABABA;">本页面回显获取推送给JobSheetPush的地址
+        [<span style="color:orange;">{{rootUrl}}ws/jobSheetTrack</span>]
+        的POST请求,url中可携带<span style="color:orange;">CustomCode</span>参数,方便在页面显示请求数据的标记,可自己定义方便测试</h4>
     <div class="mine-content">
         <div class="mine-query">
              <span class="mine-query-group">
@@ -9,7 +12,13 @@
                 </span>
             </span>
             <span class="mine-query-group">
-                <label class="mine-query-lable">推送时间</label>
+                <label class="mine-query-lable">运输单号</label>
+                <span class="mine-query-span">
+                   <input type="text" class="form-control input-sm" ng-model="jobSheetQuery.jobSheetNumber"/>
+                </span>
+            </span>
+            <span class="mine-query-group">
+                <label class="mine-query-lable">事件时间</label>
                 <span class="mine-query-span">
                     <div class='input-group date' style="float: left">
                         <input id='eventTimeBegin' style="width: 140px;" name="requestTimeStart" type='text'

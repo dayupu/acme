@@ -8,15 +8,15 @@ import java.util.List;
 
 public class JobSheetEventParser {
 
-    public static List<JobSheetEventDto> toUserDtoList(List<JobSheetEvent> events) {
-        List<JobSheetEventDto> userDtos = new ArrayList<>();
+    public static List<JobSheetEventDto> toDtoList(List<JobSheetEvent> events) {
+        List<JobSheetEventDto> dtos = new ArrayList<>();
         for (JobSheetEvent event : events) {
-            userDtos.add(toJobSheetDto(event, new JobSheetEventDto()));
+            dtos.add(toDto(event, new JobSheetEventDto()));
         }
-        return userDtos;
+        return dtos;
     }
 
-    private static JobSheetEventDto toJobSheetDto(JobSheetEvent event, JobSheetEventDto dto) {
+    private static JobSheetEventDto toDto(JobSheetEvent event, JobSheetEventDto dto) {
         dto.setMark(event.getMark());
         dto.setEventId(event.getEventId());
         dto.setJobSheetNumber(event.getJobSheetNumber());

@@ -1,34 +1,22 @@
 <div class="mine-htm">
-    <h3 style="color: orange;">订单事件查询</h3>
-    <h4 style="color: #BABABA;">本页面回显获取推送给OrderPush的地址
-        [<span style="color:orange;">{{rootUrl}}ws/orderTrack</span>]
+    <h3 style="color: orange;">账单事件查询</h3>
+    <h4 style="color: #BABABA;">本页面回显获取推送给BillingPush的地址
+        [<span style="color:orange;">{{rootUrl}}ws/billingTrack</span>]
         的PUT请求,url中可携带<span style="color:orange;">CustomCode</span>参数,方便在页面显示请求数据的标记,可自己定义方便测试</h4>
     <div class="mine-content">
         <div class="mine-query">
-            <span class="mine-query-group">
+             <span class="mine-query-group">
                 <label class="mine-query-lable">标记</label>
                 <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="orderQuery.mark"/>
+                   <input type="text" class="form-control input-sm" ng-model="billingQuery.mark"/>
                 </span>
             </span>
             <span class="mine-query-group">
-                <label class="mine-query-lable">订单号</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="orderQuery.orderNumber"/>
-                </span>
-            </span>
-            <span class="mine-query-group">
-                <label class="mine-query-lable">ErpNumber</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="orderQuery.erpNumber"/>
-                </span>
-            </span>
-            <span class="mine-query-group">
-                <label class="mine-query-lable">事件时间</label>
+                <label class="mine-query-lable">接收时间</label>
                 <span class="mine-query-span">
                     <div class='input-group date' style="float: left">
-                        <input id='eventTimeBegin' style="width: 140px;" name="requestTimeStart" type='text'
-                               class="form-control input-sm" ng-model="orderQuery.eventTimeBegin"
+                        <input id='createdOnBegin' style="width: 140px;" name="requestTimeStart" type='text'
+                               class="form-control input-sm" ng-model="billingQuery.createdOnBegin"
                                value="{{userQuery.createdAt * 1000 | date:'yy-MM-dd HH:mm:ss'}}"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -38,8 +26,8 @@
                 <label class="mine-query-lable">至</label>
                 <span class="mine-query-span">
                     <div class='input-group date' style="float: left">
-                        <input id='eventTimeEnd' style="width: 140px;" name="requestTimeStart" type='text'
-                               class="form-control input-sm" ng-model="orderQuery.eventTimeEnd"/>
+                        <input id='createdOnEnd' style="width: 140px;" name="requestTimeStart" type='text'
+                               class="form-control input-sm" ng-model="billingQuery.createdOnEnd"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </span>

@@ -57,9 +57,16 @@ public class OrderEvent {
     @Column(name = "remark")
     private String remark;
 
+    @Column(name = "file_names")
+    private String fileNames;
+
     @Column(name = "event_time")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime eventTime;
+
+    @Column(name = "created_on")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime createdOn;
 
     public Long getId() {
         return id;
@@ -163,5 +170,21 @@ public class OrderEvent {
 
     public void setMark(String mark) {
         this.mark = mark;
+    }
+
+    public String getFileNames() {
+        return fileNames;
+    }
+
+    public void setFileNames(String fileNames) {
+        this.fileNames = fileNames;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 }

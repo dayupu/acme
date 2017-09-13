@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.otms.support.supplier.serializer.LocalDateTimeDeserializer;
 import com.otms.support.supplier.serializer.LocalDateTimeSerializer;
+import java.util.List;
 import org.joda.time.LocalDateTime;
 
 /**
  * Created by bert on 17-9-11.
  */
 public class OrderEventDto {
+
+    private String mark;
 
     private Long eventId;
 
@@ -27,15 +30,22 @@ public class OrderEventDto {
 
     private Integer damage;
 
+    private String fileNames;
+
     private String truckPlate;
 
     private String remark;
 
-    private String mark;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime eventTime;
+
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime eventTimeBegin;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime eventTimeEnd;
 
     public Long getEventId() {
         return eventId;
@@ -131,5 +141,29 @@ public class OrderEventDto {
 
     public void setMark(String mark) {
         this.mark = mark;
+    }
+
+    public String getFileNames() {
+        return fileNames;
+    }
+
+    public void setFileNames(String fileNames) {
+        this.fileNames = fileNames;
+    }
+
+    public LocalDateTime getEventTimeBegin() {
+        return eventTimeBegin;
+    }
+
+    public void setEventTimeBegin(LocalDateTime eventTimeBegin) {
+        this.eventTimeBegin = eventTimeBegin;
+    }
+
+    public LocalDateTime getEventTimeEnd() {
+        return eventTimeEnd;
+    }
+
+    public void setEventTimeEnd(LocalDateTime eventTimeEnd) {
+        this.eventTimeEnd = eventTimeEnd;
     }
 }

@@ -294,11 +294,12 @@ div {
 
 .mine-query-lable {
     float: left;
-    width: 90px;
+    width: 100px;
     text-align: right;
     margin-right: 10px;
-    font-weight: bold;
+    font-weight: normal;
     line-height: 30px;
+    color:black;
 }
 
 .mine-label {
@@ -329,5 +330,5 @@ div {
 .mine-content{
    padding-top:20px;
    background:white;
-   border: 1px solid #edeef2;
+   border: 1px solid red;
 }

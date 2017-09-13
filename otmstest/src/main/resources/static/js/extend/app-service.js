@@ -102,11 +102,16 @@ mainApp.service("mineGrid", function ($http, $parse) {
         $.extend(setting, defaultSetting, scopeSetting, options);
         $parse(target).assign(scope, setting);
 
+        var queryFlag = false;
         scope.gridPageQuery = function (params, data) {
+            if(scope.gridPagingOptions.currentPage != 1){
+               queryFlag = true;
+            }
+            scope.gridPagingOptions.currentPage = 1;
             scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params, data);
         };
-        scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams, data) {
 
+        scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams, data) {
             var headers = {
                 page_size: pageInfo.pageSize,
                 page_number: pageInfo.currentPage
@@ -144,14 +149,12 @@ mainApp.service("mineGrid", function ($http, $parse) {
         };
         // binding event when page changed
         scope.$watch('gridPagingOptions', function (newVal, oldVal) {
-            if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
-                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo);
+           if(queryFlag){
+               queryFlag = false;
+               return;
             }
-        }, true);
-        // item select listener
-        scope.$watch("gridSelectedItems", function (newValue, oldValue) {
-            if (newValue != oldValue && angular.isFunction(scope.gridPageSelectedItems)) {
-                scope.gridPageSelectedItems(newValue, oldValue);
+            if (newVal !== oldVal && (newVal.currentPage != oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
+                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo);
             }
         }, true);
         scope.$on('ngGridEventSorted', function (event, sortInfo) {

@@ -1,7 +1,7 @@
 package com.otms.support.controller.view;
 
-import com.otms.support.kernel.dto.JobSheetEventDto;
-import com.otms.support.kernel.entity.JobSheetEvent;
+import com.otms.support.kernel.dto.BillingEventDto;
+import com.otms.support.kernel.dto.OrderEventDto;
 import com.otms.support.kernel.service.OtmsEventService;
 import com.otms.support.spring.annotation.PageQueryAon;
 import com.otms.support.spring.model.PageQuery;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/view/jobsheet")
-public class JobSheetController {
+@RequestMapping("/view/billing")
+public class BillingController {
 
     @Autowired
     private OtmsEventService eventService;
 
     @PostMapping("/events")
-    public ResponseInfo list(@PageQueryAon PageQuery pageQuery, @RequestBody JobSheetEventDto query) {
+    public ResponseInfo list(@PageQueryAon PageQuery pageQuery, @RequestBody BillingEventDto query) {
         ResponseInfo response = new ResponseInfo();
-        PageResult result = eventService.jobSheetEventList(pageQuery, query);
+        PageResult result = eventService.billingEventList(pageQuery, query);
         response.wrapSuccess(result);
         return response;
     }

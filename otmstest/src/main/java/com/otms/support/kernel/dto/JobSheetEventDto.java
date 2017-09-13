@@ -18,7 +18,6 @@ public class JobSheetEventDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime eventTime;
 
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime eventTimeBegin;

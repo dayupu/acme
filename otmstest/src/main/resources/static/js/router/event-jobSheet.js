@@ -1,16 +1,21 @@
 mainApp.controller("eventJobSheetCtl",function($scope, mineGrid){
+    $scope.rootUrl = rootUrl();
     $("#eventTimeBegin").datetimepicker({format: 'Y-m-d H:i:s'});
     $("#eventTimeEnd").datetimepicker({format: 'Y-m-d H:i:s'});
-     mineGrid.gridPageInit("gridOptions", $scope, {
+    $scope.jobSheetQuery = {};
+    $scope.jobSheetQuery.eventTimeBegin = today();
+    mineGrid.gridPageInit("gridOptions", $scope, {
             data: 'myData',
             multiSelect: false,
-            selectWithCheckboxOnly: true,
+            enableCellSelection: true,
+            enableRowSelection: false,
+            enableCellEdit: true,
             requestMethod: "POST",
-            requestUrl: fullPath("view/jobsheet/list"),
+            requestUrl: fullPath("view/jobsheet/events"),
             columnDefs: [
-                {field: 'mark', displayName: '标记', width:"150", sortable: false},
-                {field: 'eventId', displayName: 'eventId'},
-                {field: 'eventType', displayName: 'eventType'},
+                {field: 'mark', displayName: '标记', width:"200", sortable: false},
+                {field: 'eventId', displayName: 'eventId', width:"150"},
+                {field: 'eventType', displayName: 'eventType', width:"150"},
                 {field: 'jobSheetNumber', displayName: 'jobSheetNumber', sortable: false},
                 {field: 'externalShipmentId', displayName: 'externalShipmentId', sortable: false},
                 {field: 'eventTime', displayName: 'eventTime'}
@@ -20,7 +25,7 @@ mainApp.controller("eventJobSheetCtl",function($scope, mineGrid){
         return {data: data.content.rows, total: data.content.total};
     };
     $scope.query = function () {
-        $scope.gridPageQuery({}, $scope.jobSheetQuery);
+        $scope.gridPageQuery({}, $scope.jobSheetQuery, 1);
     };
 
     $scope.query();

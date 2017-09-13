@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.MultipartConfigElement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -29,7 +30,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public EmbeddedServletContainerFactory servletContainerFactory() {
-        TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
+        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
         factory.setPort(serverPort);
         return factory;
     }

@@ -20,7 +20,6 @@ public class JobSheetRequest {
         private String jobSheetNumber;
         private String externalShipmentId;
         private Integer eventType;
-
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         private LocalDateTime eventTime;
