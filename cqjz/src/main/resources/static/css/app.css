@@ -200,7 +200,7 @@ div {
 /* overwrite ng-grid style*/
 .ngTopPanel {
     background-color: #f9f6f1;
-    color: #336699;
+    color: #3a3f51;
 }
 
 .ngFooterPanel {
@@ -212,9 +212,6 @@ div {
     border-color: #336699 transparent;
 }
 
-/*.ngRow:hover {
-    background-color: #FFFFF0;
-}*/
 .ngRow.even {
     background-color: white;
 }
@@ -224,12 +221,12 @@ div {
 }
 
 .ngRow.selected {
-    background-color: #337ab7;
-    color: white;
+    background-color: #FDF5E6;
+    color: dimgray;
 }
 
 .ngRow.selected a {
-    color: white;
+    color: dimgray;
 }
 
 .ngCell {
@@ -263,7 +260,7 @@ div {
 }
 
 .ngPagerButton[disabled] {
-    background-color: #97CBFF;
+    background-color: #F4F4F4;
     border-color: white;
 }
 

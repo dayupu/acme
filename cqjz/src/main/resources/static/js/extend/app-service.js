@@ -28,7 +28,7 @@ mainApp.service("mineHttp", function ($http, Upload) {
         }).success(function (data, status, headers, config) {
             callback(data);
         }).error(function (data, status, headers, config) {
-            alert("上传失败")
+            alert("上传失败");
         });
     };
 
@@ -227,16 +227,20 @@ mainApp.service("mineGrid", function ($http, $parse) {
         $.extend(setting, defaultSetting, scopeSetting, options);
         $parse(target).assign(scope, setting);
 
+        var tempParams = {};
+        var tempData = {};
+        var queryFlag = false;
         scope.gridPageQuery = function (params, data) {
+            tempParams = params;
+            tempData = data;
+            queryFlag = true;
             scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.sortInfo, params, data);
         };
         scope.gridPageLoadDataByAsync = function (pageInfo, sortInfo, customParams, data) {
-
             var headers = {
                 page_size: pageInfo.pageSize,
                 page_number: pageInfo.currentPage
             };
-
             var params = {};
             if (angular.isObject(customParams)) {
                 $.extend(params, customParams)
@@ -269,8 +273,12 @@ mainApp.service("mineGrid", function ($http, $parse) {
         };
         // binding event when page changed
         scope.$watch('gridPagingOptions', function (newVal, oldVal) {
+            if (queryFlag) {
+                queryFlag = false;
+                return;
+            }
             if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
-                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo);
+                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo, tempParams, tempData);
             }
         }, true);
         // item select listener
@@ -286,7 +294,7 @@ mainApp.service("mineGrid", function ($http, $parse) {
                     return;
                 }
                 scope.gridSortInfo = sortInfoTemp;
-                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, sortInfoTemp);
+                scope.gridPageLoadDataByAsync(scope.gridPagingOptions, sortInfoTemp, tempParams, tempData);
             }
         });
     };
