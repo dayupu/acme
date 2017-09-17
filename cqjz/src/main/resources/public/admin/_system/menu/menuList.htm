@@ -1,32 +1,33 @@
 <div class="mine-layout">
-    <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-bars"></i>菜单维护</div>
-        <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">一级菜单</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="menu.level != 1">子菜单
-            </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="edit()"
-                    ng-disabled="menu.id == null || menuForm.$invalid">编辑
-            </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="drop()"
-                    ng-disabled="menu.id == null">删除
-            </button>
+        <div class="mine-content">
+            <div class="mine-normal-button">
+                <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">一级菜单</button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)"
+                        ng-disabled="menu.level != 1">子菜单
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="edit()"
+                        ng-disabled="menu.id == null || menuForm.$invalid">编辑
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="drop()"
+                        ng-disabled="menu.id == null">删除
+                </button>
 
-        </div>
-        <table width="600">
-            <tr>
-                <td width="200">
-                    <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
-                        <ul id="menuTree" class="ztree"></ul>
-                    </div>
-                </td>
-                <td valign="top">
-                    <div class="alert alert-danger" ng-if="message != null">
-                        {{message}}
-                    </div>
-                    <table class="table table-bordered table-striped">
-                        <tbody>
+            </div>
+            <table width="600">
+                <tr>
+                    <td width="200">
+                        <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
+                            <ul id="menuTree" class="ztree"></ul>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div class="alert alert-danger" ng-if="message != null">
+                            {{message}}
+                        </div>
+                        <table class="table table-bordered table-striped">
+                            <tbody>
                             <tr>
                                 <td class="mine-title-td">上级菜单</td>
                                 <td>{{menu.parentName}}</td>
@@ -39,10 +40,11 @@
                                 <td class="mine-title-td">菜单地址</td>
                                 <td>{{menu.url}}</td>
                             </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </table>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

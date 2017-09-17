@@ -1,7 +1,4 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
-    mineHttp.menuLocation("user.list", function (data) {
-        $scope.locations = data;
-    });
     $scope.selectedFlag = false;
     $scope.myData = [];
     $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});

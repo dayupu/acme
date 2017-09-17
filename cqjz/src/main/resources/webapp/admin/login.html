@@ -2,54 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>登录</title>
-    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all'/>
 </head>
 <body>
 <div class="content">
-    <div class="top"><h4>流鱼飞燕网站管理后台</h4></div>
     <div class="login">
-        <table cellpadding="0" cellspacing="0" width="100%" height="250">
-            <tr>
-                <td width="30%">
-                    <div class="logo">
-                        <img width="96" th:src="@{/images/admin/logo.png}">
-                    </div>
-                </td>
-                <td>
-                    <div style="margin: 20px;" ng-app="loginApp" ng-controller="loginCtl">
-                        <form class="form-horizontal" name="loginForm">
-                            <div class="message-error">{{message}}</div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputAccount">用户：</label>
-                                <div class="controls">
-                                    <input type="text" id="inputAccount" placeholder="username"
-                                           ng-model="user.account" required/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputPassword">密码：</label>
-                                <div class="controls">
-                                    <input type="password" id="inputPassword" placeholder="password"
-                                           ng-model="user.password" required/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <button class="btn btn-primary" ng-click="login(loginForm.$valid)"
-                                            ng-disabled="loginForm.$invalid">登录
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <div class="login-top">
+            <img height="40" th:src="@{/icons/logo_login2.png}">
+        </div>
+        <div style="margin-left: 90px;" ng-app="loginApp" ng-controller="loginCtl">
+            <form class="form-horizontal" name="loginForm">
+                <div class="input-group col-sm-8">
+                    <label>用户登录</label>
+                </div>
+                <div class="input-group col col-sm-9">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control input-sm" id="inputAccount" placeholder="username"
+                           ng-model="user.account" required/>
+                </div>
+                <br/>
+                <div class="input-group col-sm-9">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input type="password" class="form-control input-sm" id="inputPassword" placeholder="password"
+                           ng-model="user.password" required/>
+                </div>
+                <br/>
+                <div class="input-group col-sm-9">
+                    <button class="btn btn-info btn-sm" ng-click="login(loginForm.$valid)" style="float: right;" ng-disabled="loginForm.$invalid">登录
+                    </button>
+                </div>
+                <div class="message-error" ng-show="message != null">{{message}}</div>
+            </form>
+        </div>
     </div>
     <div class="bottom"></div>
 </div>
+<div class="content-foot"></div>
 <script th:src="@{/lib/angular/angular.min.js}"></script>
 <script th:src="@{/lib/angular/loadingbar/loading-bar.js}"></script>
 <script>

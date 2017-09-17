@@ -1,5 +1,4 @@
 mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
-    mineHttp.menuLocation("role.list", function (data) {$scope.locations = data;});
     $scope.myData = [];
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',

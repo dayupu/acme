@@ -4,17 +4,12 @@ body {
     height: 100%;
 }
 
-html {
-    background-color: #f0f3f4;
-}
-
 body {
     font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     -webkit-font-smoothing: antialiased;
     line-height: 1.42857143;
     color: #58666e;
-    background-color: transparent;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -37,7 +32,7 @@ div {
     z-index: -1;
     display: block;
     width: inherit;
-    background-color: #f3f3f3;
+    background-color: #eaeef7;
     border: inherit;
     content: "";
 }
@@ -57,7 +52,7 @@ div {
 }
 
 .app-aside {
-    padding-top: 50px;
+    padding-top: 80px;
     float: left;
 }
 
@@ -73,7 +68,7 @@ div {
 }
 
 .app-content {
-    padding-top: 50px;
+    padding-top: 80px;
     height: 100%;
     font-size: 13px;
 }
@@ -127,12 +122,12 @@ div {
 
 .bg-dark {
     color: #a6a8b1;
-    background-color: #3a3f51;
+    background-color: #597398;
 }
 
 .aside-app-div a {
     display: block;
-    color: #b4b6bd;
+    color: white;
     padding: 10px;
 }
 
@@ -141,24 +136,37 @@ div {
 }
 
 .aside-app-div .first-menu-a {
-    padding-left: 20px;
+    padding-left: 30px;
     padding-right: 20px;
-    font-weight: bold;
+    border-bottom: 1px solid #6682a9;
 }
 
+.menu-second-ul{
+    background-color: #425671;
+}
 .aside-app-div .second-menu-a {
-    padding-left: 50px;
-    background: #32374a;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #4b4a5e;
+    padding-left: 70px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: white;
+    border-bottom: 1px solid #3b4c63;
+}
+.menu-nav {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
 }
 
-/*overwrite bootstrap style*/
-.aside-app-div .nav > li > a:hover,
-.aside-app-div .nav > li > a:focus {
-    color: white;
+.menu-nav a{
+    text-decoration: none;
+}
+
+.menu-selected {
     background-color: #b63b4d;
+}
+
+.menu-hover {
+    background-color: #c14053;
 }
 
 .navbar, .nav {
@@ -290,4 +298,14 @@ div {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+
+.logo {
+    margin-left: 10px;
+    height: 80px;
+    width: 400px;
+    background: url("../icons/logo_admin2.png") no-repeat;
+    font-family: "Microsoft YaHei", "黑体";
+    color: blue;
+    letter-spacing: 3px;
 }

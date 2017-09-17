@@ -1,13 +1,12 @@
 <div class="mine-layout">
-    <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-o"></i>新闻发布</div>
-        <div>
+        <div class="mine-content">
             <form class="form-horizontal" name="newsForm">
                 <input type="hidden" ng-model="news.id"/>
                 <table class="table">
                     <tr>
-                        <td width="90" class="mine-query-lable">标题
+                        <td width="90" class="mine-normal-lable">标题
                             <mine-required/>
                         </td>
                         <td><input type="text" ng-model="news.title"

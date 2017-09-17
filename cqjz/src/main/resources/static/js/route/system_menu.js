@@ -1,6 +1,4 @@
 mainApp.controller("systemMenuListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
-    mineHttp.menuLocation("menu.list", function (data) {$scope.menuLocation = data; });
-
     var menuTree;
     $scope.ztreeSelected = function (event, treeId, treeNode) {
         $scope.messageStatus = null;

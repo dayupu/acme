@@ -1,53 +1,55 @@
 <div class="mine-layout">
-    <mine-breadcrumb values="menuLocation"></mine-breadcrumb>
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-bars"></i>机构管理</div>
-        <div class="mine-normal-button">
-            <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">顶级机构</button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="depart == null">下级机构
-            </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="edit()" ng-disabled="depart == null">编辑
-            </button>
-            <button class="btn btn-primary btn-sm" type="button" ng-click="drop()" ng-disabled="depart == null">删除
-            </button>
+        <div class="mine-content">
+            <div class="mine-normal-button">
+                <button class="btn btn-sm btn-success" type="button" ng-click="add(true)">顶级机构</button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="depart == null">
+                    下级机构
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="edit()" ng-disabled="depart == null">编辑
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="drop()" ng-disabled="depart == null">删除
+                </button>
+            </div>
+            <table width="600">
+                <tr>
+                    <td width="200">
+                        <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
+                            <ul id="departTree" class="ztree"></ul>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div class="alert alert-danger" ng-if="message != null">
+                            {{message}}
+                        </div>
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                                <td class="mine-title-td">上级机构</td>
+                                <td>{{depart.parentName}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td">机构代码</td>
+                                <td>{{depart.code}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td">机构全码</td>
+                                <td>{{depart.fullCode}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td">机构名</td>
+                                <td>{{depart.name}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td">机构级别</td>
+                                <td>{{depart.level}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <table width="600">
-            <tr>
-                <td width="200">
-                    <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
-                        <ul id="departTree" class="ztree"></ul>
-                    </div>
-                </td>
-                <td valign="top">
-                    <div class="alert alert-danger" ng-if="message != null">
-                        {{message}}
-                    </div>
-                    <table class="table table-bordered table-striped">
-                        <tbody>
-                        <tr>
-                            <td class="mine-title-td">上级机构</td>
-                            <td>{{depart.parentName}}</td>
-                        </tr>
-                        <tr>
-                            <td width="100" class="mine-title-td">机构代码</td>
-                            <td>{{depart.code}}</td>
-                        </tr>
-                        <tr>
-                            <td width="100" class="mine-title-td">机构全码</td>
-                            <td>{{depart.fullCode}}</td>
-                        </tr>
-                        <tr>
-                            <td width="100" class="mine-title-td">机构名</td>
-                            <td>{{depart.name}}</td>
-                        </tr>
-                        <tr>
-                            <td width="100" class="mine-title-td">机构级别</td>
-                            <td>{{depart.level}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>

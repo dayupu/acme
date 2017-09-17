@@ -1,7 +1,4 @@
 mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mineUtil) {
-    mineHttp.menuLocation("news.create", function (data) {
-        $scope.menuLocation = data;
-    });
     $scope.images = [];
     $scope.test = function () {
         mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (data) {

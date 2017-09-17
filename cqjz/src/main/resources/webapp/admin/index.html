@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>权利的游戏</title>
+    <title>公安网网站管理后台</title>
     <link rel="stylesheet" th:href="@{/lib/bootstrap3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/lib/angular/textAngular/textAngular.css}"/>
@@ -18,7 +18,7 @@
 <input id="appContextPath" type="hidden" th:value="@{/}" />
 <div class="app app-header-fixed" ng-app="mainApp">
     <div ng-controller="headerController" ng-include="'app/header.htm'" class="app-header"></div>
-    <div ng-controller="asideController" ng-include="'app/aside.htm'" class="app-aside bg-dark"></div>
+    <div ng-controller="menuController" ng-include="'app/menu.htm'" class="app-aside bg-dark"></div>
     <div ng-controller="contentController" class="app-content">
         <div ui-view></div>
     </div>
@@ -28,7 +28,6 @@
 <script th:src="@{/lib/zTree/js/jquery.ztree.all-3.5.min.js}"></script>
 <script th:src="@{/lib/datetimepicker/js/jquery.datetimepicker.full.min.js}"></script>
 <script th:src="@{/lib/angular/angular.min.js}"></script>
-<script th:src="@{/js/support.js}"></script>
 <script th:src="@{/lib/angular/angular-ui-router.js}"></script>
 <script th:src="@{/lib/angular/angular-animate.min.js}"></script>
 <script th:src="@{/lib/angular/ngStorage/ngStorage.min.js}"></script>
@@ -46,8 +45,9 @@
 <script th:src="@{/lib/umeditor/umeditor.js}"></script>
 <script th:src="@{/lib/umeditor/lang/zh-cn/zh-cn.js}"></script>
 <script th:src="@{/js/app.js}"></script>
-<script th:src="@{/js/extend/app-directive.js}"></script>
-<script th:src="@{/js/extend/app-service.js}"></script>
+<script th:src="@{/js/app-base.js}"></script>
+<script th:src="@{/js/app-directive.js}"></script>
+<script th:src="@{/js/app-service.js}"></script>
 <script th:src="@{/js/route/system_menu.js}"></script>
 <script th:src="@{/js/route/system_user.js}"></script>
 <script th:src="@{/js/route/system_role.js}"></script>

@@ -1,5 +1,4 @@
 mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, mineHttp, mineUtil, mineMessage) {
-    mineHttp.menuLocation("depart.list", function (data) {$scope.menuLocation = data;});
     var departTree;
     $scope.ztreeSelected = function (event, treeId, treeNode) {
         mineHttp.send("GET", "admin/depart/" + treeNode.id, {}, function (data) {
