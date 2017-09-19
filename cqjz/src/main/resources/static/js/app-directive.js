@@ -43,6 +43,24 @@ mainApp.directive("mineLabel", function () {
         replace: true
     }
 });
+mainApp.directive("mineDate", function () {
+    return {
+        restrict: 'E',
+        require: 'ngModel',
+        template: "<div class='input-group date' style='float: left'>" +
+        "<input style='width: 140px;' type='text'class='form-control input-sm' />" +
+        "<span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div>",
+        link: function (scope, element, attr, ngModel) {
+            var dateText = $(element).children("input");
+            $(dateText).datetimepicker({format: 'Y-m-d H:i:s'});
+            ngModel.$setViewValue($(dateText).val());
+            $(dateText).change(function () {
+                ngModel.$setViewValue($(this).val());
+            });
+        },
+        replace: true
+    }
+});
 mainApp.directive("mineUmeditor", function ($rootScope) {
     return {
         restrict: 'EA',
