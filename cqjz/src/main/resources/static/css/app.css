@@ -141,9 +141,6 @@ div {
     border-bottom: 1px solid #6682a9;
 }
 
-.menu-second-ul{
-    background-color: #425671;
-}
 .aside-app-div .second-menu-a {
     padding-left: 70px;
     padding-top: 8px;
@@ -151,6 +148,7 @@ div {
     color: white;
     border-bottom: 1px solid #3b4c63;
 }
+
 .menu-nav {
     list-style: none;
     margin: 0px;
@@ -161,32 +159,16 @@ div {
     text-decoration: none;
 }
 
+.menu-second-ul{
+    background-color: #425671;
+}
+
 .menu-selected {
     background-color: #b63b4d;
 }
 
 .menu-hover {
     background-color: #c14053;
-}
-
-.navbar, .nav {
-    margin-bottom: 0px;
-}
-
-.form-horizontal .control-label {
-    text-align: left;
-    width: 100px;
-}
-
-.form-horizontal .controls {
-    margin-left: 100px;
-}
-
-.form-horizontal .control-footer {
-    border-top: 1px solid #edeef2;
-    margin-top: 20px;
-    padding-top: 10px;
-    padding-left: 10px;
 }
 
 .help-inline .message {
@@ -198,114 +180,16 @@ div {
     font-size: 16px;
 }
 
+.logo {
+    margin-left: 10px;
+    height: 80px;
+    width: 400px;
+    background: url("../icons/logo_admin.png") no-repeat;
+}
+
 .gridStyle {
     height: 400px;
     display: block;
     position: relative;
     margin: 10px 0px;
-}
-
-/* overwrite ng-grid style*/
-.ngTopPanel {
-    background-color: #f9f6f1;
-    color: #3a3f51;
-}
-
-.ngFooterPanel {
-    background-color: white;
-    border-top: 1px solid #edeef2;
-}
-
-.ngSortButtonUp, .ngSortButtonDown {
-    border-color: #336699 transparent;
-}
-
-.ngRow.even {
-    background-color: white;
-}
-
-.ngRow.odd {
-    background-color: #faf9f9;
-}
-
-.ngRow.selected {
-    background-color: #FDF5E6;
-    color: dimgray;
-}
-
-.ngRow.selected a {
-    color: dimgray;
-}
-
-.ngCell {
-    border-bottom: 1px solid #edeef2;
-    font-size: 13px;
-}
-
-.ngHeaderCell {
-    border-bottom: 1px solid #edeef2;
-    border-left: 1px solid white;
-    font-size: 13px;
-}
-
-.ngVerticalBarVisible {
-    background-color: transparent;
-}
-
-/*
-.ngSelectionCell{
-  margin-top:2px;
-}*/
-.ngSelectionHeader {
-    top: 8px;
-}
-
-.ngPagerButton {
-    background-color: #337ab7;
-    border: 1px solid transparent;
-    cursor: pointer;
-    border-color: #2e6da4;
-}
-
-.ngPagerButton[disabled] {
-    background-color: #F4F4F4;
-    border-color: white;
-}
-
-.ngPagerFirstBar, .ngPagerLastBar {
-    border-color: white;
-}
-
-.ngPagerFirstTriangle {
-    border-color: transparent white transparent transparent;
-}
-
-.ngPagerLastTriangle, .ngPagerNextTriangle {
-    border-color: transparent transparent transparent white;
-}
-
-.ngTotalSelectContainer {
-    font-size: 12px;
-}
-
-.edui-container * {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-.edui-container *:before, .edui-container *:after {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-.logo {
-    margin-left: 10px;
-    height: 80px;
-    width: 400px;
-    background: url("../icons/logo_admin2.png") no-repeat;
-    font-family: "Microsoft YaHei", "黑体";
-    color: blue;
-    letter-spacing: 3px;
 }

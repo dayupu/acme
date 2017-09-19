@@ -172,50 +172,6 @@
     width: 140px;
 }
 
-/* overwrite bootstrap modal style*/
-.mine-validator {
-    line-height: 30px;
-}
-
-.modal {
-    top: 20%;
-}
-
-.modal-header {
-    background-color: #597398;
-    padding: 8px;
-}
-
-.modal-footer {
-    padding: 10px;
-}
-
-.modal-title {
-    color: white;
-    font-weight: bold;
-    margin-left: 5px;
-}
-
-.modal-title-icon {
-    color: white;
-    font-size: 16px;
-}
-
-.modal-body {
-    min-height: 50px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.alert {
-    padding: 10px;
-}
-
-.modal-body .form-group .control-label {
-    padding-bottom: 3px;
-    border-bottom: 1px solid #edeef2;
-}
-
 .mine-table-span {
     line-height: 25px;
     margin-left: 5px;

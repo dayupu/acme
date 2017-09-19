@@ -1,0 +1,152 @@
+/* Grid style for ng-grid*/
+.ngTopPanel {
+    background-color: #f9f6f1;
+    color: #3a3f51;
+}
+
+.ngFooterPanel {
+    background-color: white;
+    border-top: 1px solid #edeef2;
+}
+
+.ngSortButtonUp, .ngSortButtonDown {
+    border-color: #336699 transparent;
+}
+
+.ngRow.even {
+    background-color: white;
+}
+
+.ngRow.odd {
+    background-color: #faf9f9;
+}
+
+.ngRow.selected {
+    background-color: #FDF5E6;
+    color: dimgray;
+}
+
+.ngRow.selected a {
+    color: dimgray;
+}
+
+.ngCell {
+    border-bottom: 1px solid #edeef2;
+    font-size: 13px;
+}
+
+.ngHeaderCell {
+    border-bottom: 1px solid #edeef2;
+    border-left: 1px solid white;
+    font-size: 13px;
+}
+
+.ngVerticalBarVisible {
+    background-color: transparent;
+}
+
+.ngSelectionHeader {
+    top: 8px;
+}
+
+.ngPagerButton {
+    background-color: #337ab7;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-color: #2e6da4;
+}
+
+.ngPagerButton[disabled] {
+    background-color: #F4F4F4;
+    border-color: white;
+}
+
+.ngPagerFirstBar, .ngPagerLastBar {
+    border-color: white;
+}
+
+.ngPagerFirstTriangle {
+    border-color: transparent white transparent transparent;
+}
+
+.ngPagerLastTriangle, .ngPagerNextTriangle {
+    border-color: transparent transparent transparent white;
+}
+
+.ngTotalSelectContainer {
+    font-size: 12px;
+}
+
+/* Umeditor style for Baidu */
+.edui-container * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.edui-container *:before, .edui-container *:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+/* Base style for bootstrap3 */
+.navbar, .nav {
+    margin-bottom: 0px;
+}
+
+.form-horizontal .control-label {
+    text-align: left;
+    width: 100px;
+}
+
+.form-horizontal .controls {
+    margin-left: 100px;
+}
+
+.form-horizontal .control-footer {
+    border-top: 1px solid #edeef2;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+/* Modal style for bootstrap3 */
+.modal {
+    top: 20%;
+}
+
+.modal-header {
+    background-color: #597398;
+    padding: 8px;
+}
+
+.modal-footer {
+    padding: 10px;
+}
+
+.modal-title {
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.modal-title-icon {
+    color: white;
+    font-size: 16px;
+}
+
+.modal-body {
+    min-height: 50px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.alert {
+    padding: 10px;
+}
+
+.modal-body .form-group .control-label {
+    padding-bottom: 3px;
+    border-bottom: 1px solid #edeef2;
+}
