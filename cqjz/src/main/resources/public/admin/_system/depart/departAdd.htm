@@ -16,15 +16,13 @@
                 {{message}}
             </div>
             <div class="form-group" ng-if="depart.parentCode != null">
-                <label class="col-sm-3 control-label">上级机构</label>
+                <mine-label class="col-sm-2" name="上级机构"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{depart.parentName}}</label>
+                    <span class="acme-span">{{depart.parentName}}</span>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.code.$valid]">
-                <label class="col-sm-3 control-label">机构代码
-                    <mine-required/>
-                </label>
+                <mine-label class="col-sm-2" name="机构代码" required></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="depart.code" name="code"
                            ng-pattern="/^\d{2,12}$/" required/>
@@ -33,9 +31,7 @@
                                 when="departForm.code.$dirty" error="不符合机构代码规则，例:50"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
-                <label class="col-sm-3 control-label">机构名称
-                    <mine-required/>
-                </label>
+                <mine-label class="col-sm-2" name="机构名称" required></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="depart.name" name="name" required>
                 </div>

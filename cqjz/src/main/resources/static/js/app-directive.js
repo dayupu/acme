@@ -32,6 +32,17 @@ mainApp.directive("mineRequired", function () {
         replace: true
     }
 });
+mainApp.directive("mineLabel", function () {
+    return {
+        restrict: 'E',
+        scope: {
+            name: "@",
+            required: "@"
+        },
+        template: "<label class='acme-label'>{{name}}<span ng-if='required == \"\"' class='acme-required'>*</span></label>",
+        replace: true
+    }
+});
 mainApp.directive("mineUmeditor", function ($rootScope) {
     return {
         restrict: 'EA',
@@ -84,7 +95,7 @@ mainApp.directive("mineUmeditor", function ($rootScope) {
                 ctrl.editorInstance.addListener('fullscreenchanged', function (event, isFullScreen) {
                     if (!isFullScreen) {
                         ctrl.editorInstance.setHeight(height);
-                        $("body").css("overflow-y","auto");
+                        $("body").css("overflow-y", "auto");
                     }
                 });
             };

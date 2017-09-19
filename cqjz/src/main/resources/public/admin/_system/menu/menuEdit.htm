@@ -14,15 +14,13 @@
                 {{message}}
             </div>
             <div class="form-group" ng-if="menu.parentId != null">
-                <label class="col-sm-2 control-label">上级菜单</label>
+                <mine-label class="col-sm-2" name="上级菜单"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{menu.parentName}}</label>
+                    <span class="mine-label">{{menu.parentName}}</span>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
-                <label class="col-sm-2 control-label">菜单名称
-                    <mine-required/>
-                </label>
+                <mine-label class="col-sm-2" name="菜单名称" required></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
                            ng-pattern="/^.{1,20}$/"
@@ -33,9 +31,7 @@
                                 error="长度1-20位以内"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[menuForm.sequence.$valid]">
-                <label class="col-sm-2 control-label">排序
-                    <mine-required/>
-                </label>
+                <mine-label class="col-sm-2" name="排序" required></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.sequence"
                            name="sequence"
@@ -46,7 +42,7 @@
                                 error="1-99数字"></mine-validator>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">菜单地址</label>
+                <mine-label class="col-sm-2" name="菜单地址"></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="menu.url" name="url">
                 </div>

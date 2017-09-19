@@ -12,6 +12,7 @@ body {
     color: #58666e;
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: transparent;
 }
 
 div {
@@ -35,10 +36,6 @@ div {
     background-color: #eaeef7;
     border: inherit;
     content: "";
-}
-
-.app-header-fixed {
-
 }
 
 .app-header-fixed .app-header {
@@ -83,13 +80,18 @@ div {
     clear: both;
 }
 
+.app-navbar {
+    height: 80px;
+    background-color: #132e41;
+}
+
 .app-footer {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: 1005;
-    background-color: #3a3f51;
+    background-color: #597398;
 }
 
 @media (min-width: 768px) {

@@ -6,8 +6,8 @@
                 <input type="hidden" ng-model="news.id"/>
                 <table class="table">
                     <tr>
-                        <td width="90" class="mine-normal-lable">标题
-                            <mine-required/>
+                        <td>
+                            <mine-label name="标题" required></mine-label>
                         </td>
                         <td><input type="text" ng-model="news.title"
                                    name="title" ng-pattern="/^.{1,100}$/"
@@ -18,7 +18,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td width="90" class="mine-query-lable">来源
+                        <td>
+                            <mine-label name="来源"></mine-label>
                         </td>
                         <td><input type="text" class="form-control input-sm"
                                    style="width:400px;float: left;margin-right: 5px;" ng-model="news.source"
@@ -28,8 +29,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="mine-query-lable">新闻类别
-                            <mine-required/>
+                        <td>
+                            <mine-label name="新闻类别" required></mine-label>
                         </td>
                         <td>
                             <select ng-model="news.type" name="type" ng-init="news.type=''"
@@ -69,8 +70,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="mine-query-lable">正文
-                            <mine-required/>
+                        <td>
+                            <mine-label name="正文" required></mine-label>
                         </td>
                         <td height="300">
                             <div mine-umeditor ng-model="news.content" id="newsEditor" height="300"
@@ -78,7 +79,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>ww</td>
+                        <td></td>
                         <td>
                             <button class="btn btn-primary btn-sm" ng-click="test();">保存</button>
                             <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid">提交</button>

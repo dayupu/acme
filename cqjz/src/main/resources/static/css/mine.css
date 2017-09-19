@@ -1,8 +1,3 @@
-.mine-navbar {
-    height: 80px;
-    background-color: #132e41;
-}
-
 .mine-navbar-right {
     float: right;
 }
@@ -51,7 +46,7 @@
 }
 
 .mine-layout {
-    margin: 20px 20px;
+    margin: 20px 20px 0px 20px;
 }
 
 .mine-layout-content {
@@ -61,10 +56,10 @@
 }
 
 .mine-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
-    line-height: 50px;
-    height: 50px;
+    line-height: 45px;
+    height: 45px;
     color: black;
     margin-bottom: 20px;
     background-color: #e9eef4;
@@ -112,20 +107,28 @@
     margin-left: 10px;
 }
 
-.mine-line{
+.mine-line {
     height: 1px;
     width: 100%;
     background-color: #e6e2e2;
     margin-bottom: 5px;
 }
-.mine-query-lable {
+
+.mine-query-lable, .mine-query-button {
     float: left;
     width: 90px;
     text-align: right;
     margin-right: 10px;
     font-weight: bold;
-    line-height: 30px;
     margin-left: 5px;
+}
+
+.mine-query-lable {
+    line-height: 30px;
+}
+
+.mine-query-button {
+    line-height: 25px;
 }
 
 .mine-normal-lable {
@@ -137,14 +140,6 @@
     line-height: 30px;
     margin-left: 5px;
     border-left: 3px solid;
-}
-
-.mine-label {
-    width: 90px;
-    text-align: left;
-    font-weight: normal;
-    margin-right: 10px;
-    line-height: 30px;
 }
 
 .mine-query-span {
@@ -175,4 +170,26 @@
 .mine-table-span {
     line-height: 25px;
     margin-left: 5px;
+}
+
+.acme-span {
+    width: 90px;
+    text-align: left;
+    font-weight: normal;
+    margin-right: 10px;
+    line-height: 30px;
+}
+
+.acme-label {
+    margin-left: 2px;
+    border-left: 4px solid #40a9fa;
+    line-height: 25px;
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+.acme-required {
+    color: red;
+    padding-left: 5px;
+    line-height: 30px;
 }

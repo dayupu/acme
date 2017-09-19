@@ -13,33 +13,31 @@
                 {{message}}
             </div>
             <div class="form-group" ng-if="depart.parentCode != null">
-                <label class="col-sm-2 control-label">上级机构</label>
+                <mine-label class="col-sm-2" name="上级机构"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{depart.parentName}}</label>
+                    <span class="acme-span">{{depart.parentName}}</span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">机构代码</label>
+                <mine-label class="col-sm-2" name="机构代码"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{depart.code}}</label>
+                    <span class="acme-span">{{depart.code}}</span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">机构全码</label>
+                <mine-label class="col-sm-2" name="机构全码"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{depart.fullCode}}</label>
+                    <span class="acme-span">{{depart.fullCode}}</span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">机构级别</label>
+                <mine-label class="col-sm-2" name="机构级别"></mine-label>
                 <div class="col-sm-5">
-                    <label class="mine-label">{{depart.level}}</label>
+                    <span class="acme-span">{{depart.level}}</span>
                 </div>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
-                <label class="col-sm-2 control-label">机构名称
-                    <mine-required/>
-                </label>
+                <mine-label class="col-sm-2" name="机构名称" required></mine-label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="depart.name" name="name"
                            required/>
