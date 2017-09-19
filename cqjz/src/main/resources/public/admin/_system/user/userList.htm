@@ -24,26 +24,15 @@
             <span class="mine-query-group">
                 <label class="mine-query-button"><button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button></label>
             </span>
-            <br/>
             <span class="mine-query-group">
-            <label class="mine-query-lable">创建时间</label>
-            <span class="mine-query-span">
-                <div class='input-group date' style="float: left">
-                    <input id='userQueryCreatedAt' style="width: 140px;" name="requestTimeStart" type='text'
-                           class="form-control input-sm" ng-model="userQuery.createdAt"
-                           value="{{userQuery.createdAt * 1000 | date:'yy-MM-dd HH:mm:ss'}}"/>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-            </span>
+                <label class="mine-query-lable">创建时间</label>
+                <span class="mine-query-span">
+                    <mine-date ng-model="userQuery.createdAt"></mine-date>
+                </span>
             </span>
             <span class="mine-query-group">
                 <label class="mine-query-lable">至</label>
                 <span class="mine-query-span">
-            <!--        <div class='input-group date' style="float: left">
-                        <input id='userQueryCreatedAtEnd' style="width: 140px;" name="requestTimeStart" type='text'
-                               class="form-control input-sm" ng-model="userQuery.createdAtEnd"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    </div>-->
                     <mine-date ng-model="userQuery.createdAtEnd"></mine-date>
                 </span>
             </span>

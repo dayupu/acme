@@ -101,10 +101,7 @@
 
 .mine-query-group {
     float: left;
-}
-
-.mine-query-group button {
-    margin-left: 10px;
+    display: inline-table;
 }
 
 .mine-line {
@@ -128,7 +125,12 @@
 }
 
 .mine-query-button {
-    line-height: 25px;
+    line-height: 30px;
+    height: 40px;
+}
+
+.mine-query-button > button {
+    margin-left: 10px;
 }
 
 .mine-normal-lable {

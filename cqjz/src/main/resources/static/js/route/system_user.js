@@ -1,8 +1,6 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
     $scope.selectedFlag = false;
     $scope.myData = [];
-    $("#userQueryCreatedAt").datetimepicker({format: 'Y-m-d H:i:s'});
-    $("#userQueryCreatedAtEnd").datetimepicker({format: 'Y-m-d H:i:s'});
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         showSelectionCheckbox: true,
