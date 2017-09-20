@@ -40,8 +40,8 @@ mainApp.directive("mineDate", function () {
     return {
         restrict: 'E',
         require: 'ngModel',
-        template: "<div class='input-group date' style='float: left'>" +
-        "<input style='width: 140px;' type='text'class='form-control input-sm' />" +
+        template: "<div class='input-group date' style='width: 162px;'>" +
+        "<input style='width: 142px;' type='text'class='form-control input-sm' />" +
         "<span class='input-group-addon' style='cursor:pointer;'><span class='glyphicon glyphicon-calendar'></span></span></div>",
         link: function (scope, element, attrs, ngModel) {
             var dateText = $(element).children("input");
@@ -52,7 +52,7 @@ mainApp.directive("mineDate", function () {
             });
             ngModel.$render = function () {
                 $(dateText).val(ngModel.$viewValue);
-            }
+            };
             $(element).find("span[class='input-group-addon']").click(function(){
                 $(dateText).trigger("focus");
             });

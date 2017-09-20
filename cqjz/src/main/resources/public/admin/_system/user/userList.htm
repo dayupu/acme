@@ -2,42 +2,32 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-circle"></i>用户查询</div>
         <div class="mine-content">
-            <div class="mine-query">
-            <span class="mine-query-group">
-                <label class="mine-query-lable">账户</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="userQuery.account"/>
+            <div class="form-inline mine-query">
+                <div class="form-group">
+                    <label>账户</label>
+                    <input type="text" class="form-control input-sm" ng-model="userQuery.account"/>
+                </div>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" class="form-control input-sm" ng-model="userQuery.name"/>
+                </div>
+                <div class="form-group">
+                    <label>手机</label>
+                    <input type="text" class="form-control input-sm" ng-model="userQuery.mobile"/>
+                </div>
+                <span class="form-group">
+                    <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
                 </span>
-            </span>
-                <span class="mine-query-group">
-                <label class="mine-query-lable">姓名</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="userQuery.name"/>
-                </span>
-            </span>
-                <span class="mine-query-group">
-                <label class="mine-query-lable">手机</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="userQuery.mobile"/>
-                </span>
-            </span>
-            <span class="mine-query-group">
-                <label class="mine-query-button"><button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button></label>
-            </span>
-            <span class="mine-query-group">
-                <label class="mine-query-lable">创建时间</label>
-                <span class="mine-query-span">
+                <br/>
+                <span class="form-group">
+                    <label>创建时间</label>
                     <mine-date ng-model="userQuery.createdAt"></mine-date>
                 </span>
-            </span>
-            <span class="mine-query-group">
-                <label class="mine-query-lable">至</label>
-                <span class="mine-query-span">
+                <span class="form-group">
+                    <label>至</label>
                     <mine-date ng-model="userQuery.createdAtEnd"></mine-date>
                 </span>
-            </span>
             </div>
-            <br/>
             <div class="mine-line"></div>
             <div>
                 <button class="btn btn-sm btn-primary" type="button" ng-click="add()">新建</button>

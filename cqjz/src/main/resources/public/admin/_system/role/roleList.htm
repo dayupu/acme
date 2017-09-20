@@ -2,18 +2,14 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-o"></i>角色查询</div>
         <div class="mine-content">
-            <div class="mine-query">
-             <span class="mine-query-group">
-                <label class="mine-query-lable">角色名</label>
-                <span class="mine-query-span">
-                   <input type="text" class="form-control input-sm" ng-model="roleQuery.name"/>
-                </span>
-            </span>
-            <span class="mine-query-group">
-                  <label class="mine-query-button">
-                      <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
-                  </label>
-            </span>
+            <div class="form-inline mine-query">
+                <div class="form-group">
+                    <label>角色名</label>
+                    <input type="text" class="form-control input-sm" ng-model="roleQuery.name"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                </div>
             </div>
             <br/>
             <div class="mine-line"></div>
