@@ -25,13 +25,6 @@ mainApp.directive("mineValidator", function () {
         replace: true
     }
 });
-mainApp.directive("mineRequired", function () {
-    return {
-        restrict: 'EA',
-        template: "<span class='mine-required'>*</span>",
-        replace: true
-    }
-});
 mainApp.directive("mineLabel", function () {
     return {
         restrict: 'E',
@@ -50,14 +43,16 @@ mainApp.directive("mineDate", function () {
         template: "<div class='input-group date' style='float: left'>" +
         "<input style='width: 140px;' type='text'class='form-control input-sm' />" +
         "<span class='input-group-addon' style='cursor:pointer;'><span class='glyphicon glyphicon-calendar'></span></span></div>",
-        link: function (scope, element, attr, ngModel) {
+        link: function (scope, element, attrs, ngModel) {
             var dateText = $(element).children("input");
             $(dateText).datetimepicker({format: 'Y-m-d H:i:s'});
-            ngModel.$setViewValue($(dateText).val());
             $(dateText).change(function () {
                 ngModel.$setViewValue($(this).val());
                 console.log($(this).val());
             });
+            ngModel.$render = function () {
+                $(dateText).val(ngModel.$viewValue);
+            }
             $(element).find("span[class='input-group-addon']").click(function(){
                 $(dateText).trigger("focus");
             });

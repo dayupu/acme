@@ -1,6 +1,8 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
     $scope.selectedFlag = false;
     $scope.myData = [];
+    $scope.userQuery={};
+    $scope.userQuery.createdAt = today();
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         showSelectionCheckbox: true,
