@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "confirm_discrepancy_event")
+@Table(name = "cargo_discrepancy_event")
 public class EventPush {
 
     @Id
@@ -46,9 +46,9 @@ public class EventPush {
     private String requestBody;
     @Column(name = "response")
     private String response;
-    @Column(name = "clientId")
+    @Column(name = "client_id")
     private Long clientId;
-    @Column(name = "ownerId")
+    @Column(name = "owner_id")
     private Long ownerId;
     @Column(name = "order_discrepancy_id")
     private Long orderDiscrepancyId;
