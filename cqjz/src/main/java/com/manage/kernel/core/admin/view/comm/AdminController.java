@@ -1,4 +1,4 @@
-package com.manage.kernel.core.admin.view.admin;
+package com.manage.kernel.core.admin.view.comm;
 
 import com.manage.base.utils.StringUtil;
 import com.manage.base.utils.WebUtil;

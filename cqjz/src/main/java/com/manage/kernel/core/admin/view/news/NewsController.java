@@ -1,4 +1,4 @@
-package com.manage.kernel.core.admin.view.admin;
+package com.manage.kernel.core.admin.view.news;
 
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.exception.CoreException;
@@ -17,7 +17,7 @@ import com.manage.kernel.spring.comm.Messages;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.http.HttpResponse;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

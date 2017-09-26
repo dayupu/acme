@@ -22,15 +22,15 @@ import org.springframework.web.multipart.MultipartFile;
  */
 
 @Controller
-@RequestMapping("/umedit")
-public class UmeditController {
+@RequestMapping("/admin/image")
+public class ImageController {
 
-    private static final Logger LOGGER = LogManager.getLogger(UmeditController.class);
+    private static final Logger LOGGER = LogManager.getLogger(ImageController.class);
 
     @Autowired
     private IFileImageService imageService;
 
-    @PostMapping(value = "/imageUp")
+    @PostMapping(value = "/upload")
     public void imageUpload(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("upfile") MultipartFile file) {
         try {

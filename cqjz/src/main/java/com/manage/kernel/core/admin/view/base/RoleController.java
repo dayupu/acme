@@ -1,4 +1,4 @@
-package com.manage.kernel.core.admin.view.admin;
+package com.manage.kernel.core.admin.view.base;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
