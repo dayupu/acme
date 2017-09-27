@@ -2,12 +2,12 @@ package com.manage.kernel.core.admin.service.system.impl;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.DepartNotFoundException;
-import com.manage.base.supplier.TreeNode;
+import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
-import com.manage.kernel.core.admin.dto.DepartDto;
-import com.manage.kernel.core.admin.parser.DepartParser;
+import com.manage.kernel.core.admin.apply.dto.DepartDto;
+import com.manage.kernel.core.admin.apply.parser.DepartParser;
 import com.manage.kernel.core.admin.service.system.IDepartService;
 import com.manage.kernel.jpa.news.entity.Department;
 import com.manage.kernel.jpa.news.repository.DepartRepo;

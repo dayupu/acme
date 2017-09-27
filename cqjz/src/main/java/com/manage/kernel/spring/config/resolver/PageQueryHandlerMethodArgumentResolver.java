@@ -1,7 +1,7 @@
 package com.manage.kernel.spring.config.resolver;
 
 import com.manage.kernel.spring.annotation.PageQueryAon;
-import com.manage.kernel.spring.entry.PageQuery;
+import com.manage.base.supplier.page.PageQuery;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

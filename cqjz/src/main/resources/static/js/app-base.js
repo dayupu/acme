@@ -55,7 +55,7 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
         for (var i in menus) {
             var menu = menus[i];
             if (menu.subMenus.length > 0) {
-                var sub = "<ul class='menu-nav menu-second-ul' style='display:block;'>";
+                var sub = "<ul class='menu-nav menu-second-ul' style='display:none;'>";
                 for (var j in menu.subMenus) {
                     var subMenu = menu.subMenus[j];
                     sub += "<li mark='menuTwo'><a href='javascript:void(0);' class='second-menu-a' url='" + subMenu.url + "'>" + subMenu.name + "</a></li>";

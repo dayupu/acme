@@ -19,6 +19,11 @@ public class PropertySupplier {
     @Value("${file.upload.temporary.path}")
     private String uploadTempPath;
 
+    @Value("${upload.images.dir}")
+    private String uploadImagesDir;
+
+    @Value("${resource.image.access.url}")
+    private String imageAccessUrl;
 
     public String getFileUploadLocal() {
         return fileUploadLocal;
@@ -34,5 +39,13 @@ public class PropertySupplier {
 
     public String getUploadTempPath() {
         return uploadTempPath;
+    }
+
+    public String getUploadImagesDir() {
+        return uploadImagesDir;
+    }
+
+    public String getImageAccessUrl() {
+        return imageAccessUrl;
     }
 }

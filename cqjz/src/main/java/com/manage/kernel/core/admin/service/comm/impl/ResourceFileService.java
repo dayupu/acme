@@ -4,9 +4,9 @@ import com.manage.base.exception.FileUploadException;
 import com.manage.base.database.enums.FileSource;
 import com.manage.base.constant.Constants;
 import com.manage.base.utils.FileUtil;
-import com.manage.kernel.core.admin.dto.FileDto;
-import com.manage.kernel.core.admin.model.FileModel;
-import com.manage.kernel.core.admin.parser.FileParser;
+import com.manage.kernel.core.admin.apply.dto.FileDto;
+import com.manage.kernel.basic.model.FileModel;
+import com.manage.kernel.core.admin.apply.parser.FileParser;
 import com.manage.kernel.core.admin.service.comm.IResourceFileService;
 import com.manage.kernel.jpa.news.entity.ResourceFile;
 import com.manage.kernel.jpa.news.repository.ResourceFileRepo;
@@ -43,7 +43,7 @@ public class ResourceFileService extends ServiceBase implements IResourceFileSer
     public FileDto upload(FileModel fileModel) {
 
         String localDir = localDir(fileModel.getFileSource());
-        String extensionName = FileUtil.fileSuffix(fileModel.getFileName());
+        String extensionName = FileUtil.suffix(fileModel.getFileName());
         String fileName = FileUtil.generateName(extensionName);
         String fullPath = localDir + fileName;
         String accessUrl = supplier.getFileTempDir() + Constants.SEPARATOR + fileName;

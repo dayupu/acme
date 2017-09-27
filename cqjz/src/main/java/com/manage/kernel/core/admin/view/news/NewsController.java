@@ -5,11 +5,11 @@ import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.database.enums.FileSource;
 import com.manage.base.database.enums.FileType;
-import com.manage.base.supplier.ResponseInfo;
-import com.manage.base.supplier.SelectOption;
-import com.manage.kernel.core.admin.dto.FileDto;
-import com.manage.kernel.core.admin.dto.NewsDto;
-import com.manage.kernel.core.admin.model.FileModel;
+import com.manage.base.supplier.page.ResponseInfo;
+import com.manage.base.supplier.page.SelectOption;
+import com.manage.kernel.core.admin.apply.dto.FileDto;
+import com.manage.kernel.core.admin.apply.dto.NewsDto;
+import com.manage.kernel.basic.model.FileModel;
 import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.core.admin.service.comm.IResourceFileService;
 
@@ -97,7 +97,7 @@ public class NewsController {
     public ResponseInfo upload(@RequestParam("file") MultipartFile file) {
         ResponseInfo response = new ResponseInfo();
         try {
-            FileModel fileModel = new FileModel(FileSource.NEWS);
+            FileModel fileModel = new FileModel(FileSource.NEWS_SUMMARY);
             fileModel.setFileName(file.getOriginalFilename());
             fileModel.setFileSize(file.getSize());
             fileModel.setInputStream(file.getInputStream());

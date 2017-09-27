@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.service.comm;
 
-import com.manage.kernel.core.admin.model.UploadModel;
+import com.manage.kernel.basic.model.ImageResult;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IFileImageService {
 
-    public UploadModel uploadImage(MultipartFile multipartFile);
+    public ImageResult uploadImage(MultipartFile multipartFile);
 }

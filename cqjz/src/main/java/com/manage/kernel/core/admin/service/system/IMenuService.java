@@ -1,8 +1,8 @@
 package com.manage.kernel.core.admin.service.system;
 
-import com.manage.base.supplier.TreeNode;
-import com.manage.kernel.core.admin.dto.MenuDto;
-import com.manage.kernel.core.admin.dto.MenuNav;
+import com.manage.base.supplier.page.TreeNode;
+import com.manage.kernel.core.admin.apply.dto.MenuDto;
+import com.manage.kernel.core.admin.apply.dto.MenuNav;
 
 import java.util.List;
 

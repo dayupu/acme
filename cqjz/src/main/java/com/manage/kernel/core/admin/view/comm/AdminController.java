@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.manage.base.supplier.ResponseInfo;
+import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
 import com.manage.kernel.spring.comm.Messages;

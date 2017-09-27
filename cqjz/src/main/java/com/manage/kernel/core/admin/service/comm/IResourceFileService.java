@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service.comm;
 
-import com.manage.kernel.core.admin.dto.FileDto;
-import com.manage.kernel.core.admin.model.FileModel;
+import com.manage.kernel.core.admin.apply.dto.FileDto;
+import com.manage.kernel.basic.model.FileModel;
 
 /**
  * Created by bert on 17-8-25.

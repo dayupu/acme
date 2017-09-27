@@ -7,18 +7,19 @@ import com.manage.base.database.model.DBEnum;
  */
 public enum FileSource implements DBEnum {
 
-    NEWS(10, "news");
+    NEWS_SUMMARY(10, "news.summary"),
+    NEWS_BODY(11, "news.body");
 
     private Integer constant;
-    private String dir;
+    private String message;
 
-    FileSource(Integer constant, String dir) {
+    FileSource(Integer constant, String message) {
         this.constant = constant;
-        this.dir = dir;
+        this.message = message;
     }
 
     public String getDir() {
-        return dir;
+        return message;
     }
 
     @Override

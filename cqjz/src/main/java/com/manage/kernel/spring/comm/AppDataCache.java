@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.comm;
 
-import com.manage.cache.CacheManager;
+import com.manage.plugins.cache.CacheManager;
 import com.manage.kernel.jpa.news.entity.Permission;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.repository.PermissionRepo;

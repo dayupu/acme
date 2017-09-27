@@ -1,6 +1,5 @@
 package com.manage.base.exception;
 
-import com.manage.base.interfaces.CoreMsgs;
 import com.manage.base.supplier.msgs.MessageErrors;
 
 /**

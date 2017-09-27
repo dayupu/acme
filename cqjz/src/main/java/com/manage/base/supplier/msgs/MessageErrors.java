@@ -1,6 +1,5 @@
 package com.manage.base.supplier.msgs;
 
-import com.manage.base.interfaces.CoreMsgs;
 import com.manage.kernel.spring.comm.Messages;
 
 public enum MessageErrors implements CoreMsgs {

@@ -1,5 +1,6 @@
 package com.manage.kernel.spring.config;
 
+import com.manage.kernel.spring.config.filter.AdminFilter;
 import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +49,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(maxFileSize * 1024 * 1024);
         return factory.createMultipartConfig();
+    }
+
+    @Bean
+    public FilterRegistrationBean adminFilterRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean(new AdminFilter());
+        registration.addUrlPatterns("/admin/*");
+        return registration;
     }
 
 }

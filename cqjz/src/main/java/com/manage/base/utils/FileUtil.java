@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.UUID;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+import org.joda.time.LocalDate;
+import org.springframework.security.access.method.P;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StreamUtils;
@@ -56,17 +60,51 @@ public class FileUtil {
         return time + suffix;
     }
 
+    public static synchronized String genDateDir() {
+        return LocalDate.now().toString("yyyyMMdd") + File.separator;
+    }
+
+    public static synchronized String genImageId() {
+        return "IMAGE_" + System.currentTimeMillis();
+    }
+
+    public static String joinPath(String... paths) {
+        if (paths == null && paths.length == 0) {
+            return null;
+        }
+
+        String head = paths[0];
+        if (head.endsWith(File.separator)) {
+            head = head.substring(0, head.length() - 1);
+        }
+
+        StringBuilder builder = new StringBuilder(head);
+        for (int i = 1; i < paths.length; i++) {
+            if (!paths[i].startsWith(File.separator)) {
+                builder.append(File.separator);
+            }
+            builder.append(paths[i]);
+        }
+        return builder.toString();
+    }
+
     public static String generateFileId() {
         String uuid = UUID.randomUUID().toString();
         return uuid.replaceAll("-", "0");
     }
 
+    public static void main(String[] args) {
+        String a = "/resource/image/{0}";
+        System.out.println(MessageFormat.format(a, "1"));
+    }
+
     /**
      * 获取文件名后缀(例:.png)
+     *
      * @param fileName
      * @return
      */
-    public static String fileSuffix(String fileName) {
+    public static String suffix(String fileName) {
 
         if (fileName == null) {
             return null;

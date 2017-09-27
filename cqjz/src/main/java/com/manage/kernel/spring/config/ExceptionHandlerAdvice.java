@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.config;
 
-import com.manage.base.supplier.ResponseInfo;
+import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
 import com.manage.base.utils.JsonUtil;

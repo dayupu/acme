@@ -1,7 +1,9 @@
 package com.manage.base.utils;
 
 import java.security.SecureRandom;
+import java.text.MessageFormat;
 import org.apache.commons.codec.binary.Base32;
+import static org.apache.coyote.http11.Constants.a;
 
 /**
  * Created by bert on 2017/8/20.
@@ -17,6 +19,7 @@ public class CoreUtil {
 
     /**
      * 12位管辖机构代码
+     *
      * @param code
      * @return
      */
@@ -32,6 +35,7 @@ public class CoreUtil {
 
     /**
      * 管辖机构简码
+     *
      * @param code
      * @return
      */
@@ -45,11 +49,16 @@ public class CoreUtil {
 
     /**
      * 生成随机24位唯一ID
+     *
      * @return
      */
     public static String nextRandomID() {
         byte[] randomBytes = new byte[15];
         random.nextBytes(randomBytes);
         return new Base32().encodeAsString(randomBytes);
+    }
+
+    public static String format(String text, String... params) {
+        return MessageFormat.format(text, params);
     }
 }

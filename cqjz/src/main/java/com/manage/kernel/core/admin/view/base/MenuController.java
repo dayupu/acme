@@ -1,14 +1,14 @@
 package com.manage.kernel.core.admin.view.base;
 
 import com.manage.base.exception.MenuNotFoundException;
-import com.manage.base.supplier.ResponseInfo;
-import com.manage.base.supplier.TreeNode;
+import com.manage.base.supplier.page.ResponseInfo;
+import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.msgs.MessageInfos;
-import com.manage.base.utils.ValidatorUtil;
-import com.manage.kernel.core.admin.dto.MenuDto;
-import com.manage.kernel.core.admin.dto.MenuNav;
+import com.manage.base.utils.Validators;
+import com.manage.kernel.core.admin.apply.dto.MenuDto;
+import com.manage.kernel.core.admin.apply.dto.MenuNav;
 import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.spring.annotation.InboundLog;
 
@@ -41,7 +41,7 @@ public class MenuController {
     public ResponseInfo menuDetail(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
-            ValidatorUtil.notNull(id);
+            Validators.notNull(id);
             MenuDto menuDto = menuService.getMenu(id);
             if (menuDto == null) {
                 throw new MenuNotFoundException();
@@ -61,8 +61,8 @@ public class MenuController {
     public ResponseInfo editMenu(@PathVariable("id") Long id, @RequestBody MenuDto menuObj) {
         ResponseInfo response = new ResponseInfo();
         try {
-            ValidatorUtil.notNull(id);
-            ValidatorUtil.notNull(menuObj);
+            Validators.notNull(id);
+            Validators.notNull(menuObj);
             MenuDto menu = menuService.updateMenu(id, menuObj);
             if (menu == null) {
                 throw new CoreException();
@@ -84,7 +84,7 @@ public class MenuController {
     public ResponseInfo dropMenu(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
-            ValidatorUtil.notNull(id);
+            Validators.notNull(id);
             menuService.deleteMenu(id);
             response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
@@ -117,7 +117,7 @@ public class MenuController {
     public ResponseInfo getLocation(@RequestParam("url") String url) {
         ResponseInfo response = new ResponseInfo();
         try {
-            ValidatorUtil.notNull(url);
+            Validators.notNull(url);
             List<MenuNav> locations = menuService.menuLocation(url);
             response.wrapSuccess(locations);
         } catch (ValidateException e) {
@@ -134,8 +134,8 @@ public class MenuController {
     public ResponseInfo addMenu(@RequestBody MenuDto menuDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            ValidatorUtil.notNull(menuDto);
-            ValidatorUtil.notEmpty(menuDto.getName());
+            Validators.notNull(menuDto);
+            Validators.notEmpty(menuDto.getName());
             menuService.addMenu(menuDto);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {

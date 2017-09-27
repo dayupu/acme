@@ -7,7 +7,7 @@ mainApp.controller("newsAddCtl", function ($scope, $http, mineTree, mineHttp, mi
     };
 
     $scope.news={};
-    $scope.news.content="hahahwww";
+    $scope.news.content="新闻正文";
     $scope.newsTypes = [];
     $scope.loadTypes = function () {
         mineHttp.send("GET", "admin/news/types", {}, function (data) {

@@ -2,7 +2,7 @@ package com.manage.kernel.spring.config.aspect;
 
 import com.manage.base.exception.ApiExeception;
 import com.manage.base.exception.AuthorizedException;
-import com.manage.cache.CacheManager;
+import com.manage.plugins.cache.CacheManager;
 import com.manage.kernel.spring.annotation.UserPermit;
 import com.manage.kernel.spring.comm.ServiceBase;
 import java.util.List;

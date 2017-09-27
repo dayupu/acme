@@ -2,7 +2,7 @@ package com.manage.kernel.core.admin.service.comm.impl;
 
 import com.manage.base.enums.UploadState;
 import com.manage.base.utils.FileUtil;
-import com.manage.kernel.core.admin.model.UploadModel;
+import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.service.comm.IFileImageService;
 import com.manage.kernel.spring.PropertySupplier;
 import java.io.IOException;
@@ -28,39 +28,39 @@ public class FileImageService implements IFileImageService {
     private PropertySupplier supplier;
 
     @Override
-    public UploadModel uploadImage(MultipartFile multipartFile) {
-        UploadModel model = new UploadModel();
+    public ImageResult uploadImage(MultipartFile multipartFile) {
+        ImageResult imageup = new ImageResult();
         if (multipartFile.getSize() > MAX_IMAGE_SIZE) {
-            model.setState(UploadState.SIZE);
-            return model;
+            imageup.setState(UploadState.SIZE);
+            return imageup;
         }
 
         String originName = multipartFile.getOriginalFilename();
-        String suffix = FileUtil.fileSuffix(originName);
+        String suffix = FileUtil.suffix(originName);
         if (!checkSuffix(suffix)) {
-            model.setState(UploadState.TYPE);
-            return model;
+            imageup.setState(UploadState.TYPE);
+            return imageup;
         }
 
         String fileName = FileUtil.generateName(suffix);
         String url = supplier.getUploadTempPath() + fileName;
         try {
             FileUtil.uploadPublic(multipartFile.getInputStream(), url);
-            model.setSize(multipartFile.getSize());
-            model.setName(fileName);
-            model.setOriginalName(originName);
-            model.setType(suffix);
-            model.setUrl(url);
-            model.setState(UploadState.SUCCESS);
-            return model;
+            imageup.setSize(multipartFile.getSize());
+            imageup.setName(fileName);
+            imageup.setOriginalName(originName);
+            imageup.setType(suffix);
+            imageup.setUrl(url);
+            imageup.setState(UploadState.SUCCESS);
+            return imageup;
         } catch (IOException e) {
             LOGGER.error("upload exception", e);
-            model.setState(UploadState.IO);
+            imageup.setState(UploadState.IO);
         } catch (Exception e) {
             LOGGER.error("upload exception", e);
-            model.setState(UploadState.UNKNOWN);
+            imageup.setState(UploadState.UNKNOWN);
         }
-        return model;
+        return imageup;
     }
 
     private boolean checkSuffix(String suffix) {

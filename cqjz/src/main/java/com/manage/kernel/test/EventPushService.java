@@ -25,10 +25,10 @@ public class EventPushService {
     public void push() {
         Iterable<EventPush> events = eventPushRepo.queryEventWithNoPush();
         for (EventPush event : events) {
-            System.out.println(event.getRequestBody());
+            System.out.println("Ready to push:" + event.getRequestBody());
             EventResponse response = EventPushUtil
                     .sendPostRequest(event.getRequestBody(), PROD_URL, "otms", "otms", false);
-            System.out.println(response.getEntityStr());
+            System.out.println("Client response:" + response.getEntityStr());
             event.setEventPushed(true);
             eventPushRepo.save(event);
         }

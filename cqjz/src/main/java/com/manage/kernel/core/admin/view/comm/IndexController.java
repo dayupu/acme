@@ -1,9 +1,9 @@
 package com.manage.kernel.core.admin.view.comm;
 
 
-import com.manage.base.supplier.ResponseInfo;
+import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
-import com.manage.kernel.core.admin.dto.MenuNav;
+import com.manage.kernel.core.admin.apply.dto.MenuNav;
 import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.spring.config.security.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;

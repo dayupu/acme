@@ -11,6 +11,7 @@
         <form-login login-page="/login"/>
         <intercept-url pattern="/admin/ajax/login" access="permitAll"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/upload/**" access="hasRole('ROLE_ADMIN')"/>
         <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>
         <session-management session-authentication-strategy-ref="sessionStrategy"/>
         <csrf disabled="true"></csrf>

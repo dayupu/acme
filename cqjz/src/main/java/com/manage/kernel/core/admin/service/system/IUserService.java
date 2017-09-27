@@ -1,11 +1,11 @@
 package com.manage.kernel.core.admin.service.system;
 
-import com.manage.base.supplier.PageResult;
+import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.Pair;
-import com.manage.base.supplier.TreeNode;
-import com.manage.kernel.core.admin.dto.UserDto;
+import com.manage.base.supplier.page.TreeNode;
+import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.jpa.news.entity.User;
-import com.manage.kernel.spring.entry.PageQuery;
+import com.manage.base.supplier.page.PageQuery;
 
 import java.util.List;
 
