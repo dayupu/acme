@@ -1,8 +1,5 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
     $scope.selectedFlag = false;
-    $scope.myData = [];
-    $scope.userQuery={};
-    $scope.userQuery.createdAt = today();
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         showSelectionCheckbox: true,
@@ -30,7 +27,6 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         ]
     });
     // init load datas
-    $scope.gridPageQuery();
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
@@ -44,6 +40,8 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     $scope.query = function () {
         $scope.gridPageQuery({}, $scope.userQuery);
     };
+    $scope.query();
+
     $scope.add = function () {
         var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", {});
         modalInstance.result.then(function () {
