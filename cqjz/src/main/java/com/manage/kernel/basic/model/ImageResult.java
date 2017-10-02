@@ -9,6 +9,7 @@ import com.manage.base.enums.UploadState;
  */
 public class ImageResult {
 
+    private String imageId;
     private String name;
     private String originalName;
     private Long size;
@@ -16,6 +17,14 @@ public class ImageResult {
     private UploadState state;
     private String type;
     private String url;
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
 
     public String getName() {
         return name;

@@ -8,24 +8,31 @@ import java.util.List;
 
 public class NewsParser {
 
-    public static NewsDto toNewsDto(News news) {
-        return toNewsDto(news, new NewsDto());
+    public static NewsDto toDto(News news) {
+        return toDto(news, new NewsDto());
     }
 
-    public static List<NewsDto> toNewsDtoList(List<News> newss) {
+    public static List<NewsDto> toDtoList(List<News> newsList) {
         List<NewsDto> newsDtos = new ArrayList<>();
-        for (News news : newss) {
-            newsDtos.add(toNewsDto(news, new NewsDto()));
+        for (News news : newsList) {
+            newsDtos.add(toDto(news, new NewsDto()));
         }
         return newsDtos;
     }
 
-    private static NewsDto toNewsDto(News news, NewsDto newsDto) {
+    private static NewsDto toDto(News news, NewsDto newsDto) {
         newsDto.setId(news.getId());
         newsDto.setTitle(news.getTitle());
-        newsDto.setContent(newsDto.getContent());
+        newsDto.setNumber(news.getNumber());
+        newsDto.setContent(news.getContent());
         newsDto.setSource(news.getSource());
         newsDto.setType(news.getType());
+        newsDto.setStatus(news.getStatus());
+        newsDto.setImageId(news.getImageId());
+        newsDto.setCreatedAt(news.getCreatedAt());
+        newsDto.setUpdatedAt(news.getUpdatedAt());
+        newsDto.setCreatedBy(news.getCreatedUserName());
+        newsDto.setUpdatedBy(news.getUpdatedUserName());
         return newsDto;
     }
 }

@@ -79,6 +79,7 @@ public class ResourceService implements IResourceService {
             imageRepo.save(image);
 
             // ready image result
+            imageResult.setImageId(imageId);
             imageResult.setSize(size);
             imageResult.setName(fileName);
             imageResult.setOriginalName(originName);

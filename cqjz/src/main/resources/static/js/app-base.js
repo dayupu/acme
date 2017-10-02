@@ -16,6 +16,10 @@ function verifyData(data) {
     return false;
 }
 
+function imageUrl(imageId) {
+    return fullPath("resource/image/" + imageId);
+}
+
 function today() {
     var date = new Date();
     var seperator = "-";
@@ -28,7 +32,7 @@ function today() {
         strDate = "0" + strDate;
     }
     var currentdate = date.getFullYear() + seperator + month + seperator + strDate
-            + " 00:00:00";
+        + " 00:00:00";
     return currentdate;
 }
 

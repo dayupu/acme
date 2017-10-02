@@ -97,7 +97,8 @@
     text-align: right;
     padding-right: 5px;
 }
-.mine-query > .form-group > input{
+.mine-query > .form-group > input,
+.mine-query > .form-group > select{
     width: 180px;
 }
 .mine-query > .form-group > button{
@@ -170,6 +171,11 @@
 
 .mine-input-date {
     width: 140px;
+}
+
+.mine-input-abeam{
+    float: left;
+    margin-right: 5px;
 }
 
 .mine-table-span {

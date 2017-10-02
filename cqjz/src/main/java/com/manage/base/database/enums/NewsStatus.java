@@ -8,7 +8,12 @@ import com.manage.base.database.model.Localizable;
  */
 public enum NewsStatus implements DBEnum, Localizable {
 
-    DRAFT(0, "resource.constant.news.status.draft");
+    DRAFT(1, "resource.constant.news.status.draft"),
+    SUBMIT(2, "resource.constant.news.status.submit"),
+    APPROVE(3, "resource.constant.news.status.approve"),
+    REJECT(4, "resource.constant.news.status.reject"),
+    PASS(5, "resource.constant.news.status.pass"),
+    DELETE(0, "resource.constant.news.status.delete");
 
     private int constant;
     private String messageKey;

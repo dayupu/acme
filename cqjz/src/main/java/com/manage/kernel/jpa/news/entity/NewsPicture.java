@@ -1,5 +1,7 @@
 package com.manage.kernel.jpa.news.entity;
 
+import com.manage.kernel.spring.message.Resource;
+
 import java.util.concurrent.ScheduledExecutorService;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,27 +26,12 @@ public class NewsPicture {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_news_picture")
     private Long id;
 
-    @Column(name = "news_id", insertable = false, updatable = false)
-    private Long newsId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "news_id")
     private News news;
 
-    @Column(name = "sequence")
-    private Integer sequence = 0;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "origin_name", nullable = false)
-    private String originName;
-
-    @Column(name = "suffix")
-    private String suffix;
-
-    @Column(name = "size")
-    private Long size;
+    @Column(name = "image_id")
+    private String imageId;
 
     public Long getId() {
         return id;
@@ -52,14 +39,6 @@ public class NewsPicture {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getNewsId() {
-        return newsId;
-    }
-
-    public void setNewsId(Long newsId) {
-        this.newsId = newsId;
     }
 
     public News getNews() {
@@ -70,43 +49,11 @@ public class NewsPicture {
         this.news = news;
     }
 
-    public Integer getSequence() {
-        return sequence;
+    public String getImageId() {
+        return imageId;
     }
 
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOriginName() {
-        return originName;
-    }
-
-    public void setOriginName(String originName) {
-        this.originName = originName;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

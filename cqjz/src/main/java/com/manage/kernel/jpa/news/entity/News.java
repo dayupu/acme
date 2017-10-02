@@ -1,9 +1,12 @@
 package com.manage.kernel.jpa.news.entity;
 
+import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
+import com.manage.base.database.enums.Status;
 import com.manage.kernel.jpa.news.base.EntityBase;
 import com.manage.kernel.jpa.news.base.Process;
 import com.manage.kernel.jpa.news.base.StatusBase;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -13,7 +16,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name = "news")
 @SequenceGenerator(name = "seq_news", sequenceName = "seq_news", allocationSize = 1)
-public class News extends StatusBase {
+public class News extends EntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_news")
@@ -24,7 +27,7 @@ public class News extends StatusBase {
 
     @Column(name = "type", nullable = false)
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType") })
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType")})
     private NewsType type;
 
     @Column(name = "title", nullable = false, columnDefinition = "text")
@@ -42,14 +45,16 @@ public class News extends StatusBase {
     @Embedded
     private Process process;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
-    private List<NewsPicture> pictures;
+    @Column(name = "image_id")
+    private String imageId;
+
+    @Column(name = "status", length = 2)
+    @Type(type = "com.manage.base.database.model.DBEnumType",
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsStatus")})
+    private NewsStatus status;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
     private List<NewsAttach> attaches;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
-    private List<NewsTempImage> tempImages;
 
 
     public Long getId() {
@@ -108,14 +113,6 @@ public class News extends StatusBase {
         this.hits = hits;
     }
 
-    public List<NewsPicture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<NewsPicture> pictures) {
-        this.pictures = pictures;
-    }
-
     public List<NewsAttach> getAttaches() {
         return attaches;
     }
@@ -124,19 +121,27 @@ public class News extends StatusBase {
         this.attaches = attaches;
     }
 
-    public List<NewsTempImage> getTempImages() {
-        return tempImages;
-    }
-
-    public void setTempImages(List<NewsTempImage> tempImages) {
-        this.tempImages = tempImages;
-    }
-
     public Process getProcess() {
         return process;
     }
 
     public void setProcess(Process process) {
         this.process = process;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
+    public NewsStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(NewsStatus status) {
+        this.status = status;
     }
 }

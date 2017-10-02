@@ -42,5 +42,9 @@ public enum NewsType implements DBEnum, Localizable {
         return hasImage;
     }
 
+    public boolean requireImage() {
+        return this == TPXW || this == JZFC;
+    }
+
 
 }

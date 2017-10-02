@@ -1,6 +1,45 @@
 <div class="mine-layout">
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-o"></i>新闻列表</div>
-        <div class="mine-content"></div>
+        <div class="mine-content">
+            <div class="form-inline mine-query">
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control input-sm" ng-model="filter.title"/>
+                </div>
+                <div class="form-group">
+                    <label>类型</label>
+                    <select ng-model="filter.type" name="type" ng-init="filter.type=''"
+                            class="form-control input-sm">
+                        <option value="">全部</option>
+                        <option ng-repeat="newsType in newsTypes" ng-value="newsType.key">{{newsType.value}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <select ng-model="filter.status" name="status" ng-init="filter.status=''"
+                            class="form-control input-sm">
+                        <option value="">全部</option>
+                        <option ng-repeat="status in statuses" ng-value="status.key">{{status.value}}
+                        </option>
+                    </select>
+                </div>
+                <span class="form-group">
+                    <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                </span>
+                <br/>
+                <span class="form-group">
+                    <label>创建时间</label>
+                    <mine-date ng-model="filter.createdAt"></mine-date>
+                </span>
+                <span class="form-group">
+                    <label>至</label>
+                    <mine-date ng-model="filter.createdAtEnd"></mine-date>
+                </span>
+            </div>
+            <div class="mine-line"></div>
+            <div class="gridStyle" ng-grid="gridOptions"></div>
+        </div>
     </div>
 </div>
