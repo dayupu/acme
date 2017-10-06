@@ -1,5 +1,6 @@
 package com.manage.kernel.core.admin.service.system.impl;
 
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.exception.UserNotFoundException;
 import com.manage.base.database.enums.Status;
 import com.manage.base.supplier.page.PageResult;
@@ -10,6 +11,7 @@ import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.core.admin.apply.parser.UserParser;
+import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
 import com.manage.kernel.core.admin.service.system.IUserService;
 import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
@@ -45,6 +47,9 @@ public class UserService extends ServiceBase implements IUserService {
     @Autowired
     private RoleRepo roleRepo;
 
+    @Autowired
+    private ActIdentityService actIdentityService;
+
     @Override
     @Transactional
     public UserDto getUser(Long userId) {
@@ -64,21 +69,22 @@ public class UserService extends ServiceBase implements IUserService {
         Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtil.isNotBlank(userQuery.getAccount())) {
-                list.add(cb.equal(root.get("account").as(String.class), userQuery.getAccount()));
+                list.add(cb.equal(root.get("account"), userQuery.getAccount()));
             }
             if (StringUtil.isNotBlank(userQuery.getName())) {
-                list.add(cb.like(root.get("name").as(String.class), "%" + userQuery.getName() + "%"));
+                list.add(cb.like(root.get("name"), "%" + userQuery.getName() + "%"));
             }
             if (StringUtil.isNotBlank(userQuery.getMobile())) {
-                list.add(cb.equal(root.get("mobile").as(String.class), userQuery.getMobile()));
+                list.add(cb.equal(root.get("mobile"), userQuery.getMobile()));
+            }
+            if (StringUtil.isNotNull(userQuery.getApproveRole())) {
+                list.add(cb.equal(root.get("approveRole"), userQuery.getApproveRole()));
             }
             if (StringUtil.isNotNull(userQuery.getCreatedAt())) {
-                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
-                        userQuery.getCreatedAt()));
+                list.add(cb.greaterThanOrEqualTo(root.get("createdAt"), userQuery.getCreatedAt()));
             }
             if (StringUtil.isNotNull(userQuery.getCreatedAtEnd())) {
-                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
-                        userQuery.getCreatedAtEnd()));
+                list.add(cb.lessThanOrEqualTo(root.get("createdAt"), userQuery.getCreatedAtEnd()));
             }
             return cb.and(list.toArray(new Predicate[0]));
         }, pageQuery.sortPageDefault("id"));
@@ -106,9 +112,11 @@ public class UserService extends ServiceBase implements IUserService {
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
         user.setStatus(Status.ENABLE);
+        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(currentUser());
-        userRepo.save(user);
+        User savedUser = userRepo.save(user);
+        actIdentityService.saveActUser(savedUser);
     }
 
     @Override
@@ -119,15 +127,16 @@ public class UserService extends ServiceBase implements IUserService {
             LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
         }
-
         user.setName(userDto.getName());
         user.setGender(userDto.getGender());
         user.setMobile(userDto.getMobile());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
+        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
         user.setUpdatedUser(currentUser());
-        userRepo.save(user);
+        User updatedUser = userRepo.save(user);
+        actIdentityService.saveActUser(updatedUser);
     }
 
     @Override

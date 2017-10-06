@@ -1,4 +1,7 @@
 mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
+    mineHttp.constant("approveRole", function (data) {
+        $scope.approveRoles = data.content;
+    });
     $scope.selectedFlag = false;
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -9,7 +12,16 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         requestUrl: fullPath("admin/user/list"),
         columnDefs: [{field: 'account', displayName: '账号'},
             {field: 'name', displayName: '姓名'},
-            {field: 'gender', displayName: '性别', cellTemplate: "<span class='mine-table-span'>{{row.entity.genderMessage}}</span>"},
+            {
+                field: 'gender',
+                displayName: '性别',
+                cellTemplate: "<span class='mine-table-span'>{{row.entity.genderMessage}}</span>"
+            },
+            {
+                field: 'approveRole',
+                displayName: '审批角色',
+                cellTemplate: "<span class='mine-table-span'>{{row.entity.approveRoleMessage}}</span>"
+            },
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
             {field: 'createdAt', displayName: '创建时间'},
@@ -87,6 +99,11 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
     }
 });
 mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp) {
+
+    mineHttp.constant("approveRole", function (data) {
+        $scope.approveRoles = data.content;
+    });
+
     $scope.ok = function () {
         mineHttp.send("POST", "admin/user", {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
@@ -101,6 +118,9 @@ mainApp.controller("systemUserAddController", function ($scope, $uibModalInstanc
     };
 });
 mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, data) {
+    mineHttp.constant("approveRole", function (data) {
+        $scope.approveRoles = data.content;
+    });
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
             $scope.messageStatus = false;

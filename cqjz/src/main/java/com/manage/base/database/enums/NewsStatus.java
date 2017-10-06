@@ -32,4 +32,8 @@ public enum NewsStatus implements DBEnum, Localizable {
     public Integer getConstant() {
         return constant;
     }
+
+    public boolean canEdit() {
+        return this == DRAFT || this == REJECT;
+    }
 }

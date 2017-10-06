@@ -2,14 +2,17 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.exception.NewsNotFoundException;
+import com.manage.base.exception.PrivilegeDeniedException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.NewsDto;
 import com.manage.kernel.core.admin.apply.parser.NewsParser;
+import com.manage.kernel.core.admin.service.activiti.INewsActivitiService;
 import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.jpa.news.entity.News;
+import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.NewsRepo;
 import com.manage.kernel.spring.comm.ServiceBase;
 import org.joda.time.LocalDateTime;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -31,15 +35,29 @@ public class NewsService extends ServiceBase implements INewsService {
     @Autowired
     private NewsRepo newsRepo;
 
+    @Autowired
+    private INewsActivitiService newsActivitiService;
+
+
+    @Override
+    @Transactional
+    public NewsDto submitNews(NewsDto newsDto) {
+        saveNews(newsDto);
+        newsActivitiService.submit(currentUser(), newsDto);
+        return null;
+    }
+
     @Override
     @Transactional
     public NewsDto saveNews(NewsDto newsDto) {
-
         News news;
         if (newsDto.getId() != null) {
             news = newsRepo.findOne(newsDto.getId());
             if (news == null) {
                 throw new NewsNotFoundException();
+            }
+            if (!news.getStatus().canEdit()) {
+                throw new PrivilegeDeniedException();
             }
             setNewsInfo(news, newsDto);
             news.setUpdatedAt(LocalDateTime.now());
@@ -68,6 +86,25 @@ public class NewsService extends ServiceBase implements INewsService {
 
     @Override
     @Transactional
+    public void drop(String number) {
+        News news = newsRepo.findByNumber(number);
+        if (news == null) {
+            throw new NewsNotFoundException();
+        }
+
+        User user = currentUser();
+        if (StringUtil.notEquals(news.getCreatedBy(), user.getId())) {
+            throw new PrivilegeDeniedException();
+        }
+
+        news.setStatus(NewsStatus.DELETE);
+        news.setUpdatedAt(LocalDateTime.now());
+        news.setUpdatedUser(user);
+        newsRepo.save(news);
+    }
+
+    @Override
+    @Transactional
     public PageResult pageList(PageQuery page, NewsDto query) {
         Page<News> userPage = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
@@ -80,6 +117,8 @@ public class NewsService extends ServiceBase implements INewsService {
             }
             if (StringUtil.isNotNull(query.getStatus())) {
                 list.add(cb.equal(root.get("status"), query.getStatus()));
+            } else {
+                list.add(cb.notEqual(root.get("status"), NewsStatus.DELETE));
             }
             if (StringUtil.isNotNull(query.getCreatedAt())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
@@ -103,7 +142,11 @@ public class NewsService extends ServiceBase implements INewsService {
         news.setTitle(newsDto.getTitle());
         news.setContent(newsDto.getContent());
         news.setType(newsDto.getType());
-        news.setImageId(newsDto.getImageId());
+        if (newsDto.getType().hasImage()) {
+            news.setImageId(newsDto.getImageId());
+        } else {
+            news.setImageId(null);
+        }
         news.setSource(newsDto.getSource());
         news.setStatus(NewsStatus.DRAFT);
     }

@@ -46,42 +46,9 @@ public class NewsController {
     @Autowired
     private IResourceService resourceService;
 
-    @GetMapping("/types")
-    public ResponseInfo newsTypes() {
-        ResponseInfo response = new ResponseInfo();
-        List<SelectOption> options = new ArrayList<>();
-        SelectOption<Integer, String> option;
-        for (NewsType type : NewsType.values()) {
-            option = new SelectOption<>();
-            option.setKey(type.getConstant());
-            option.setValue(Messages.get(type));
-            options.add(option);
-        }
-        response.wrapSuccess(options);
-        return response;
-    }
-
-    @GetMapping("/status")
-    public ResponseInfo newsStatus() {
-        ResponseInfo response = new ResponseInfo();
-        List<SelectOption> options = new ArrayList<>();
-        SelectOption<Integer, String> option;
-        for (NewsStatus type : NewsStatus.values()) {
-            if (type == NewsStatus.DELETE) {
-                continue;
-            }
-            option = new SelectOption<>();
-            option.setKey(type.getConstant());
-            option.setValue(Messages.get(type));
-            options.add(option);
-        }
-        response.wrapSuccess(options);
-        return response;
-    }
-
     @InboundLog
     @GetMapping("/{number}")
-    public ResponseInfo userDetail(@PathVariable("number") String number) {
+    public ResponseInfo newsDetail(@PathVariable("number") String number) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notBlank(number);
@@ -99,8 +66,27 @@ public class NewsController {
     }
 
     @InboundLog
+    @DeleteMapping("/{number}")
+    public ResponseInfo dropNews(@PathVariable("number") String number) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notBlank(number);
+            newsService.drop(number);
+            response.wrapSuccess(null);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
     @PostMapping("/list")
-    public ResponseInfo userListPage(@PageQueryAon PageQuery page, @RequestBody NewsDto query) {
+    public ResponseInfo pageList(@PageQueryAon PageQuery page, @RequestBody NewsDto query) {
         ResponseInfo response = new ResponseInfo();
         PageResult result = newsService.pageList(page, query);
         response.wrapSuccess(result);
@@ -130,8 +116,31 @@ public class NewsController {
         return response;
     }
 
+    @PostMapping("/submit")
+    public ResponseInfo submitNews(@RequestBody NewsDto newsDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notBlank(newsDto.getTitle());
+            Validators.notBlank(newsDto.getContent());
+            Validators.notNull(newsDto.getType());
+            if (newsDto.getType().requireImage()) {
+                Validators.notBlank(newsDto.getImageId());
+            }
+            NewsDto news = newsService.submitNews(newsDto);
+            response.wrapSuccess(news, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
     @PostMapping("/picture")
-    public ResponseInfo uploadPic(@RequestParam("file") MultipartFile file) {
+    public ResponseInfo uploadPicture(@RequestParam("file") MultipartFile file) {
         ResponseInfo response = new ResponseInfo();
         try {
             ImageResult result = resourceService.uploadImage(file, FileSource.NEWS_SUMMARY);

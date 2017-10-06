@@ -2,6 +2,7 @@ package com.manage.base.utils;
 
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class StringUtil extends org.springframework.util.StringUtils {
 
@@ -33,6 +34,20 @@ public class StringUtil extends org.springframework.util.StringUtils {
 
     public static boolean isNotNull(Object obj) {
         return obj != null;
+    }
+
+    public static boolean equals(Object obj1, Object obj2) {
+        if (obj1 == obj2) {
+            return true;
+        }
+        if (obj1 == null || obj2 == null) {
+            return false;
+        }
+        return obj1.equals(obj2);
+    }
+
+    public static boolean notEquals(Object obj1, Object obj2) {
+        return !equals(obj1, obj2);
     }
 
 

@@ -19,6 +19,15 @@
                     <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
                 </span>
                 <br/>
+                <div class="form-group">
+                    <label>审批角色</label>
+                    <select ng-model="userQuery.approveRole" name="type" class="form-control input-sm">
+                        <option value=""></option>
+                        <option ng-repeat="approveRole in approveRoles" ng-value="approveRole.key">
+                            {{approveRole.value}}
+                        </option>
+                    </select>
+                </div>
                 <span class="form-group">
                     <label>创建时间</label>
                     <mine-date ng-model="userQuery.createdAt"></mine-date>

@@ -2,7 +2,9 @@ package com.manage.base.utils;
 
 import java.security.SecureRandom;
 import java.text.MessageFormat;
+
 import org.apache.commons.codec.binary.Base32;
+
 import static org.apache.coyote.http11.Constants.a;
 
 /**
@@ -57,6 +59,21 @@ public class CoreUtil {
         random.nextBytes(randomBytes);
         return new Base32().encodeAsString(randomBytes);
     }
+
+    public static <T> boolean equals(T obj1, T obj2) {
+        if (obj1 == obj2) {
+            return true;
+        }
+        if (obj1 == null || obj2 == null) {
+            return false;
+        }
+        return obj1.equals(obj2);
+    }
+
+    public static <T> boolean notEquals(T obj1, T obj2) {
+        return !equals(obj1, obj2);
+    }
+
 
     public static String format(String text, String... params) {
         return MessageFormat.format(text, params);

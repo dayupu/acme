@@ -1,9 +1,11 @@
 package com.manage.kernel.jpa.news.entity;
 
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.Gender;
 import com.manage.kernel.jpa.news.base.StatusBase;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -38,8 +40,13 @@ public class User extends StatusBase {
 
     @Column(name = "gender")
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Gender") })
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Gender")})
     private Gender gender;
+
+    @Column(name = "approve_role")
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
+    private ApproveRole approveRole;
 
     @Column(name = "telephone", length = 50)
     private String telephone;
@@ -49,10 +56,6 @@ public class User extends StatusBase {
 
     @Column(name = "email", length = 50)
     private String email;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "dept_id", referencedColumnName = "id")
-//    private Department department;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ad_user_permission", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "permission_code"))
@@ -148,5 +151,13 @@ public class User extends StatusBase {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public ApproveRole getApproveRole() {
+        return approveRole;
+    }
+
+    public void setApproveRole(ApproveRole approveRole) {
+        this.approveRole = approveRole;
     }
 }

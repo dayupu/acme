@@ -1,6 +1,10 @@
 <div class="mine-layout">
     <div class="mine-layout-content">
-        <div class="mine-title"><i class="fa fa-user-o"></i>新闻发布</div>
+        <div class="mine-title"><i class="fa fa-user-o"></i>{{newsTitle}}
+            <span ng-if="pageModel=='edit'" class="mine-title-right">
+                <button class="btn btn-success btn-sm" ui-sref="news.list">返回</button>
+           </span>
+        </div>
         <div class="mine-content">
             <form class="form-horizontal" name="newsForm">
                 <input type="hidden" ng-model="news.id"/>
@@ -28,8 +32,7 @@
                         <td><input type="text" class="form-control input-sm"
                                    style=" width:400px;float: left;margin-right: 5px;" ng-model="news.source"
                                    name="source" ng-pattern="/^.{1,100}$/"/>
-                            <mine-validator valid="newsForm.source.$valid"
-                                            error="长度100字符以内"></mine-validator>
+                            <mine-validator valid="newsForm.source.$valid" error="长度100字符以内"></mine-validator>
                         </td>
                     </tr>
                     <tr>
@@ -38,11 +41,12 @@
                         </td>
                         <td>
                             <select ng-model="news.type" name="type" ng-init="news.type=''"
-                                    class="form-control input-sm" style="width:200px;">
+                                    class="form-control input-sm mine-input-abeam" style="width:200px;" required>
                                 <option value="">-- 请选择 --</option>
                                 <option ng-repeat="newsType in newsTypes" ng-value="newsType.key">{{newsType.value}}
                                 </option>
                             </select>
+                            <mine-validator valid="newsForm.type.$valid" error="必选项"></mine-validator>
                         </td>
                     </tr>
                     <tr ng-show="news.type == '10' || news.type=='17'">
@@ -50,7 +54,8 @@
                             <mine-label name="图片" required></mine-label>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm" ngf-select="imageUpload()" ng-model="file" name="file"
+                            <button class="btn btn-primary btn-sm" ngf-select="imageUpload()" ng-model="file"
+                                    name="file"
                                     ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
                                     ngf-min-height="100">上传
                             </button>
@@ -75,9 +80,10 @@
                     <tr>
                         <td></td>
                         <td>
-                            <button class="btn btn-danger btn-sm" ng-click="save();">保存</button>
+                            <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid" ng-click="save();">
+                                保存
+                            </button>
                             <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid">提交</button>
-                            <button class="btn btn-primary btn-sm">预览</button>
                         </td>
                     </tr>
                 </table>

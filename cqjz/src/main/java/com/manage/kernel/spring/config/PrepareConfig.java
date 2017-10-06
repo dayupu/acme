@@ -1,8 +1,11 @@
 package com.manage.kernel.spring.config;
 
 import com.manage.base.utils.StringUtil;
+import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
 import com.manage.kernel.spring.PropertySupplier;
+
 import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,9 +23,19 @@ public class PrepareConfig implements InitializingBean {
     @Autowired
     private PropertySupplier supplier;
 
+    @Autowired
+    private ActIdentityService actIdentityService;
+
     @Override
     public void afterPropertiesSet() throws Exception {
+        // Init project directory
         initDirs();
+        // Init activiti datas
+        initActDatas();
+    }
+
+    private void initActDatas() {
+        actIdentityService.initActGroup();
     }
 
     private void initDirs() {

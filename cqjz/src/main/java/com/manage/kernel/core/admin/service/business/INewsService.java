@@ -11,7 +11,12 @@ public interface INewsService {
 
     public NewsDto saveNews(NewsDto newsDto);
 
+    public NewsDto submitNews(NewsDto newsDto);
+
     public PageResult pageList(PageQuery page, NewsDto query);
 
     public NewsDto detail(String number);
+
+    public void drop(String number);
+
 }

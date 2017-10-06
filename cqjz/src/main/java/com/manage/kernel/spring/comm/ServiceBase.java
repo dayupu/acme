@@ -25,6 +25,9 @@ public class ServiceBase {
 
     protected User currentUser() {
         AuthUser authUser = sessionUser();
-        return new User(authUser.getId());
+        User user = new User();
+        user.setId(authUser.getId());
+        user.setAccount(authUser.getUsername());
+        return user;
     }
 }

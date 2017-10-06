@@ -20,6 +20,13 @@ function imageUrl(imageId) {
     return fullPath("resource/image/" + imageId);
 }
 
+function isEmpty(value) {
+    if (typeof value == "number") {
+        return false;
+    }
+    return !value || !value.length;
+}
+
 function today() {
     var date = new Date();
     var seperator = "-";

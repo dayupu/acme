@@ -40,6 +40,17 @@
                                 when="userForm.password.$dirty"
                                 error="长度20位以内"></mine-validator>
             </div>
+            <div class="form-group" ng-class="{false:'has-error'}[userForm.password.$valid]">
+                <mine-label class="col-sm-2" name="审批角色" required></mine-label>
+                <div class="col-sm-5">
+                    <select ng-model="user.approveRole" name="type" ng-init="user.approveRole=100"
+                            class="form-control input-sm mine-input-abeam" style="width:200px;" required>
+                        <option ng-repeat="approveRole in approveRoles" ng-value="approveRole.key">
+                            {{approveRole.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
                 <mine-label class="col-sm-2" name="性别" required></mine-label>
                 <div class="col-sm-5">

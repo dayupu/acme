@@ -44,19 +44,13 @@ public class IActivitiTestService {
         praction03();
     }
 
-
-    public static void main(String[] args) {
-
-
-    }
-
     private void praction03() {
 
         String applyUser = "张三";
 
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("applyUser", applyUser);
-        ProcessInstance pi = runtimeService.startProcessInstanceByKey("newsApprove", variables);
+            ProcessInstance pi = runtimeService.startProcessInstanceByKey("newsApprove", variables);
         System.out.println("流程实例ID：" + pi.getId());//流程实例ID
         System.out.println("流程实例ID：" + pi.getProcessInstanceId());//流程实例ID
         System.out.println("流程实例ID:" + pi.getProcessDefinitionId());//myMyHelloWorld
@@ -229,7 +223,6 @@ public class IActivitiTestService {
         identityService.saveUser(u1);
         identityService.saveUser(u2);
         identityService.saveUser(u3);
-
         identityService.createMembership(user1, group1);
         identityService.createMembership(user2, group2);
         identityService.createMembership(user3, group3);

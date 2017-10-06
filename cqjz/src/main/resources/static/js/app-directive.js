@@ -53,7 +53,7 @@ mainApp.directive("mineDate", function () {
             ngModel.$render = function () {
                 $(dateText).val(ngModel.$viewValue);
             };
-            $(element).find("span[class='input-group-addon']").click(function(){
+            $(element).find("span[class='input-group-addon']").click(function () {
                 $(dateText).trigger("focus");
             });
         },

@@ -2,6 +2,7 @@ package com.manage.kernel.core.admin.apply.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.Gender;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
@@ -39,6 +40,10 @@ public class UserDto implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAtEnd;
+
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
+    private ApproveRole approveRole;
 
     private String createdBy;
     private String updatedBy;
@@ -181,5 +186,13 @@ public class UserDto implements Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public ApproveRole getApproveRole() {
+        return approveRole;
+    }
+
+    public void setApproveRole(ApproveRole approveRole) {
+        this.approveRole = approveRole;
     }
 }

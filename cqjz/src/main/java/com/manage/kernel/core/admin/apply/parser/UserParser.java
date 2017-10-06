@@ -34,6 +34,7 @@ public class UserParser {
         userDto.setStatus(Messages.get(user.getStatus()));
         userDto.setCreatedBy(user.getCreatedUserName());
         userDto.setUpdatedBy(user.getUpdatedUserName());
+        userDto.setApproveRole(user.getApproveRole());
         return userDto;
     }
 }

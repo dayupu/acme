@@ -11,11 +11,6 @@ mainApp.service("mineHttp", function ($http, Upload) {
             alert("request error")
         });
     };
-    this.menuLocation = function (menuUrl, callback) {
-        this.send("GET", "admin/menu/location", {params: {url: menuUrl}}, function (data) {
-            callback(data.content);
-        });
-    };
     this.upload = function (url, data, callback) {
         Upload.upload({
             url: fullPath(url),
@@ -31,6 +26,12 @@ mainApp.service("mineHttp", function ($http, Upload) {
             alert("上传失败");
         });
     };
+    this.constant = function (type, callback) {
+        var url = "admin/constant/" + type;
+        this.send("GET", url, {}, function (data) {
+            callback(data)
+        });
+    }
 
 });
 mainApp.service("mineUtil", function ($uibModal) {
