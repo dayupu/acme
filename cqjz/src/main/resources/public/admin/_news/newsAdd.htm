@@ -80,10 +80,12 @@
                     <tr>
                         <td></td>
                         <td>
-                            <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid" ng-click="save();">
+                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="save()">
                                 保存
                             </button>
-                            <button class="btn btn-primary btn-sm" ng-disabled="newsForm.$invalid">提交</button>
+                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="submit()">
+                                提交
+                            </button>
                         </td>
                     </tr>
                 </table>

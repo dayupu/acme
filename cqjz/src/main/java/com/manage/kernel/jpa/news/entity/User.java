@@ -73,6 +73,11 @@ public class User extends StatusBase {
         this.id = id;
     }
 
+    public User(Long id, String account) {
+        this.id = id;
+        this.account = account;
+    }
+
     public Long getId() {
         return id;
     }

@@ -72,4 +72,13 @@ public class PageQuery {
         }
         return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
     }
+
+    public int offset() {
+        return (pageNumber - 1) * pageSize;
+    }
+
+    public int limit() {
+        return (pageNumber - 1) * pageSize + pageSize;
+    }
+
 }

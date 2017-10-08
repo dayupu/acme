@@ -86,6 +86,11 @@ mainApp.service("mineUtil", function ($uibModal) {
                 }
             }
         });
+        myModal.rendered.then(function () {//模态窗口打开之后执行的函数
+            $(".modal-dialog").draggable({
+                handle: ".modal-header"   // 只能点击头部拖动
+            });
+        });
         return myModal;
     };
 });

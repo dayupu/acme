@@ -51,7 +51,7 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         modalInstance.result.then(function () {
         }, function () {
         });
-    }
+    };
     $scope.privilege = function (role) {
         var modalInstance = mineUtil.modal("admin/_system/role/rolePrivilege.htm", "systemRolePrivilegeController", role);
         modalInstance.result.then(function () {
@@ -73,6 +73,7 @@ mainApp.controller("systemRoleAddController", function ($scope, $uibModalInstanc
         $uibModalInstance.dismiss('cancel');
     };
 });
+
 mainApp.controller("systemRoleEditController", function ($scope, $uibModalInstance, mineHttp, data) {
     mineHttp.send("GET", "admin/role/" + data.id, {}, function (result) {
         if (!verifyData(result)) {

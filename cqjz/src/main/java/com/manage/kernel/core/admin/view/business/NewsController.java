@@ -1,8 +1,5 @@
-package com.manage.kernel.core.admin.view.news;
+package com.manage.kernel.core.admin.view.business;
 
-import com.manage.base.database.enums.NewsStatus;
-import com.manage.base.database.enums.NewsType;
-import com.manage.base.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.database.enums.FileSource;
@@ -10,26 +7,20 @@ import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
-import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.utils.Validators;
 import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.apply.dto.NewsDto;
-import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.core.admin.service.business.INewsService;
 
 import com.manage.kernel.core.admin.service.comm.IResourceService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
-import com.manage.kernel.spring.comm.Messages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bert on 17-8-25.
@@ -127,7 +118,7 @@ public class NewsController {
                 Validators.notBlank(newsDto.getImageId());
             }
             NewsDto news = newsService.submitNews(newsDto);
-            response.wrapSuccess(news, MessageInfos.SAVE_SUCCESS);
+            response.wrapSuccess(news, MessageInfos.SUBMIT_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

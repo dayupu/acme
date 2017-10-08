@@ -16,16 +16,20 @@
         <property name="transactionManager" ref="transactionManagerKernel"/>
         <property name="databaseSchemaUpdate" value="false"/>
         <property name="jobExecutorActivate" value="false"/>
+        <property name="jpaEntityManagerFactory" ref="entityManagerFactoryKernel"/>
+        <property name="jpaHandleTransaction" value="true"/>
+        <property name="jpaCloseEntityManager" value="true"/>
         <property name="activityFontName" value="宋体"/>
         <property name="labelFontName" value="宋体"/>
         <!-- 载入流程图 -->
-        <property name="deploymentResources" value="classpath*:assets/bpm/*.bpmn" />
+        <property name="deploymentResources" value="classpath*:assets/bpm/*.bpmn"/>
     </bean>
 
     <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
         <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
     </bean>
 
+    <bean id="taskEntityManager" class="org.activiti.engine.impl.persistence.entity.TaskEntityManager"></bean>
     <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
     <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
     <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>

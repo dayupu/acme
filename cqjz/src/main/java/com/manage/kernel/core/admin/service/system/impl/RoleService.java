@@ -16,11 +16,12 @@ import com.manage.kernel.jpa.news.repository.MenuRepo;
 import com.manage.kernel.jpa.news.repository.PermissionRepo;
 import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.spring.comm.Messages;
-import com.manage.kernel.spring.comm.ServiceBase;
 import com.manage.base.supplier.page.PageQuery;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.Predicate;
+
+import com.manage.kernel.spring.comm.SessionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDateTime;
@@ -34,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by bert on 17-8-15.
  */
 @Service
-public class RoleService extends ServiceBase implements IRoleService {
+public class RoleService implements IRoleService {
 
     private static final Logger LOGGER = LogManager.getLogger(RoleService.class);
 
@@ -56,7 +57,7 @@ public class RoleService extends ServiceBase implements IRoleService {
         role.setDescription(roleDto.getDescription());
         role.setStatus(Status.INIT);
         role.setCreatedAt(LocalDateTime.now());
-        role.setCreatedUser(currentUser());
+        role.setCreatedUser(SessionHelper.user());
 
         roleRepo.save(role);
     }
@@ -74,7 +75,7 @@ public class RoleService extends ServiceBase implements IRoleService {
         role.setName(roleDto.getName());
         role.setDescription(roleDto.getDescription());
         role.setUpdatedAt(LocalDateTime.now());
-        role.setUpdatedUser(currentUser());
+        role.setUpdatedUser(SessionHelper.user());
         roleRepo.save(role);
     }
 

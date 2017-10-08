@@ -19,20 +19,31 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         // department
         .state("depart", {url: "/depart", templateUrl: './_system/depart/depart.htm'})
         .state("depart.list", {
-            url: "/list",
-            templateUrl: './_system/depart/departList.htm',
-            controller: "systemDepartListCtl"
+            url: "/list", templateUrl: './_system/depart/departList.htm', controller: "systemDepartListCtl"
         })
         // news
         .state("news", {url: "/news", templateUrl: './_news/news.htm'})
         .state("news.publish", {url: "/publish", templateUrl: './_news/newsAdd.htm', controller: "newsPublishCtl"})
         .state("news.edit", {url: "/edit/:number", templateUrl: './_news/newsAdd.htm', controller: "newsPublishCtl"})
         .state("news.preview", {
-            url: "/preview/:number",
-            templateUrl: './_news/preview.htm',
-            controller: "newsPreviewCtl"
+            url: "/preview/:number", templateUrl: './_news/preview.htm', controller: "newsPreviewCtl"
         })
         .state("news.list", {url: "/list", templateUrl: './_news/newsList.htm', controller: "newsListCtl"})
+        // flow
+        .state("flow", {url: "/flow", templateUrl: './_flow/flow.htm'})
+        .state("flow.approve", {
+            url: "/approve/:processId/:taskId", templateUrl: './_flow/flowApprove.htm', controller: "flowApproveCtl"
+        })
+        .state("flow.list", {url: "/list", templateUrl: './_flow/flow.htm'})
+        .state("flow.list.submit", {
+            url: "/submit", templateUrl: './_flow/flowSubmit.htm', controller: "flowSubmitListCtl"
+        })
+        .state("flow.list.pending", {
+            url: "/pending", templateUrl: './_flow/flowPending.htm', controller: "flowPendingListCtl"
+        })
+        .state("flow.list.reject", {
+            url: "/reject", templateUrl: './_flow/flowReject.htm', controller: "flowRejectListCtl"
+        })
     ;
 }
 // factorys

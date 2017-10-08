@@ -30,7 +30,8 @@
         </File>
 
         <!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-        <RollingFile name="RollingFile" fileName="logs/web.log" filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz">
+        <RollingFile name="RollingFile" fileName="logs/web.log"
+                     filePattern="logs/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz">
             <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="10MB"/>
@@ -39,7 +40,10 @@
 
     <!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
     <loggers>
-        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level = "INFO">
+     <!--   <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO">
+            <appender-ref ref="SQLConsole"/>
+        </logger>-->
+        <logger name="org.activiti.engine.impl.persistence.entity" level="DEBUG" >
             <appender-ref ref="SQLConsole"/>
         </logger>
         <!--建立一个默认的root的logger -->

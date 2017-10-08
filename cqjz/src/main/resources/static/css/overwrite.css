@@ -96,7 +96,7 @@
 }
 
 .form-horizontal .control-label {
-    text-align: left;
+    /*text-align: left;*/
     width: 100px;
 }
 
@@ -113,12 +113,16 @@
 
 /* Modal style for bootstrap3 */
 .modal {
-    top: 20%;
+    top: 0;
 }
 
+.modal-dialog{
+    top: 15%;
+}
 .modal-header {
     background-color: #597398;
     padding: 8px;
+    cursor: move;
 }
 
 .modal-footer {
@@ -138,7 +142,7 @@
 
 .modal-body {
     min-height: 50px;
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
 }
 

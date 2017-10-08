@@ -12,12 +12,6 @@ function initDatas($scope, mineHttp) {
     };
 }
 
-mainApp.controller("newsPreviewCtl", function ($scope, $state, $stateParams, mineHttp) {
-    mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
-        $scope.news = result.content;
-        $("#newsContent").html($scope.news.content);
-    });
-});
 
 mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, mineUtil) {
     $scope.news = {};
@@ -30,6 +24,9 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         $scope.pageModel = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
+            if (result.content.status != 1 || result.content.status != 4) {
+                $scope.buttonDisable = true;
+            }
         })
     }
 
@@ -43,17 +40,14 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
             $scope.setMessage("请填写新闻标题", false);
             return false;
         }
-
         if (isEmpty($scope.news.type)) {
             $scope.setMessage("请选择新闻类型", false);
             return false;
         }
-
         if (($scope.news.type == 10 || $scope.news.type == 17) && isEmpty($scope.news.imageId)) {
             $scope.setMessage("请上传图片", false);
             return false;
         }
-
         if (isEmpty($scope.news.content)) {
             $scope.setMessage("请填写新闻正文", false);
             return false;
@@ -64,12 +58,29 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         if (!$scope.validator()) {
             return;
         }
-        mineHttp.send("POST", "admin/news/submit", {data: $scope.news}, function (result) {
+        mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (result) {
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
                     $scope.news = result.content;
                 }
+            }
+        );
+    };
+    $scope.submit = function () {
+        if (!$scope.validator()) {
+            return;
+        }
+        mineHttp.send("POST", "admin/news/submit", {data: $scope.news}, function (result) {
+                $scope.messageStatus = verifyData(result);
+                $scope.message = result.message;
+                if ($scope.messageStatus) {
+                    $scope.news = result.content;
+                    if (result.content.status != 1 && result.content.status != 4) {
+                        $scope.buttonDisable = true;
+                    }
+                }
+
             }
         );
     };
@@ -145,6 +156,10 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
     $scope.preview = function (news) {
         $state.go("news.preview", {number: news.number});
     };
+
+    $scope.preview = function (news) {
+        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", news.number, "lg");
+    };
     $scope.drop = function (news) {
         mineUtil.confirm("确认删除吗？", function () {
             mineHttp.send("DELETE", "admin/news/" + news.number, {}, function (data) {
@@ -165,6 +180,16 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
 
 mainApp.controller("newsPictureCtl", function ($scope, $uibModalInstance, data) {
     $scope.imgUrl = imageUrl(data);
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("newsPreviewCtl", function ($scope, $uibModalInstance, mineHttp, data) {
+    mineHttp.send("GET", "admin/news/" + data, null, function (result) {
+        $scope.news = result.content;
+        $("#newsContent").html($scope.news.content);
+    });
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

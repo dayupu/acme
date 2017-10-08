@@ -5,6 +5,7 @@ import com.manage.kernel.jpa.news.entity.User;
 import java.io.Serializable;
 
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,4 +18,7 @@ public interface UserRepo extends CrudRepository<User, Serializable>, JpaSpecifi
 
     @Query("FROM User WHERE id in (:ids)")
     List<User> findListByIds(@Param("ids") List<Long> ids);
+
+    @Query("SELECT name FROM User WHERE account = :account")
+    String getUserNameByAccount(@Param("account") String account);
 }

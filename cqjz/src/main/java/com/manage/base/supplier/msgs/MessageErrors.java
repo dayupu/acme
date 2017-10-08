@@ -9,6 +9,7 @@ public enum MessageErrors implements CoreMsgs {
     SAVE_FAILED(20002, "Save Fail"),
     DELETE_FAILED(20003, "Delete Fail"),
     UPLOAD_FAILED(20004, "Upload Fail"),
+    ACT_NOT_SUPPORT(20005, "Not support"),
     PRIVILEGE_DENIED(20010, "privilege denied"),
     NOT_FOUND(200001, "Not found"),
     MENU_NOT_FOUND(200002, "Not found the menu"),

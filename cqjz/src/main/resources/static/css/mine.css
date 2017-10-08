@@ -121,7 +121,13 @@
 .mine-query-span {
     display: inline-block;
 }
-
+.mine-label{
+   margin-top: 2px;
+}
+.mine-subject{
+    padding: 5px;
+    font-weight: bold;
+}
 .mine-query-lable, .mine-query-button {
     width: 90px;
     text-align: right;
@@ -212,4 +218,26 @@
     color: red;
     padding-left: 5px;
     line-height: 30px;
+}
+
+.mine-table-key{
+    text-align: right;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mine-table-value{
+    text-align: left;
+    font-size: 14px;
+}
+
+.mine-approve-subject{
+    font-size: 15px;
+    font-weight: bold;
+    color: darkblue;
+}
+.mine-approve-result{
+    font-size: 15px;
+    font-weight: bold;
+    color: red;
 }

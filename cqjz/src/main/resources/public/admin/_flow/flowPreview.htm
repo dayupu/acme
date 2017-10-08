@@ -1,0 +1,66 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">流程查看</span>
+    </div>
+    <div class="modal-body">
+        <div class="mine-subject bg-primary">业务信息</div>
+        <table class="table table-condensed table-bordered table-striped">
+            <tr>
+                <td width="150" class="mine-table-key">流程号</td>
+                <td class="mine-table-value">{{flow.processId}}</td>
+            </tr>
+
+            <tr>
+                <td width="150" class="mine-table-key">主题</td>
+                <td class="mine-table-value">{{flow.subject}}</td>
+            </tr>
+            <tr>
+                <td width="150" class="mine-table-key">业务类型</td>
+                <td class="mine-table-value">{{flow.businessSource}}</td>
+            </tr>
+            <tr>
+                <td width="150" class="mine-table-key">申请人</td>
+                <td class="mine-table-value">{{flow.applyUser}}</td>
+            </tr>
+            <tr>
+                <td width="150" class="mine-table-key">申请时间</td>
+                <td class="mine-table-value">{{flow.applyTime}}</td>
+            </tr>
+        </table>
+
+        <div ng-if="approveHistories.length > 0" class="mine-subject bg-primary">审核信息</div>
+        <table class="table table-condensed table-striped">
+            <tr ng-repeat="history in approveHistories">
+                <td>
+                    <table class="table table-bordered table-condensed" style="margin-bottom: 0px;">
+                        <tr>
+                            <td width="100" class="mine-table-key warning">流程节点</td>
+                            <td width="150" colspan="5">
+                                <strong>{{history.taskName}}</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100" class="mine-table-key warning">审批人</td>
+                            <td width="150">{{history.approveUser}}</td>
+                            <td width="100" class="mine-table-key warning">审批结果</td>
+                            <td width="150" class="mine-approve-result">{{history.processMessage}}</td>
+                            <td width="100" class="mine-table-key warning">审批时间</td>
+                            <td>{{history.endTime}}</td>
+                        </tr>
+                        <tr>
+                            <td class="mine-table-key warning">批注</td>
+                            <td colspan="5">{{history.comment}}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

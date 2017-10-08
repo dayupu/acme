@@ -2,9 +2,10 @@ package com.manage.kernel.spring.config.aspect;
 
 import com.manage.base.exception.ApiExeception;
 import com.manage.base.exception.AuthorizedException;
+import com.manage.kernel.spring.comm.SessionHelper;
 import com.manage.plugins.cache.CacheManager;
 import com.manage.kernel.spring.annotation.UserPermit;
-import com.manage.kernel.spring.comm.ServiceBase;
+
 import java.util.List;
 import com.manage.kernel.spring.config.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 @Aspect
-public class UserPermitAspect extends ServiceBase {
+public class UserPermitAspect{
 
     private static final Logger LOGGER = LogManager.getLogger(UserPermitAspect.class);
 
@@ -31,7 +32,7 @@ public class UserPermitAspect extends ServiceBase {
     public void doBefore(JoinPoint point) throws ApiExeception {
 
         try {
-            AuthUser authUser =  sessionUser();
+            AuthUser authUser =  SessionHelper.authUser();
             if (authUser == null) {
                 throw new AuthorizedException();
             }

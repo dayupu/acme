@@ -1,0 +1,107 @@
+<div class="mine-layout">
+    <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-user-o"></i>业务审核
+            <span class="mine-title-right">
+                <button class="btn btn-success btn-sm" ui-sref="flow.list.pending">返回</button>
+           </span>
+        </div>
+        <div class="mine-content">
+            <div class="mine-subject bg-primary">业务信息</div>
+            <table class="table table-condensed table-bordered table-striped">
+                <tr>
+                    <td width="150" class="mine-table-key">流程号</td>
+                    <td class="mine-table-value">{{flow.processId}}</td>
+                </tr>
+
+                <tr>
+                    <td width="150" class="mine-table-key">主题</td>
+                    <td class="mine-table-value">{{flow.subject}}</td>
+                </tr>
+                <tr>
+                    <td width="150" class="mine-table-key">业务类型</td>
+                    <td class="mine-table-value">{{flow.businessSource}}</td>
+                </tr>
+                <tr>
+                    <td width="150" class="mine-table-key">业务对象</td>
+                    <td class="mine-table-value">
+                        <a href="javascript:void(0)" ng-click="preview(flow)">点击查看</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="150" class="mine-table-key">申请人</td>
+                    <td class="mine-table-value">{{flow.applyUser}}</td>
+                </tr>
+                <tr>
+                    <td width="150" class="mine-table-key">申请时间</td>
+                    <td class="mine-table-value">{{flow.applyTime}}</td>
+                </tr>
+            </table>
+            <div ng-if="flow.approveHistories.length > 0">
+                <div class="mine-subject bg-primary">审核信息</div>
+                <table class="table table-condensed table-striped">
+                    <tr ng-repeat="history in flow.approveHistories">
+                        <td>
+                            <table class="table table-bordered table-condensed" style="margin-bottom: 0px;">
+                                <tr>
+                                    <td width="100" class="mine-table-key warning">流程节点</td>
+                                    <td width="150" colspan="5">
+                                        <strong>{{history.taskName}}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="100" class="mine-table-key warning">审批人</td>
+                                    <td width="150">{{history.approveUser}}</td>
+                                    <td width="100" class="mine-table-key warning">审批结果</td>
+                                    <td width="150">{{history.processMessage}}</td>
+                                    <td width="100" class="mine-table-key warning">审批时间</td>
+                                    <td>{{history.endTime}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="mine-table-key warning">批注</td>
+                                    <td colspan="5">{{history.comment}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-if="flow.canApprove">
+                <form class="form-horizontal" name="processForm">
+                    <div class="mine-subject bg-primary">处理信息</div>
+                    <input type="hidden" ng-model="approve.taskId"/>
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td width="150" class="mine-table-key">
+                                审批意见<span class="acme-required">*</span>
+                            </td>
+                            <td class="mine-table-value">
+                                <label class="radio-inline">
+                                    <input type="radio" name="approveResult" ng-model="approve.process" value="2" required>同意
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="approveResult" ng-model="approve.process" value="3" required>拒绝
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mine-table-key">
+                                批注<span class="acme-required">*</span>
+                            </td>
+                            <td class="mine-table-value">
+                                <textarea class="form-control" name="comment" ng-model="approve.comment" rows="3" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mine-table-key"></td>
+                            <td class="mine-table-value">
+                                <button class="btn btn-primary btn-sm" ng-disabled="processForm.$invalid"
+                                        ng-click="approveSubmit()">提交
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

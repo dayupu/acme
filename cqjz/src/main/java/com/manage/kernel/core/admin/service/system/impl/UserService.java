@@ -17,7 +17,7 @@ import com.manage.kernel.jpa.news.entity.Role;
 import com.manage.kernel.jpa.news.entity.User;
 import com.manage.kernel.jpa.news.repository.RoleRepo;
 import com.manage.kernel.jpa.news.repository.UserRepo;
-import com.manage.kernel.spring.comm.ServiceBase;
+import com.manage.kernel.spring.comm.SessionHelper;
 import com.manage.kernel.spring.config.security.AuthPasswordEncoder;
 import com.manage.base.supplier.page.PageQuery;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService extends ServiceBase implements IUserService {
+public class UserService implements IUserService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
@@ -114,7 +114,7 @@ public class UserService extends ServiceBase implements IUserService {
         user.setStatus(Status.ENABLE);
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedUser(currentUser());
+        user.setCreatedUser(SessionHelper.user());
         User savedUser = userRepo.save(user);
         actIdentityService.saveActUser(savedUser);
     }
@@ -134,7 +134,7 @@ public class UserService extends ServiceBase implements IUserService {
         user.setEmail(userDto.getEmail());
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
-        user.setUpdatedUser(currentUser());
+        user.setUpdatedUser(SessionHelper.user());
         User updatedUser = userRepo.save(user);
         actIdentityService.saveActUser(updatedUser);
     }

@@ -2,8 +2,12 @@ package com.manage.base.utils;
 
 import java.security.SecureRandom;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Base32;
+import org.joda.time.LocalDateTime;
 
 import static org.apache.coyote.http11.Constants.a;
 
@@ -64,10 +68,17 @@ public class CoreUtil {
         if (obj1 == obj2) {
             return true;
         }
-        if (obj1 == null || obj2 == null) {
-            return false;
-        }
         return obj1.equals(obj2);
+    }
+
+    public static List removeDuplicate(List list) {
+        List listTemp = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            if (!listTemp.contains(list.get(i))) {
+                listTemp.add(list.get(i));
+            }
+        }
+        return listTemp;
     }
 
     public static <T> boolean notEquals(T obj1, T obj2) {
@@ -75,7 +86,14 @@ public class CoreUtil {
     }
 
 
-    public static String format(String text, String... params) {
+    public static LocalDateTime fromDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return LocalDateTime.fromDateFields(date);
+    }
+
+    public static String format(String text, Object... params) {
         return MessageFormat.format(text, params);
     }
 }

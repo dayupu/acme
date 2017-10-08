@@ -5,18 +5,13 @@ package com.manage.base.constant;
  */
 public class ActConstants {
 
-    /**
-     * 申请人
-     **/
-    public static final String APPLY_USER = "applyUser";
 
-    /**
-     * 新闻审批节点
-     **/
+    public static final String ACT_TYPE_USER_TASK = "userTask";
+    public static final String APPLY_USER = "applyUser";
+    public static final String ACT_VAR_SUBJECT = "act_var_subject";
+    public static final String ACT_VAR_ACTION = "action";
+    public static final String ACT_VAR_TAK_APPROVE = "task_approve";
     public static final String ACT_NEWS_FLOW = "act_news_approve";
-    public static final String ACT_NEWS_APPLY = "step01";
-    public static final String ACT_NEWS_APPROVE01 = "step02";
-    public static final String ACT_NEWS_APPROVE02 = "step03";
-    public static final String ACT_NEWS_APPROVE03 = "step04";
+
 
 }
