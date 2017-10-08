@@ -14,6 +14,7 @@ function initDatas($scope, mineHttp) {
 
 
 mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, mineUtil) {
+    $scope.buttonDisable = false;
     $scope.news = {};
     $scope.newsTypes = [];
     $scope.newsTitle = "新闻发布";
@@ -24,7 +25,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         $scope.pageModel = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
-            if (result.content.status != 1 || result.content.status != 4) {
+            if (result.content.status != 1 && result.content.status != 4) {
                 $scope.buttonDisable = true;
             }
         })
