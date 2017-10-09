@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.apply.dto;
 
-import com.manage.kernel.jpa.news.entity.Menu;
+import com.manage.kernel.jpa.entity.AdMenu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class MenuNav implements Serializable {
         this.level = level;
     }
 
-    public static MenuNav forMenu(Menu menu){
+    public static MenuNav forMenu(AdMenu menu){
         MenuNav menuNav = new MenuNav();
         menuNav.setId(menu.getId());
         menuNav.setName(menu.getName());

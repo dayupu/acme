@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.service.business.impl;
 import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.constant.ActConstants;
+import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
@@ -11,12 +12,18 @@ import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.ApproveDto;
 import com.manage.kernel.core.admin.apply.dto.ApproveHistory;
 import com.manage.kernel.core.admin.apply.dto.FlowDto;
+import com.manage.kernel.core.admin.apply.dto.NewsDto;
 import com.manage.kernel.core.admin.apply.dto.ProcessDetail;
+import com.manage.kernel.core.admin.apply.parser.NewsParser;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.IFlowService;
-import com.manage.kernel.jpa.news.entity.User;
-import com.manage.kernel.jpa.news.repository.UserRepo;
+import com.manage.kernel.jpa.entity.ActApproveTask;
+import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.entity.News;
+import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
+import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
+import javax.persistence.criteria.Predicate;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -26,9 +33,11 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskInfo;
 import org.activiti.engine.task.TaskQuery;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -44,9 +53,11 @@ import java.util.Map;
 @Service
 public class FlowService implements IFlowService {
 
+    @Autowired
+    private AdUserRepo userRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private ActApproveTaskRepo approveTaskRepo;
 
     @Autowired
     private TaskService taskService;
@@ -61,7 +72,7 @@ public class FlowService implements IFlowService {
     private HistoryService historyService;
 
     @Autowired
-    private IActBusinessService actProcessService;
+    private IActBusinessService businessService;
 
     @Override
     @Transactional
@@ -73,11 +84,11 @@ public class FlowService implements IFlowService {
         if (StringUtil.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActConstants.ACT_VAR_SUBJECT, "%" + query.getSubject() + "%");
         }
-        if (StringUtil.isNotNull(query.getQueryStartTime())) {
-            taskQuery.taskCreatedAfter(query.getQueryStartTime().toDate());
+        if (StringUtil.isNotNull(query.getQueryTime())) {
+            taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
         }
-        if (StringUtil.isNotNull(query.getQueryEndTime())) {
-            taskQuery.taskCreatedBefore(query.getQueryEndTime().toDate());
+        if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+            taskQuery.taskCreatedBefore(query.getQueryTimeEnd().toDate());
         }
 
         long count = taskQuery.count();
@@ -93,7 +104,7 @@ public class FlowService implements IFlowService {
             flow = new FlowDto();
             String processId = task.getProcessInstanceId();
             flow.setProcessId(processId);
-            flow.setSubject(getSubject(processId));
+            flow.setSubject(businessService.getSubject(processId));
             HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
             ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
@@ -112,11 +123,11 @@ public class FlowService implements IFlowService {
 
         HistoricProcessInstanceQuery processInstanceQuery = historyService.createHistoricProcessInstanceQuery()
                 .startedBy(account);
-        if (query.getQueryStartTime() != null) {
-            processInstanceQuery.startedAfter(query.getQueryStartTime().toDate());
+        if (query.getQueryTime() != null) {
+            processInstanceQuery.startedAfter(query.getQueryTime().toDate());
         }
-        if (query.getQueryEndTime() != null) {
-            processInstanceQuery.startedBefore(query.getQueryEndTime().toDate());
+        if (query.getQueryTimeEnd() != null) {
+            processInstanceQuery.startedBefore(query.getQueryTimeEnd().toDate());
         }
 
         long count = processInstanceQuery.count();
@@ -132,8 +143,8 @@ public class FlowService implements IFlowService {
         for (HistoricProcessInstance process : processes) {
             flow = new FlowDto();
             flow.setProcessId(process.getId());
-            flow.setProcessStartTime(CoreUtil.fromDate(process.getStartTime()));
-            flow.setProcessEndTime(CoreUtil.fromDate(process.getEndTime()));
+            flow.setProcessTime(CoreUtil.fromDate(process.getStartTime()));
+            flow.setProcessTimeEnd(CoreUtil.fromDate(process.getEndTime()));
             List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
                     .processInstanceId(process.getId()).orderByTaskCreateTime().desc().list();
             if (!CollectionUtils.isEmpty(taskInstances)) {
@@ -147,7 +158,7 @@ public class FlowService implements IFlowService {
                     flow.setTaskName(task.getName());
                 }
 
-                flow.setSubject(getSubject(process.getId()));
+                flow.setSubject(businessService.getSubject(process.getId()));
             }
 
             ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
@@ -159,18 +170,92 @@ public class FlowService implements IFlowService {
         return result;
     }
 
-    private void clear() {
-        // 删除发布信息
-        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
-        for (Deployment deployment : deployments) {
-            repositoryService.deleteDeployment(deployment.getId(), true);
-        }
-    }
+    @Override
+    @Transactional
+    public PageResult pendingTaskList(PageQuery page, FlowDto query) {
 
+        PageResult result = new PageResult();
+        List<FlowDto> flows = new ArrayList<>();
+        String account = SessionHelper.user().getAccount();
+        AdUser user = userRepo.findUserByAccount(account);
+        String groupId = user.getApproveRole().actGroupId();
+        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
+        if (StringUtil.isNotBlank(query.getSubject())) {
+            taskQuery.processVariableValueLike(ActConstants.ACT_VAR_SUBJECT, "%" + query.getSubject() + "%");
+        }
+
+        long count = taskQuery.count();
+        result.setTotal(count);
+        result.setRows(flows);
+        if (count == 0) {
+            return result;
+        }
+
+        List<Task> tasks = taskQuery.listPage(page.offset(), page.limit());
+        FlowDto flow;
+        String processId;
+        for (Task task : tasks) {
+            flow = new FlowDto();
+            processId = task.getProcessInstanceId();
+            flow.setTaskId(task.getId());
+            flow.setTaskName(task.getName());
+            flow.setProcessId(processId);
+            flow.setSubject(businessService.getSubject(processId));
+            ProcessInstance processInstance = getProcessInstance(processId);
+            if (processInstance != null) {
+                ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
+                flow.setBusinessNumber(business.getNumber());
+                flow.setBusinessSource(business.getSource());
+            }
+            HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processId);
+            if (historicProcessInstance != null) {
+                flow.setApplyUser(getUserName(historicProcessInstance.getStartUserId()));
+                flow.setApplyTime(LocalDateTime.fromDateFields(historicProcessInstance.getStartTime()));
+            }
+            flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
+            flows.add(flow);
+        }
+        return result;
+    }
 
     @Override
     @Transactional
-    public ProcessDetail approveProcess(ApproveDto approveDto) {
+    public PageResult approvedTaskList(PageQuery page, FlowDto query) {
+        Page<ActApproveTask> userPage = approveTaskRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            list.add(cb.equal(root.get("approveUser"), SessionHelper.user().getAccount()));
+            if (StringUtil.isNotBlank(query.getSubject())) {
+                list.add(cb.like(root.get("subject"), "%" + query.getSubject() + "%"));
+            }
+            return cb.and(list.toArray(new Predicate[0]));
+        }, page.sortPageDefault("id"));
+
+        PageResult<FlowDto> pageResult = new PageResult<>();
+
+        FlowDto flowDto;
+        List<FlowDto> flowDtos = new ArrayList<>();
+        for (ActApproveTask approveTask : userPage.getContent()) {
+            flowDto = new FlowDto();
+            flowDto.setTaskId(approveTask.getTaskId());
+            flowDto.setTaskName(approveTask.getTaskName());
+            flowDto.setProcessId(approveTask.getProcInstId());
+            flowDto.setSubject(approveTask.getSubject());
+            ActBusiness business = ActBusiness.fromBusinessKey(approveTask.getBusinessKey());
+            flowDto.setBusinessNumber(business.getNumber());
+            flowDto.setBusinessSource(business.getSource());
+            flowDto.setProcess(approveTask.getApproveResult());
+            flowDto.setProcessTime(approveTask.getApproveTime());
+            flowDtos.add(flowDto);
+        }
+
+        pageResult.setTotal(userPage.getTotalElements());
+        pageResult.setRows(flowDtos);
+        return pageResult;
+    }
+
+    @Override
+    @Transactional
+    public ProcessDetail approveTask(ApproveDto approveDto) {
 
         Task task = taskService.createTaskQuery().taskId(approveDto.getTaskId()).singleResult();
         if (task == null) {
@@ -181,8 +266,9 @@ public class FlowService implements IFlowService {
         ActApprove approve = new ActApprove();
         approve.setUserId(account);
         approve.setProcess(approveDto.getProcess());
+        approve.setComment(approveDto.getComment());
         taskService.setVariableLocal(task.getId(), ActConstants.ACT_VAR_TAK_APPROVE, approve);
-        taskService.addComment(task.getId(), task.getProcessInstanceId(), approveDto.getComment());
+        taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
         Map<String, Object> map = new HashMap<>();
         map.put(ActConstants.ACT_VAR_ACTION, approveDto.getProcess().action());
         taskService.complete(task.getId(), map);
@@ -193,7 +279,9 @@ public class FlowService implements IFlowService {
         if (processInstance.getEndTime() != null) {
             processEnd = true;
         }
-        actProcessService.changeStatus(actBusiness, approveDto.getProcess(), processEnd);
+
+        businessService.saveApproveTask(task, actBusiness, approve);
+        businessService.changeStatus(actBusiness, approveDto.getProcess(), processEnd);
         return processDetail(task.getProcessInstanceId(), true);
     }
 
@@ -207,7 +295,7 @@ public class FlowService implements IFlowService {
         }
         ProcessDetail detail = new ProcessDetail();
         detail.setProcessId(processId);
-        detail.setSubject(getSubject(processId));
+        detail.setSubject(businessService.getSubject(processId));
         ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
         detail.setBusinessNumber(business.getNumber());
         detail.setBusinessSource(business.getSource());
@@ -224,8 +312,7 @@ public class FlowService implements IFlowService {
         }
 
         String account = SessionHelper.user().getAccount();
-        User user = userRepo.findUserByAccount(account);
-
+        AdUser user = userRepo.findUserByAccount(account);
         Task task = taskService.createTaskQuery().processInstanceId(processId)
                 .taskCandidateGroup(user.getApproveRole().actGroupId()).singleResult();
         if (task == null) {
@@ -260,7 +347,10 @@ public class FlowService implements IFlowService {
                 builder.append(comment.getFullMessage());
             }
 
-            history.setTaskName(getTaskName(activity.getTaskId()));
+            TaskInfo task = getTaskInfo(activity.getTaskId());
+            if (task != null) {
+                history.setTaskName(task.getName());
+            }
             history.setComment(builder.toString());
             history.setApproveUser(getUserName(approve.getUserId()));
             history.setProcess(approve.getProcess());
@@ -272,63 +362,12 @@ public class FlowService implements IFlowService {
         return histories;
     }
 
-
-    @Override
-    @Transactional
-    public PageResult pendingTaskList(PageQuery page, FlowDto query) {
-
-        PageResult result = new PageResult();
-        List<FlowDto> flows = new ArrayList<>();
-        String account = SessionHelper.user().getAccount();
-        User user = userRepo.findUserByAccount(account);
-        String groupId = user.getApproveRole().actGroupId();
-        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
-        if (StringUtil.isNotBlank(query.getSubject())) {
-            taskQuery.processVariableValueLike(ActConstants.ACT_VAR_SUBJECT, "%" + query.getSubject() + "%");
-        }
-
-        long count = taskQuery.count();
-        result.setTotal(count);
-        result.setRows(flows);
-        if (count == 0) {
-            return result;
-        }
-
-        List<Task> tasks = taskQuery.listPage(page.offset(), page.limit());
-        FlowDto flow;
-        String processId;
-        for (Task task : tasks) {
-            flow = new FlowDto();
-            processId = task.getProcessInstanceId();
-            flow.setTaskId(task.getId());
-            flow.setTaskName(task.getName());
-            flow.setProcessId(processId);
-            flow.setSubject(getSubject(processId));
-            ProcessInstance processInstance = getProcessInstance(processId);
-            if (processInstance != null) {
-                ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
-                flow.setBusinessNumber(business.getNumber());
-                flow.setBusinessSource(business.getSource());
-            }
-            HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processId);
-            if (historicProcessInstance != null) {
-                flow.setApplyUser(getUserName(historicProcessInstance.getStartUserId()));
-                flow.setApplyAt(LocalDateTime.fromDateFields(historicProcessInstance.getStartTime()));
-            }
-            flow.setTaskCreatedAt(LocalDateTime.fromDateFields(task.getCreateTime()));
-            flows.add(flow);
-        }
-        return result;
-    }
-
     private HistoricProcessInstance getHistoricProcessInstance(String processInstanceId) {
-        return historyService.createHistoricProcessInstanceQuery()
-                .processInstanceId(processInstanceId).singleResult();
+        return historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     }
 
     private ProcessInstance getProcessInstance(String processInstanceId) {
-        return runtimeService.createProcessInstanceQuery()
-                .processInstanceId(processInstanceId).singleResult();
+        return runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     }
 
     private String getUserName(String account) {
@@ -338,43 +377,33 @@ public class FlowService implements IFlowService {
         return userRepo.getUserNameByAccount(account);
     }
 
-
-    private Object getProcessVariable(String processId, String variableName) {
-        HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processId).variableName(variableName).singleResult();
-        if (variable == null) {
-            return null;
-        }
-        return variable.getValue();
-    }
-
-    private String getSubject(String processId) {
-        return (String) getProcessVariable(processId, ActConstants.ACT_VAR_SUBJECT);
-    }
-
     private ActApprove getHistoricActApprove(String taskId) {
-        HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery()
-                .taskId(taskId).variableName(ActConstants.ACT_VAR_TAK_APPROVE).singleResult();
+        HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery().taskId(taskId)
+                .variableName(ActConstants.ACT_VAR_TAK_APPROVE).singleResult();
         if (variable == null) {
             return null;
         }
         return (ActApprove) variable.getValue();
     }
 
-    private String getTaskName(String taskId) {
-
-
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+    private TaskInfo getTaskInfo(String taskId) {
+        TaskInfo task = taskService.createTaskQuery().taskId(taskId).singleResult();
         if (task != null) {
-            return task.getName();
+            return task;
         }
-
-        HistoricTaskInstance historicTask = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
-        if (historicTask != null) {
-            return historicTask.getName();
+        task = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+        if (task != null) {
+            return task;
         }
-
         return null;
     }
+
+    private void clear() {
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
+        for (Deployment deployment : deployments) {
+            repositoryService.deleteDeployment(deployment.getId(), true);
+        }
+    }
+
 }
 

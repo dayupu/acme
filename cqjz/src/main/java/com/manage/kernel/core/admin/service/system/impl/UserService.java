@@ -13,10 +13,10 @@ import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.core.admin.apply.parser.UserParser;
 import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
 import com.manage.kernel.core.admin.service.system.IUserService;
-import com.manage.kernel.jpa.news.entity.Role;
-import com.manage.kernel.jpa.news.entity.User;
-import com.manage.kernel.jpa.news.repository.RoleRepo;
-import com.manage.kernel.jpa.news.repository.UserRepo;
+import com.manage.kernel.jpa.entity.AdRole;
+import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.repository.AdRoleRepo;
+import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
 import com.manage.kernel.spring.config.security.AuthPasswordEncoder;
 import com.manage.base.supplier.page.PageQuery;
@@ -39,13 +39,13 @@ public class UserService implements IUserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
     @Autowired
-    private UserRepo userRepo;
+    private AdUserRepo userRepo;
 
     @Autowired
     private AuthPasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleRepo roleRepo;
+    private AdRoleRepo roleRepo;
 
     @Autowired
     private ActIdentityService actIdentityService;
@@ -54,7 +54,7 @@ public class UserService implements IUserService {
     @Transactional
     public UserDto getUser(Long userId) {
 
-        User user = userRepo.findOne(userId);
+        AdUser user = userRepo.findOne(userId);
         if (user == null) {
             LOGGER.info("Not found the user {}", userId);
             throw new UserNotFoundException();
@@ -66,7 +66,7 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery) {
-        Page<User> userPage = userRepo.findAll((Specification<User>) (root, criteriaQuery, cb) -> {
+        Page<AdUser> userPage = userRepo.findAll((Specification<AdUser>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtil.isNotBlank(userQuery.getAccount())) {
                 list.add(cb.equal(root.get("account"), userQuery.getAccount()));
@@ -98,12 +98,12 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public void addUser(UserDto userDto) {
-        User query = userRepo.findUserByAccount(userDto.getAccount());
+        AdUser query = userRepo.findUserByAccount(userDto.getAccount());
         if (query != null) {
             LOGGER.info("The user {} is exists", userDto.getAccount());
             throw new CoreException(MessageErrors.USER_IS_EXISTS);
         }
-        User user = new User();
+        AdUser user = new AdUser();
         user.setAccount(userDto.getAccount());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setName(userDto.getName());
@@ -115,14 +115,14 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(SessionHelper.user());
-        User savedUser = userRepo.save(user);
+        AdUser savedUser = userRepo.save(user);
         actIdentityService.saveActUser(savedUser);
     }
 
     @Override
     @Transactional
     public void modifyUser(UserDto userDto) {
-        User user = userRepo.findOne(userDto.getId());
+        AdUser user = userRepo.findOne(userDto.getId());
         if (user == null) {
             LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
@@ -135,17 +135,17 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
         user.setUpdatedUser(SessionHelper.user());
-        User updatedUser = userRepo.save(user);
+        AdUser updatedUser = userRepo.save(user);
         actIdentityService.saveActUser(updatedUser);
     }
 
     @Override
     @Transactional
-    public Pair<User, List<Long>> authUserDetail(String account) {
+    public Pair<AdUser, List<Long>> authUserDetail(String account) {
 
-        User user = userRepo.findUserByAccount(account);
+        AdUser user = userRepo.findUserByAccount(account);
         List<Long> roleIds = new ArrayList<Long>();
-        for (Role role : user.getRoles()) {
+        for (AdRole role : user.getRoles()) {
             roleIds.add(role.getId());
         }
 
@@ -155,21 +155,21 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public Pair<UserDto, List<TreeNode>> userRolePair(Long userId) {
-        User user = userRepo.findOne(userId);
+        AdUser user = userRepo.findOne(userId);
         if (user == null) {
             LOGGER.info("Not found the user {}", userId);
             throw new UserNotFoundException();
         }
 
-        List<Role> roles = roleRepo.queryListAll();
+        List<AdRole> roles = roleRepo.queryListAll();
         List<TreeNode> treeNodes = new ArrayList<>();
         TreeNode treeNode;
-        for (Role role : roles) {
+        for (AdRole role : roles) {
             treeNode = new TreeNode();
             treeNode.setId(role.getId());
             treeNode.setName(role.getName());
 
-            for (Role userRole : user.getRoles()) {
+            for (AdRole userRole : user.getRoles()) {
                 if (userRole.getId().equals(role.getId())) {
                     treeNode.setChecked(true);
                 }
@@ -182,13 +182,13 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public void resetUserRole(UserDto userDto) {
-        User user = userRepo.findOne(userDto.getId());
+        AdUser user = userRepo.findOne(userDto.getId());
         if (user == null) {
             LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
         }
 
-        List<Role> userRoles = new ArrayList<>();
+        List<AdRole> userRoles = new ArrayList<>();
         if (!userDto.getRoleIds().isEmpty()) {
             userRoles = roleRepo.queryListByIds(userDto.getRoleIds());
         }
@@ -201,8 +201,8 @@ public class UserService implements IUserService {
     @Transactional
     public void modifyUserStatus(UserDto userDto) {
 
-        List<User> users = userRepo.findListByIds(userDto.getUserIds());
-        for (User user : users) {
+        List<AdUser> users = userRepo.findListByIds(userDto.getUserIds());
+        for (AdUser user : users) {
             if (userDto.isEnabled()) {
                 user.setStatus(Status.ENABLE);
             } else {

@@ -6,7 +6,7 @@ import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
 import com.manage.base.database.serialize.LocalDateTimeSerializer;
-import com.manage.base.enums.ActProcess;
+import com.manage.base.database.enums.ActProcess;
 import org.joda.time.LocalDateTime;
 
 /**

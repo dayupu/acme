@@ -2,8 +2,8 @@ package com.manage.kernel.core.admin.service.comm.impl;
 
 import com.manage.plugins.cache.CacheManager;
 import com.manage.kernel.core.admin.service.comm.IPermissionService;
-import com.manage.kernel.jpa.news.entity.Permission;
-import com.manage.kernel.jpa.news.repository.PermissionRepo;
+import com.manage.kernel.jpa.entity.AdPermission;
+import com.manage.kernel.jpa.repository.AdPermissionRepo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,23 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class PermissionService implements IPermissionService {
 
     @Autowired
-    PermissionRepo permissionRepo;
+    AdPermissionRepo permissionRepo;
 
     @Autowired
     private CacheManager cacheManager;
 
     @Override
     @Transactional
-    public void mergePermission(List<Permission> permissions) {
+    public void mergePermission(List<AdPermission> permissions) {
 
-        Iterable<Permission> existPermissions = permissionRepo.findAll();
+        Iterable<AdPermission> existPermissions = permissionRepo.findAll();
 
         Map<String, Boolean> existMap = new HashMap<String, Boolean>();
-        for (Permission permission : existPermissions) {
+        for (AdPermission permission : existPermissions) {
             existMap.put(permission.getCode(), true);
         }
 
-        for (Permission permission : permissions) {
+        for (AdPermission permission : permissions) {
             if (existMap.containsKey(permission.getCode())) {
                 continue;
             }

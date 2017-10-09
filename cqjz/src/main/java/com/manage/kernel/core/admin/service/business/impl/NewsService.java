@@ -13,9 +13,9 @@ import com.manage.kernel.core.admin.apply.dto.NewsDto;
 import com.manage.kernel.core.admin.apply.parser.NewsParser;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.INewsService;
-import com.manage.kernel.jpa.news.entity.News;
-import com.manage.kernel.jpa.news.entity.User;
-import com.manage.kernel.jpa.news.repository.NewsRepo;
+import com.manage.kernel.jpa.entity.News;
+import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,6 @@ public class NewsService implements INewsService {
 
     @Autowired
     private IActBusinessService newsActivitiService;
-
 
     @Override
     @Transactional
@@ -104,7 +103,7 @@ public class NewsService implements INewsService {
             throw new NewsNotFoundException();
         }
 
-        User user = SessionHelper.user();
+        AdUser user = SessionHelper.user();
         if (StringUtil.notEquals(news.getCreatedBy(), user.getId())) {
             throw new PrivilegeDeniedException();
         }

@@ -1,6 +1,6 @@
 package com.manage.base.act;
 
-import com.manage.base.enums.ActProcess;
+import com.manage.base.database.enums.ActProcess;
 
 import java.io.Serializable;
 
@@ -13,6 +13,7 @@ public class ActApprove implements Serializable {
 
     private String userId;
     private ActProcess process;
+    private String comment;
 
     public String getUserId() {
         return userId;
@@ -28,5 +29,13 @@ public class ActApprove implements Serializable {
 
     public void setProcess(ActProcess process) {
         this.process = process;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

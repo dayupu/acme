@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.comm;
 
-import com.manage.kernel.jpa.news.entity.User;
+import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.spring.config.security.AuthUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,9 +18,9 @@ public class SessionHelper {
         return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public static User user() {
+    public static AdUser user() {
         AuthUser authUser = authUser();
-        return new User(authUser.getId(), authUser.getUsername());
+        return new AdUser(authUser.getId(), authUser.getUsername());
     }
 
     public static HttpServletRequest request() {

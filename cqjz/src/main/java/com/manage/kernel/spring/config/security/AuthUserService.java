@@ -2,7 +2,7 @@ package com.manage.kernel.spring.config.security;
 
 import com.manage.base.supplier.Pair;
 import com.manage.kernel.core.admin.service.system.IUserService;
-import com.manage.kernel.jpa.news.entity.User;
+import com.manage.kernel.jpa.entity.AdUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,8 +20,8 @@ public class AuthUserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Pair<User, List<Long>> userPair = userService.authUserDetail(username);
-        User user = userPair.getLeft();
+        Pair<AdUser, List<Long>> userPair = userService.authUserDetail(username);
+        AdUser user = userPair.getLeft();
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

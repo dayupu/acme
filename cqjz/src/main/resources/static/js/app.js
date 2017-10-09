@@ -36,13 +36,16 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         .state("flow.list", {url: "/list", templateUrl: './_flow/flow.htm'})
         .state("flow.list.submit", {
-            url: "/submit", templateUrl: './_flow/flowSubmit.htm', controller: "flowSubmitListCtl"
+            url: "/submit", templateUrl: './_flow/flowListSubmit.htm', controller: "flowSubmitListCtl"
         })
         .state("flow.list.pending", {
-            url: "/pending", templateUrl: './_flow/flowPending.htm', controller: "flowPendingListCtl"
+            url: "/pending", templateUrl: './_flow/flowListPending.htm', controller: "flowPendingListCtl"
         })
         .state("flow.list.reject", {
-            url: "/reject", templateUrl: './_flow/flowReject.htm', controller: "flowRejectListCtl"
+            url: "/reject", templateUrl: './_flow/flowListReject.htm', controller: "flowRejectListCtl"
+        })
+        .state("flow.list.approve", {
+            url: "/approve", templateUrl: './_flow/flowListApprove.htm', controller: "flowApproveListCtl"
         })
     ;
 }

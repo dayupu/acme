@@ -3,7 +3,7 @@ package com.manage.kernel.spring.config;
 import com.manage.base.database.enums.Permit;
 import com.manage.base.database.enums.PermitType;
 import com.manage.kernel.core.admin.service.comm.IPermissionService;
-import com.manage.kernel.jpa.news.entity.Permission;
+import com.manage.kernel.jpa.entity.AdPermission;
 import com.manage.kernel.spring.annotation.UserPermit;
 import com.manage.kernel.spring.annotation.UserPermitGroup;
 import java.io.IOException;
@@ -54,8 +54,8 @@ public class PermissionConfig implements InitializingBean {
         Permit parentPermit;
         UserPermit userPermit;
         UserPermitGroup userPermitGroup;
-        Permission permission;
-        List<Permission> permissionList = new ArrayList<Permission>();
+        AdPermission permission;
+        List<AdPermission> permissionList = new ArrayList<AdPermission>();
         for (String className : classNames) {
             clazz = Class.forName(className);
             userPermitGroup = (UserPermitGroup) clazz.getAnnotation(UserPermitGroup.class);
@@ -75,7 +75,7 @@ public class PermissionConfig implements InitializingBean {
                     parentPermit = userPermit.group();
                 }
 
-                permission = new Permission();
+                permission = new AdPermission();
                 permission.setCode(parentPermit.getCode() + permit.getCode());
                 permission.setPermit(permit);
                 permission.setMessageKey(permit.messageKey());
@@ -91,16 +91,16 @@ public class PermissionConfig implements InitializingBean {
         LOGGER.info("[Permission] merge permission data success.");
     }
 
-    private void mergePermission(List<Permission> permissionList) {
-        List<Permission> permissions = new ArrayList<Permission>();
+    private void mergePermission(List<AdPermission> permissionList) {
+        List<AdPermission> permissions = new ArrayList<AdPermission>();
         Map<String, Boolean> existMap = new HashMap<String, Boolean>();
 
-        Permission permissionGroup;
+        AdPermission permissionGroup;
         for (Permit permit : Permit.values()) {
             if (permit.getType() != PermitType.GROUP) {
                 continue;
             }
-            permissionGroup = new Permission();
+            permissionGroup = new AdPermission();
             permissionGroup.setCode(permit.getCode());
             permissionGroup.setPermit(permit);
             permissionGroup.setMessageKey(permit.messageKey());
@@ -109,7 +109,7 @@ public class PermissionConfig implements InitializingBean {
             permissions.add(permissionGroup);
         }
 
-        for (Permission permission : permissionList) {
+        for (AdPermission permission : permissionList) {
             if (existMap.containsKey(permission.getCode())) {
                 continue;
             }

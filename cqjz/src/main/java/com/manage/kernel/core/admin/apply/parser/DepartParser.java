@@ -2,8 +2,7 @@ package com.manage.kernel.core.admin.apply.parser;
 
 
 import com.manage.kernel.core.admin.apply.dto.DepartDto;
-import com.manage.kernel.core.admin.apply.dto.MenuDto;
-import com.manage.kernel.jpa.news.entity.Department;
+import com.manage.kernel.jpa.entity.Department;
 
 import java.util.ArrayList;
 import java.util.List;

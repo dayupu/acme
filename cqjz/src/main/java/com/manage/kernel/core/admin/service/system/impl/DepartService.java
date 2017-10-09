@@ -9,8 +9,8 @@ import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.DepartDto;
 import com.manage.kernel.core.admin.apply.parser.DepartParser;
 import com.manage.kernel.core.admin.service.system.IDepartService;
-import com.manage.kernel.jpa.news.entity.Department;
-import com.manage.kernel.jpa.news.repository.DepartRepo;
+import com.manage.kernel.jpa.entity.Department;
+import com.manage.kernel.jpa.repository.DepartRepo;
 
 import java.util.ArrayList;
 

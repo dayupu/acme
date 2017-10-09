@@ -1,6 +1,7 @@
 package com.manage.kernel.core.admin.service.activiti.impl;
 
 import com.manage.base.database.enums.ApproveRole;
+import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.spring.comm.Messages;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -24,7 +25,7 @@ public class ActIdentityService {
 
 
     @Transactional
-    public void saveActUser(com.manage.kernel.jpa.news.entity.User user) {
+    public void saveActUser(AdUser user) {
 
         String userId = user.getAccount();
         List<User> users = identityService.createUserQuery().userId(userId).list();
@@ -46,7 +47,6 @@ public class ActIdentityService {
             }
             identityService.deleteMembership(userId, group.getId());
         }
-
         if (!existFlag) {
             identityService.createMembership(userId, user.getApproveRole().actGroupId());
         }

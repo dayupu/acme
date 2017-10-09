@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.apply.parser;
 
 import com.manage.kernel.core.admin.apply.dto.NewsDto;
-import com.manage.kernel.jpa.news.entity.News;
+import com.manage.kernel.jpa.entity.News;
 
 import java.util.ArrayList;
 import java.util.List;

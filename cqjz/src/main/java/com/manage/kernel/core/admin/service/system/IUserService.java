@@ -4,7 +4,7 @@ import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.kernel.core.admin.apply.dto.UserDto;
-import com.manage.kernel.jpa.news.entity.User;
+import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.base.supplier.page.PageQuery;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface IUserService {
 
     UserDto getUser(Long userId);
 
-    Pair<User, List<Long>> authUserDetail(String account);
+    Pair<AdUser, List<Long>> authUserDetail(String account);
 
     PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery);
 

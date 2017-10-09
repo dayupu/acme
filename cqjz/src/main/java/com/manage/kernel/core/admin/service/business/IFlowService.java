@@ -19,7 +19,9 @@ public interface IFlowService {
 
     public PageResult rejectTaskList(PageQuery page, FlowDto query);
 
-    public ProcessDetail approveProcess(ApproveDto approveDto);
+    public PageResult approvedTaskList(PageQuery page, FlowDto query);
+
+    public ProcessDetail approveTask(ApproveDto approveDto);
 
     public ProcessDetail processDetail(String processId, boolean isApprove);
 

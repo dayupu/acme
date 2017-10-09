@@ -2,8 +2,8 @@ package com.manage.kernel.core.admin.view.comm;
 
 import com.manage.base.utils.StringUtil;
 import com.manage.base.utils.WebUtil;
-import com.manage.kernel.jpa.news.entity.LoginLog;
-import com.manage.kernel.jpa.news.repository.LoginLogRepo;
+import com.manage.kernel.jpa.entity.LoginLog;
+import com.manage.kernel.jpa.repository.LoginLogRepo;
 import com.manage.kernel.spring.annotation.AuthUserAon;
 import com.manage.kernel.spring.config.security.AuthUser;
 

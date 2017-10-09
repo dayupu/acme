@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
-import com.manage.base.enums.ActProcess;
+import com.manage.base.database.enums.ActProcess;
 
 /**
  * Created by bert on 2017/10/8.

@@ -7,8 +7,8 @@ import com.manage.base.supplier.page.TreeNode;
 import com.manage.kernel.core.admin.apply.dto.MenuDto;
 import com.manage.kernel.core.admin.apply.dto.MenuNav;
 import com.manage.kernel.core.admin.service.system.IMenuService;
-import com.manage.kernel.jpa.news.entity.Menu;
-import com.manage.kernel.jpa.news.repository.MenuRepo;
+import com.manage.kernel.jpa.entity.AdMenu;
+import com.manage.kernel.jpa.repository.AdMenuRepo;
 
 import java.util.ArrayList;
 
@@ -34,21 +34,21 @@ public class MenuService implements IMenuService {
     private static final Logger LOGGER = LogManager.getLogger(MenuService.class);
 
     @Autowired
-    private MenuRepo menuRepo;
+    private AdMenuRepo menuRepo;
 
     @Override
     @Transactional
     public void addMenu(MenuDto menuDto) {
 
-        Menu menu = new Menu();
+        AdMenu menu = new AdMenu();
         menu.setName(menuDto.getName());
         menu.setUrl(menuDto.getUrl());
         if (menuDto.getParentId() == null) {
-            List<Menu> menus = menuRepo.queryListByLevel(1);
+            List<AdMenu> menus = menuRepo.queryListByLevel(1);
             menu.setLevel(1);
             menu.setSequence(menus.size() + 1);
         } else {
-            Menu parent = menuRepo.findOne(menuDto.getParentId());
+            AdMenu parent = menuRepo.findOne(menuDto.getParentId());
             if (parent == null) {
                 LOGGER.warn("Not found the order {}", menuDto.getParentId());
                 throw new MenuNotFoundException();
@@ -64,7 +64,7 @@ public class MenuService implements IMenuService {
     @Transactional
     public MenuDto updateMenu(Long id, MenuDto menuDto) {
 
-        Menu menu = menuRepo.findOne(id);
+        AdMenu menu = menuRepo.findOne(id);
         if (menu == null) {
             LOGGER.warn("Not found the menu {}", id);
             throw new MenuNotFoundException();
@@ -72,7 +72,7 @@ public class MenuService implements IMenuService {
 
         menu.setName(menuDto.getName());
         menu.setUrl(menuDto.getUrl());
-        List<Menu> brotherMenus;
+        List<AdMenu> brotherMenus;
 
         int seqNew = menuDto.getSequence();
         int seqOld = menu.getSequence();
@@ -95,7 +95,7 @@ public class MenuService implements IMenuService {
             int end = seqNew > seqOld ? seqNew : seqOld;
             int sequence = start;
             boolean isDown = true;
-            for (Menu brother : brotherMenus) {
+            for (AdMenu brother : brotherMenus) {
                 if (seqNew < seqOld && isDown) {
                     sequence++;
                     isDown = false;
@@ -119,7 +119,7 @@ public class MenuService implements IMenuService {
     @Transactional
     public MenuDto getMenu(Long id) {
 
-        Menu menu = menuRepo.findOne(id);
+        AdMenu menu = menuRepo.findOne(id);
         if (menu == null) {
             return null;
         }
@@ -146,10 +146,10 @@ public class MenuService implements IMenuService {
     @Transactional
     public List<TreeNode> menuTree() {
 
-        Iterable<Menu> menuIterables = menuRepo.queryListAll();
+        Iterable<AdMenu> menuIterables = menuRepo.queryListAll();
         List<TreeNode> treeNodes = new ArrayList<>();
         TreeNode treeNode;
-        for (Menu menu : menuIterables) {
+        for (AdMenu menu : menuIterables) {
             treeNode = new TreeNode();
             treeNode.setId(menu.getId());
             treeNode.setPid(menu.getParentId());
@@ -167,14 +167,14 @@ public class MenuService implements IMenuService {
             return menuResults;
         }
 
-        List<Menu> menuList = menuRepo.queryMenuListByRoleIds(roleIds);
+        List<AdMenu> menuList = menuRepo.queryMenuListByRoleIds(roleIds);
         MenuNav menuNav;
-        for (Menu menu : menuList) {
+        for (AdMenu menu : menuList) {
             if (menu.getLevel() != 1) {
                 continue;
             }
             menuNav = MenuNav.forMenu(menu);
-            for (Menu subMenu : menuList) {
+            for (AdMenu subMenu : menuList) {
                 if (menu.getId().equals(subMenu.getParentId())) {
                     menuNav.getSubMenus().add(MenuNav.forMenu(subMenu));
                 }
@@ -187,13 +187,13 @@ public class MenuService implements IMenuService {
     @Override
     @Transactional
     public List<MenuNav> menuLocation(String url) {
-        List<Menu> menus = menuRepo.queryListByUrl(url);
+        List<AdMenu> menus = menuRepo.queryListByUrl(url);
         if (menus.isEmpty()) {
             return new ArrayList<>();
         }
 
         List<MenuNav> menuNavs = new ArrayList<>();
-        Menu menu = menus.get(0);
+        AdMenu menu = menus.get(0);
         menuNavs.add(MenuNav.forMenu(menu));
         while (menu.getParentId() != null) {
             menu = menu.getParent();
@@ -216,7 +216,7 @@ public class MenuService implements IMenuService {
     @Override
     @Transactional
     public void deleteMenu(Long id) {
-        Menu menu = menuRepo.findOne(id);
+        AdMenu menu = menuRepo.findOne(id);
         if (menu == null) {
             LOGGER.warn("Not found the menu {}", id);
             throw new MenuNotFoundException();
@@ -228,10 +228,10 @@ public class MenuService implements IMenuService {
         }
 
         int sequence = menu.getSequence();
-        Menu pMenu = menu.getParent();
+        AdMenu pMenu = menu.getParent();
         if (pMenu != null) {
             int seqStart = sequence;
-            for (Menu subMenu : pMenu.getChildrens()) {
+            for (AdMenu subMenu : pMenu.getChildrens()) {
                 if (subMenu.getSequence() < sequence || id.equals(subMenu.getId())) {
                     continue;
                 }

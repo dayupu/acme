@@ -1,7 +1,7 @@
 package com.manage.kernel.spring.message;
 
-import com.manage.kernel.jpa.news.entity.ResourceBundle;
-import com.manage.kernel.jpa.news.repository.ResourceBundleRepo;
+import com.manage.kernel.jpa.entity.ResourceBundle;
+import com.manage.kernel.jpa.repository.ResourceBundleRepo;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.apply.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.act.ActSource;
+import com.manage.base.database.enums.ActProcess;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
@@ -17,47 +18,48 @@ public class FlowDto {
     private String taskId;
     private String processId;
     private String subject;
-
-    private String businessNumber;
-    @JsonSerialize(using = EnumSerializer.class)
-    @JsonDeserialize(using = EnumDeserializer.class)
-    private ActSource businessSource;
     private String taskName;
     private String nextTaskName;
     private String applyUser;
-
+    private String businessNumber;
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
+    private ActProcess process;
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
+    private ActSource businessSource;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime applyAt;
-
+    private LocalDateTime applyTime;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime applyAtEnd;
-
+    private LocalDateTime applyTimeEnd;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime taskCreatedAt;
-
+    private LocalDateTime processTime;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime processStartTime;
-
+    private LocalDateTime processTimeEnd;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime processEndTime;
-
+    private LocalDateTime queryTime;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime queryTimeEnd;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime receiveTime;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime rejectTime;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime queryStartTime;
+    public ActProcess getProcess() {
+        return process;
+    }
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime queryEndTime;
-
+    public void setProcess(ActProcess process) {
+        this.process = process;
+    }
 
     public String getTaskId() {
         return taskId;
@@ -115,60 +117,60 @@ public class FlowDto {
         this.applyUser = applyUser;
     }
 
-    public LocalDateTime getApplyAt() {
-        return applyAt;
+    public LocalDateTime getReceiveTime() {
+        return receiveTime;
     }
 
-    public void setApplyAt(LocalDateTime applyAt) {
-        this.applyAt = applyAt;
+    public void setReceiveTime(LocalDateTime receiveTime) {
+        this.receiveTime = receiveTime;
     }
 
-    public LocalDateTime getTaskCreatedAt() {
-        return taskCreatedAt;
+    public LocalDateTime getApplyTime() {
+        return applyTime;
     }
 
-    public void setTaskCreatedAt(LocalDateTime taskCreatedAt) {
-        this.taskCreatedAt = taskCreatedAt;
+    public void setApplyTime(LocalDateTime applyTime) {
+        this.applyTime = applyTime;
     }
 
-    public LocalDateTime getApplyAtEnd() {
-        return applyAtEnd;
+    public LocalDateTime getApplyTimeEnd() {
+        return applyTimeEnd;
     }
 
-    public void setApplyAtEnd(LocalDateTime applyAtEnd) {
-        this.applyAtEnd = applyAtEnd;
+    public void setApplyTimeEnd(LocalDateTime applyTimeEnd) {
+        this.applyTimeEnd = applyTimeEnd;
     }
 
-    public LocalDateTime getQueryStartTime() {
-        return queryStartTime;
+    public LocalDateTime getProcessTime() {
+        return processTime;
     }
 
-    public void setQueryStartTime(LocalDateTime queryStartTime) {
-        this.queryStartTime = queryStartTime;
+    public void setProcessTime(LocalDateTime processTime) {
+        this.processTime = processTime;
     }
 
-    public LocalDateTime getQueryEndTime() {
-        return queryEndTime;
+    public LocalDateTime getProcessTimeEnd() {
+        return processTimeEnd;
     }
 
-    public void setQueryEndTime(LocalDateTime queryEndTime) {
-        this.queryEndTime = queryEndTime;
+    public void setProcessTimeEnd(LocalDateTime processTimeEnd) {
+        this.processTimeEnd = processTimeEnd;
     }
 
-    public LocalDateTime getProcessStartTime() {
-        return processStartTime;
+    public LocalDateTime getQueryTime() {
+        return queryTime;
     }
 
-    public void setProcessStartTime(LocalDateTime processStartTime) {
-        this.processStartTime = processStartTime;
+    public void setQueryTime(LocalDateTime queryTime) {
+        this.queryTime = queryTime;
     }
 
-    public LocalDateTime getProcessEndTime() {
-        return processEndTime;
+    public LocalDateTime getQueryTimeEnd() {
+        return queryTimeEnd;
     }
 
-    public void setProcessEndTime(LocalDateTime processEndTime) {
-        this.processEndTime = processEndTime;
+    public void setQueryTimeEnd(LocalDateTime queryTimeEnd) {
+        this.queryTimeEnd = queryTimeEnd;
     }
 
     public String getNextTaskName() {

@@ -9,12 +9,12 @@ import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.RoleDto;
 import com.manage.kernel.core.admin.apply.parser.RoleParser;
 import com.manage.kernel.core.admin.service.system.IRoleService;
-import com.manage.kernel.jpa.news.entity.Menu;
-import com.manage.kernel.jpa.news.entity.Permission;
-import com.manage.kernel.jpa.news.entity.Role;
-import com.manage.kernel.jpa.news.repository.MenuRepo;
-import com.manage.kernel.jpa.news.repository.PermissionRepo;
-import com.manage.kernel.jpa.news.repository.RoleRepo;
+import com.manage.kernel.jpa.entity.AdMenu;
+import com.manage.kernel.jpa.entity.AdPermission;
+import com.manage.kernel.jpa.entity.AdRole;
+import com.manage.kernel.jpa.repository.AdMenuRepo;
+import com.manage.kernel.jpa.repository.AdPermissionRepo;
+import com.manage.kernel.jpa.repository.AdRoleRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.base.supplier.page.PageQuery;
 import java.util.ArrayList;
@@ -40,19 +40,19 @@ public class RoleService implements IRoleService {
     private static final Logger LOGGER = LogManager.getLogger(RoleService.class);
 
     @Autowired
-    private RoleRepo roleRepo;
+    private AdRoleRepo roleRepo;
 
     @Autowired
-    private MenuRepo menuRepo;
+    private AdMenuRepo menuRepo;
 
     @Autowired
-    private PermissionRepo permissionRepo;
+    private AdPermissionRepo permissionRepo;
 
     @Override
     @Transactional
     public void addRole(RoleDto roleDto) {
 
-        Role role = new Role();
+        AdRole role = new AdRole();
         role.setName(roleDto.getName());
         role.setDescription(roleDto.getDescription());
         role.setStatus(Status.INIT);
@@ -66,7 +66,7 @@ public class RoleService implements IRoleService {
     @Transactional
     public void modifyRole(RoleDto roleDto) {
 
-        Role role = roleRepo.findOne(roleDto.getId());
+        AdRole role = roleRepo.findOne(roleDto.getId());
         if (role == null) {
             LOGGER.info("Not found the role {}", roleDto.getId());
             throw new RoleNotFoundException();
@@ -83,7 +83,7 @@ public class RoleService implements IRoleService {
     @Transactional
     public RoleDto getRole(Long roleId) {
 
-        Role role = roleRepo.findOne(roleId);
+        AdRole role = roleRepo.findOne(roleId);
         if (role == null) {
             LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
@@ -94,7 +94,7 @@ public class RoleService implements IRoleService {
 
     @Override
     public void deleteRole(Long roleId) {
-        Role role = roleRepo.findOne(roleId);
+        AdRole role = roleRepo.findOne(roleId);
         if (role == null) {
             LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
@@ -105,7 +105,7 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional
     public PageResult<RoleDto> getRoleListByPage(PageQuery pageQuery, RoleDto roleQuery) {
-        Page<Role> rolePage = roleRepo.findAll((Specification<Role>) (root, criteriaQuery, cb) -> {
+        Page<AdRole> rolePage = roleRepo.findAll((Specification<AdRole>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtil.isNotBlank(roleQuery.getName())) {
                 list.add(cb.like(root.get("name").as(String.class), "%" + roleQuery.getName() + "%"));
@@ -123,20 +123,20 @@ public class RoleService implements IRoleService {
     @Transactional
     public Pair rolePrivilege(Long roleId) {
 
-        Role role = roleRepo.findOne(roleId);
+        AdRole role = roleRepo.findOne(roleId);
         if (role == null) {
             LOGGER.info("Not found the role {}", roleId);
             throw new RoleNotFoundException();
         }
         TreeNode treeNode;
-        List<Menu> menus = menuRepo.queryListAll();
+        List<AdMenu> menus = menuRepo.queryListAll();
         List<TreeNode> roleMenus = new ArrayList<>();
-        for (Menu menu : menus) {
+        for (AdMenu menu : menus) {
             treeNode = new TreeNode();
             treeNode.setId(menu.getId());
             treeNode.setName(menu.getName());
             treeNode.setPid(menu.getParentId());
-            for (Menu roleMenu : role.getMenus()) {
+            for (AdMenu roleMenu : role.getMenus()) {
                 if (roleMenu.getId().equals(menu.getId())) {
                     treeNode.setChecked(true);
                 }
@@ -144,14 +144,14 @@ public class RoleService implements IRoleService {
             roleMenus.add(treeNode);
         }
 
-        List<Permission> permissions = permissionRepo.queryListAll();
+        List<AdPermission> permissions = permissionRepo.queryListAll();
         List<TreeNode> rolePermits = new ArrayList<>();
-        for (Permission permit : permissions) {
+        for (AdPermission permit : permissions) {
             treeNode = new TreeNode();
             treeNode.setId(permit.getCode());
             treeNode.setName(Messages.get(permit.getMessageKey()));
             treeNode.setPid(permit.getParentCode());
-            for (Permission permission : role.getPermissions()) {
+            for (AdPermission permission : role.getPermissions()) {
                 if (permit.getCode().equals(permission.getCode())) {
                     treeNode.setChecked(true);
                 }
@@ -165,19 +165,19 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional
     public void resetPrivilege(RoleDto roleDto) {
-        Role role = roleRepo.findOne(roleDto.getId());
+        AdRole role = roleRepo.findOne(roleDto.getId());
         if (role == null) {
             LOGGER.info("Not found the role {}", roleDto.getId());
             throw new RoleNotFoundException();
         }
 
-        List<Permission> permissions = new ArrayList<>();
+        List<AdPermission> permissions = new ArrayList<>();
         if (!roleDto.getPermitCodes().isEmpty()) {
             permissions = permissionRepo.queryListByCode(roleDto.getPermitCodes());
         }
         role.setPermissions(permissions);
 
-        List<Menu> menus = new ArrayList<>();
+        List<AdMenu> menus = new ArrayList<>();
         if (!roleDto.getMenuIds().isEmpty()) {
             menus = menuRepo.queryListByIds(roleDto.getMenuIds());
         }

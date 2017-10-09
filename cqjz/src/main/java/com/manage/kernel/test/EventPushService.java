@@ -1,10 +1,7 @@
 package com.manage.kernel.test;
 
-import com.manage.kernel.jpa.news.entity.EventPush;
-import com.manage.kernel.jpa.news.repository.EventPushRepo;
-import com.manage.kernel.test.EventPushUtil;
-import static com.manage.kernel.test.EventPushUtil.sendPostRequest;
-import com.manage.kernel.test.EventResponse;
+import com.manage.kernel.jpa.entity.EventPush;
+import com.manage.kernel.jpa.repository.EventPushRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

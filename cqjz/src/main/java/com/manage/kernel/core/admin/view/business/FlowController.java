@@ -56,6 +56,15 @@ public class FlowController {
     }
 
     @InboundLog
+    @PostMapping("/list/approve")
+    public ResponseInfo pageListForApprove(@PageQueryAon PageQuery page, @RequestBody FlowDto query) {
+        ResponseInfo response = new ResponseInfo();
+        PageResult result = flowService.approvedTaskList(page, query);
+        response.wrapSuccess(result);
+        return response;
+    }
+
+    @InboundLog
     @GetMapping("/{processId}")
     public ResponseInfo processDetail(@PathVariable("processId") String processId) {
         ResponseInfo response = new ResponseInfo();
@@ -95,7 +104,7 @@ public class FlowController {
             Validators.notBlank(approveDto.getTaskId());
             Validators.notNull(approveDto.getProcess());
             Validators.notBlank(approveDto.getComment());
-            response.wrapSuccess(flowService.approveProcess(approveDto));
+            response.wrapSuccess(flowService.approveTask(approveDto));
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
