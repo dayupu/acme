@@ -9,8 +9,9 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineHttp, mi
         columnDefs: [
             {field: 'processId', width: 100, displayName: '流程号'},
             {field: 'businessSource', width: 70, displayName: '类型'},
-            {field: 'taskName', width: 150, displayName: '已完成状态'},
-            {field: 'nextTaskName', width: 150, displayName: '当前状态'},
+            {field: 'status', width: 100, displayName: '状态'},
+            {field: 'nextTaskName', width: 150, displayName: '当前流程'},
+            {field: 'taskName', width: 150, displayName: '已完成流程'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -98,8 +99,8 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineGrid, min
         requestMethod: "POST",
         requestUrl: fullPath("admin/flow/list/pending"),
         columnDefs: [
-            {field: 'processId', width: 150, displayName: '流程号'},
-            {field: 'businessSource', width: 150, displayName: '类型'},
+            {field: 'processId', width: 100, displayName: '流程号'},
+            {field: 'businessSource', width: 70, displayName: '类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -107,7 +108,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineGrid, min
             },
             {field: 'applyUser', width: 150, displayName: '申请人'},
             {field: 'applyTime', width: 150, displayName: '申请时间'},
-            {field: 'taskCreatedAt', width: 150, displayName: '流转时间'},
+            {field: 'taskCreatedAt', width: 150, displayName: '接收时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -142,8 +143,8 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         columnDefs: [
             {field: 'processId', width: 150, displayName: '流程号'},
             {field: 'taskId', width: 150, displayName: '任务号'},
-            {field: 'taskName', width: 150, displayName: '任务状态'},
             {field: 'businessSource', width: 150, displayName: '类型'},
+            {field: 'taskName', width: 150, displayName: '处理流程'},
             {
                 field: 'subject',
                 displayName: '主题',

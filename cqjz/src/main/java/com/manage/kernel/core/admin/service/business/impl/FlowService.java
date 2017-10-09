@@ -4,6 +4,7 @@ import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.enums.ActStatus;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
@@ -145,6 +146,11 @@ public class FlowService implements IFlowService {
             flow.setProcessId(process.getId());
             flow.setProcessTime(CoreUtil.fromDate(process.getStartTime()));
             flow.setProcessTimeEnd(CoreUtil.fromDate(process.getEndTime()));
+            if (process.getEndTime() == null) {
+                flow.setStatus(ActStatus.PENDING);
+            } else {
+                flow.setStatus(ActStatus.COMPLETE);
+            }
             List<HistoricTaskInstance> taskInstances = historyService.createHistoricTaskInstanceQuery()
                     .processInstanceId(process.getId()).orderByTaskCreateTime().desc().list();
             if (!CollectionUtils.isEmpty(taskInstances)) {

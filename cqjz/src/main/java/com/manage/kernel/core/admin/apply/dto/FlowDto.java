@@ -8,6 +8,7 @@ import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
 import com.manage.base.database.serialize.LocalDateTimeSerializer;
+import com.manage.base.enums.ActStatus;
 import org.joda.time.LocalDateTime;
 
 /**
@@ -25,6 +26,9 @@ public class FlowDto {
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActProcess process;
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
+    private ActStatus status;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActSource businessSource;
@@ -187,5 +191,13 @@ public class FlowDto {
 
     public void setRejectTime(LocalDateTime rejectTime) {
         this.rejectTime = rejectTime;
+    }
+
+    public ActStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ActStatus status) {
+        this.status = status;
     }
 }
