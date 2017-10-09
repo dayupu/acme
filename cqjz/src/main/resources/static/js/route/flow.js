@@ -9,8 +9,8 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineHttp, mi
         columnDefs: [
             {field: 'processId', width: 100, displayName: '流程号'},
             {field: 'businessSource', width: 70, displayName: '类型'},
-            {field: 'taskName', width: 150, displayName: '已完成流程'},
-            {field: 'nextTaskName', width: 150, displayName: '当前流程'},
+            {field: 'taskName', width: 150, displayName: '已完成状态'},
+            {field: 'nextTaskName', width: 150, displayName: '当前状态'},
             {
                 field: 'subject',
                 displayName: '主题',
