@@ -117,7 +117,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineHttp, min
             },
             {field: 'applyUser', width: 150, displayName: '申请人'},
             {field: 'applyTime', width: 150, displayName: '申请时间'},
-            {field: 'taskCreatedAt', width: 150, displayName: '接收时间'},
+            {field: 'receiveTime', width: 150, displayName: '接收时间'},
             {
                 field: 'id',
                 displayName: '操作',
