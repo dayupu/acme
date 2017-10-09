@@ -12,6 +12,7 @@ public class ActConstants {
     public static final String ACT_VAR_ACTION = "action";
     public static final String ACT_VAR_TAK_APPROVE = "task_approve";
     public static final String ACT_NEWS_FLOW = "act_news_approve";
+    public static final String ACT_VAR_NEWS_TYPE = "act_var_news_type";
 
 
 }

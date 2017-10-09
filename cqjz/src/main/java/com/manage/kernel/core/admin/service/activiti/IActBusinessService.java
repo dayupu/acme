@@ -17,4 +17,6 @@ public interface IActBusinessService {
     public void submit(ActBusiness actBusiness);
 
     public String getSubject(String processId);
+
+    public Object getProcessVariable(String processId, String variableName);
 }

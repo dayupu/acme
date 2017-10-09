@@ -12,10 +12,13 @@ public enum ActSource implements Localizable {
     private String key;
     private String messageKey;
 
-
     ActSource(String key, String messageKey) {
         this.key = key;
         this.messageKey = messageKey;
+    }
+
+    public boolean isNews() {
+        return this == NEWS;
     }
 
     public String getKey() {

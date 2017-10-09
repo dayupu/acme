@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.act.ActSource;
 import com.manage.base.database.enums.ActProcess;
+import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
@@ -25,6 +26,9 @@ public class FlowDto {
     private String businessNumber;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
+    private NewsType type;
+    @JsonSerialize(using = EnumSerializer.class)
+    @JsonDeserialize(using = EnumDeserializer.class)
     private ActProcess process;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
@@ -32,6 +36,7 @@ public class FlowDto {
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActSource businessSource;
+    private String businessType;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime applyTime;
@@ -56,6 +61,15 @@ public class FlowDto {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime rejectTime;
+
+
+    public NewsType getType() {
+        return type;
+    }
+
+    public void setType(NewsType type) {
+        this.type = type;
+    }
 
     public ActProcess getProcess() {
         return process;
@@ -199,5 +213,13 @@ public class FlowDto {
 
     public void setStatus(ActStatus status) {
         this.status = status;
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
     }
 }

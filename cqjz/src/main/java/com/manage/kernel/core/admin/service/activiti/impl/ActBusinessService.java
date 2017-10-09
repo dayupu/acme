@@ -106,9 +106,10 @@ public class ActBusinessService implements IActBusinessService {
         if (process == null) {
             // 指定流程发起人
             identityService.setAuthenticatedUserId(applyUser);
-            Map<String, Object> variables = new HashMap<String, Object>();
+            Map<String, Object> variables = new HashMap<>();
             variables.put(ActConstants.APPLY_USER, applyUser);
             variables.put(ActConstants.ACT_VAR_SUBJECT, news.getTitle());
+            variables.put(ActConstants.ACT_VAR_NEWS_TYPE, news.getType().getConstant());
             process = runtimeService
                     .startProcessInstanceByKey(ActConstants.ACT_NEWS_FLOW, actBusiness.businessKey(), variables);
             Task task = getRunningTask(applyUser, process.getProcessInstanceId());
@@ -124,6 +125,7 @@ public class ActBusinessService implements IActBusinessService {
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put(ActConstants.ACT_VAR_ACTION, ActProcess.APPLY.action());
             variables.put(ActConstants.ACT_VAR_SUBJECT, news.getTitle());
+            variables.put(ActConstants.ACT_VAR_NEWS_TYPE, news.getType().getConstant());
 
             ActApprove approve = new ActApprove();
             approve.setUserId(applyUser);
@@ -156,7 +158,8 @@ public class ActBusinessService implements IActBusinessService {
         actApproveTaskRepo.save(approveTask);
     }
 
-    private Object getProcessVariable(String processId, String variableName) {
+    @Override
+    public Object getProcessVariable(String processId, String variableName) {
         HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery()
                 .processInstanceId(processId).variableName(variableName).singleResult();
         if (variable == null) {

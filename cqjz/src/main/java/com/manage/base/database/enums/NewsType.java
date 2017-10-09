@@ -2,6 +2,7 @@ package com.manage.base.database.enums;
 
 import com.manage.base.database.model.DBEnum;
 import com.manage.base.database.model.Localizable;
+import com.manage.kernel.spring.comm.Messages;
 
 /**
  * Created by bert on 2017/9/3.
@@ -28,6 +29,17 @@ public enum NewsType implements DBEnum, Localizable {
         this.hasImage = hasImage;
     }
 
+    public static String getTypeName(Integer constant) {
+        if (constant != null) {
+            for (NewsType type : NewsType.values()) {
+                if (type.getConstant() == constant.intValue()) {
+                    return type.message();
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public Integer getConstant() {
         return constant;
@@ -36,6 +48,10 @@ public enum NewsType implements DBEnum, Localizable {
     @Override
     public String messageKey() {
         return messageKey;
+    }
+
+    private String message() {
+        return Messages.get(messageKey);
     }
 
     public boolean hasImage() {

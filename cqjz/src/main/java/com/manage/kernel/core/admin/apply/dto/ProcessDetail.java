@@ -22,6 +22,7 @@ public class ProcessDetail {
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActSource businessSource;
+    private String businessType;
     private String applyUser;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -91,5 +92,13 @@ public class ProcessDetail {
 
     public void setCanApprove(boolean canApprove) {
         this.canApprove = canApprove;
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
     }
 }
