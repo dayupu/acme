@@ -176,8 +176,9 @@ mainApp.service("mineTree", function (mineHttp) {
             }
             if (v.length > 0 ) v = v.substring(0, v.length-1);
             if (vid.length > 0 ) vid = vid.substring(0, vid.length-1);
-            $(obj).attr("value", v);
-            $(objHiddenId).attr("value", vid);
+            $(obj).val(v);
+            $("#"+objHiddenId).val(vid);
+            $("#"+objHiddenId).trigger("change");
         }
         var setting = {view: {dblClickExpand: false},
                        callback: {onClick: onClick}};
@@ -205,8 +206,9 @@ mainApp.service("mineTree", function (mineHttp) {
               showMenu();
         });
         $("#"+treeContent).find("a[class='mine-dropdown-clear']").click(function(){
-           $(obj).attr("value","");
-           $("#"+objHiddenId).attr("value","");
+           $(obj).val("");
+           $("#"+objHiddenId).val("");
+           $("#"+objHiddenId).trigger("change");
         });
     }
 });

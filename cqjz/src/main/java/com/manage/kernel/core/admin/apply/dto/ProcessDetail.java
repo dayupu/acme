@@ -18,6 +18,7 @@ public class ProcessDetail {
 
     private String processId;
     private String subject;
+    private String processType;
     private String businessNumber;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
@@ -100,5 +101,13 @@ public class ProcessDetail {
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
+    }
+
+    public String getProcessType() {
+        return processType;
+    }
+
+    public void setProcessType(String processType) {
+        this.processType = processType;
     }
 }

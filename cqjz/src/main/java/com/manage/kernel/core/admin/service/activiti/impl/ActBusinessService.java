@@ -109,7 +109,7 @@ public class ActBusinessService implements IActBusinessService {
             Map<String, Object> variables = new HashMap<>();
             variables.put(ActConstants.PROCESS_APPLY_USER, applyUser);
             variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
-            variables.put(ActConstants.PROCESS_TYPE, news.getType().getConstant());
+            variables.put(ActConstants.PROCESS_TYPE, actBusiness.getSource().genProcessType(news.getType()));
             process = runtimeService
                     .startProcessInstanceByKey(ActConstants.FLOW_NEWS, actBusiness.businessKey(), variables);
             Task task = getRunningTask(applyUser, process.getProcessInstanceId());
@@ -125,7 +125,7 @@ public class ActBusinessService implements IActBusinessService {
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put(ActConstants.TEMP_ACTION, ActProcess.APPLY.action());
             variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
-            variables.put(ActConstants.PROCESS_TYPE, news.getType().getConstant());
+            variables.put(ActConstants.PROCESS_TYPE, actBusiness.getSource().genProcessType(news.getType()));
 
             ActApprove approve = new ActApprove();
             approve.setUserId(applyUser);

@@ -4,7 +4,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
         $scope.newsTypes = data.content;
     });
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#actType"),data)
+        mineTree.dropDown($("#processType"),data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -15,8 +15,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
         columnDefs: [
             {field: 'processId', width: 80, displayName: '流程号'},
             {field: 'status', width: 70, displayName: '状态'},
-            {field: 'businessSource', width: 70, displayName: '来源'},
-            {field: 'businessType', width: 100, displayName: '类型'},
+            {field: 'processType', width: 150, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -59,8 +58,7 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         requestUrl: fullPath("admin/flow/list/reject"),
         columnDefs: [
             {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'businessSource', width: 70, displayName: '来源'},
-            {field: 'businessType', width: 100, displayName: '类型'},
+            {field: 'processType', width: 150, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -111,8 +109,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineHttp, min
         requestUrl: fullPath("admin/flow/list/pending"),
         columnDefs: [
             {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'businessSource', width: 70, displayName: '来源'},
-            {field: 'businessType', width: 100, displayName: '类型'},
+            {field: 'processType', width: 150, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -155,8 +152,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         columnDefs: [
             {field: 'processId', width: 80, displayName: '流程号'},
             {field: 'taskId', width: 80, displayName: '任务号'},
-            {field: 'businessSource', width: 70, displayName: '来源'},
-            {field: 'businessType', width: 100, displayName: '类型'},
+            {field: 'processType', width: 150, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',

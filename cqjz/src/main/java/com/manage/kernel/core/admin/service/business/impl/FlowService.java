@@ -2,6 +2,7 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
+import com.manage.base.act.ActSource;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.enums.ActStatus;
@@ -109,7 +110,7 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            setBusinessType(flow, processId, business);
+            flow.setProcessType(getProcessTypeName(processId));
             flow.setRejectTime(CoreUtil.fromDate(task.getCreateTime()));
             flows.add(flow);
         }
@@ -130,8 +131,8 @@ public class FlowService implements IFlowService {
         if (query.getQueryTimeEnd() != null) {
             processQuery.startedBefore(query.getQueryTimeEnd().toDate());
         }
-        if (query.getType() != null) {
-            processQuery.variableValueEquals(ActConstants.PROCESS_TYPE, query.getType().getConstant());
+        if (StringUtil.isNotBlank(query.getProcessType())) {
+            processQuery.variableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
         }
 
         long count = processQuery.count();
@@ -172,7 +173,7 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            setBusinessType(flow, process.getId(), business);
+            flow.setProcessType(getProcessTypeName(process.getId()));
             flows.add(flow);
         }
         return result;
@@ -191,8 +192,8 @@ public class FlowService implements IFlowService {
         if (StringUtil.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
         }
-        if (query.getType() != null) {
-            taskQuery.processVariableValueEquals(ActConstants.PROCESS_TYPE, query.getType().getConstant());
+        if (StringUtil.isNotBlank(query.getProcessType())) {
+            taskQuery.processVariableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
         }
 
         long count = taskQuery.count();
@@ -219,7 +220,7 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            setBusinessType(flow, processId, business);
+            flow.setProcessType(getProcessTypeName(processId));
             flow.setApplyUser(getUserName(processInstance.getStartUserId()));
             flow.setApplyTime(LocalDateTime.fromDateFields(processInstance.getStartTime()));
             flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
@@ -253,7 +254,7 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(approveTask.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            setBusinessType(flow, approveTask.getProcInstId(), business);
+            flow.setProcessType(getProcessTypeName(approveTask.getProcInstId()));
             flow.setProcess(approveTask.getApproveResult());
             flow.setProcessTime(approveTask.getApproveTime());
             flowDtos.add(flow);
@@ -310,8 +311,7 @@ public class FlowService implements IFlowService {
         ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
         detail.setBusinessNumber(business.getNumber());
         detail.setBusinessSource(business.getSource());
-        detail.setBusinessType(getProcessNewsType(processId));
-
+        detail.setProcessType(getProcessTypeName(processId));
         HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processId);
         if (historicProcessInstance != null) {
             detail.setApplyUser(getUserName(historicProcessInstance.getStartUserId()));
@@ -378,10 +378,6 @@ public class FlowService implements IFlowService {
         return historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     }
 
-    private ProcessInstance getProcessInstance(String processInstanceId) {
-        return runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-    }
-
     private String getUserName(String account) {
         if (account == null) {
             return null;
@@ -410,15 +406,9 @@ public class FlowService implements IFlowService {
         return null;
     }
 
-    private void setBusinessType(FlowDto flow, String processId, ActBusiness business) {
-        if (business.getSource().isNews()) {
-            flow.setBusinessType(getProcessNewsType(processId));
-        }
-    }
-
-    private String getProcessNewsType(String processId) {
-        Integer constant = (Integer) businessService.getProcessVariable(processId, ActConstants.PROCESS_TYPE);
-        return NewsType.getTypeName(constant);
+    private String getProcessTypeName(String processId) {
+        String processType = (String)businessService.getProcessVariable(processId, ActConstants.PROCESS_TYPE);
+        return ActSource.processTypeName(processType);
     }
 
     private void clear() {

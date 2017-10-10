@@ -24,9 +24,7 @@ public class FlowDto {
     private String nextTaskName;
     private String applyUser;
     private String businessNumber;
-    @JsonSerialize(using = EnumSerializer.class)
-    @JsonDeserialize(using = EnumDeserializer.class)
-    private NewsType type;
+    private String processType;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActProcess process;
@@ -62,13 +60,12 @@ public class FlowDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime rejectTime;
 
-
-    public NewsType getType() {
-        return type;
+    public String getProcessType() {
+        return processType;
     }
 
-    public void setType(NewsType type) {
-        this.type = type;
+    public void setProcessType(String processType) {
+        this.processType = processType;
     }
 
     public ActProcess getProcess() {
