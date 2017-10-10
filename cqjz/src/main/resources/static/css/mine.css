@@ -241,3 +241,21 @@
     font-weight: bold;
     color: red;
 }
+.mine-dropdown{
+   margin-top:0;
+   width:180px;
+   height: 200px;
+   border:1px solid gray;
+   overflow-y:auto;
+   background-color:white;
+   z-index:39999
+}
+.mine-dropdown > div{
+  text-align:right;
+  background-color:#edeef2;
+}
+.mine-dropdown > div > a{
+  font-size:13px;
+  text-decoration:none;
+  margin-right:10px;
+}

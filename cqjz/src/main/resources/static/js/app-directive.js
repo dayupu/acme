@@ -60,6 +60,38 @@ mainApp.directive("mineDate", function () {
         replace: true
     }
 });
+mainApp.directive("mineDropdown", function (mineTree) {
+    return {
+        restrict: 'E',
+        require: 'ngModel',
+        scope: {
+            inputId: "@"
+         },
+        template: "<div class='input-group'>"
+                   +"<input type='text' class='form-control input-sm' style='width: 152px;' readonly/>"
+                   +"<input type='hidden'/>"
+                   +"<div class='input-group-btn'>"
+                       +"<button type='button' class='btn btn-default btn-sm'data-toggle='dropdown'>"
+                           +"<span class='caret'></span>"
+                       +"</button>"
+                   +"</div>"
+                   +"</div>",
+        link: function (scope, element, attrs, ngModel) {
+             var inputText = $(element).children("input[type='text']");
+             var hiddenText = $(element).children("input[type='hidden']");
+             var dropBtn = $(element).find("button[type='button']");
+             $(inputText).attr("id",$(element).attr("inputId"));
+             $(hiddenText).attr("id",$(element).attr("inputId")+"_hidden");
+             $(hiddenText).change(function () {
+                 ngModel.$setViewValue($(this).val());
+             });
+             $(dropBtn).click(function(){
+                $(inputText).trigger("focus");
+             });
+        },
+        replace: true
+    }
+});
 mainApp.directive("mineUmeditor", function ($rootScope) {
     return {
         restrict: 'EA',

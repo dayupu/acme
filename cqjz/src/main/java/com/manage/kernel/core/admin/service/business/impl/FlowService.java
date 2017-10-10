@@ -82,7 +82,7 @@ public class FlowService implements IFlowService {
         String account = SessionHelper.user().getAccount();
         TaskQuery taskQuery = taskService.createTaskQuery().taskAssignee(account).active();
         if (StringUtil.isNotBlank(query.getSubject())) {
-            taskQuery.processVariableValueLike(ActConstants.ACT_VAR_SUBJECT, "%" + query.getSubject() + "%");
+            taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
         }
         if (StringUtil.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
@@ -131,7 +131,7 @@ public class FlowService implements IFlowService {
             processQuery.startedBefore(query.getQueryTimeEnd().toDate());
         }
         if (query.getType() != null) {
-            processQuery.variableValueEquals(ActConstants.ACT_VAR_NEWS_TYPE, query.getType().getConstant());
+            processQuery.variableValueEquals(ActConstants.PROCESS_TYPE, query.getType().getConstant());
         }
 
         long count = processQuery.count();
@@ -189,10 +189,10 @@ public class FlowService implements IFlowService {
         String groupId = user.getApproveRole().actGroupId();
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
         if (StringUtil.isNotBlank(query.getSubject())) {
-            taskQuery.processVariableValueLike(ActConstants.ACT_VAR_SUBJECT, "%" + query.getSubject() + "%");
+            taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
         }
         if (query.getType() != null) {
-            taskQuery.processVariableValueEquals(ActConstants.ACT_VAR_NEWS_TYPE, query.getType().getConstant());
+            taskQuery.processVariableValueEquals(ActConstants.PROCESS_TYPE, query.getType().getConstant());
         }
 
         long count = taskQuery.count();
@@ -278,10 +278,10 @@ public class FlowService implements IFlowService {
         approve.setUserId(account);
         approve.setProcess(approveDto.getProcess());
         approve.setComment(approveDto.getComment());
-        taskService.setVariableLocal(task.getId(), ActConstants.ACT_VAR_TAK_APPROVE, approve);
+        taskService.setVariableLocal(task.getId(), ActConstants.TASK_APPROVE, approve);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
         Map<String, Object> map = new HashMap<>();
-        map.put(ActConstants.ACT_VAR_ACTION, approveDto.getProcess().action());
+        map.put(ActConstants.TEMP_ACTION, approveDto.getProcess().action());
         taskService.complete(task.getId(), map);
 
         HistoricProcessInstance processInstance = getHistoricProcessInstance(task.getProcessInstanceId());
@@ -338,7 +338,7 @@ public class FlowService implements IFlowService {
     private List<ApproveHistory> approveHistory(String processId) {
 
         List<HistoricActivityInstance> activityInstances = historyService.createHistoricActivityInstanceQuery()
-                .activityType(ActConstants.ACT_TYPE_USER_TASK).processInstanceId(processId)
+                .activityType(ActConstants.NODE_USER_TASK).processInstanceId(processId)
                 .orderByHistoricActivityInstanceStartTime().asc().list();
         List<ApproveHistory> histories = new ArrayList<>();
         ApproveHistory history;
@@ -391,7 +391,7 @@ public class FlowService implements IFlowService {
 
     private ActApprove getHistoricActApprove(String taskId) {
         HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery().taskId(taskId)
-                .variableName(ActConstants.ACT_VAR_TAK_APPROVE).singleResult();
+                .variableName(ActConstants.TASK_APPROVE).singleResult();
         if (variable == null) {
             return null;
         }
@@ -417,7 +417,7 @@ public class FlowService implements IFlowService {
     }
 
     private String getProcessNewsType(String processId) {
-        Integer constant = (Integer) businessService.getProcessVariable(processId, ActConstants.ACT_VAR_NEWS_TYPE);
+        Integer constant = (Integer) businessService.getProcessVariable(processId, ActConstants.PROCESS_TYPE);
         return NewsType.getTypeName(constant);
     }
 

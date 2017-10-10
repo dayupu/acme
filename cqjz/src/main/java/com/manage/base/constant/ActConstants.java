@@ -6,13 +6,19 @@ package com.manage.base.constant;
 public class ActConstants {
 
 
-    public static final String ACT_TYPE_USER_TASK = "userTask";
-    public static final String APPLY_USER = "applyUser";
-    public static final String ACT_VAR_SUBJECT = "act_var_subject";
-    public static final String ACT_VAR_ACTION = "action";
-    public static final String ACT_VAR_TAK_APPROVE = "task_approve";
-    public static final String ACT_NEWS_FLOW = "act_news_approve";
-    public static final String ACT_VAR_NEWS_TYPE = "act_var_news_type";
+    // 流程节点
+    public static final String NODE_USER_TASK = "userTask";
+    // 流程模板ID
+    public static final String FLOW_NEWS = "act_news_approve";
+    // 临时变量
+    public static final String TEMP_ACTION = "action";
+    // 流程变量
+    public static final String PROCESS_APPLY_USER = "applyUser";//发布人
+    public static final String PROCESS_SUBJECT = "PROCESS_subject";//主题
+    public static final String PROCESS_TYPE = "PROCESS_type";//类型
+    // 任务变量
+    public static final String TASK_APPROVE = "TASK_approve";
+
 
 
 }

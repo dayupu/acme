@@ -107,11 +107,11 @@ public class ActBusinessService implements IActBusinessService {
             // 指定流程发起人
             identityService.setAuthenticatedUserId(applyUser);
             Map<String, Object> variables = new HashMap<>();
-            variables.put(ActConstants.APPLY_USER, applyUser);
-            variables.put(ActConstants.ACT_VAR_SUBJECT, news.getTitle());
-            variables.put(ActConstants.ACT_VAR_NEWS_TYPE, news.getType().getConstant());
+            variables.put(ActConstants.PROCESS_APPLY_USER, applyUser);
+            variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
+            variables.put(ActConstants.PROCESS_TYPE, news.getType().getConstant());
             process = runtimeService
-                    .startProcessInstanceByKey(ActConstants.ACT_NEWS_FLOW, actBusiness.businessKey(), variables);
+                    .startProcessInstanceByKey(ActConstants.FLOW_NEWS, actBusiness.businessKey(), variables);
             Task task = getRunningTask(applyUser, process.getProcessInstanceId());
             if (task == null) {
                 throw new ActTaskNotFoundException();
@@ -123,15 +123,15 @@ public class ActBusinessService implements IActBusinessService {
                 throw new ActTaskNotFoundException();
             }
             Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put(ActConstants.ACT_VAR_ACTION, ActProcess.APPLY.action());
-            variables.put(ActConstants.ACT_VAR_SUBJECT, news.getTitle());
-            variables.put(ActConstants.ACT_VAR_NEWS_TYPE, news.getType().getConstant());
+            variables.put(ActConstants.TEMP_ACTION, ActProcess.APPLY.action());
+            variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
+            variables.put(ActConstants.PROCESS_TYPE, news.getType().getConstant());
 
             ActApprove approve = new ActApprove();
             approve.setUserId(applyUser);
             approve.setProcess(ActProcess.APPLY);
             approve.setComment("重新申请");
-            taskService.setVariableLocal(task.getId(), ActConstants.ACT_VAR_TAK_APPROVE, approve);
+            taskService.setVariableLocal(task.getId(), ActConstants.TASK_APPROVE, approve);
             taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
             taskService.complete(task.getId(), variables);
             saveApproveTask(task, actBusiness, approve);
@@ -140,7 +140,7 @@ public class ActBusinessService implements IActBusinessService {
 
     @Override
     public String getSubject(String processId) {
-        return (String) getProcessVariable(processId, ActConstants.ACT_VAR_SUBJECT);
+        return (String) getProcessVariable(processId, ActConstants.PROCESS_SUBJECT);
     }
 
     @Override

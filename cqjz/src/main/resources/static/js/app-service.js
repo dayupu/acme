@@ -113,7 +113,7 @@ mainApp.controller("alertController", function ($scope, $uibModalInstance, data)
         $uibModalInstance.dismiss('cancel');
     }
 });
-mainApp.service("mineTree", function () {
+mainApp.service("mineTree", function (mineHttp) {
     var defaultSetting = {
         data: {
             simpleData: {
@@ -151,6 +151,63 @@ mainApp.service("mineTree", function () {
             $.extend(setting, options);
         }
         return $.fn.zTree.init(obj, setting, nodes);
+    };
+
+    this.dropDown = function(obj, nodes, options){
+        var objId = $(obj).attr("id");
+        var objHiddenId = objId+"_hidden";
+        var treeContent = objId+"_treeContent";
+        var treeDemo = objId+"_treeDemo";
+        if(!$("#"+treeContent)[0]){
+           var html = "<div id='"+treeContent+"' class='mine-dropdown' style='display:none; position: absolute;'>"
+                      +"<div><a class='mine-dropdown-clear' href='javascript:void(0);'>清除</a></div>"
+                      +"<ul id='"+treeDemo+"' class='ztree'></ul></div>";
+           $("body").append(html);
+        }
+        var onClick = function(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj(treeDemo),
+            nodes = zTree.getSelectedNodes(),
+            v = "";
+            vid = "";
+            nodes.sort(function compare(a,b){return a.id-b.id;});
+            for (var i=0, l=nodes.length; i<l; i++) {
+                v += nodes[i].name + ",";
+                vid += nodes[i].id + ",";
+            }
+            if (v.length > 0 ) v = v.substring(0, v.length-1);
+            if (vid.length > 0 ) vid = vid.substring(0, vid.length-1);
+            $(obj).attr("value", v);
+            $(objHiddenId).attr("value", vid);
+        }
+        var setting = {view: {dblClickExpand: false},
+                       callback: {onClick: onClick}};
+        $.extend(setting, defaultSetting);
+        if (typeof options != "undefined") {
+            $.extend(setting, options);
+        }
+        $.fn.zTree.init($("#"+treeDemo), setting, nodes);
+        var onBodyDown = function(event) {
+            if (!(event.target.id == objId || event.target.id == treeContent || $(event.target).parents("#"+treeContent).length>0)) {
+                hideMenu();
+            }
+        }
+        var showMenu = function() {
+            var cityObj = $(obj);
+            var cityOffset = $(obj).offset();
+            $("#"+treeContent).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+            $("body").bind("mousedown", onBodyDown);
+        }
+        var hideMenu = function() {
+            $("#"+treeContent).fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+        $(obj).focus(function(){
+              showMenu();
+        });
+        $("#"+treeContent).find("a[class='mine-dropdown-clear']").click(function(){
+           $(obj).attr("value","");
+           $("#"+objHiddenId).attr("value","");
+        });
     }
 });
 mainApp.service("mineGrid", function ($http, $parse) {

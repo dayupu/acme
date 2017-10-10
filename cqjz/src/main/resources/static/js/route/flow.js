@@ -1,7 +1,10 @@
 // 已提交一览
-mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineHttp, mineUtil) {
+mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, mineHttp, mineUtil) {
     mineHttp.constant("newsType", function (data) {
         $scope.newsTypes = data.content;
+    });
+    mineHttp.constant("actType", function (data) {
+        mineTree.dropDown($("#actType"),data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
