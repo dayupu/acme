@@ -36,6 +36,17 @@ mainApp.directive("mineLabel", function () {
         replace: true
     }
 });
+mainApp.directive("mineKey", function () {
+    return {
+        restrict: 'E',
+        scope: {
+            name: "@",
+            required: "@"
+        },
+        template: "<div class='mine-win-key'><span ng-if='required == \"\"' class='mine-win-required'>*</span>&nbsp;{{name}}</div>",
+        replace: true
+    }
+});
 mainApp.directive("mineDate", function () {
     return {
         restrict: 'E',

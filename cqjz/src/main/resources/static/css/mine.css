@@ -121,13 +121,16 @@
 .mine-query-span {
     display: inline-block;
 }
-.mine-label{
-   margin-top: 2px;
+
+.mine-label {
+    margin-top: 2px;
 }
-.mine-subject{
+
+.mine-subject {
     padding: 5px;
     font-weight: bold;
 }
+
 .mine-query-lable, .mine-query-button {
     width: 90px;
     text-align: right;
@@ -220,42 +223,62 @@
     line-height: 30px;
 }
 
-.mine-table-key{
+.mine-table-key {
     text-align: right;
     font-weight: bold;
     font-size: 14px;
 }
 
-.mine-table-value{
+.mine-table-value {
     text-align: left;
     font-size: 14px;
 }
 
-.mine-approve-subject{
+.mine-approve-subject {
     font-size: 15px;
     font-weight: bold;
     color: darkblue;
 }
-.mine-approve-result{
+
+.mine-approve-result {
     font-size: 15px;
     font-weight: bold;
     color: red;
 }
-.mine-dropdown{
-   margin-top:0;
-   width:180px;
-   height: 200px;
-   border:1px solid gray;
-   overflow-y:auto;
-   background-color:white;
-   z-index:39999
+
+.mine-dropdown {
+    margin-top: 0;
+    width: 180px;
+    height: 200px;
+    border: 1px solid gray;
+    overflow-y: auto;
+    background-color: white;
+    z-index: 39999
 }
-.mine-dropdown > div{
-  text-align:right;
-  background-color:#edeef2;
+
+.mine-dropdown > div {
+    text-align: right;
+    background-color: #edeef2;
 }
-.mine-dropdown > div > a{
-  font-size:13px;
-  text-decoration:none;
-  margin-right:10px;
+
+.mine-dropdown > div > a {
+    font-size: 13px;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.mine-win-key {
+    text-align: right;
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.mine-win-value {
+    display: block;
+    padding-top: 5px;
+}
+
+.mine-win-required {
+    color: red;
 }

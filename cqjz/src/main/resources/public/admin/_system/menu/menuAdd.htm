@@ -15,27 +15,37 @@
                  ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                 {{message}}
             </div>
-            <div class="form-group" ng-if="menu.parentId != null">
-                <mine-label class="col-sm-2" name="上级菜单"></mine-label>
-                <div class="col-sm-5">
-                    <span class="mine-label">{{menu.parentName}}</span>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[menuForm.name.$valid]">
-                <mine-label class="col-sm-2" name="菜单名称" required></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
-                           ng-pattern="/^.{1,20}$/" required/>
-                </div>
-                <mine-validator class="mine-validator" right="true" valid="menuForm.name.$valid"
-                                when="menuForm.name.$dirty" error="长度1-20位以内"></mine-validator>
-            </div>
-            <div class="form-group">
-                <mine-label class="col-sm-2" name="菜单地址"></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="menu.url" name="url">
-                </div>
-            </div>
+            <table class="table table-condensed table-bordered">
+                <tr ng-if="menu.parentId != null">
+                    <td class="warning" width="100">
+                        <mine-key name="上级菜单"></mine-key>
+                    </td>
+                    <td width="250">
+                        <span class="mine-win-value">{{menu.parentName}}</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="菜单名称" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="menu.name" name="name"
+                               ng-pattern="/^.{1,20}$/" required/>
+                    </td>
+                    <td>
+                        <mine-validator class="mine-validator" right="true" valid="menuForm.name.$valid"
+                                        when="menuForm.name.$dirty" error="长度1-20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="菜单地址"></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="menu.url" name="url"></td>
+                    <td></td>
+                </tr>
+            </table>
         </form>
     </div>
     <div class="modal-footer">

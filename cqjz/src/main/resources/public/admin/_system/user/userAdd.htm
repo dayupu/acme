@@ -12,85 +12,105 @@
                  ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                 {{message}}
             </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.account.$valid]">
-                <mine-label class="col-sm-2" name="账号" required></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="user.account" name="account"
-                           ng-pattern="/^\w{3,20}$/" required>
-                </div>
-                <mine-validator class="mine-validator" right="true" valid="userForm.account.$valid"
-                                when="userForm.account.$dirty" error="3-20字母，数字或下划线字符组成"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
-                <mine-label class="col-sm-2" name="用户名" required></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="user.name" name="name"
-                           ng-pattern="/^.{1,20}$/" required>
-                </div>
-                <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
-                                when="userForm.name.$dirty" error="长度20位以内"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.password.$valid]">
-                <mine-label class="col-sm-2" name="密码" required></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" onfocus="this.type='password'" class="form-control input-sm"
-                           ng-model="user.password" name="password" ng-pattern="/^.{1,20}$/" required>
-                </div>
-                <mine-validator class="mine-validator" right="true" valid="userForm.password.$valid"
-                                when="userForm.password.$dirty"
-                                error="长度20位以内"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.password.$valid]">
-                <mine-label class="col-sm-2" name="审批角色" required></mine-label>
-                <div class="col-sm-5">
-                    <select ng-model="user.approveRole" name="type" ng-init="user.approveRole=100"
-                            class="form-control input-sm mine-input-abeam" style="width:200px;" required>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="账号" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="user.account" name="account"
+                               ng-pattern="/^\w{3,20}$/" required>
+                    </td>
+                    <td>
+                        <mine-validator class="mine-validator" right="true" valid="userForm.account.$valid"
+                                        when="userForm.account.$dirty" error="3-20字母，数字或下划线字符组成"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="用户名" required></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="user.name" name="name"
+                               ng-pattern="/^.{1,20}$/" required></td>
+                    <td>
+                        <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
+                                        when="userForm.name.$dirty" error="长度20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="密码" required></mine-key>
+                    </td>
+                    <td><input type="text" onfocus="this.type='password'" class="form-control input-sm"
+                               ng-model="user.password" name="password" ng-pattern="/^.{1,20}$/" required></td>
+                    <td>
+                        <mine-validator class="mine-validator" right="true" valid="userForm.password.$valid"
+                                        when="userForm.password.$dirty"
+                                        error="长度20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="审批角色" required></mine-key>
+                    </td>
+                    <td><select ng-model="user.approveRole" name="type" ng-init="user.approveRole=100"
+                                class="form-control input-sm mine-input-abeam" style="width:200px;" required>
                         <option ng-repeat="approveRole in approveRoles" ng-value="approveRole.key">
                             {{approveRole.value}}
                         </option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <mine-label class="col-sm-2" name="性别" required></mine-label>
-                <div class="col-sm-5">
-                    <label class="radio-inline">
-                        <input type="radio" name="gender" ng-model="user.gender" ng-value="1" ng-checked="true"> 男
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="gender" ng-model="user.gender" ng-value="0"> 女
-                    </label>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.email.$valid]">
-                <mine-label class="col-sm-2" name="邮箱"></mine-label>
-                <div class="col-sm-5">
-                    <input type="email" class="form-control input-sm" ng-model="user.email" name="email">
-                </div>
-                <mine-validator class="mine-validator" valid="userForm.email.$valid"
-                                when="userForm.email.$dirty"
-                                error="请输入正确的邮箱地址"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.mobile.$valid]">
-                <mine-label class="col-sm-2" name="手机号"></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="user.mobile" name="mobile"
-                           ng-pattern="/^\d{11}$/">
-                </div>
-                <mine-validator class="mine-validator" valid="userForm.mobile.$valid"
-                                when="userForm.mobile.$dirty"
-                                error="请输入11位的手机号码"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.telephone.$valid]">
-                <mine-label class="col-sm-2" name="座机"></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="user.telephone" name="telephone"
-                           ng-pattern="/^([0-9]{3,4}-)?(\d{5,10})$/">
-                </div>
-                <mine-validator class="mine-validator" valid="userForm.telephone.$valid"
-                                when="userForm.telephone.$dirty"
-                                error="座机号码，形如：023-88888888"></mine-validator>
-            </div>
+                    </select></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="性别" required></mine-key>
+                    </td>
+                    <td>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" ng-model="user.gender" ng-value="1" ng-checked="true"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" ng-model="user.gender" ng-value="0"> 女
+                        </label>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="邮箱"></mine-key>
+                    </td>
+                    <td><input type="email" class="form-control input-sm" ng-model="user.email" name="email"></td>
+                    <td>
+                        <mine-validator class="mine-validator" valid="userForm.email.$valid"
+                                        when="userForm.email.$dirty"
+                                        error="请输入正确的邮箱地址"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="手机号"></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="user.mobile" name="mobile"
+                               ng-pattern="/^\d{11}$/"></td>
+                    <td>
+                        <mine-validator class="mine-validator" valid="userForm.mobile.$valid"
+                                        when="userForm.mobile.$dirty"
+                                        error="请输入11位的手机号码"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="座机"></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="user.telephone" name="telephone"
+                               ng-pattern="/^([0-9]{3,4}-)?(\d{5,10})$/"></td>
+                    <td>
+                        <mine-validator class="mine-validator" valid="userForm.telephone.$valid"
+                                        when="userForm.telephone.$dirty"
+                                        error="座机号码，形如：023-88888888"></mine-validator>
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
     <div class="modal-footer">

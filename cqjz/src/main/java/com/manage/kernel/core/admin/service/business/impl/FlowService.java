@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.service.business.impl;
 import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.act.ActSource;
+import com.manage.base.act.ProcessVariable;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.enums.ActStatus;
@@ -27,11 +28,9 @@ import javax.persistence.criteria.Predicate;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.*;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskInfo;
@@ -65,9 +64,6 @@ public class FlowService implements IFlowService {
 
     @Autowired
     private RepositoryService repositoryService;
-
-    @Autowired
-    private RuntimeService runtimeService;
 
     @Autowired
     private HistoryService historyService;
@@ -104,13 +100,15 @@ public class FlowService implements IFlowService {
         for (Task task : tasks) {
             flow = new FlowDto();
             String processId = task.getProcessInstanceId();
-            flow.setProcessId(processId);
-            flow.setSubject(businessService.getSubject(processId));
             HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
+            ProcessVariable variable = businessService.getProcessVaribale(processId);
+
+            flow.setProcessId(processId);
+            flow.setSubject(variable.getSubject());
             ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            flow.setProcessType(getProcessTypeName(processId));
+            flow.setProcessType(variable.getProcessTypeName());
             flow.setRejectTime(CoreUtil.fromDate(task.getCreateTime()));
             flows.add(flow);
         }
@@ -169,11 +167,12 @@ public class FlowService implements IFlowService {
                 }
 
             }
-            flow.setSubject(businessService.getSubject(process.getId()));
+            ProcessVariable variable = businessService.getProcessVaribale(process.getId());
+            flow.setSubject(variable.getSubject());
             ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            flow.setProcessType(getProcessTypeName(process.getId()));
+            flow.setProcessType(variable.getProcessTypeName());
             flows.add(flow);
         }
         return result;
@@ -213,14 +212,16 @@ public class FlowService implements IFlowService {
             if (processInstance == null) {
                 continue;
             }
+
+            ProcessVariable variable = businessService.getProcessVaribale(processId);
             flow.setTaskId(task.getId());
             flow.setTaskName(task.getName());
             flow.setProcessId(processId);
-            flow.setSubject(businessService.getSubject(processId));
+            flow.setSubject(variable.getSubject());
             ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            flow.setProcessType(getProcessTypeName(processId));
+            flow.setProcessType(variable.getProcessTypeName());
             flow.setApplyUser(getUserName(processInstance.getStartUserId()));
             flow.setApplyTime(LocalDateTime.fromDateFields(processInstance.getStartTime()));
             flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
@@ -254,7 +255,8 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(approveTask.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            flow.setProcessType(getProcessTypeName(approveTask.getProcInstId()));
+            ProcessVariable variable = businessService.getProcessVaribale(approveTask.getProcInstId());
+            flow.setProcessType(variable.getProcessTypeName());
             flow.setProcess(approveTask.getApproveResult());
             flow.setProcessTime(approveTask.getApproveTime());
             flowDtos.add(flow);
@@ -305,13 +307,15 @@ public class FlowService implements IFlowService {
         if (processInstance == null) {
             return null;
         }
+
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
         ProcessDetail detail = new ProcessDetail();
         detail.setProcessId(processId);
-        detail.setSubject(businessService.getSubject(processId));
+        detail.setSubject(variable.getSubject());
         ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
         detail.setBusinessNumber(business.getNumber());
         detail.setBusinessSource(business.getSource());
-        detail.setProcessType(getProcessTypeName(processId));
+        detail.setProcessType(variable.getProcessTypeName());
         HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processId);
         if (historicProcessInstance != null) {
             detail.setApplyUser(getUserName(historicProcessInstance.getStartUserId()));
@@ -404,11 +408,6 @@ public class FlowService implements IFlowService {
             return task;
         }
         return null;
-    }
-
-    private String getProcessTypeName(String processId) {
-        String processType = (String)businessService.getProcessVariable(processId, ActConstants.PROCESS_TYPE);
-        return ActSource.processTypeName(processType);
     }
 
     private void clear() {

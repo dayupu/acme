@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.service.activiti.impl;
 import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.act.ActSource;
+import com.manage.base.act.ProcessVariable;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.ActProcess;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,15 +75,15 @@ public class ActBusinessService implements IActBusinessService {
             status = NewsStatus.PASS;
         } else {
             switch (process) {
-            case APPLY:
-                status = NewsStatus.SUBMIT;
-                break;
-            case AGREE:
-                status = NewsStatus.APPROVE;
-                break;
-            case REJECT:
-                status = NewsStatus.REJECT;
-                break;
+                case APPLY:
+                    status = NewsStatus.SUBMIT;
+                    break;
+                case AGREE:
+                    status = NewsStatus.APPROVE;
+                    break;
+                case REJECT:
+                    status = NewsStatus.REJECT;
+                    break;
             }
         }
         news.setStatus(status);
@@ -138,10 +140,6 @@ public class ActBusinessService implements IActBusinessService {
         }
     }
 
-    @Override
-    public String getSubject(String processId) {
-        return (String) getProcessVariable(processId, ActConstants.PROCESS_SUBJECT);
-    }
 
     @Override
     public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApprove approve) {
@@ -154,18 +152,29 @@ public class ActBusinessService implements IActBusinessService {
         approveTask.setTaskName(taskInfo.getName());
         approveTask.setProcInstId(taskInfo.getProcessInstanceId());
         approveTask.setBusinessKey(actBusiness.businessKey());
-        approveTask.setSubject(getSubject(taskInfo.getProcessInstanceId()));
+        approveTask.setSubject(getProcessVaribale(taskInfo.getProcessInstanceId()).getSubject());
         actApproveTaskRepo.save(approveTask);
     }
 
     @Override
-    public Object getProcessVariable(String processId, String variableName) {
-        HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processId).variableName(variableName).singleResult();
-        if (variable == null) {
-            return null;
+    public ProcessVariable getProcessVaribale(String processId) {
+        ProcessVariable processVariable = new ProcessVariable();
+        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery()
+                .processInstanceId(processId).list();
+        for (HistoricVariableInstance variable : variables) {
+            if (ActConstants.PROCESS_SUBJECT.equals(variable.getVariableName())) {
+                processVariable.setSubject((String) variable.getValue());
+            } else if (ActConstants.PROCESS_TYPE.equals(variable.getVariableName())) {
+                String processType = (String) variable.getValue();
+                processVariable.setProcessType(processType);
+                if (processType != null) {
+                    processVariable.setProcessTypeName(ActSource.processTypeName(processType));
+                }
+            } else if (ActConstants.PROCESS_APPLY_USER.equals(variable.getVariableName())) {
+                processVariable.setApplyUser((String) variable.getValue());
+            }
         }
-        return variable.getValue();
+        return processVariable;
     }
 
     private Task getRunningTask(String applyUser, String processId) {

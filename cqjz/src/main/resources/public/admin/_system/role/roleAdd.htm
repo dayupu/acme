@@ -12,25 +12,34 @@
                  ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
                 {{message}}
             </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.name.$valid]">
-                <mine-label class="col-sm-2" name="角色名" required></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="role.name" name="name"
-                           ng-pattern="/^.{1,20}$/" required/>
-                </div>
-                <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
-                                when="userForm.name.$dirty" error="长度1-20位以内"></mine-validator>
-            </div>
-            <div class="form-group" ng-class="{false:'has-error'}[userForm.description.$valid]">
-                <mine-label class="col-sm-2" name="描述"></mine-label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control input-sm" ng-model="role.description" name="description"
-                           ng-pattern="/^.{1,50}$/"/>
-                </div>
-                <mine-validator class="mine-validator" valid="userForm.description.$valid"
-                                when="userForm.description.$dirty"
-                                error="长度50位以内"></mine-validator>
-            </div>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="角色名" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="role.name" name="name"
+                               ng-pattern="/^.{1,20}$/" required/>
+                    </td>
+                    <td>
+                        <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
+                                        when="userForm.name.$dirty" error="长度1-20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="备注"></mine-key>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" ng-model="role.description" name="description"
+                               ng-pattern="/^.{1,50}$/"/>
+                    </td>
+                    <td>
+                        <mine-validator class="mine-validator" valid="userForm.description.$valid"
+                                        when="userForm.description.$dirty" error="长度50位以内"></mine-validator>
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
     <div class="modal-footer">
