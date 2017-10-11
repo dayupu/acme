@@ -186,35 +186,6 @@ public class MenuService implements IMenuService {
 
     @Override
     @Transactional
-    public List<MenuNav> menuLocation(String url) {
-        List<AdMenu> menus = menuRepo.queryListByUrl(url);
-        if (menus.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<MenuNav> menuNavs = new ArrayList<>();
-        AdMenu menu = menus.get(0);
-        menuNavs.add(MenuNav.forMenu(menu));
-        while (menu.getParentId() != null) {
-            menu = menu.getParent();
-            menuNavs.add(MenuNav.forMenu(menu));
-        }
-
-        Collections.sort(menuNavs, new Comparator<MenuNav>() {
-            @Override
-            public int compare(MenuNav o1, MenuNav o2) {
-                if (o1.getLevel() > o2.getLevel()) {
-                    return 1;
-                }
-                return -1;
-            }
-        });
-
-        return menuNavs;
-    }
-
-    @Override
-    @Transactional
     public void deleteMenu(Long id) {
         AdMenu menu = menuRepo.findOne(id);
         if (menu == null) {

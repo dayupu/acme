@@ -100,28 +100,11 @@ public class MenuController {
 
     @InboundLog
     @GetMapping("/treeList")
-    public ResponseInfo getMenuTree() {
+    public ResponseInfo menuTree() {
         ResponseInfo response = new ResponseInfo();
         try {
             List<TreeNode> treeNodes = menuService.menuTree();
             response.wrapSuccess(treeNodes);
-        } catch (Exception e) {
-            LOGGER.warn("system exception", e);
-            response.wrapError();
-        }
-        return response;
-    }
-
-    @InboundLog
-    @GetMapping("/location")
-    public ResponseInfo getLocation(@RequestParam("url") String url) {
-        ResponseInfo response = new ResponseInfo();
-        try {
-            Validators.notNull(url);
-            List<MenuNav> locations = menuService.menuLocation(url);
-            response.wrapSuccess(locations);
-        } catch (ValidateException e) {
-            response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn("system exception", e);
             response.wrapError();
