@@ -1,6 +1,9 @@
-mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil) {
+mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, mineGrid, mineUtil, mineTree) {
     mineHttp.constant("approveRole", function (data) {
         $scope.approveRoles = data.content;
+    });
+    mineHttp.constant("organs", function (data) {
+        mineTree.dropDown($("#organDropdown"), data)
     });
     $scope.selectedFlag = false;
     mineGrid.gridPageInit("gridOptions", $scope, {
@@ -24,8 +27,9 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             },
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},
-            {field: 'createdAt', displayName: '创建时间'},
+            {field: 'organName', displayName: '所属部门', sortable: false},
             {field: 'status', displayName: '状态'},
+            {field: 'createdAt', displayName: '创建时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -98,18 +102,20 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         });
     }
 });
-mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp) {
-
+mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp, mineTree) {
     mineHttp.constant("approveRole", function (data) {
         $scope.approveRoles = data.content;
     });
-
+    mineHttp.constant("organs", function (data) {
+        mineTree.dropDown($("#organDropdown"), data)
+    });
     $scope.ok = function () {
         mineHttp.send("POST", "admin/user", {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                $scope.user = null;
+                $scope.user = {};
+                $scope.user.gender = 1;
             }
         });
     };
@@ -117,9 +123,12 @@ mainApp.controller("systemUserAddController", function ($scope, $uibModalInstanc
         $uibModalInstance.dismiss('cancel');
     };
 });
-mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, data) {
+mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, mineTree, data) {
     mineHttp.constant("approveRole", function (data) {
         $scope.approveRoles = data.content;
+    });
+    mineHttp.constant("organs", function (data) {
+        mineTree.dropDown($("#organDropdown"), data)
     });
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         if (!verifyData(result)) {

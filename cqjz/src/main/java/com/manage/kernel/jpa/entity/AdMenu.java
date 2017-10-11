@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_menu")
-@SequenceGenerator(name = "seq_ad_menu", sequenceName = "seq_ad_menu", allocationSize = 1)
+@SequenceGenerator(name = "seq_ad_menu", sequenceName = "seq_ad_menu", allocationSize = 1, initialValue = 50)
 public class AdMenu {
 
     @Id

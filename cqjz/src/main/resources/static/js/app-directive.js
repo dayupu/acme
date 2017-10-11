@@ -88,28 +88,48 @@ mainApp.directive("mineDropdown", function (mineTree) {
         require: 'ngModel',
         scope: {
             inputId: "@"
-         },
-        template: "<div class='input-group'>"
-                   +"<input type='text' class='form-control input-sm' style='width: 152px;' readonly/>"
-                   +"<input type='hidden'/>"
-                   +"<div class='input-group-btn'>"
-                       +"<button type='button' class='btn btn-default btn-sm'data-toggle='dropdown'>"
-                           +"<span class='caret'></span>"
-                       +"</button>"
-                   +"</div>"
-                   +"</div>",
+        },
+        template: "<div class='input-group mine-dropdown-group'>"
+        + "<input type='text' class='form-control input-sm' style='width: 152px;' readonly/>"
+        + "<input type='hidden'/>"
+        + "<div class='input-group-btn'>"
+        + "<button type='button' class='btn btn-default btn-sm'data-toggle='dropdown'>"
+        + "<span class='caret'></span>"
+        + "</button>"
+        + "</div>"
+        + "</div>",
         link: function (scope, element, attrs, ngModel) {
-             var inputText = $(element).children("input[type='text']");
-             var hiddenText = $(element).children("input[type='hidden']");
-             var dropBtn = $(element).find("button[type='button']");
-             $(inputText).attr("id",$(element).attr("inputId"));
-             $(hiddenText).attr("id",$(element).attr("inputId")+"_hidden");
-             $(hiddenText).change(function () {
-                 ngModel.$setViewValue($(this).val());
-             });
-             $(dropBtn).click(function(){
+            var inputText = $(element).children("input[type='text']");
+            var hiddenText = $(element).children("input[type='hidden']");
+            var dropBtn = $(element).find("button[type='button']");
+            var inputId = $(element).attr("inputId");
+            $(inputText).attr("id", inputId);
+            $(hiddenText).attr("id", inputId + "_hidden");
+            $(hiddenText).change(function () {
+                ngModel.$setViewValue($(this).val());
+            });
+            $(dropBtn).click(function () {
                 $(inputText).trigger("focus");
-             });
+            });
+            ngModel.$render = function () {
+                var value = ngModel.$viewValue;
+                if (typeof value == "undefined") {
+                    return;
+                }
+                if (value == null || value == "") {
+                    $(inputText).val("");
+                    $(hiddenText).val("");
+                    return;
+                }
+                var ztree = $.fn.zTree.getZTreeObj(inputId + "_treeDemo");
+                var node = ztree.getNodeByParam("id", value, null);
+                if (node == null) {
+                    $(inputText).val("");
+                    $(hiddenText).val("");
+                }
+                $(inputText).val(node.name);
+                $(hiddenText).val(node.id);
+            };
         },
         replace: true
     }

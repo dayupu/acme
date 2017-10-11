@@ -21,6 +21,11 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state("depart.list", {
             url: "/list", templateUrl: './_system/depart/departList.htm', controller: "systemDepartListCtl"
         })
+        // organization
+        .state("organ", {url: "/organ", templateUrl: './_system/organ/organ.htm'})
+        .state("organ.list", {
+            url: "/list", templateUrl: './_system/organ/organList.htm', controller: "systemOrganListCtl"
+        })
         // news
         .state("news", {url: "/news", templateUrl: './_news/news.htm'})
         .state("news.publish", {url: "/publish", templateUrl: './_news/newsAdd.htm', controller: "newsPublishCtl"})

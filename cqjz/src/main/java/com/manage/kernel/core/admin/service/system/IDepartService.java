@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface IDepartService {
 
-    List<TreeNode> departTree();
-
     DepartDto getDepart(String code);
 
     DepartDto updateDepart(DepartDto departDto);

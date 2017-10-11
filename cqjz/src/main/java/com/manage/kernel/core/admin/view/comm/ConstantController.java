@@ -7,9 +7,11 @@ import com.manage.base.database.enums.NewsType;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.supplier.page.TreeNode;
+import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.jpa.entity.Department;
 import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.spring.comm.Messages;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/constant")
 public class ConstantController {
+
+    @Autowired
+    private IOrganService organService;
 
     @GetMapping("/newsType")
     public ResponseInfo newsType() {
@@ -64,24 +69,29 @@ public class ConstantController {
         List<TreeNode> treeNodes = new ArrayList<>();
         for (ActSource source : ActSource.values()) {
             switch (source) {
-            case NEWS:
-                treeNode = new TreeNode();
-                treeNode.setId(source.getKey());
-                treeNode.setName(Messages.get(source.messageKey()));
-                treeNodes.add(treeNode);
-                for (NewsType type : NewsType.values()) {
+                case NEWS:
                     treeNode = new TreeNode();
-                    treeNode.setId(source.getKey() + "_" + type.getConstant());
-                    treeNode.setName(Messages.get(type.messageKey()));
-                    treeNode.setPid(source.getKey());
+                    treeNode.setId(source.getKey());
+                    treeNode.setName(Messages.get(source.messageKey()));
                     treeNodes.add(treeNode);
-                }
-                break;
-            default:
-                break;
+                    for (NewsType type : NewsType.values()) {
+                        treeNode = new TreeNode();
+                        treeNode.setId(source.getKey() + "_" + type.getConstant());
+                        treeNode.setName(Messages.get(type.messageKey()));
+                        treeNode.setPid(source.getKey());
+                        treeNodes.add(treeNode);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         return treeNodes;
+    }
+
+    @GetMapping("/organs")
+    public List<TreeNode> organs() {
+        return organService.organTree();
     }
 
     @GetMapping("/approveRole")

@@ -1,0 +1,53 @@
+<div class="mine-layout">
+    <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-bars"></i>部门管理</div>
+        <div class="mine-content">
+            <div class="mine-normal-button">
+                <button class="btn btn-sm btn-danger" type="button" ng-click="add(true)">部门</button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="add(false)" ng-disabled="organ == null">
+                    下级部门
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="edit()" ng-disabled="organ == null">编辑
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" ng-click="drop()" ng-disabled="organ == null">删除
+                </button>
+            </div>
+            <table width="100%">
+                <tr>
+                    <td width="200">
+                        <div class="mine-border" style="min-height: 500px; max-height: 500px; overflow: auto;">
+                            <ul id="organTree" class="ztree"></ul>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <mine-message status="messageStatus" message="message"></mine-message>
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                                <td class="mine-title-td warning">上级部门</td>
+                                <td>{{organ.parentName}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td warning">部门名称</td>
+                                <td>{{organ.name}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td warning">部门级别</td>
+                                <td>{{organ.level}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td warning">排序</td>
+                                <td>{{organ.sequence}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100" class="mine-title-td warning">描述</td>
+                                <td>{{organ.description}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

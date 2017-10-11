@@ -1,0 +1,68 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
+            class="modal-title">编辑菜单</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="organForm">
+            <input type="hidden" ng-model="organ.id">
+            <mine-message status="messageStatus" message="message"></mine-message>
+            <table class="table table-condensed table-bordered">
+                <tr ng-if="organ.parentId != null">
+                    <td class="warning" width="100">
+                        <mine-key name="上级部门"></mine-key>
+                    </td>
+                    <td width="250">
+                        <span class="mine-win-value">{{organ.parentName}}</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="部门名称" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="organ.name" name="name"
+                               ng-pattern="/^.{1,20}$/"
+                               required/>
+                    </td>
+                    <td>
+                        <mine-validator right="true" when="organForm.name.$dirty"
+                                        valid="organForm.name.$valid"
+                                        error="长度1-20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="排序" required></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="organ.sequence"
+                               name="sequence"
+                               ng-pattern="/^\d{1,2}$/" required></td>
+                    <td>
+                        <mine-validator right="true" when="organForm.sequence.$dirty"
+                                        valid="organForm.sequence.$valid"
+                                        error="1-99数字"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="描述"></mine-key>
+                    </td>
+                    <td>
+                        <textarea ng-model="organ.description" rows="3" class="form-control"></textarea>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="organForm.$invalid">保存
+        </button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

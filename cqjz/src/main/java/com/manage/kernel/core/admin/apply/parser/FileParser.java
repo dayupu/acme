@@ -13,19 +13,19 @@ import java.util.List;
 public class FileParser {
 
 
-    public static FileDto toFileDto(ResourceFile file) {
-        return toFileDto(file, new FileDto());
+    public static FileDto toDto(ResourceFile file) {
+        return toDto(file, new FileDto());
     }
 
-    public static List<FileDto> toMenuDtoList(List<ResourceFile> files) {
+    public static List<FileDto> toDtoList(List<ResourceFile> files) {
         List<FileDto> fileDtos = new ArrayList<>();
         for (ResourceFile file : files) {
-            fileDtos.add(toFileDto(file, new FileDto()));
+            fileDtos.add(toDto(file, new FileDto()));
         }
         return fileDtos;
     }
 
-    private static FileDto toFileDto(ResourceFile file, FileDto fileDto) {
+    private static FileDto toDto(ResourceFile file, FileDto fileDto) {
         fileDto.setId(file.getId());
         fileDto.setOriginName(file.getOriginName());
         fileDto.setAccessUrl(file.getAccessUrl());

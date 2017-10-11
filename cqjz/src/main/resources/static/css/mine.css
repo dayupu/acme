@@ -251,7 +251,7 @@
     width: 180px;
     height: 200px;
     border: 1px solid gray;
-    overflow-y: auto;
+    overflow: auto;
     background-color: white;
     z-index: 39999
 }

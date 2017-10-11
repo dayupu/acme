@@ -31,11 +31,18 @@
                 </tr>
                 <tr>
                     <td class="warning">
+                        <mine-key name="所属部门" required></mine-key>
+                    </td>
+                    <td><mine-dropdown style="width:180px" inputId="organDropdown" ng-model="user.organId"></mine-dropdown></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning">
                         <mine-key name="审批角色" required></mine-key>
                     </td>
                     <td>
                         <select ng-model="user.approveRole" name="type"
-                                class="form-control input-sm mine-input-abeam" style="width:200px;" required>
+                                class="form-control input-sm mine-input-abeam" style="width:180px;" required>
                             <option ng-repeat="approveRole in approveRoles" ng-value="approveRole.key">
                                 {{approveRole.value}}
                             </option>

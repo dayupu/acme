@@ -51,6 +51,8 @@ public class UserDto implements Serializable {
     private List<Long> roleIds;
     private List<Long> userIds;
     private boolean enabled;
+    private Long organId;
+    private String organName;
 
     public String getAccount() {
         return account;
@@ -194,5 +196,21 @@ public class UserDto implements Serializable {
 
     public void setApproveRole(ApproveRole approveRole) {
         this.approveRole = approveRole;
+    }
+
+    public Long getOrganId() {
+        return organId;
+    }
+
+    public void setOrganId(Long organId) {
+        this.organId = organId;
+    }
+
+    public String getOrganName() {
+        return organName;
+    }
+
+    public void setOrganName(String organName) {
+        this.organName = organName;
     }
 }

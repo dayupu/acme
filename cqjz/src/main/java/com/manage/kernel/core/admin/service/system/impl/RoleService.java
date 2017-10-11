@@ -89,7 +89,7 @@ public class RoleService implements IRoleService {
             throw new RoleNotFoundException();
         }
 
-        return RoleParser.toRoleDto(role);
+        return RoleParser.toDto(role);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class RoleService implements IRoleService {
 
         PageResult<RoleDto> pageResult = new PageResult<RoleDto>();
         pageResult.setTotal(rolePage.getTotalElements());
-        pageResult.setRows(RoleParser.toRoleDtoList(rolePage.getContent()));
+        pageResult.setRows(RoleParser.toDtoList(rolePage.getContent()));
         return pageResult;
     }
 

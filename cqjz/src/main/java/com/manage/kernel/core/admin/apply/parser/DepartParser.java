@@ -9,19 +9,19 @@ import java.util.List;
 
 public class DepartParser {
 
-    public static DepartDto toDepartDto(Department department) {
-        return toDepartDto(department, new DepartDto());
+    public static DepartDto toDto(Department department) {
+        return toDto(department, new DepartDto());
     }
 
-    public static List<DepartDto> toDepartDtoList(List<Department> departments) {
+    public static List<DepartDto> toDtoList(List<Department> departments) {
         List<DepartDto> departDtos = new ArrayList<>();
         for (Department department : departments) {
-            departDtos.add(toDepartDto(department, new DepartDto()));
+            departDtos.add(toDto(department, new DepartDto()));
         }
         return departDtos;
     }
 
-    private static DepartDto toDepartDto(Department depart, DepartDto departDto) {
+    private static DepartDto toDto(Department depart, DepartDto departDto) {
         departDto.setName(depart.getName());
         departDto.setCode(depart.getCode());
         departDto.setFullCode(depart.getFullCode());

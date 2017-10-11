@@ -1,16 +1,9 @@
 package com.manage.kernel.jpa.entity;
 
 import com.manage.kernel.jpa.base.EntityBase;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by bert on 17-10-11.
@@ -34,7 +27,7 @@ public class AdOrganization extends EntityBase {
     @Column(name = "sequence", length = 3)
     private int sequence = 0;
 
-    @Column(name = "level", length = 2)
+    @Column(name = "level", length = 3)
     private int level = 0;
 
     @Column(name = "name", length = 50, nullable = false)
@@ -42,6 +35,18 @@ public class AdOrganization extends EntityBase {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "parent")
+    @OrderBy("sequence asc")
+    private List<AdOrganization> childrens;
+
+    public AdOrganization() {
+
+    }
+
+    public AdOrganization(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -75,14 +80,6 @@ public class AdOrganization extends EntityBase {
         this.sequence = sequence;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public String getName() {
         return name;
     }
@@ -98,4 +95,21 @@ public class AdOrganization extends EntityBase {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<AdOrganization> getChildrens() {
+        return childrens;
+    }
+
+    public void setChildrens(List<AdOrganization> childrens) {
+        this.childrens = childrens;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
 }

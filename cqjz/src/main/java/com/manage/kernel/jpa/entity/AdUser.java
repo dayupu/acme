@@ -8,17 +8,7 @@ import org.hibernate.annotations.Type;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ad_user")
@@ -64,6 +54,13 @@ public class AdUser extends StatusBase {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ad_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AdRole> roles = new ArrayList<AdRole>();
+
+    @Column(name = "organ_id", insertable = false, updatable = false)
+    private Long organId;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "organ_id")
+    private AdOrganization organ;
 
     public AdUser() {
 
@@ -164,5 +161,21 @@ public class AdUser extends StatusBase {
 
     public void setApproveRole(ApproveRole approveRole) {
         this.approveRole = approveRole;
+    }
+
+    public Long getOrganId() {
+        return organId;
+    }
+
+    public void setOrganId(Long organId) {
+        this.organId = organId;
+    }
+
+    public AdOrganization getOrgan() {
+        return organ;
+    }
+
+    public void setOrgan(AdOrganization organ) {
+        this.organ = organ;
     }
 }

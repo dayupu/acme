@@ -13,8 +13,10 @@ import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.core.admin.apply.parser.UserParser;
 import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
 import com.manage.kernel.core.admin.service.system.IUserService;
+import com.manage.kernel.jpa.entity.AdOrganization;
 import com.manage.kernel.jpa.entity.AdRole;
 import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.repository.AdOrganRepo;
 import com.manage.kernel.jpa.repository.AdRoleRepo;
 import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
@@ -48,6 +50,9 @@ public class UserService implements IUserService {
     private AdRoleRepo roleRepo;
 
     @Autowired
+    private AdOrganRepo organRepo;
+
+    @Autowired
     private ActIdentityService actIdentityService;
 
     @Override
@@ -60,7 +65,7 @@ public class UserService implements IUserService {
             throw new UserNotFoundException();
         }
 
-        return UserParser.toUserDto(user);
+        return UserParser.toDto(user);
     }
 
     @Override
@@ -86,12 +91,15 @@ public class UserService implements IUserService {
             if (StringUtil.isNotNull(userQuery.getCreatedAtEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("createdAt"), userQuery.getCreatedAtEnd()));
             }
+            if (StringUtil.isNotNull(userQuery.getOrganId())) {
+                list.add(cb.equal(root.get("organId"), userQuery.getOrganId()));
+            }
             return cb.and(list.toArray(new Predicate[0]));
         }, pageQuery.sortPageDefault("id"));
 
         PageResult<UserDto> pageResult = new PageResult<UserDto>();
         pageResult.setTotal(userPage.getTotalElements());
-        pageResult.setRows(UserParser.toUserDtoList(userPage.getContent()));
+        pageResult.setRows(UserParser.toDtoList(userPage.getContent()));
         return pageResult;
     }
 
@@ -115,6 +123,7 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(SessionHelper.user());
+        setUserOrgan(user, userDto.getOrganId());
         AdUser savedUser = userRepo.save(user);
         actIdentityService.saveActUser(savedUser);
     }
@@ -135,6 +144,7 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
         user.setUpdatedUser(SessionHelper.user());
+        setUserOrgan(user, userDto.getOrganId());
         AdUser updatedUser = userRepo.save(user);
         actIdentityService.saveActUser(updatedUser);
     }
@@ -176,7 +186,7 @@ public class UserService implements IUserService {
             }
             treeNodes.add(treeNode);
         }
-        return new Pair<>(UserParser.toUserDto(user), treeNodes);
+        return new Pair<>(UserParser.toDto(user), treeNodes);
     }
 
     @Override
@@ -210,5 +220,16 @@ public class UserService implements IUserService {
             }
             userRepo.save(user);
         }
+    }
+
+    private void setUserOrgan(AdUser user, Long organId) {
+        if (organId == null) {
+            return;
+        }
+        AdOrganization organ = organRepo.findOne(organId);
+        if (organ == null) {
+            return;
+        }
+        user.setOrgan(organ);
     }
 }

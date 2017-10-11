@@ -2,49 +2,43 @@ package com.manage.kernel.core.admin.view.base;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.DepartNotFoundException;
+import com.manage.base.exception.OrganNotFoundException;
 import com.manage.base.exception.ValidateException;
+import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.Validators;
 import com.manage.kernel.core.admin.apply.dto.DepartDto;
-import com.manage.kernel.core.admin.service.system.IDepartService;
+import com.manage.kernel.core.admin.apply.dto.OrganDto;
+import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/depart")
-public class DepartController {
+@RequestMapping("/admin/organ")
+public class OrganController {
 
-    private static final Logger LOGGER = LogManager.getLogger(DepartController.class);
+    private static final Logger LOGGER = LogManager.getLogger(OrganController.class);
 
     @Autowired
-    private IDepartService departService;
+    private IOrganService organService;
 
     @InboundLog
     @GetMapping("{id}")
-    public ResponseInfo getDepart(@PathVariable("id") String code) {
+    public ResponseInfo getOrgan(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
-            DepartDto departDto = departService.getDepart(code);
-            if (departDto == null) {
-                throw new DepartNotFoundException();
+            Validators.notNull(id);
+            OrganDto organDto = organService.getOrgan(id);
+            if (organDto == null) {
+                throw new OrganNotFoundException();
             }
-            response.wrapSuccess(departDto);
+            response.wrapSuccess(organDto);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {
@@ -58,13 +52,13 @@ public class DepartController {
 
     @InboundLog
     @PutMapping("{id}")
-    public ResponseInfo editDepart(@PathVariable("id") String code, @RequestBody DepartDto departDto) {
+    public ResponseInfo editOrgan(@PathVariable("id") Long id, @RequestBody OrganDto organDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
-            Validators.notNull(departDto);
-            departDto.setCode(code);
-            DepartDto result = departService.updateDepart(departDto);
+            Validators.notNull(id);
+            Validators.notNull(organDto);
+            organDto.setId(id);
+            OrganDto result = organService.updateOrgan(organDto);
             if (result == null) {
                 throw new CoreException();
             }
@@ -82,11 +76,11 @@ public class DepartController {
 
     @InboundLog
     @DeleteMapping("{id}")
-    public ResponseInfo dropDepart(@PathVariable("id") String code) {
+    public ResponseInfo dropOrgan(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(code);
-            departService.deleteDepart(code);
+            Validators.notNull(id);
+            organService.deleteOrgan(id);
             response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
@@ -102,12 +96,12 @@ public class DepartController {
 
     @InboundLog
     @PostMapping
-    public ResponseInfo addDepart(@RequestBody DepartDto departDto) {
+    public ResponseInfo addOrgan(@RequestBody OrganDto organDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(departDto);
-            Validators.notEmpty(departDto.getName());
-            departService.addDepart(departDto);
+            Validators.notNull(organDto);
+            Validators.notEmpty(organDto.getName());
+            organService.addOrgan(organDto);
             response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
@@ -121,16 +115,9 @@ public class DepartController {
     }
 
     @InboundLog
-    @GetMapping("/rootTree")
+    @GetMapping("/treeList")
     public List<TreeNode> treeRoot() {
-        List<TreeNode> treeNodes = departService.getTreeRoot();
-        return treeNodes;
+        return organService.organTree();
     }
 
-    @InboundLog
-    @GetMapping("/asyncTree")
-    public List<TreeNode> asyncTree(@RequestParam("id") String id) {
-        List<TreeNode> treeNodes = departService.getTreeChildrens(id);
-        return treeNodes;
-    }
 }

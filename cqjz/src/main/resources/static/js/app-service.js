@@ -179,7 +179,7 @@ mainApp.service("mineTree", function (mineHttp) {
             $(obj).val(v);
             $("#"+objHiddenId).val(vid);
             $("#"+objHiddenId).trigger("change");
-        }
+        };
         var setting = {view: {dblClickExpand: false},
                        callback: {onClick: onClick}};
         $.extend(setting, defaultSetting);

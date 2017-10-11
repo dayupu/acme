@@ -10,19 +10,19 @@ import java.util.List;
  */
 public class RoleParser {
 
-    public static RoleDto toRoleDto(AdRole role) {
-        return toRoleDto(role, new RoleDto());
+    public static RoleDto toDto(AdRole role) {
+        return toDto(role, new RoleDto());
     }
 
-    public static List<RoleDto> toRoleDtoList(List<AdRole> roles) {
+    public static List<RoleDto> toDtoList(List<AdRole> roles) {
         List<RoleDto> roleDtos = new ArrayList<>();
         for (AdRole role : roles) {
-            roleDtos.add(toRoleDto(role, new RoleDto()));
+            roleDtos.add(toDto(role, new RoleDto()));
         }
         return roleDtos;
     }
 
-    private static RoleDto toRoleDto(AdRole role, RoleDto roleDto) {
+    private static RoleDto toDto(AdRole role, RoleDto roleDto) {
         roleDto.setId(role.getId());
         roleDto.setName(role.getName());
         roleDto.setDescription(role.getDescription());

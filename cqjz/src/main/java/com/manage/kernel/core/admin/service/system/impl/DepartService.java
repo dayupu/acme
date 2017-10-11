@@ -36,11 +36,6 @@ public class DepartService implements IDepartService {
     private DepartRepo departRepo;
 
     @Override
-    public List<TreeNode> departTree() {
-        return null;
-    }
-
-    @Override
     @Transactional
     public DepartDto getDepart(String code) {
         Department department = departRepo.findOne(code);
@@ -48,7 +43,7 @@ public class DepartService implements IDepartService {
             LOGGER.info("Not found the department {}", code);
             throw new DepartNotFoundException();
         }
-        return DepartParser.toDepartDto(department);
+        return DepartParser.toDto(department);
     }
 
     @Override
@@ -63,7 +58,7 @@ public class DepartService implements IDepartService {
 
         department.setName(departDto.getName());
         departRepo.save(department);
-        return DepartParser.toDepartDto(department);
+        return DepartParser.toDto(department);
     }
 
     @Override
