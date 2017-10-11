@@ -20,11 +20,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_menu")
-@SequenceGenerator(name = "seq_menu", sequenceName = "seq_menu", allocationSize = 1)
+@SequenceGenerator(name = "seq_ad_menu", sequenceName = "seq_ad_menu", allocationSize = 1)
 public class AdMenu {
 
     @Id
-    @GeneratedValue(generator = "seq_menu", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_ad_menu", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "parent_id", insertable = false, updatable = false)

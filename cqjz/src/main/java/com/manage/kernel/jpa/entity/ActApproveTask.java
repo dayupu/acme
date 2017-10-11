@@ -31,6 +31,9 @@ public class ActApproveTask {
     @Column(name = "business_key_")
     private String businessKey;
 
+    @Column(name = "process_type_")
+    private String processType;
+
     @Column(name = "task_id_")
     private String taskId;
 
@@ -133,5 +136,13 @@ public class ActApproveTask {
 
     public void setApproveComment(String approveComment) {
         this.approveComment = approveComment;
+    }
+
+    public String getProcessType() {
+        return processType;
+    }
+
+    public void setProcessType(String processType) {
+        this.processType = processType;
     }
 }

@@ -75,15 +75,15 @@ public class ActBusinessService implements IActBusinessService {
             status = NewsStatus.PASS;
         } else {
             switch (process) {
-                case APPLY:
-                    status = NewsStatus.SUBMIT;
-                    break;
-                case AGREE:
-                    status = NewsStatus.APPROVE;
-                    break;
-                case REJECT:
-                    status = NewsStatus.REJECT;
-                    break;
+            case APPLY:
+                status = NewsStatus.SUBMIT;
+                break;
+            case AGREE:
+                status = NewsStatus.APPROVE;
+                break;
+            case REJECT:
+                status = NewsStatus.REJECT;
+                break;
             }
         }
         news.setStatus(status);
@@ -140,9 +140,10 @@ public class ActBusinessService implements IActBusinessService {
         }
     }
 
-
     @Override
     public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApprove approve) {
+
+        ProcessVariable variable = getProcessVaribale(taskInfo.getProcessInstanceId());
         ActApproveTask approveTask = new ActApproveTask();
         approveTask.setApproveComment(approve.getComment());
         approveTask.setApproveUser(SessionHelper.user().getAccount());
@@ -152,7 +153,8 @@ public class ActBusinessService implements IActBusinessService {
         approveTask.setTaskName(taskInfo.getName());
         approveTask.setProcInstId(taskInfo.getProcessInstanceId());
         approveTask.setBusinessKey(actBusiness.businessKey());
-        approveTask.setSubject(getProcessVaribale(taskInfo.getProcessInstanceId()).getSubject());
+        approveTask.setSubject(variable.getSubject());
+        approveTask.setProcessType(variable.getProcessType());
         actApproveTaskRepo.save(approveTask);
     }
 

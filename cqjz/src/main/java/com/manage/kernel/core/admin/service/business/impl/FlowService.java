@@ -81,6 +81,9 @@ public class FlowService implements IFlowService {
         if (StringUtil.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
         }
+        if (StringUtil.isNotBlank(query.getProcessType())) {
+            taskQuery.processVariableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
+        }
         if (StringUtil.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
         }
@@ -128,6 +131,9 @@ public class FlowService implements IFlowService {
         }
         if (query.getQueryTimeEnd() != null) {
             processQuery.startedBefore(query.getQueryTimeEnd().toDate());
+        }
+        if (StringUtil.isNotBlank(query.getSubject())) {
+            processQuery.variableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
         }
         if (StringUtil.isNotBlank(query.getProcessType())) {
             processQuery.variableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
@@ -194,6 +200,12 @@ public class FlowService implements IFlowService {
         if (StringUtil.isNotBlank(query.getProcessType())) {
             taskQuery.processVariableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
         }
+        if (StringUtil.isNotNull(query.getQueryTime())) {
+            taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
+        }
+        if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+            taskQuery.taskCreatedBefore(query.getQueryTime().toDate());
+        }
 
         long count = taskQuery.count();
         result.setTotal(count);
@@ -239,6 +251,15 @@ public class FlowService implements IFlowService {
             if (StringUtil.isNotBlank(query.getSubject())) {
                 list.add(cb.like(root.get("subject"), "%" + query.getSubject() + "%"));
             }
+            if (StringUtil.isNotBlank(query.getProcessType())) {
+                list.add(cb.like(root.get("processType"), query.getProcessType() + "%"));
+            }
+            if (StringUtil.isNotNull(query.getQueryTime())) {
+                list.add(cb.greaterThanOrEqualTo(root.get("approveTime"), query.getQueryTime()));
+            }
+            if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+                list.add(cb.lessThanOrEqualTo(root.get("approveTime"), query.getQueryTimeEnd()));
+            }
             return cb.and(list.toArray(new Predicate[0]));
         }, page.sortPageDefault("id"));
 
@@ -255,8 +276,7 @@ public class FlowService implements IFlowService {
             ActBusiness business = ActBusiness.fromBusinessKey(approveTask.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
-            ProcessVariable variable = businessService.getProcessVaribale(approveTask.getProcInstId());
-            flow.setProcessType(variable.getProcessTypeName());
+            flow.setProcessType(ActSource.processTypeName(approveTask.getProcessType()));
             flow.setProcess(approveTask.getApproveResult());
             flow.setProcessTime(approveTask.getApproveTime());
             flowDtos.add(flow);

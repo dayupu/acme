@@ -5,12 +5,7 @@
             <div class="form-inline mine-query">
                 <div class="form-group">
                     <label>业务类型</label>
-                    <select ng-model="filter.type" name="type" ng-init="filter.type=''"
-                            class="form-control input-sm">
-                        <option value="">全部</option>
-                        <option ng-repeat="newsType in newsTypes" ng-value="newsType.key">{{newsType.value}}
-                        </option>
-                    </select>
+                    <mine-dropdown inputId="processType" ng-model="filter.processType"></mine-dropdown>
                 </div>
                 <div class="form-group">
                     <label>主题</label>
@@ -18,6 +13,15 @@
                 </div>
                 <span class="form-group">
                     <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                </span>
+                <br/>
+                <span class="form-group">
+                    <label>接收时间</label>
+                    <mine-date ng-model="filter.queryTime"></mine-date>
+                </span>
+                <span class="form-group">
+                    <label>至</label>
+                    <mine-date ng-model="filter.queryTimeEnd"></mine-date>
                 </span>
             </div>
             <div class="mine-line"></div>

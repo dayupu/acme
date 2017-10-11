@@ -22,11 +22,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_user")
-@SequenceGenerator(name = "seq_user", sequenceName = "seq_user")
+@SequenceGenerator(name = "seq_ad_user", sequenceName = "seq_ad_user")
 public class AdUser extends StatusBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_ad_user")
     private Long id;
 
     @Column(name = "account", nullable = false, length = 50)

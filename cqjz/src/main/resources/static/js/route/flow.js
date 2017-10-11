@@ -49,7 +49,10 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
     $scope.query();
 });
 // 未通过一览
-mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mineHttp, mineUtil) {
+mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mineHttp, mineUtil, mineTree) {
+    mineHttp.constant("actType", function (data) {
+        mineTree.dropDown($("#processType"),data)
+    });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -97,9 +100,12 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
     $scope.query();
 });
 // 待处理一览
-mainApp.controller("flowPendingListCtl", function ($scope, $state, mineHttp, mineGrid, mineUtil) {
+mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, mineHttp, mineGrid, mineUtil) {
     mineHttp.constant("newsType", function (data) {
         $scope.newsTypes = data.content;
+    });
+    mineHttp.constant("actType", function (data) {
+        mineTree.dropDown($("#processType"),data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -142,7 +148,10 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineHttp, min
     $scope.query();
 });
 // 已审批一览
-mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, mineUtil) {
+mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, mineUtil, mineHttp, mineTree) {
+    mineHttp.constant("actType", function (data) {
+        mineTree.dropDown($("#processType"),data)
+    });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
