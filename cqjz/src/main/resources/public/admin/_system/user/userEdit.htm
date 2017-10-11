@@ -24,7 +24,7 @@
                     <td><input type="text" class="form-control input-sm" ng-model="user.name" name="name"
                                ng-pattern="/^.{1,20}$/" required></td>
                     <td>
-                        <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
+                        <mine-validator right="true" valid="userForm.name.$valid"
                                         when="userForm.name.$dirty"
                                         error="长度20位以内"></mine-validator>
                     </td>
@@ -60,7 +60,7 @@
                     </td>
                     <td><input type="email" class="form-control input-sm" ng-model="user.email" name="email"></td>
                     <td>
-                        <mine-validator class="mine-validator" valid="userForm.email.$valid"
+                        <mine-validator valid="userForm.email.$valid"
                                         when="userForm.email.$dirty"
                                         error="请输入正确的邮箱地址"></mine-validator>
                     </td>
@@ -74,7 +74,7 @@
                                ng-pattern="/^\d{11}$/">
                     </td>
                     <td>
-                        <mine-validator class="mine-validator" valid="userForm.mobile.$valid"
+                        <mine-validator valid="userForm.mobile.$valid"
                                         when="userForm.mobile.$dirty"
                                         error="请输入11位的手机号码"></mine-validator>
                     </td>
@@ -88,7 +88,7 @@
                                ng-pattern="/^([0-9]{3,4}-)?(\d{5,10})$/">
                     </td>
                     <td>
-                        <mine-validator class="mine-validator" valid="userForm.telephone.$valid"
+                        <mine-validator valid="userForm.telephone.$valid"
                                         when="userForm.telephone.$dirty"
                                         error="座机号码，形如：023-88888888"></mine-validator>
                     </td>

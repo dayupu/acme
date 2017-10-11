@@ -23,7 +23,7 @@
                            ng-pattern="/^.{1,20}$/"
                            required/>
                 </div>
-                <mine-validator class="mine-validator" right="true" when="menuForm.name.$dirty"
+                <mine-validator right="true" when="menuForm.name.$dirty"
                                 valid="menuForm.name.$valid"
                                 error="长度1-20位以内"></mine-validator>
             </div>
@@ -34,7 +34,7 @@
                            name="sequence"
                            ng-pattern="/^\d{1,2}$/" required>
                 </div>
-                <mine-validator class="mine-validator" right="true" when="menuForm.sequence.$dirty"
+                <mine-validator right="true" when="menuForm.sequence.$dirty"
                                 valid="menuForm.sequence.$valid"
                                 error="1-99数字"></mine-validator>
             </div>

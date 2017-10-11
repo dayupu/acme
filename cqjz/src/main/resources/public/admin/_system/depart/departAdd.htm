@@ -24,7 +24,7 @@
                     <input type="text" class="form-control input-sm" ng-model="depart.code" name="code"
                            ng-pattern="/^\d{2,12}$/" required/>
                 </div>
-                <mine-validator class="mine-validator" right="true" valid="departForm.code.$valid"
+                <mine-validator right="true" valid="departForm.code.$valid"
                                 when="departForm.code.$dirty" error="不符合机构代码规则，例:50"></mine-validator>
             </div>
             <div class="form-group" ng-class="{false:'has-error'}[departForm.name.$valid]">
@@ -32,7 +32,7 @@
                 <div class="col-sm-5">
                     <input type="text" class="form-control input-sm" ng-model="depart.name" name="name" required>
                 </div>
-                <mine-validator class="mine-validator" right="true" valid="departForm.name.$valid"
+                <mine-validator right="true" valid="departForm.name.$valid"
                                 when="departForm.name.$dirty" error="机构名必须填写"></mine-validator>
             </div>
         </form>

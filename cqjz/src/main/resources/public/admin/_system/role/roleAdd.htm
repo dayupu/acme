@@ -19,7 +19,7 @@
                                ng-pattern="/^.{1,20}$/" required/>
                     </td>
                     <td>
-                        <mine-validator class="mine-validator" right="true" valid="userForm.name.$valid"
+                        <mine-validator right="true" valid="userForm.name.$valid"
                                         when="userForm.name.$dirty" error="长度1-20位以内"></mine-validator>
                     </td>
                 </tr>
@@ -32,7 +32,7 @@
                                ng-pattern="/^.{1,50}$/"/>
                     </td>
                     <td>
-                        <mine-validator class="mine-validator" valid="userForm.description.$valid"
+                        <mine-validator valid="userForm.description.$valid"
                                         when="userForm.description.$dirty" error="长度50位以内"></mine-validator>
                     </td>
                 </tr>
