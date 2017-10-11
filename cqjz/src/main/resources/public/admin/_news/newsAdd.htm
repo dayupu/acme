@@ -8,10 +8,7 @@
         <div class="mine-content">
             <form class="form-horizontal" name="newsForm">
                 <input type="hidden" ng-model="news.id"/>
-                <div class="alert" ng-if="messageStatus != null"
-                     ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
-                    {{message}}
-                </div>
+                <mine-message status="messageStatus" message="message"></mine-message>
                 <table class="table">
                     <tr>
                         <td>

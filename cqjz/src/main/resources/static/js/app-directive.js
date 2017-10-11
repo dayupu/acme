@@ -47,6 +47,17 @@ mainApp.directive("mineKey", function () {
         replace: true
     }
 });
+mainApp.directive("mineMessage", function () {
+    return {
+        restrict: 'E',
+        scope: {
+            message: "=",
+            status: "="
+        },
+        template: "<div class='alert' ng-show='status != null && message != null'  ng-class=\"{true:'alert-success',false:'alert-danger'}[status]\">{{message}}</div>",
+        replace: true
+    }
+});
 mainApp.directive("mineDate", function () {
     return {
         restrict: 'E',

@@ -1,5 +1,6 @@
 package com.manage.kernel.core.admin.view.business;
 
+import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
@@ -89,6 +90,8 @@ public class FlowController {
             response.wrapSuccess(flowService.processDetail(processId, true));
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn("system exception", e);
             response.wrapError();
@@ -106,6 +109,8 @@ public class FlowController {
             Validators.notBlank(approveDto.getComment());
             response.wrapSuccess(flowService.approveTask(approveDto));
         } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
             response.wrapFail(e.getMessage());
         } catch (Exception e) {
             LOGGER.warn("system exception", e);

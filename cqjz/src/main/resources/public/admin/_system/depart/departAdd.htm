@@ -11,10 +11,7 @@
     <div class="modal-body">
         <form class="form-horizontal" name="departForm">
             <input type="hidden" ng-model="menu.parentId">
-            <div class="alert" ng-if="messageStatus != null"
-                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
-                {{message}}
-            </div>
+            <mine-message status="messageStatus" message="message"></mine-message>
             <div class="form-group" ng-if="depart.parentCode != null">
                 <mine-label class="col-sm-2" name="上级机构"></mine-label>
                 <div class="col-sm-5">

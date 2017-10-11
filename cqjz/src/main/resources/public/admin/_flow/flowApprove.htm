@@ -6,6 +6,7 @@
            </span>
         </div>
         <div class="mine-content">
+            <mine-message status="messageStatus" message="message"></mine-message>
             <div class="mine-subject bg-primary">业务信息</div>
             <table class="table table-condensed table-bordered table-striped">
                 <tr>
@@ -75,28 +76,31 @@
                     <input type="hidden" ng-model="approve.taskId"/>
                     <table class="table table-condensed table-bordered">
                         <tr>
-                            <td width="150" class="mine-table-key">
+                            <td width="150" class="mine-table-key warning">
                                 审批意见<span class="acme-required">*</span>
                             </td>
                             <td class="mine-table-value">
                                 <label class="radio-inline">
-                                    <input type="radio" name="approveResult" ng-model="approve.process" value="2" required>同意
+                                    <input type="radio" name="approveResult" ng-model="approve.process" value="2"
+                                           required>同意
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="approveResult" ng-model="approve.process" value="3" required>拒绝
+                                    <input type="radio" name="approveResult" ng-model="approve.process" value="3"
+                                           required>拒绝
                                 </label>
                             </td>
                         </tr>
                         <tr>
-                            <td class="mine-table-key">
+                            <td class="mine-table-key warning">
                                 批注<span class="acme-required">*</span>
                             </td>
                             <td class="mine-table-value">
-                                <textarea class="form-control" name="comment" ng-model="approve.comment" rows="3" required></textarea>
+                                <textarea class="form-control" name="comment" ng-model="approve.comment" rows="3"
+                                          required></textarea>
                             </td>
                         </tr>
                         <tr>
-                            <td class="mine-table-key"></td>
+                            <td class="mine-table-key warning"></td>
                             <td class="mine-table-value">
                                 <button class="btn btn-primary btn-sm" ng-disabled="processForm.$invalid"
                                         ng-click="approveSubmit()">提交

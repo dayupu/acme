@@ -209,11 +209,21 @@ mainApp.controller("flowApproveCtl", function ($scope, $stateParams, mineHttp, m
         mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
     };
     mineHttp.send("GET", "admin/flow/" + processId + "/approve", null, function (result) {
-        $scope.flow = result.content;
+          $scope.messageStatus = verifyData(result);
+          if(!$scope.messageStatus){
+               $scope.message = result.message;
+               return;
+          }
+          $scope.flow = result.content;
     });
     $scope.approveSubmit = function () {
         mineHttp.send("POST", "admin/flow/approve", {data: $scope.approve}, function (result) {
-            $scope.flow = result.content;
+          $scope.messageStatus = verifyData(result);
+          if(!$scope.messageStatus){
+             $scope.message = result.message;
+             return;
+          }
+          $scope.flow = result.content;
         });
     }
 });

@@ -8,10 +8,7 @@
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="userForm">
-            <div class="alert" ng-if="messageStatus != null"
-                 ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
-                {{message}}
-            </div>
+            <mine-message status="messageStatus" message="message"></mine-message>
             <table class="table table-condensed table-bordered">
                 <tr>
                     <td class="warning" width="100">
