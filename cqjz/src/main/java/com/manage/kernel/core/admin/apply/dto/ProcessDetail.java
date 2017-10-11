@@ -25,6 +25,7 @@ public class ProcessDetail {
     private ActSource businessSource;
     private String businessType;
     private String applyUser;
+    private String applyUserOrgan;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime applyTime;
@@ -109,5 +110,13 @@ public class ProcessDetail {
 
     public void setProcessType(String processType) {
         this.processType = processType;
+    }
+
+    public String getApplyUserOrgan() {
+        return applyUserOrgan;
+    }
+
+    public void setApplyUserOrgan(String applyUserOrgan) {
+        this.applyUserOrgan = applyUserOrgan;
     }
 }

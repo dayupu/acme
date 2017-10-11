@@ -2,6 +2,7 @@ package com.manage.kernel.core.admin.service.activiti;
 
 import com.manage.base.act.ActApprove;
 import com.manage.base.act.ActBusiness;
+import com.manage.base.act.ProcessUser;
 import com.manage.base.act.ProcessVariable;
 import com.manage.base.database.enums.ActProcess;
 import org.activiti.engine.task.TaskInfo;
@@ -18,4 +19,6 @@ public interface IActBusinessService {
     public void submit(ActBusiness actBusiness);
 
     public ProcessVariable getProcessVaribale(String processId);
+
+    public ProcessUser getProcessUser(String actUserId);
 }

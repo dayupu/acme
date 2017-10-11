@@ -1,9 +1,6 @@
 package com.manage.kernel.core.admin.service.activiti.impl;
 
-import com.manage.base.act.ActApprove;
-import com.manage.base.act.ActBusiness;
-import com.manage.base.act.ActSource;
-import com.manage.base.act.ProcessVariable;
+import com.manage.base.act.*;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.ActProcess;
@@ -11,9 +8,13 @@ import com.manage.base.exception.ActNotSupportException;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
+import com.manage.kernel.jpa.base.Process;
 import com.manage.kernel.jpa.entity.ActApproveTask;
+import com.manage.kernel.jpa.entity.AdOrganization;
+import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
+import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
 import org.activiti.engine.HistoryService;
@@ -57,6 +58,9 @@ public class ActBusinessService implements IActBusinessService {
     @Autowired
     private ActApproveTaskRepo actApproveTaskRepo;
 
+    @Autowired
+    private AdUserRepo userRepo;
+
     @Override
     @Transactional
     public void changeStatus(ActBusiness actBusiness, ActProcess process, boolean processEnd) {
@@ -75,15 +79,15 @@ public class ActBusinessService implements IActBusinessService {
             status = NewsStatus.PASS;
         } else {
             switch (process) {
-            case APPLY:
-                status = NewsStatus.SUBMIT;
-                break;
-            case AGREE:
-                status = NewsStatus.APPROVE;
-                break;
-            case REJECT:
-                status = NewsStatus.REJECT;
-                break;
+                case APPLY:
+                    status = NewsStatus.SUBMIT;
+                    break;
+                case AGREE:
+                    status = NewsStatus.APPROVE;
+                    break;
+                case REJECT:
+                    status = NewsStatus.REJECT;
+                    break;
             }
         }
         news.setStatus(status);
@@ -156,6 +160,29 @@ public class ActBusinessService implements IActBusinessService {
         approveTask.setSubject(variable.getSubject());
         approveTask.setProcessType(variable.getProcessType());
         actApproveTaskRepo.save(approveTask);
+    }
+
+    @Override
+    public ProcessUser getProcessUser(String actUserId) {
+        ProcessUser user = new ProcessUser();
+        if (actUserId == null) {
+            return user;
+        }
+        AdUser adUser = userRepo.findUserByAccount(actUserId);
+        if (adUser == null) {
+            return user;
+        }
+        user.setUserId(adUser.getId());
+        user.setActUserId(adUser.getAccount());
+        user.setUserName(adUser.getName());
+        if (adUser.getOrganId() != null) {
+            AdOrganization organ = adUser.getOrgan();
+            if (organ != null) {
+                user.setUserOrganId(organ.getId());
+                user.setUserOrganName(organ.getName());
+            }
+        }
+        return user;
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.joda.time.LocalDateTime;
  */
 public class ApproveHistory {
     private String approveUser;
+    private String approveUserOrgan;
     private String comment;
     private String taskName;
     @JsonSerialize(using = EnumSerializer.class)
@@ -72,5 +73,13 @@ public class ApproveHistory {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getApproveUserOrgan() {
+        return approveUserOrgan;
+    }
+
+    public void setApproveUserOrgan(String approveUserOrgan) {
+        this.approveUserOrgan = approveUserOrgan;
     }
 }

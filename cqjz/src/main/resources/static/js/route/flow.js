@@ -122,6 +122,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
                 cellTemplate: "<mine-action action='preview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
             {field: 'applyUser', width: 150, displayName: '申请人'},
+            {field: 'applyUserOrgan', width: 150, displayName: '所属部门'},
             {field: 'applyTime', width: 150, displayName: '申请时间'},
             {field: 'receiveTime', width: 150, displayName: '接收时间'},
             {

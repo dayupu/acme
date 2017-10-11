@@ -1,9 +1,6 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
-import com.manage.base.act.ActApprove;
-import com.manage.base.act.ActBusiness;
-import com.manage.base.act.ActSource;
-import com.manage.base.act.ProcessVariable;
+import com.manage.base.act.*;
 import com.manage.base.constant.ActConstants;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.enums.ActStatus;
@@ -220,8 +217,8 @@ public class FlowService implements IFlowService {
         for (Task task : tasks) {
             flow = new FlowDto();
             processId = task.getProcessInstanceId();
-            HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
-            if (processInstance == null) {
+            HistoricProcessInstance process = getHistoricProcessInstance(processId);
+            if (process == null) {
                 continue;
             }
 
@@ -230,12 +227,14 @@ public class FlowService implements IFlowService {
             flow.setTaskName(task.getName());
             flow.setProcessId(processId);
             flow.setSubject(variable.getSubject());
-            ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
+            ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
             flow.setProcessType(variable.getProcessTypeName());
-            flow.setApplyUser(getUserName(processInstance.getStartUserId()));
-            flow.setApplyTime(LocalDateTime.fromDateFields(processInstance.getStartTime()));
+            ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
+            flow.setApplyUser(processUser.getUserName());
+            flow.setApplyUserOrgan(processUser.getUserOrganName());
+            flow.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
             flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
             flows.add(flow);
         }
@@ -336,10 +335,12 @@ public class FlowService implements IFlowService {
         detail.setBusinessNumber(business.getNumber());
         detail.setBusinessSource(business.getSource());
         detail.setProcessType(variable.getProcessTypeName());
-        HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processId);
-        if (historicProcessInstance != null) {
-            detail.setApplyUser(getUserName(historicProcessInstance.getStartUserId()));
-            detail.setApplyTime(LocalDateTime.fromDateFields(historicProcessInstance.getStartTime()));
+        HistoricProcessInstance process = getHistoricProcessInstance(processId);
+        if (process != null) {
+            ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
+            detail.setApplyUser(processUser.getUserName());
+            detail.setApplyUserOrgan(processUser.getUserOrganName());
+            detail.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
         }
         detail.setApproveHistories(approveHistory(processId));
 
@@ -388,7 +389,9 @@ public class FlowService implements IFlowService {
                 history.setTaskName(task.getName());
             }
             history.setComment(builder.toString());
-            history.setApproveUser(getUserName(approve.getUserId()));
+            ProcessUser processUser = businessService.getProcessUser(approve.getUserId());
+            history.setApproveUser(processUser.getUserName());
+            history.setApproveUserOrgan(processUser.getUserOrganName());
             history.setProcess(approve.getProcess());
             history.setStartTime(LocalDateTime.fromDateFields(activity.getStartTime()));
             history.setEndTime(LocalDateTime.fromDateFields(activity.getEndTime()));
@@ -400,13 +403,6 @@ public class FlowService implements IFlowService {
 
     private HistoricProcessInstance getHistoricProcessInstance(String processInstanceId) {
         return historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-    }
-
-    private String getUserName(String account) {
-        if (account == null) {
-            return null;
-        }
-        return userRepo.getUserNameByAccount(account);
     }
 
     private ActApprove getHistoricActApprove(String taskId) {

@@ -23,6 +23,7 @@ public class FlowDto {
     private String taskName;
     private String nextTaskName;
     private String applyUser;
+    private String applyUserOrgan;
     private String businessNumber;
     private String processType;
     @JsonSerialize(using = EnumSerializer.class)
@@ -218,5 +219,13 @@ public class FlowDto {
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
+    }
+
+    public String getApplyUserOrgan() {
+        return applyUserOrgan;
+    }
+
+    public void setApplyUserOrgan(String applyUserOrgan) {
+        this.applyUserOrgan = applyUserOrgan;
     }
 }
