@@ -58,16 +58,31 @@ mainApp.directive("mineMessage", function () {
         replace: true
     }
 });
-mainApp.directive("mineDate", function () {
+mainApp.directive("mineDatetime", function () {
     return {
         restrict: 'E',
         require: 'ngModel',
-        template: "<div class='input-group date' style='width: 162px;'>" +
-        "<input style='width: 142px;' type='text'class='form-control input-sm' />" +
+        scope: {
+            time: "@",
+            width: "@"
+        },
+        template: "<div class='input-group date'>" +
+        "<input type='text'class='form-control input-sm' />" +
         "<span class='input-group-addon' style='cursor:pointer;'><span class='glyphicon glyphicon-calendar'></span></span></div>",
         link: function (scope, element, attrs, ngModel) {
+            var time = true;
+            var formatRegex = "Y-m-d H:i:s";
+            var width = 180;
+            if (typeof attrs.width != "undefined") {
+                width = attrs.width;
+            }
+            $(element).css("width", width + "px");
+            if (typeof attrs.time == "string" && attrs.time == "false") {
+                time = false;
+                formatRegex = "Y-m-d";
+            }
             var dateText = $(element).children("input");
-            $(dateText).datetimepicker({format: 'Y-m-d H:i:s'});
+            $(dateText).datetimepicker({format: formatRegex, timepicker: time});
             $(dateText).change(function () {
                 ngModel.$setViewValue($(this).val());
                 console.log($(this).val());

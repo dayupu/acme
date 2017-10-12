@@ -56,7 +56,7 @@
 }
 
 .mine-content {
-    padding: 8px;
+    padding: 5px;
 }
 
 .mine-title {
@@ -65,7 +65,7 @@
     line-height: 45px;
     height: 45px;
     color: black;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     background-color: #e9eef4;
     border-bottom: 1px solid #cccfd3;
 }

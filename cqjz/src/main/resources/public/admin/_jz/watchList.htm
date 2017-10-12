@@ -1,21 +1,111 @@
 <div class="mine-layout">
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-o"></i>值班人员</div>
-        <div class="mine-content modal-body">
+        <div class="mine-content">
             <ul id="watchTab" class="nav nav-tabs" style="height:40px;">
                 <li role="presentation" class="active">
-                    <a href="#watchSet">值班安排</a>
+                    <a href="#watchSet">值班信息</a>
                 </li>
                 <li role="presentation">
-                    <a href="#watchList">值班历史</a>
+                    <a href="#watchList">值班计划</a>
                 </li>
             </ul>
-            <div id="myTabContent" class="tab-content">
+            <div class="tab-content">
                 <div class="tab-pane fade in active" id="watchSet">
-                    aaa
+                    &nbsp;
+                    <div class="form-inline mine-query">
+                        <div class="form-group">
+                            <label>姓名</label>
+                            <input type="text" class="form-control input-sm" ng-model="userQuery.account"/>
+                        </div>
+                        <div class="form-group">
+                            <label>值班时间</label>
+                            <mine-datetime ng-model="query.watchTime" time="false" width="130"></mine-datetime>
+                        </div>
+                        <div class="form-group">
+                            <label>到</label>
+                            <mine-datetime ng-model="query.watchTimeEnd" time="false" width="130"></mine-datetime>
+                        </div>
+                        <span class="form-group">
+                            <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                        </span>
+                    </div>
+                    <div class="gridStyle" ng-grid="gridOptions"></div>
                 </div>
                 <div class="tab-pane fade" id="watchList">
-                    <div class="gridStyle" ng-grid="gridOptions"></div>
+                    <h5 class="text-warning">注：新的值班信息会覆盖以前对应值班时间的信息</h5>
+                    <form class="form-horizontal" name="watchForm">
+                        <table class="table">
+                            <tr>
+                                <td width="120">
+                                    <mine-label name="值班时间" required></mine-label>
+                                </td>
+                                <td>
+                                    <mine-datetime style="float: left;" ng-model="watch.watchTime" time="false"
+                                                   width="130"></mine-datetime>
+                                    <button class="btn btn-link btn-sm" ng-click="save()">拉取信息</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mine-label name="值班时间至"></mine-label>
+                                </td>
+                                <td>
+                                    <mine-datetime style="float: left;" ng-model="watch.watchTimeEnd" time="false"
+                                                   width="130"></mine-datetime>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mine-label name="值班领导" required></mine-label>
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="watch.leader"
+                                           class="form-control input-sm mine-input-abeam"
+                                           style="width:250px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mine-label name="值班班长" required></mine-label>
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="watch.captain"
+                                           class="form-control input-sm mine-input-abeam"
+                                           style="width:250px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mine-label name="值班民警" required></mine-label>
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="watch.worker"
+                                           class="form-control input-sm mine-input-abeam"
+                                           style="width:250px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100">
+                                    <mine-label name="值班电话" required></mine-label>
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="watch.phone"
+                                           class="form-control input-sm mine-input-abeam"
+                                           style="width:250px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable"
+                                            ng-click="save()">
+                                        保存
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>

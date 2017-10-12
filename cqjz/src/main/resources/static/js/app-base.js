@@ -1,5 +1,5 @@
 var _appContextPath = null;
-
+$.datetimepicker.setLocale('ch');
 // 拼接项目路径
 function fullPath(path) {
     if (_appContextPath == null) {
