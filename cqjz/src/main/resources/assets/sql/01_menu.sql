@@ -9,6 +9,8 @@ INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequen
 VALUES(6, NULL, NULL, 2, '菜单信息', 1, 3, 'menu.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(7, NULL, NULL, 2, '组织机构', 1, 4, 'depart.list');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(14, NULL, NULL, 2, '组织机构', 1, 5, 'organ.list');
 -- 工作流任务
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(2, NULL, NULL, 1, '我的任务', NULL, 2, NULL);

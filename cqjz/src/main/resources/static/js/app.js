@@ -52,6 +52,14 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state("flow.list.approve", {
             url: "/approve", templateUrl: './_flow/flowListApprove.htm', controller: "flowApproveListCtl"
         })
+        // jz
+        .state("jz", {url: "/jz", templateUrl: './_jz/jz.htm'})
+        .state("jz.watchList", {
+            url: "/watchList", templateUrl: './_jz/watchList.htm', controller: "jzWatchListCtl"
+        })
+        .state("jz.starList", {
+            url: "/starList", templateUrl: './_jz/starList.htm', controller: "jzStarListCtl"
+        })
     ;
 }
 // factorys

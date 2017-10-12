@@ -7,10 +7,7 @@
             class="modal-title">用户角色</span>
     </div>
     <div class="modal-body">
-        <div class="alert" ng-if="messageStatus != null"
-             ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
-            {{message}}
-        </div>
+        <mine-message status="messageStatus" message="message"></mine-message>
         <table class="table table-bordered table-striped">
             <tbody>
             <tr>

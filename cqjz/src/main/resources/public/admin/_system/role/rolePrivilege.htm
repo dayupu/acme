@@ -7,10 +7,7 @@
             class="modal-title">权限设置</span>
     </div>
     <div class="modal-body">
-        <div class="alert" ng-if="messageStatus != null"
-             ng-class="{true:'alert-success',false:'alert-danger'}[messageStatus]">
-            {{message}}
-        </div>
+        <mine-message status="messageStatus" message="message"></mine-message>
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
                 <a href="#menuPrivilege" data-toggle="tab">
