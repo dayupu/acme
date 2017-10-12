@@ -1,23 +1,21 @@
 <div class="mine-layout">
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-user-o"></i>值班人员</div>
-        <div class="mine-content">
-            <div>
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#watchSet" data-toggle="tab">值班安排</a>
-                    </li>
-                    <li>
-                        <a href="#watchHistory" data-toggle="tab">值班历史</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="watchSet">
-                        HELLO
-                    </div>
-                    <div class="tab-pane fade" id="watchHistory">
-                        TEST
-                    </div>
+        <div class="mine-content modal-body">
+            <ul id="watchTab" class="nav nav-tabs" style="height:40px;">
+                <li role="presentation" class="active">
+                    <a href="#watchSet">值班安排</a>
+                </li>
+                <li role="presentation">
+                    <a href="#watchList">值班历史</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="watchSet">
+                    aaa
+                </div>
+                <div class="tab-pane fade" id="watchList">
+                    <div class="gridStyle" ng-grid="gridOptions"></div>
                 </div>
             </div>
         </div>
