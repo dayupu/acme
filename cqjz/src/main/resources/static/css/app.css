@@ -192,5 +192,6 @@ div {
     height: 400px;
     display: block;
     position: relative;
-    margin: 10px 0px;
+    border-top:1px solid #e6e2e2;
+    margin: 5px 0px;
 }

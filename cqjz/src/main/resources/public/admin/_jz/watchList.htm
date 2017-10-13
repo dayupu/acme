@@ -11,8 +11,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="watchSet">
-                    &nbsp;
+                <div class="tab-pane fade in active mine-pane" id="watchSet">
                     <div class="form-inline mine-query">
                         <div class="form-group">
                             <label>姓名</label>
@@ -32,7 +31,7 @@
                     </div>
                     <div class="gridStyle" ng-grid="gridOptions"></div>
                 </div>
-                <div class="tab-pane fade" id="watchList">
+                <div class="tab-pane fade mine-pane" id="watchList">
                     <mine-message status="messageStatus" message="message"></mine-message>
                     <h5 class="text-warning">注：新的值班信息会覆盖以前对应值班时间的信息</h5>
                     <form class="form-horizontal" name="watchForm">
