@@ -63,3 +63,54 @@ mainApp.controller("jzWatchListCtl", function ($scope, mineGrid, mineTree, mineH
          });
     };
 });
+
+mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
+    $scope.months = getMonths();
+    mineGrid.gridPageInit("gridOptions", $scope, {
+        data: 'myData',
+        multiSelect: false,
+        selectWithCheckboxOnly: true,
+        requestMethod: "POST",
+        requestUrl: fullPath("admin/jz/superstar/list"),
+        columnDefs: [
+            {field: 'id', width: 100, displayName: '编号'},
+            {field: 'year', width: 100, displayName: '年'},
+            {field: 'month', width: 100, displayName: '月'},
+            {field: 'name', displayName: '姓名'},
+            {field: 'honor', displayName: '荣誉名称'},
+            {field: 'story', displayName: '简介'},
+            {
+                field: 'id',
+                displayName: '操作',
+                width: 100,
+                sortable: false,
+                cellTemplate: "<div><mine-action icon='fa fa-edit' action='drop(row.entity)' name='删除'></mine-action></div>"
+            }
+        ]
+    });
+    $scope.gridPageQueryCallback = function (data) {
+        return {data: data.content.rows, total: data.content.total};
+    };
+    $scope.query = function () {
+        $scope.gridPageQuery({}, $scope.filter);
+    };
+    $scope.query();
+
+    $scope.add = function (oneLevelFlag) {
+        var params = null;
+        if (!oneLevelFlag) {
+            params = $scope.menu;
+        }
+        var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", params);
+        modalInstance.result.then(function (selectedItem) {
+        }, function () {
+        });
+    };
+});
+
+mainApp.controller("systemSuperstarController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
+    $scope.months = getMonths();
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});

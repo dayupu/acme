@@ -1,6 +1,7 @@
 package com.manage.kernel.jpa.entity;
 
 import com.manage.kernel.jpa.base.EntityBase;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,8 +23,20 @@ public class JzSuperStar extends EntityBase {
     @GeneratedValue(generator = "seq_jz_super_star", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "year", nullable = false)
+    private String year;
+
+    @Column(name = "month", nullable = false)
+    private String month;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "honor", nullable = false)
+    private String honor;
+
+    @Column(name = "story", columnDefinition = "TEXT")
+    private String story;
 
     @Lob
     @Column(name = "photo")
@@ -32,8 +45,6 @@ public class JzSuperStar extends EntityBase {
     @Column(name = "photo_name")
     private String photoName;
 
-    @Column(name = "story")
-    private String story;
 
     public Long getId() {
         return id;
@@ -73,5 +84,29 @@ public class JzSuperStar extends EntityBase {
 
     public void setStory(String story) {
         this.story = story;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getHonor() {
+        return honor;
+    }
+
+    public void setHonor(String honor) {
+        this.honor = honor;
     }
 }

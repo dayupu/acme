@@ -54,12 +54,13 @@
     min-height: 600px;
     border: 1px solid lightgrey;
 }
-.mine-pane{
-  padding: 10px;
+
+.mine-pane {
+    padding: 10px;
 }
 
 .mine-content {
-   padding: 5px;
+    padding: 5px 15px;
 }
 
 .mine-title {
@@ -279,6 +280,12 @@
 .mine-win-value {
     display: block;
     padding-top: 5px;
+}
+
+.mine-win-value-text {
+    padding: 0px 5px;
+    line-height: 30px;
+    float: left;
 }
 
 .mine-win-required {

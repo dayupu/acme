@@ -43,6 +43,24 @@ function today() {
     return currentdate;
 }
 
+function getMonths() {
+    var months = new Array();
+    var fullMonth = function (month) {
+        if (month < 10) {
+            month = "0" + month;
+        }
+        return month;
+    };
+
+    for (var i = 1; i < 13; i++) {
+        var month = {};
+        month.key = fullMonth(i);
+        month.value = fullMonth(i);
+        months.push(month);
+    }
+    return months;
+}
+
 // 创建Umeditor
 function createUeditor(elementId) {
     umeditorInit($);

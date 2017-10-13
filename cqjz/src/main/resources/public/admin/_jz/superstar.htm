@@ -1,0 +1,76 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+        <span class="modal-title">明日之星</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="menuForm">
+            <input type="hidden" ng-model="menu.parentId">
+            <mine-message status="messageStatus" message="message"></mine-message>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="姓名" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="superstar.name" name="name"
+                               required/>
+                    </td>
+                    <td rowspan="4" align="center">
+                        <img src="http://img1.imgtn.bdimg.com/it/u=1016845359,293046688&fm=11&gp=0.jpg" width="150" height="180" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="时间" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" style="width: 100px;float: left;" class="form-control input-sm"
+                               ng-model="superstar.year" maxlength="4"
+                               name="year" ng-pattern="/^\d{4,4}$/" required/>
+                        <div class="mine-win-value-text">年</div>
+                        <select ng-model="superstar.month" class="form-control input-sm"
+                                style="width: 60px;float: left;">
+                            <option value=""></option>
+                            <option ng-repeat="m in months" ng-value="m.key">{{m.value}}</option>
+                        </select>
+                        <div class="mine-win-value-text">月</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="荣誉名称" required></mine-key>
+                    </td>
+                    <td><input type="text" class="form-control input-sm" ng-model="superstar.honor" name="honor"></td>
+                </tr>
+                <tr>
+                    <td class="warning" height="50">
+                        <mine-key name="照片" required></mine-key>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" ngf-select="imageUpload()" ng-model="file"
+                                name="file"
+                                ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
+                                ngf-min-height="100">上传
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="事迹简介" required></mine-key>
+                    </td>
+                    <td colspan="2">
+                        <textarea ng-model="superstar.story" rows="7" class="form-control" style="overflow-y: auto;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid">保存</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

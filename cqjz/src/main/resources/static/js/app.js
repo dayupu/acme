@@ -58,8 +58,8 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state("jz.list.watch", {
             url: "/watch", templateUrl: './_jz/watchList.htm', controller: "jzWatchListCtl"
         })
-        .state("jz.list.star", {
-            url: "/star", templateUrl: './_jz/starList.htm', controller: "jzStarListCtl"
+        .state("jz.list.superstar", {
+            url: "/superstar", templateUrl: './_jz/superstarList.htm', controller: "jzSuperstarListCtl"
         })
     ;
 }
