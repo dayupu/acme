@@ -2,6 +2,7 @@
 .ngTopPanel {
     background-color: #f9f6f1;
     color: #3a3f51;
+    border-top:1px solid #e6e2e2;
 }
 
 .ngFooterPanel {
