@@ -338,10 +338,10 @@ mainApp.service("mineGrid", function ($http, $parse) {
         };
         // binding event when page changed
         scope.$watch('gridPagingOptions', function (newVal, oldVal) {
-            if (queryFlag) {
+           /* if (queryFlag) {
                 queryFlag = false;
                 return;
-            }
+            }*/
             if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
                 scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo, tempParams, tempData);
             }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.IOException;
@@ -12,15 +13,15 @@ import java.io.IOException;
 /**
  * Created by bert on 2017/8/12.
  */
-public class DateTimeSerializer extends JsonSerializer<DateTime> {
+public class LocalDateSerializer extends JsonSerializer<LocalDate> {
 
-    private static final String pattern = "yyyy-MM-dd HH:mm:ss";
+    private static final String pattern = "yyyy-MM-dd";
 
     @Override
-    public void serialize(DateTime dateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
-        if (dateTime == null) {
+    public void serialize(LocalDate localDate, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+        if (localDate == null) {
             jsonGenerator.writeNull();
         }
-        jsonGenerator.writeString(dateTime.toString(DateTimeFormat.forPattern(pattern)));
+        jsonGenerator.writeString(localDate.toString(DateTimeFormat.forPattern(pattern)));
     }
 }

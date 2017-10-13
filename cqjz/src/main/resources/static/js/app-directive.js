@@ -64,24 +64,33 @@ mainApp.directive("mineDatetime", function () {
         require: 'ngModel',
         scope: {
             time: "@",
-            width: "@"
+            width: "@",
+            textname:"@",
+            required:"@"
         },
         template: "<div class='input-group date'>" +
         "<input type='text'class='form-control input-sm' />" +
         "<span class='input-group-addon' style='cursor:pointer;'><span class='glyphicon glyphicon-calendar'></span></span></div>",
         link: function (scope, element, attrs, ngModel) {
+            var dateText = $(element).children("input");
             var time = true;
             var formatRegex = "Y-m-d H:i:s";
             var width = 180;
             if (typeof attrs.width != "undefined") {
                 width = attrs.width;
             }
+            if (typeof attrs.textname != "undefined") {
+                $(dateText).attr("name", attrs.textname);
+            }
+            if (typeof attrs.required != "undefined" && attrs.required == "true") {
+                $(dateText).attr("required", true);
+            }
             $(element).css("width", width + "px");
             if (typeof attrs.time == "string" && attrs.time == "false") {
                 time = false;
                 formatRegex = "Y-m-d";
             }
-            var dateText = $(element).children("input");
+
             $(dateText).datetimepicker({format: formatRegex, timepicker: time});
             $(dateText).change(function () {
                 ngModel.$setViewValue($(this).val());

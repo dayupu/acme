@@ -8,7 +8,6 @@ import com.manage.base.exception.ActNotSupportException;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
-import com.manage.kernel.jpa.base.Process;
 import com.manage.kernel.jpa.entity.ActApproveTask;
 import com.manage.kernel.jpa.entity.AdOrganization;
 import com.manage.kernel.jpa.entity.AdUser;

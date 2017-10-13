@@ -54,11 +54,12 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         // jz
         .state("jz", {url: "/jz", templateUrl: './_jz/jz.htm'})
-        .state("jz.watchList", {
-            url: "/watchList", templateUrl: './_jz/watchList.htm', controller: "jzWatchListCtl"
+        .state("jz.list", {url: "/jz/list", templateUrl: './_jz/jz.htm'})
+        .state("jz.list.watch", {
+            url: "/watch", templateUrl: './_jz/watchList.htm', controller: "jzWatchListCtl"
         })
-        .state("jz.starList", {
-            url: "/starList", templateUrl: './_jz/starList.htm', controller: "jzStarListCtl"
+        .state("jz.list.star", {
+            url: "/star", templateUrl: './_jz/starList.htm', controller: "jzStarListCtl"
         })
     ;
 }

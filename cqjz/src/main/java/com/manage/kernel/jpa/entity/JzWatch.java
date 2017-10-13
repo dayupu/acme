@@ -2,6 +2,7 @@ package com.manage.kernel.jpa.entity;
 
 import com.manage.kernel.jpa.base.EntityBase;
 import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -25,8 +26,8 @@ public class JzWatch extends EntityBase {
     private Long id;
 
     @Column(name = "watch_time")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime watchTime;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+    private LocalDate watchTime;
 
     @Column(name = "leader")
     private String leader;
@@ -39,6 +40,14 @@ public class JzWatch extends EntityBase {
 
     @Column(name = "phone")
     private String phone;
+
+    public JzWatch() {
+
+    }
+
+    public JzWatch(Long id) {
+        this.id = id;
+    }
 
     public String getCaptain() {
         return captain;
@@ -80,14 +89,11 @@ public class JzWatch extends EntityBase {
         this.phone = phone;
     }
 
-    public LocalDateTime getWatchTime() {
+    public LocalDate getWatchTime() {
         return watchTime;
     }
 
-    public void setWatchTime(LocalDateTime watchTime) {
+    public void setWatchTime(LocalDate watchTime) {
         this.watchTime = watchTime;
     }
-
-
-
 }
