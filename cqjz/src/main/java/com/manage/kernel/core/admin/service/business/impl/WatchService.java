@@ -1,6 +1,8 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.exception.CoreException;
+import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.StringUtil;
@@ -20,6 +22,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -42,12 +45,12 @@ public class WatchService implements IWatchService {
         if (watchDto.getWatchTimeEnd() != null) {
             watchTimeEnd = watchDto.getWatchTimeEnd();
             if (watchTimeEnd.compareTo(watchDto.getWatchTime()) < 0) {
-                throw new RuntimeException();
+                throw new CoreException(MessageErrors.WATCH_TIME_ERROR);
             }
             Days days = Days.daysBetween(watchDto.getWatchTime(), watchTimeEnd);
             differ = days.getDays();
             if (differ > 30) {
-                throw new RuntimeException();
+                throw new CoreException(MessageErrors.WATCH_TIME_RANGE_INVALID);
             }
         }
 
