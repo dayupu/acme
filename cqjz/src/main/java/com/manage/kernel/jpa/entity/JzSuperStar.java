@@ -1,6 +1,7 @@
 package com.manage.kernel.jpa.entity;
 
 import com.manage.kernel.jpa.base.EntityBase;
+import com.manage.kernel.jpa.base.StatusBase;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "jz_super_star")
 @SequenceGenerator(name = "seq_jz_super_star", sequenceName = "seq_jz_super_star", allocationSize = 1)
-public class JzSuperStar extends EntityBase {
+public class JzSuperStar extends StatusBase {
 
     @Id
     @GeneratedValue(generator = "seq_jz_super_star", strategy = GenerationType.SEQUENCE)

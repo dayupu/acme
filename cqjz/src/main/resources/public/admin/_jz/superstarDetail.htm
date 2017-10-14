@@ -1,0 +1,51 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+        <span class="modal-title">明日之星</span>
+    </div>
+    <div class="modal-body">
+        <table class="table table-condensed table-bordered">
+            <tr>
+                <td class="mine-title-td warning" width="100">
+                    姓名
+                </td>
+                <td width="250">
+                    {{superstar.name}}
+                </td>
+                <td rowspan="3" align="center">
+                    <img src="http://img1.imgtn.bdimg.com/it/u=1016845359,293046688&fm=11&gp=0.jpg" width="150"
+                         height="180"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    时间
+                </td>
+                <td width="250">
+                    {{superstar.year}}年{{superstar.month}}月
+                </td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    荣誉名称
+                </td>
+                <td> {{superstar.honor}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    事迹简介
+                </td>
+                <td colspan="2">
+                    {{superstar.story}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid">保存</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

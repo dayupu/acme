@@ -7,8 +7,8 @@
         <span class="modal-title">明日之星</span>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" name="menuForm">
-            <input type="hidden" ng-model="menu.parentId">
+        <form class="form-horizontal" name="superstarForm">
+            <input type="hidden" ng-model="superstar.id">
             <mine-message status="messageStatus" message="message"></mine-message>
             <table class="table table-condensed table-bordered">
                 <tr>
@@ -33,7 +33,7 @@
                                name="year" ng-pattern="/^\d{4,4}$/" required/>
                         <div class="mine-win-value-text">年</div>
                         <select ng-model="superstar.month" class="form-control input-sm"
-                                style="width: 60px;float: left;">
+                                style="width: 60px;float: left;" name="month" required>
                             <option value=""></option>
                             <option ng-repeat="m in months" ng-value="m.key">{{m.value}}</option>
                         </select>
@@ -44,7 +44,7 @@
                     <td class="warning">
                         <mine-key name="荣誉名称" required></mine-key>
                     </td>
-                    <td><input type="text" class="form-control input-sm" ng-model="superstar.honor" name="honor"></td>
+                    <td><input type="text" class="form-control input-sm" ng-model="superstar.honor" name="honor" required></td>
                 </tr>
                 <tr>
                     <td class="warning" height="50">
@@ -63,14 +63,14 @@
                         <mine-key name="事迹简介" required></mine-key>
                     </td>
                     <td colspan="2">
-                        <textarea ng-model="superstar.story" rows="7" class="form-control" style="overflow-y: auto;"></textarea>
+                        <textarea name="story" ng-model="superstar.story" rows="7" class="form-control" style="overflow-y: auto;" required></textarea>
                     </td>
                 </tr>
             </table>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="menuForm.$invalid">保存</button>
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="superstarForm.$invalid">保存</button>
         <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
     </div>
 </div>

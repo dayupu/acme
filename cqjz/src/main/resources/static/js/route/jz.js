@@ -1,5 +1,5 @@
 mainApp.controller("jzWatchListCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
-    $scope.watch={};
+    $scope.watch = {};
     $('#watchTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
@@ -36,31 +36,31 @@ mainApp.controller("jzWatchListCtl", function ($scope, mineGrid, mineTree, mineH
 
     $scope.save = function () {
         mineHttp.send("POST", "admin/jz/watch", {data: $scope.watch}, function (result) {
-           $scope.messageStatus = verifyData(result);
-           $scope.message = result.message;
-           if ($scope.messageStatus) {
-               $scope.news = null;
-           }
-       });
+            $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
+            if ($scope.messageStatus) {
+                $scope.news = null;
+            }
+        });
     };
     $scope.detail = function () {
-        if($scope.watch.watchTime == null || $scope.watch.watchTime == ""){
+        if ($scope.watch.watchTime == null || $scope.watch.watchTime == "") {
             return;
         }
         mineHttp.send("POST", "admin/jz/watch/detail", {data: $scope.watch}, function (result) {
-          if(result.content == null){
-             result.content = {};
-             result.content.watchTime = $scope.watch.watchTime;
-          }
-          $scope.watch = result.content;
-       });
+            if (result.content == null) {
+                result.content = {};
+                result.content.watchTime = $scope.watch.watchTime;
+            }
+            $scope.watch = result.content;
+        });
     };
     $scope.drop = function (entity) {
-         mineUtil.confirm("确认删除吗？", function () {
+        mineUtil.confirm("确认删除吗？", function () {
             mineHttp.send("DELETE", "admin/jz/watch/" + entity.id, null, function (result) {
-                  $scope.query();
+                $scope.query();
             });
-         });
+        });
     };
 });
 
@@ -82,9 +82,11 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
             {
                 field: 'id',
                 displayName: '操作',
-                width: 100,
+                width: 200,
                 sortable: false,
-                cellTemplate: "<div><mine-action icon='fa fa-edit' action='drop(row.entity)' name='删除'></mine-action></div>"
+                cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
+                "<mine-action icon='fa fa-edit' action='detail(row.entity)' name='查看'></mine-action>" +
+                "<mine-action icon='fa fa-edit' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
         ]
     });
@@ -96,12 +98,20 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
     };
     $scope.query();
 
-    $scope.add = function (oneLevelFlag) {
-        var params = null;
-        if (!oneLevelFlag) {
-            params = $scope.menu;
-        }
-        var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", params);
+    $scope.add = function () {
+        var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", null);
+        modalInstance.result.then(function (selectedItem) {
+        }, function () {
+        });
+    };
+    $scope.edit = function (superstar) {
+        var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", superstar);
+        modalInstance.result.then(function (selectedItem) {
+        }, function () {
+        });
+    };
+    $scope.detail = function (superstar) {
+        var modalInstance = mineUtil.modal("admin/_jz/superstarDetail.htm", "systemSuperstarDetailController", superstar);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
         });
@@ -110,6 +120,36 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
 
 mainApp.controller("systemSuperstarController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
     $scope.months = getMonths();
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    if (data != null && data.id != null) {
+        mineHttp.send("GET", "admin/jz/superstar/" + data.id, {}, function (result) {
+            $scope.messageStatus = verifyData(result);
+
+            if (!$scope.messageStatus) {
+                $scope.message = result.message;
+                return;
+            }
+            $scope.superstar = result.content;
+        });
+    }
+    $scope.ok = function () {
+        mineHttp.send("POST", "admin/jz/superstar", {data: $scope.superstar}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
+            if ($scope.messageStatus) {
+                $scope.superstar = result.content;
+            }
+        });
+    };
+});
+
+mainApp.controller("systemSuperstarDetailController", function ($scope, data, $uibModalInstance, mineHttp) {
+    mineHttp.send("GET", "admin/jz/superstar/" + data.id, {}, function (result) {
+        $scope.superstar = result.content;
+    });
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
