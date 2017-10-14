@@ -15,9 +15,8 @@
                 <td width="250">
                     {{superstar.name}}
                 </td>
-                <td rowspan="3" align="center">
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1016845359,293046688&fm=11&gp=0.jpg" width="150"
-                         height="180"/>
+                <td rowspan="7" align="center">
+                    <img src="{{superstar.imageBase64}}" width="147"  height="206"/>
                 </td>
             </tr>
             <tr>
@@ -33,6 +32,38 @@
                     荣誉名称
                 </td>
                 <td> {{superstar.honor}}</td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    创建时间
+                </td>
+                <td width="250">
+                    {{superstar.createdAt}}
+                </td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    创建者
+                </td>
+                <td width="250">
+                    {{superstar.createdBy}}
+                </td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    修改时间
+                </td>
+                <td width="250">
+                    {{superstar.updatedAt}}
+                </td>
+            </tr>
+            <tr>
+                <td class="mine-title-td warning">
+                    修改者
+                </td>
+                <td width="250">
+                    {{superstar.updatedBy}}
+                </td>
             </tr>
             <tr>
                 <td class="mine-title-td warning">

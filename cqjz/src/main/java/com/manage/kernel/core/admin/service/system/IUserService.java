@@ -15,6 +15,8 @@ public interface IUserService {
 
     void modifyUser(UserDto userDto);
 
+    UserDto getUser(String account);
+
     UserDto getUser(Long userId);
 
     Pair<AdUser, List<Long>> authUserDetail(String account);

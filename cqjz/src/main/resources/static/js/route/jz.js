@@ -102,12 +102,14 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
         var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", null);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
+         $scope.query();
         });
     };
     $scope.edit = function (superstar) {
         var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", superstar);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
+          $scope.query();
         });
     };
     $scope.detail = function (superstar) {
@@ -116,14 +118,32 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
         }, function () {
         });
     };
+    $scope.drop = function (entity) {
+            mineUtil.confirm("确认删除吗？", function () {
+                mineHttp.send("DELETE", "admin/jz/superstar/" + entity.id, null, function (result) {
+                    $scope.query();
+                });
+            });
+        };
 });
 
 mainApp.controller("systemSuperstarController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
     $scope.months = getMonths();
+    $scope.superstar={};
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 
+    $scope.imageUpload = function () {
+        if ($scope.file) {
+            $scope.upload($scope.file);
+        }
+    };
+    $scope.upload = function (file) {
+        mineHttp.upload("admin/jz/superstar/upload", {file: file}, function (data) {
+             $scope.superstar.imageBase64 = data.content;
+        });
+    };
     if (data != null && data.id != null) {
         mineHttp.send("GET", "admin/jz/superstar/" + data.id, {}, function (result) {
             $scope.messageStatus = verifyData(result);
@@ -133,6 +153,10 @@ mainApp.controller("systemSuperstarController", function ($scope, data, $uibModa
                 return;
             }
             $scope.superstar = result.content;
+        });
+    } else {
+        mineHttp.send("GET", "admin/jz/superstar/headImage", {}, function (result) {
+           $scope.superstar.imageBase64 = result.content;
         });
     }
     $scope.ok = function () {

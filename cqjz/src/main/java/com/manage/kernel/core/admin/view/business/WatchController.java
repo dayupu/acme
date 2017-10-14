@@ -92,7 +92,7 @@ public class WatchController {
 
     @InboundLog
     @DeleteMapping("/{id}")
-    public ResponseInfo detail(@PathVariable("id") Long id) {
+    public ResponseInfo drop(@PathVariable("id") Long id) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(id);

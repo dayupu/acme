@@ -1,6 +1,11 @@
 package com.manage.kernel.core.admin.apply.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.manage.base.database.serialize.LocalDateTimeDeserializer;
+import com.manage.base.database.serialize.LocalDateTimeSerializer;
 import javax.persistence.*;
+import org.joda.time.LocalDateTime;
 
 /**
  * Created by bert on 2017/10/14.
@@ -13,7 +18,15 @@ public class SuperstarDto {
     private String name;
     private String honor;
     private String story;
-    private String photoBase64;
+    private String imageBase64;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime createdAt;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime updatedAt;
+    private String createdBy;
+    private String updatedBy;
 
     public Long getId() {
         return id;
@@ -63,11 +76,43 @@ public class SuperstarDto {
         this.story = story;
     }
 
-    public String getPhotoBase64() {
-        return photoBase64;
+    public String getImageBase64() {
+        return imageBase64;
     }
 
-    public void setPhotoBase64(String photoBase64) {
-        this.photoBase64 = photoBase64;
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }

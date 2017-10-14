@@ -68,6 +68,9 @@ function createUeditor(elementId) {
 }
 
 mainApp.controller("menuController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
+     mineHttp.send("GET", "admin/index/user", {}, function (data) {
+        $scope.user = data.content;
+    });
     $scope.loadMenu = function () {
         mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
             if (verifyData(data)) {
@@ -91,8 +94,9 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
                 }
                 sub += "</ul>";
             }
-            html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'><i class='fa fa-angle-right'></i></span>" +
-                "<i class='fa fa-bars' style='font-size: 20px;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
+            html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'>"+
+                "<i class='fa fa-angle-right'></i></span>" +
+                "<i class='fa fa-circle-o' style='font-size: 12px;color:#132e41;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
                 + sub + "</li>";
         }
         $(pNode).append(html);
@@ -165,9 +169,14 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
     };
 });
 mainApp.controller("headerController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
+    $scope.user={};
     $scope.loginOut = function () {
         location.href = fullPath("admin/loginOut");
     }
+    $scope.home = function () {
+        location.href = fullPath("admin/loginOut");
+    }
+
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {

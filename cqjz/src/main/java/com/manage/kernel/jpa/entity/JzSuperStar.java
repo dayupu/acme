@@ -43,8 +43,8 @@ public class JzSuperStar extends StatusBase {
     @Column(name = "photo")
     private byte[] photo;
 
-    @Column(name = "photo_name")
-    private String photoName;
+    @Column(name = "suffix")
+    private String suffix;
 
 
     public Long getId() {
@@ -71,12 +71,12 @@ public class JzSuperStar extends StatusBase {
         this.photo = photo;
     }
 
-    public String getPhotoName() {
-        return photoName;
+    public String getSuffix() {
+        return suffix;
     }
 
-    public void setPhotoName(String photoName) {
-        this.photoName = photoName;
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
     public String getStory() {

@@ -1,9 +1,8 @@
 <div class="aside-app-div">
-    <div class="aside-app-menu-div" ng-init="loadMenu()"></div>
+    <div ng-init="loadMenu()"></div>
+    <div class="aside-nav">
+        <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp; <span>{{user.name}}</span>，欢迎您！
+    </div>
     <ul class="menu-nav" mark="menuRoot">
-        <li>
-            <a href="javascript:void(0);" class="first-menu-a" ui-sref="home">
-                <i class="fa fa-home" style="font-size: 20px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;首页</a>
-        </li>
     </ul>
 </div>

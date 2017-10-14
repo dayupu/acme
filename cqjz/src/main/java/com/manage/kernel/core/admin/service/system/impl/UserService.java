@@ -58,13 +58,22 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public UserDto getUser(Long userId) {
-
         AdUser user = userRepo.findOne(userId);
         if (user == null) {
             LOGGER.info("Not found the user {}", userId);
             throw new UserNotFoundException();
         }
+        return UserParser.toDto(user);
+    }
 
+    @Override
+    @Transactional
+    public UserDto getUser(String account) {
+        AdUser user = userRepo.findUserByAccount(account);
+        if (user == null) {
+            LOGGER.info("Not found the user {}", account);
+            throw new UserNotFoundException();
+        }
         return UserParser.toDto(user);
     }
 

@@ -133,7 +133,7 @@ div {
 }
 
 .aside-app-menu-div {
-    height: 20px;
+    height: 5px;
 }
 
 .aside-app-div .first-menu-a {
@@ -149,7 +149,21 @@ div {
     color: white;
     border-bottom: 1px solid #3b4c63;
 }
-
+.aside-nav{
+   height:50px;
+   padding:15px 0px 15px 30px;
+   background-color:#425671;
+   width:100%;
+   color:white;
+   font-size:13px;
+}
+.aside-nav > i{
+   font-size:16px;
+}
+.aside-nav > span{
+    color:orange;
+    font-size:16px;
+}
 .menu-nav {
     list-style: none;
     margin: 0px;

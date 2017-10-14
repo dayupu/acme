@@ -1,19 +1,23 @@
 package com.manage.base.utils;
 
 import com.manage.base.constant.Constants;
+import com.manage.base.constant.Image;
+import com.manage.base.supplier.Pair;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.MessageFormat;
 import java.util.UUID;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.joda.time.LocalDate;
-import org.springframework.security.access.method.P;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StreamUtils;
+import sun.misc.BASE64Decoder;
 
 /**
  * Created by bert on 17-8-25.
@@ -21,6 +25,8 @@ import org.springframework.util.StreamUtils;
 public class FileUtil {
 
     private static String resourcePath;
+
+    private static String IMAGE_BASE64_PREFIX = "data:image/%s;base64,%s";
 
     public static String resourcePath() {
         if (resourcePath == null) {
@@ -93,11 +99,6 @@ public class FileUtil {
         return uuid.replaceAll("-", "0");
     }
 
-    public static void main(String[] args) {
-        String a = "/resource/image/{0}";
-        System.out.println(MessageFormat.format(a, "1"));
-    }
-
     /**
      * 获取文件名后缀(例:.png)
      *
@@ -126,5 +127,37 @@ public class FileUtil {
             return false;
         }
         return true;
+    }
+
+    public static String imageByteToBase64(byte[] bytes, String suffix) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        if (suffix == null) {
+            return null;
+        }
+        if (suffix.startsWith(".")) {
+            suffix = suffix.substring(1);
+        }
+        return String.format(IMAGE_BASE64_PREFIX, suffix, Base64Utils.encodeToString(bytes));
+    }
+
+    public static Pair<byte[], String> imageBase64ToByte(String base64) {
+        Matcher matcher = Pattern.compile("data:([^/]*)/([^;]*);base64,(.*)").matcher(base64);
+        if (!matcher.find()) {
+            return null;
+        }
+        Pair<byte[], String> imagePair = new Pair<>();
+        imagePair.setLeft(Base64Utils.decodeFromString(matcher.group(3)));
+        imagePair.setRight(matcher.group(2));
+        return imagePair;
+    }
+
+    public static void main(String[] args) throws Exception {
+        //        File file = new File("/home/bert/Documents/github/acme/cqjz/src/main/resources/static/images/other/head.png");
+        //        FileInputStream in = new FileInputStream(file);
+        //        byte[] buffer = new byte[(int) file.length()];
+        //        in.read(buffer);
+        //        System.out.println(imageByteToBase64(buffer, file.getName()));
     }
 }

@@ -2,8 +2,10 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.database.enums.Status;
 import com.manage.base.exception.SuperstarNotFoundException;
+import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
+import com.manage.base.utils.FileUtil;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.SuperstarDto;
 import com.manage.kernel.core.admin.apply.parser.SuperstarParser;
@@ -19,13 +21,13 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by bert on 2017/10/14.
  */
 @Service
 public class SuperstarService implements ISuperStarService {
-
 
     @Autowired
     private JzSuperStarRepo superStarRepo;
@@ -57,16 +59,13 @@ public class SuperstarService implements ISuperStarService {
     }
 
     @Override
+    @Transactional
     public SuperstarDto saveSuperstar(SuperstarDto superstarDto) {
 
         JzSuperStar superStar = null;
         if (superstarDto.getId() == null) {
             superStar = new JzSuperStar();
-            superStar.setYear(superstarDto.getYear());
-            superStar.setMonth(superstarDto.getMonth());
-            superStar.setHonor(superstarDto.getHonor());
-            superStar.setName(superstarDto.getName());
-            superStar.setStory(superstarDto.getStory());
+            setSuperStarInfo(superStar, superstarDto);
             superStar.setCreatedAt(LocalDateTime.now());
             superStar.setCreatedUser(SessionHelper.user());
             superStar.setStatus(Status.ENABLE);
@@ -75,11 +74,7 @@ public class SuperstarService implements ISuperStarService {
             if (superStar == null) {
                 throw new SuperstarNotFoundException();
             }
-            superStar.setYear(superstarDto.getYear());
-            superStar.setMonth(superstarDto.getMonth());
-            superStar.setHonor(superstarDto.getHonor());
-            superStar.setName(superstarDto.getName());
-            superStar.setStory(superstarDto.getStory());
+            setSuperStarInfo(superStar, superstarDto);
             superStar.setUpdatedAt(LocalDateTime.now());
             superStar.setUpdatedUser(SessionHelper.user());
         }
@@ -88,23 +83,46 @@ public class SuperstarService implements ISuperStarService {
         return SuperstarParser.toDto(superStar);
     }
 
+    private void setSuperStarInfo(JzSuperStar superStar, SuperstarDto superstarDto) {
+        superStar.setYear(superstarDto.getYear());
+        superStar.setMonth(superstarDto.getMonth());
+        superStar.setHonor(superstarDto.getHonor());
+        superStar.setName(superstarDto.getName());
+        superStar.setStory(superstarDto.getStory());
+        Pair<byte[], String> imagePair = FileUtil.imageBase64ToByte(superstarDto.getImageBase64());
+        if (imagePair != null) {
+            superStar.setPhoto(imagePair.getLeft());
+            superStar.setSuffix(imagePair.getRight());
+        }
+    }
+
     @Override
+    @Transactional
     public SuperstarDto detail(Long id) {
 
         JzSuperStar superStar = superStarRepo.findOne(id);
         if (superStar == null) {
             throw new SuperstarNotFoundException();
         }
-        return SuperstarParser.toDto(superStar);
+
+        SuperstarDto superstarDto = SuperstarParser.toDto(superStar);
+        if (superStar.getPhoto() != null) {
+            superstarDto.setImageBase64(FileUtil.imageByteToBase64(superStar.getPhoto(), superStar.getSuffix()));
+        }
+        superstarDto.setCreatedAt(superStar.getCreatedAt());
+        superstarDto.setUpdatedAt(superStar.getUpdatedAt());
+        superstarDto.setCreatedBy(superStar.getCreatedUserName());
+        superstarDto.setUpdatedBy(superStar.getUpdatedUserName());
+        return superstarDto;
     }
 
     @Override
+    @Transactional
     public void drop(Long id) {
         JzSuperStar superStar = superStarRepo.findOne(id);
         if (superStar == null) {
             throw new SuperstarNotFoundException();
         }
-
         superStar.setStatus(Status.DELETE);
         superStarRepo.save(superStar);
     }
