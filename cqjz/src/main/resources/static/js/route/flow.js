@@ -1,10 +1,10 @@
 // 已提交一览
-mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, mineHttp, mineUtil) {
+mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
     mineHttp.constant("newsType", function (data) {
         $scope.newsTypes = data.content;
     });
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"),data)
+        mineTree.dropDown($("#processType"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -13,18 +13,19 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
         requestMethod: "POST",
         requestUrl: fullPath("admin/flow/list/submit"),
         columnDefs: [
-            {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'status', width: 70, displayName: '状态'},
-            {field: 'processType', width: 150, displayName: '业务类型'},
+            {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
+            {field: 'status', width: 70, sortable: false, displayName: '状态'},
+            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
+                sortable: false,
                 cellTemplate: "<mine-action action='businessPreview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
-            {field: 'nextTaskName', width: 150, displayName: '当前流程'},
-            {field: 'taskName', width: 150, displayName: '已完成流程'},
-            {field: 'processTime', width: 150, displayName: '申请时间'},
-            {field: 'processTimeEnd', width: 150, displayName: '完成时间'},
+            {field: 'nextTaskName', width: 150, sortable: false, displayName: '当前流程'},
+            {field: 'taskName', width: 150, sortable: false, displayName: '已完成流程'},
+            {field: 'processTime', width: 150, sortable: false, displayName: '申请时间'},
+            {field: 'processTimeEnd', width: 150, sortable: false, displayName: '完成时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -51,7 +52,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
 // 未通过一览
 mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mineHttp, mineUtil, mineTree) {
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"),data)
+        mineTree.dropDown($("#processType"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -60,14 +61,15 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         requestMethod: "POST",
         requestUrl: fullPath("admin/flow/list/reject"),
         columnDefs: [
-            {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'processType', width: 150, displayName: '业务类型'},
+            {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
+            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
+                sortable: false,
                 cellTemplate: "<mine-action action='businessPreview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
-            {field: 'rejectTime', width: 150, displayName: '退回时间'},
+            {field: 'rejectTime', width: 150, sortable: false, displayName: '退回时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -105,7 +107,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         $scope.newsTypes = data.content;
     });
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"),data)
+        mineTree.dropDown($("#processType"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -114,17 +116,18 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         requestMethod: "POST",
         requestUrl: fullPath("admin/flow/list/pending"),
         columnDefs: [
-            {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'processType', width: 150, displayName: '业务类型'},
+            {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
+            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
+                sortable: false,
                 cellTemplate: "<mine-action action='preview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
-            {field: 'applyUser', width: 150, displayName: '申请人'},
-            {field: 'applyUserOrgan', width: 150, displayName: '所属部门'},
-            {field: 'applyTime', width: 150, displayName: '申请时间'},
-            {field: 'receiveTime', width: 150, displayName: '接收时间'},
+            {field: 'applyUser', width: 150, sortable: false, displayName: '申请人'},
+            {field: 'applyUserOrgan', width: 150, sortable: false, displayName: '所属部门'},
+            {field: 'applyTime', width: 150, sortable: false, displayName: '申请时间'},
+            {field: 'receiveTime', width: 150, sortable: false, displayName: '接收时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -151,7 +154,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
 // 已审批一览
 mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, mineUtil, mineHttp, mineTree) {
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"),data)
+        mineTree.dropDown($("#processType"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -160,22 +163,23 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         requestMethod: "POST",
         requestUrl: fullPath("admin/flow/list/approve"),
         columnDefs: [
-            {field: 'processId', width: 80, displayName: '流程号'},
-            {field: 'taskId', width: 80, displayName: '任务号'},
-            {field: 'processType', width: 150, displayName: '业务类型'},
+            {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
+            {field: 'taskId', width: 80, sortable: false, displayName: '任务号'},
+            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
+                sortable: false,
                 cellTemplate: "<mine-action action='businessPreview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
-            {field: 'taskName', width: 150, displayName: '处理流程'},
+            {field: 'taskName', width: 150, sortable: false, displayName: '处理流程'},
             {
                 field: 'process',
                 width: 150,
                 displayName: '处理结果',
                 cellTemplate: "<span class='mine-table-span'>{{row.entity.processMessage}}</span>"
             },
-            {field: 'processTime', width: 150, displayName: '处理时间'},
+            {field: 'processTime', width: 150, sortable: false, displayName: '处理时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -210,21 +214,21 @@ mainApp.controller("flowApproveCtl", function ($scope, $stateParams, mineHttp, m
         mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
     };
     mineHttp.send("GET", "admin/flow/" + processId + "/approve", null, function (result) {
-          $scope.messageStatus = verifyData(result);
-          if(!$scope.messageStatus){
-               $scope.message = result.message;
-               return;
-          }
-          $scope.flow = result.content;
+        $scope.messageStatus = verifyData(result);
+        if (!$scope.messageStatus) {
+            $scope.message = result.message;
+            return;
+        }
+        $scope.flow = result.content;
     });
     $scope.approveSubmit = function () {
         mineHttp.send("POST", "admin/flow/approve", {data: $scope.approve}, function (result) {
-          $scope.messageStatus = verifyData(result);
-          if(!$scope.messageStatus){
-             $scope.message = result.message;
-             return;
-          }
-          $scope.flow = result.content;
+            $scope.messageStatus = verifyData(result);
+            if (!$scope.messageStatus) {
+                $scope.message = result.message;
+                return;
+            }
+            $scope.flow = result.content;
         });
     }
 });

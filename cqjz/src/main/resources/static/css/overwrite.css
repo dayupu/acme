@@ -1,8 +1,8 @@
 /* Grid style for ng-grid*/
 .ngTopPanel {
-    background-color: #f9f6f1;
+    background-color: #c4e3f3;
     color: #3a3f51;
-    border-top:1px solid #e6e2e2;
+    border-top:1px solid #c4e3f3;
 }
 
 .ngFooterPanel {
@@ -37,8 +37,8 @@
 }
 
 .ngHeaderCell {
-    border-bottom: 1px solid #edeef2;
-    border-left: 1px solid white;
+    border-bottom: 1px solid #c4e3f3;
+    border-left: 1px solid #c4e3f3;
     font-size: 13px;
 }
 
