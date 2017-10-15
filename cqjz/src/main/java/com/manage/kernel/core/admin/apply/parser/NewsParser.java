@@ -29,6 +29,7 @@ public class NewsParser {
         newsDto.setType(news.getType());
         newsDto.setStatus(news.getStatus());
         newsDto.setImageId(news.getImageId());
+        newsDto.setApprovedTime(news.getApprovedTime());
         newsDto.setCreatedAt(news.getCreatedAt());
         newsDto.setUpdatedAt(news.getUpdatedAt());
         newsDto.setCreatedBy(news.getCreatedUserName());

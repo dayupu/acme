@@ -68,7 +68,7 @@ function createUeditor(elementId) {
 }
 
 mainApp.controller("menuController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
-     mineHttp.send("GET", "admin/index/user", {}, function (data) {
+    mineHttp.send("GET", "admin/index/user", {}, function (data) {
         $scope.user = data.content;
     });
     $scope.loadMenu = function () {
@@ -94,9 +94,9 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
                 }
                 sub += "</ul>";
             }
-            html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'>"+
+            html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'>" +
                 "<i class='fa fa-angle-right'></i></span>" +
-                "<i class='fa fa-circle-o' style='font-size: 12px;color:#132e41;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
+                "<i class='fa fa-circle-o' style='font-size: 12px;color:orange;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
                 + sub + "</li>";
         }
         $(pNode).append(html);
@@ -169,17 +169,23 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
     };
 });
 mainApp.controller("headerController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
-    $scope.user={};
+    $scope.user = {};
     $scope.loginOut = function () {
         location.href = fullPath("admin/loginOut");
-    }
+    };
     $scope.home = function () {
         location.href = fullPath("admin/loginOut");
-    }
+    };
 
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {
         $scope.navLocations = menu.locations;
+    });
+});
+mainApp.controller("homeController", function ($scope, mineMessage, mineHttp, $sessionStorage, $location) {
+    $scope.newest = {};
+    mineHttp.send("GET", "admin/index/newest", {}, function (data) {
+        $scope.newest = data.content;
     });
 });

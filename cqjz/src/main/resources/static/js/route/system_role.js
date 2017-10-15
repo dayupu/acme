@@ -18,7 +18,7 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='detail(row.entity)' name='查看'></mine-action>" +
+                "<mine-action icon='fa fa-search' action='detail(row.entity)' name='查看'></mine-action>" +
                 "<mine-action icon='fa fa-street-view' action='privilege(row.entity)' name='权限'></mine-action></div>"
             }
 

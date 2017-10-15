@@ -2,23 +2,26 @@ package com.manage.kernel.core.admin.view.comm;
 
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
-import com.manage.kernel.core.admin.apply.dto.MenuNav;
-import com.manage.kernel.core.admin.apply.dto.UserDto;
+import com.manage.base.utils.CoreUtil;
+import com.manage.kernel.basic.model.Newest;
+import com.manage.kernel.core.admin.apply.dto.*;
+import com.manage.kernel.core.admin.service.business.IFlowService;
+import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.core.admin.service.system.IUserService;
-import com.manage.kernel.core.admin.service.system.impl.UserService;
-import com.manage.kernel.jpa.repository.AdUserRepo;
+import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
 import com.manage.kernel.spring.config.security.AuthUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/admin/index")
@@ -31,6 +34,12 @@ public class IndexController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private INewsService newsService;
+
+    @Autowired
+    private IFlowService flowService;
 
     @GetMapping("/menuList")
     public ResponseInfo getMenuList() {
@@ -52,6 +61,37 @@ public class IndexController {
             LOGGER.warn("system exception", e);
             response.wrapError();
         }
+        return response;
+    }
+
+    @GetMapping("/newest")
+    public ResponseInfo home() {
+        ResponseInfo response = new ResponseInfo();
+        HomeDto home = new HomeDto();
+
+        List<NewsDto> newsDtos = newsService.newestNews(SessionHelper.user());
+        List<Newest<NewsDto>> newses = new ArrayList<>();
+        for (NewsDto dto : newsDtos) {
+            String info = Messages.get("text.home.newest.news", CoreUtil.toDatetimeStr(dto.getApprovedTime()),
+                    dto.getCreatedByOrgan(), dto.getCreatedBy(), dto.getTitle());
+            newses.add(new Newest(dto, info));
+        }
+
+        Map<String, List<FlowDto>> flowMap = flowService.newestFlow(SessionHelper.user());
+        List<Newest<FlowDto>> flows = new ArrayList<>();
+        for (FlowDto dto : flowMap.get("pending")) {
+            String info = Messages.get("text.home.newest.flow.apply", CoreUtil.toDatetimeStr(dto.getReceiveTime()),
+                    dto.getApplyUserOrgan(), dto.getApplyUser(), dto.getSubject());
+            flows.add(new Newest(dto, info));
+        }
+        for (FlowDto dto : flowMap.get("reject")) {
+            String info = Messages.get("text.home.newest.flow.reject", CoreUtil.toDatetimeStr(dto.getRejectTime()),
+                    dto.getSubject());
+            flows.add(new Newest(dto, info));
+        }
+        home.setFlows(flows);
+        home.setNewses(newses);
+        response.wrapSuccess(home);
         return response;
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 
 @Entity
 @Table(name = "news")
@@ -51,6 +52,10 @@ public class News extends EntityBase {
     @Type(type = "com.manage.base.database.model.DBEnumType",
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsStatus")})
     private NewsStatus status;
+
+    @Column(name = "approved_time")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime approvedTime;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
     private List<NewsAttach> attaches;
@@ -142,5 +147,13 @@ public class News extends EntityBase {
 
     public void setStatus(NewsStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getApprovedTime() {
+        return approvedTime;
+    }
+
+    public void setApprovedTime(LocalDateTime approvedTime) {
+        this.approvedTime = approvedTime;
     }
 }

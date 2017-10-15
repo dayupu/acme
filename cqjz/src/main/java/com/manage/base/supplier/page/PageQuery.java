@@ -6,8 +6,8 @@ import org.springframework.util.StringUtils;
 
 public class PageQuery {
 
-    private static final String ORDER_DESC = "desc";
-    private static final String ORDER_ASC = "asc";
+    public static final String ORDER_DESC = "desc";
+    public static final String ORDER_ASC = "asc";
 
     private Integer pageSize;
     private Integer pageNumber;

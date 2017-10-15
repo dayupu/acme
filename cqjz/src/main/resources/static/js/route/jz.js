@@ -21,7 +21,7 @@ mainApp.controller("jzWatchListCtl", function ($scope, mineGrid, mineTree, mineH
                 displayName: '操作',
                 width: 100,
                 sortable: false,
-                cellTemplate: "<div><mine-action icon='fa fa-edit' action='drop(row.entity)' name='删除'></mine-action></div>"
+                cellTemplate: "<div><mine-action icon='fa fa-trash-o' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
         ]
     });
@@ -85,8 +85,8 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-edit' action='detail(row.entity)' name='查看'></mine-action>" +
-                "<mine-action icon='fa fa-edit' action='drop(row.entity)' name='删除'></mine-action></div>"
+                "<mine-action icon='fa fa-search' action='detail(row.entity)' name='查看'></mine-action>" +
+                "<mine-action icon='fa fa-trash-o' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
         ]
     });

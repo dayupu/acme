@@ -98,21 +98,25 @@ public class FlowService implements IFlowService {
         FlowDto flow;
         List<Task> tasks = taskQuery.orderByTaskCreateTime().desc().listPage(page.offset(), page.limit());
         for (Task task : tasks) {
-            flow = new FlowDto();
-            String processId = task.getProcessInstanceId();
-            HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
-            ProcessVariable variable = businessService.getProcessVaribale(processId);
-
-            flow.setProcessId(processId);
-            flow.setSubject(variable.getSubject());
-            ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
-            flow.setBusinessNumber(business.getNumber());
-            flow.setBusinessSource(business.getSource());
-            flow.setProcessType(variable.getProcessTypeName());
-            flow.setRejectTime(CoreUtil.fromDate(task.getCreateTime()));
+            flow = taskWithReject(task);
             flows.add(flow);
         }
         return result;
+    }
+
+    private FlowDto taskWithReject(Task task) {
+        FlowDto flow = new FlowDto();
+        String processId = task.getProcessInstanceId();
+        HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
+        flow.setProcessId(processId);
+        flow.setSubject(variable.getSubject());
+        ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
+        flow.setBusinessNumber(business.getNumber());
+        flow.setBusinessSource(business.getSource());
+        flow.setProcessType(variable.getProcessTypeName());
+        flow.setRejectTime(CoreUtil.fromDate(task.getCreateTime()));
+        return flow;
     }
 
     @Override
@@ -210,35 +214,33 @@ public class FlowService implements IFlowService {
         if (count == 0) {
             return result;
         }
-
         List<Task> tasks = taskQuery.listPage(page.offset(), page.limit());
-        FlowDto flow;
-        String processId;
         for (Task task : tasks) {
-            flow = new FlowDto();
-            processId = task.getProcessInstanceId();
-            HistoricProcessInstance process = getHistoricProcessInstance(processId);
-            if (process == null) {
-                continue;
-            }
-
-            ProcessVariable variable = businessService.getProcessVaribale(processId);
-            flow.setTaskId(task.getId());
-            flow.setTaskName(task.getName());
-            flow.setProcessId(processId);
-            flow.setSubject(variable.getSubject());
-            ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
-            flow.setBusinessNumber(business.getNumber());
-            flow.setBusinessSource(business.getSource());
-            flow.setProcessType(variable.getProcessTypeName());
-            ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
-            flow.setApplyUser(processUser.getUserName());
-            flow.setApplyUserOrgan(processUser.getUserOrganName());
-            flow.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
-            flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
-            flows.add(flow);
+            flows.add(taskWithPending(task));
         }
         return result;
+    }
+
+    private FlowDto taskWithPending(Task task) {
+        String processId;
+        FlowDto flow = new FlowDto();
+        processId = task.getProcessInstanceId();
+        HistoricProcessInstance process = getHistoricProcessInstance(processId);
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
+        flow.setTaskId(task.getId());
+        flow.setTaskName(task.getName());
+        flow.setProcessId(processId);
+        flow.setSubject(variable.getSubject());
+        ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
+        flow.setBusinessNumber(business.getNumber());
+        flow.setBusinessSource(business.getSource());
+        flow.setProcessType(variable.getProcessTypeName());
+        ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
+        flow.setApplyUser(processUser.getUserName());
+        flow.setApplyUserOrgan(processUser.getUserOrganName());
+        flow.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
+        flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
+        return flow;
     }
 
     @Override
@@ -433,5 +435,29 @@ public class FlowService implements IFlowService {
         }
     }
 
+
+    @Override
+    @Transactional
+    public  Map<String, List<FlowDto>> newestFlow(AdUser adUser) {
+        Map<String, List<FlowDto>> flowMap = new HashMap<>();
+        AdUser user = userRepo.findUserByAccount(adUser.getAccount());
+        String groupId = user.getApproveRole().actGroupId();
+
+        List<FlowDto> pendingFlows = new ArrayList<>();
+        List<Task> pendingTesks = taskService.createTaskQuery().taskCandidateGroup(groupId).active().list();
+        for (Task task : pendingTesks) {
+            pendingFlows.add(taskWithPending(task));
+        }
+
+        List<FlowDto> rejectFlows = new ArrayList<>();
+        List<Task> rejectTasks = taskService.createTaskQuery().taskAssignee(adUser.getAccount()).active().list();
+        for (Task task : rejectTasks) {
+            rejectFlows.add(taskWithReject(task));
+        }
+
+        flowMap.put("pending", pendingFlows);
+        flowMap.put("reject", rejectFlows);
+        return flowMap;
+    }
 }
 

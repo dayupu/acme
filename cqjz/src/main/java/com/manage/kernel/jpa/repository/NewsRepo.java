@@ -3,6 +3,7 @@ package com.manage.kernel.jpa.repository;
 import com.manage.kernel.jpa.entity.News;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

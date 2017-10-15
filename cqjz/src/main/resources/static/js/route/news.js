@@ -129,7 +129,7 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
                 width: 200,
                 sortable: false,
                 cellTemplate: "<div><mine-action ng-show='checkShow(row.entity, 1)' icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='preview(row.entity)' name='预览'></mine-action>" +
+                "<mine-action icon='fa fa-search' action='preview(row.entity)' name='预览'></mine-action>" +
                 "<mine-action ng-show='checkPrivilege(row.entity, 2)' icon='fa fa-times' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
 

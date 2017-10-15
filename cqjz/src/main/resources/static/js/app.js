@@ -5,7 +5,7 @@ mainApp.config(function ($stateProvider, $urlRouterProvider) {
 // route config
 function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
-    $stateProvider.state("home", {url: "/", templateUrl: './home.htm'})
+    $stateProvider.state("home", {url: "/", templateUrl: './home.htm', controller: "homeController"})
     // menu
         .state("menu", {url: "/menu", templateUrl: './_system/menu/menu.htm'})
         .state("menu.list", {url: "/list", templateUrl: './_system/menu/menuList.htm', controller: "systemMenuListCtl"})

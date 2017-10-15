@@ -162,4 +162,27 @@ public class NewsService implements INewsService {
         news.setStatus(NewsStatus.DRAFT);
     }
 
+    @Override
+    @Transactional
+    public List<NewsDto> newestNews(AdUser user) {
+        PageQuery page = new PageQuery();
+        page.setPageNumber(1);
+        page.setPageSize(5);
+        page.setSortField("approvedTime");
+        page.setSortDirection(PageQuery.ORDER_DESC);
+        Page<News> newses = newsRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            list.add(cb.equal(root.get("status"), NewsStatus.PASS));
+            return cb.and(list.toArray(new Predicate[0]));
+        }, page.sortPage());
+
+        NewsDto newsDto;
+        List<NewsDto> newsDtos = new ArrayList<>();
+        for (News news : newses.getContent()) {
+            newsDto = NewsParser.toDto(news);
+            newsDto.setCreatedByOrgan(news.getCreatedUser().getOrganName());
+            newsDtos.add(newsDto);
+        }
+        return newsDtos;
+    }
 }

@@ -30,7 +30,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid,mineTree, min
                 displayName: '操作',
                 width: 100,
                 sortable: false,
-                cellTemplate: "<mine-action icon='fa fa-sticky-note-o' action='preview(row.entity)' name='查看'></mine-action>"
+                cellTemplate: "<mine-action icon='fa fa-search' action='preview(row.entity)' name='查看'></mine-action>"
             }
         ]
     });
@@ -73,9 +73,9 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
                 displayName: '操作',
                 width: 200,
                 sortable: false,
-                cellTemplate: "<div><mine-action icon='fa fa-sticky-note-o' action='preview(row.entity)' name='查看'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='edit(row.entity)' name='修改'></mine-action>" +
-                "<mine-action icon='fa fa-sticky-note-o' action='cancel(row.entity)' name='撤消'></mine-action></div>"
+                cellTemplate: "<div><mine-action icon='fa fa-search' action='preview(row.entity)' name='查看'></mine-action>" +
+                "<mine-action icon='fa fa-edit' action='edit(row.entity)' name='修改'></mine-action>" +
+                "<mine-action icon='fa fa-undo' action='cancel(row.entity)' name='取消'></mine-action></div>"
             }
         ]
     });
@@ -130,7 +130,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
                 displayName: '操作',
                 width: 150,
                 sortable: false,
-                cellTemplate: "<mine-action icon='fa fa-sticky-note-o' action='approve(row.entity)' name='审核'></mine-action>"
+                cellTemplate: "<mine-action icon='fa fa-eye' action='approve(row.entity)' name='审核'></mine-action>"
             }
         ]
     });
@@ -181,7 +181,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
                 displayName: '操作',
                 width: 150,
                 sortable: false,
-                cellTemplate: "<mine-action icon='fa fa-sticky-note-o' action='preview(row.entity)' name='详情'></mine-action>"
+                cellTemplate: "<mine-action icon='fa fa-search' action='preview(row.entity)' name='详情'></mine-action>"
             }
         ]
     });

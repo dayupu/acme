@@ -40,7 +40,13 @@ public class NewsDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAtEnd;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime approvedTime;
+
+
     private String createdBy;
+    private String createdByOrgan;
     private String updatedBy;
 
     public String getTitle() {
@@ -145,5 +151,21 @@ public class NewsDto {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public LocalDateTime getApprovedTime() {
+        return approvedTime;
+    }
+
+    public void setApprovedTime(LocalDateTime approvedTime) {
+        this.approvedTime = approvedTime;
+    }
+
+    public String getCreatedByOrgan() {
+        return createdByOrgan;
+    }
+
+    public void setCreatedByOrgan(String createdByOrgan) {
+        this.createdByOrgan = createdByOrgan;
     }
 }

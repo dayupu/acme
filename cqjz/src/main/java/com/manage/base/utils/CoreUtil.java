@@ -86,6 +86,13 @@ public class CoreUtil {
     }
 
 
+    public static String toDatetimeStr(LocalDateTime dateTime){
+        if(dateTime == null){
+            return null;
+        }
+        return dateTime.toString("yyyy-MM-dd HH:mm:ss");
+    }
+
     public static LocalDateTime fromDate(Date date) {
         if (date == null) {
             return null;

@@ -175,6 +175,13 @@ public class AdUser extends StatusBase {
         return organ;
     }
 
+    public String getOrganName() {
+        if (organ == null) {
+            return null;
+        }
+        return organ.getName();
+    }
+
     public void setOrgan(AdOrganization organ) {
         this.organ = organ;
     }

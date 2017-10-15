@@ -2,11 +2,30 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-home"></i>首页</div>
         <div class="mine-content">
-            <p class="bg-primary">待处理任务0条</p>
-            <p class="bg-success">已发起任务0条</p>
-            <p class="bg-info">未通过任务0条</p>
-            <p class="bg-warning">...</p>
-            <p class="bg-danger">...</p>
+            <table class="table table-condensed table-hover table-bordered table-striped">
+                <tr class="danger">
+                    <td>
+                        <i class="fa fa-server" aria-hidden="true"></i>&nbsp;最新动态
+                    </td>
+                </tr>
+                <tr ng-repeat="news in newest.newses">
+                    <td>
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>&nbsp;{{news.info}}
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-condensed table-hover table-bordered table-striped">
+                <tr class="info">
+                    <td>
+                        <i class="fa fa-comments" aria-hidden="true"></i>&nbsp;最新消息
+                    </td>
+                </tr>
+                <tr ng-repeat="flow in newest.flows">
+                    <td>
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{{flow.info}}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
