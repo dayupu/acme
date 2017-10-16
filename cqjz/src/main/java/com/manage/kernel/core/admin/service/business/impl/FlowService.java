@@ -87,7 +87,6 @@ public class FlowService implements IFlowService {
         if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
             taskQuery.taskCreatedBefore(query.getQueryTimeEnd().toDate());
         }
-
         long count = taskQuery.count();
         result.setTotal(count);
         result.setRows(flows);
@@ -108,14 +107,15 @@ public class FlowService implements IFlowService {
         FlowDto flow = new FlowDto();
         String processId = task.getProcessInstanceId();
         HistoricProcessInstance processInstance = getHistoricProcessInstance(processId);
-        ProcessVariable variable = businessService.getProcessVaribale(processId);
         flow.setProcessId(processId);
-        flow.setSubject(variable.getSubject());
         ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
         flow.setBusinessNumber(business.getNumber());
         flow.setBusinessSource(business.getSource());
-        flow.setProcessType(variable.getProcessTypeName());
         flow.setRejectTime(CoreUtil.fromDate(task.getCreateTime()));
+
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
+        flow.setSubject(variable.getSubject());
+        flow.setProcessType(variable.getProcessTypeName());
         return flow;
     }
 
@@ -125,8 +125,7 @@ public class FlowService implements IFlowService {
         List<FlowDto> flows = new ArrayList<>();
         String account = SessionHelper.user().getAccount();
 
-        HistoricProcessInstanceQuery processQuery = historyService.createHistoricProcessInstanceQuery()
-                .startedBy(account);
+        HistoricProcessInstanceQuery processQuery = historyService.createHistoricProcessInstanceQuery().startedBy(account);
         if (query.getQueryTime() != null) {
             processQuery.startedAfter(query.getQueryTime().toDate());
         }
@@ -174,11 +173,12 @@ public class FlowService implements IFlowService {
                 }
 
             }
-            ProcessVariable variable = businessService.getProcessVaribale(process.getId());
-            flow.setSubject(variable.getSubject());
+
             ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
             flow.setBusinessNumber(business.getNumber());
             flow.setBusinessSource(business.getSource());
+            ProcessVariable variable = businessService.getProcessVaribale(process.getId());
+            flow.setSubject(variable.getSubject());
             flow.setProcessType(variable.getProcessTypeName());
             flows.add(flow);
         }
@@ -222,24 +222,25 @@ public class FlowService implements IFlowService {
     }
 
     private FlowDto taskWithPending(Task task) {
-        String processId;
         FlowDto flow = new FlowDto();
-        processId = task.getProcessInstanceId();
+        String processId = task.getProcessInstanceId();
         HistoricProcessInstance process = getHistoricProcessInstance(processId);
-        ProcessVariable variable = businessService.getProcessVaribale(processId);
         flow.setTaskId(task.getId());
         flow.setTaskName(task.getName());
         flow.setProcessId(processId);
-        flow.setSubject(variable.getSubject());
         ActBusiness business = ActBusiness.fromBusinessKey(process.getBusinessKey());
         flow.setBusinessNumber(business.getNumber());
         flow.setBusinessSource(business.getSource());
+        flow.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
+        flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
+
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
+        flow.setSubject(variable.getSubject());
         flow.setProcessType(variable.getProcessTypeName());
+
         ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
         flow.setApplyUser(processUser.getUserName());
         flow.setApplyUserOrgan(processUser.getUserOrganName());
-        flow.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
-        flow.setReceiveTime(LocalDateTime.fromDateFields(task.getCreateTime()));
         return flow;
     }
 
@@ -304,6 +305,7 @@ public class FlowService implements IFlowService {
         approve.setComment(approveDto.getComment());
         taskService.setVariableLocal(task.getId(), ActConstants.TASK_APPROVE, approve);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
+
         Map<String, Object> map = new HashMap<>();
         map.put(ActConstants.TEMP_ACTION, approveDto.getProcess().action());
         taskService.complete(task.getId(), map);
@@ -329,13 +331,14 @@ public class FlowService implements IFlowService {
             return null;
         }
 
-        ProcessVariable variable = businessService.getProcessVaribale(processId);
         ProcessDetail detail = new ProcessDetail();
         detail.setProcessId(processId);
-        detail.setSubject(variable.getSubject());
         ActBusiness business = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
         detail.setBusinessNumber(business.getNumber());
         detail.setBusinessSource(business.getSource());
+
+        ProcessVariable variable = businessService.getProcessVaribale(processId);
+        detail.setSubject(variable.getSubject());
         detail.setProcessType(variable.getProcessTypeName());
         HistoricProcessInstance process = getHistoricProcessInstance(processId);
         if (process != null) {
@@ -344,8 +347,8 @@ public class FlowService implements IFlowService {
             detail.setApplyUserOrgan(processUser.getUserOrganName());
             detail.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
         }
-        detail.setApproveHistories(approveHistory(processId));
 
+        detail.setApproveHistories(approveHistory(processId));
         if (!isApprove) {
             return detail;
         }
@@ -373,30 +376,30 @@ public class FlowService implements IFlowService {
             if (activity.getEndTime() == null) {
                 continue;
             }
-
             ActApprove approve = getHistoricActApprove(activity.getTaskId());
             if (approve == null) {
                 continue;
             }
-
             history = new ApproveHistory();
             List<Comment> comments = taskService.getTaskComments(activity.getTaskId());
             StringBuilder builder = new StringBuilder();
             for (Comment comment : comments) {
                 builder.append(comment.getFullMessage());
             }
-
             TaskInfo task = getTaskInfo(activity.getTaskId());
             if (task != null) {
                 history.setTaskName(task.getName());
             }
             history.setComment(builder.toString());
-            ProcessUser processUser = businessService.getProcessUser(approve.getUserId());
-            history.setApproveUser(processUser.getUserName());
-            history.setApproveUserOrgan(processUser.getUserOrganName());
             history.setProcess(approve.getProcess());
             history.setStartTime(LocalDateTime.fromDateFields(activity.getStartTime()));
             history.setEndTime(LocalDateTime.fromDateFields(activity.getEndTime()));
+
+
+            ProcessUser processUser = businessService.getProcessUser(approve.getUserId());
+            history.setApproveUser(processUser.getUserName());
+            history.setApproveUserOrgan(processUser.getUserOrganName());
+
             histories.add(history);
         }
 

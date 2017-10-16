@@ -61,6 +61,11 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state("jz.list.superstar", {
             url: "/superstar", templateUrl: './_jz/superstarList.htm', controller: "jzSuperstarListCtl"
         })
+        // setting
+        .state("setting", {url: "/setting", templateUrl: './_setting/setting.htm'})
+        .state("setting.self", {
+            url: "/self", templateUrl: './_setting/self.htm', controller: "settingSelfCtl"
+        })
     ;
 }
 // factorys

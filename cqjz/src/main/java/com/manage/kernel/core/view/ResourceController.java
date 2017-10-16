@@ -29,10 +29,9 @@ public class ResourceController {
 
     @RequestMapping("/image/{id}")
     public void showImage(HttpServletResponse response, @PathVariable("id") String imageId) {
-        response.setContentType("img/jpeg");
+        response.setContentType("image/png");
         response.setCharacterEncoding("utf-8");
         try {
-
             String imagePath = resourceService.imagePath(imageId);
             if (imagePath == null) {
                 LOGGER.error("Not found the imageId: {}", imageId);
@@ -52,6 +51,7 @@ public class ResourceController {
             while ((len = in.read(buf, 0, 1024)) != -1) {
                 outputStream.write(buf, 0, len);
             }
+            outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();

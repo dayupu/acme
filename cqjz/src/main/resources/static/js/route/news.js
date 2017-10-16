@@ -55,7 +55,13 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         }
         return true;
     };
+
+    $scope.refreshContent = function(){
+        $scope.news.content = UM.getEditor('newsEditor').getContent();
+    }
+
     $scope.save = function () {
+        $scope.refreshContent();
         if (!$scope.validator()) {
             return;
         }
@@ -69,6 +75,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         );
     };
     $scope.submit = function () {
+        $scope.refreshContent();
         if (!$scope.validator()) {
             return;
         }
