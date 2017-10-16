@@ -55,6 +55,10 @@ public class UserService implements IUserService {
     @Autowired
     private ActIdentityService actIdentityService;
 
+    @Autowired
+    private AuthPasswordEncoder authPasswordEncoder;
+
+
     @Override
     @Transactional
     public UserDto getUser(Long userId) {
@@ -240,5 +244,43 @@ public class UserService implements IUserService {
             return;
         }
         user.setOrgan(organ);
+    }
+
+
+    @Override
+    @Transactional
+    public UserDto editSessionUser(UserDto userDto) {
+        AdUser user = userRepo.findUserByAccount(userDto.getAccount());
+        if (user == null) {
+            LOGGER.info("Not found the user {}", userDto.getId());
+            throw new UserNotFoundException();
+        }
+        user.setGender(userDto.getGender());
+        user.setMobile(userDto.getMobile());
+        user.setTelephone(userDto.getTelephone());
+        user.setEmail(userDto.getEmail());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setUpdatedUser(SessionHelper.user());
+        AdUser updatedUser = userRepo.save(user);
+        return UserParser.toDto(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(UserDto userDto) {
+        AdUser user = userRepo.findUserByAccount(userDto.getAccount());
+        if (user == null) {
+            LOGGER.info("Not found the user {}", userDto.getId());
+            throw new UserNotFoundException();
+        }
+
+        if (!authPasswordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            LOGGER.info("Password error");
+            throw new CoreException(MessageErrors.PASSWORD_ERROR);
+        }
+
+        String passwordNew = authPasswordEncoder.encode(userDto.getPasswordNew());
+        user.setPassword(passwordNew);
+        userRepo.save(user);
     }
 }

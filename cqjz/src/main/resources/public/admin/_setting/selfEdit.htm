@@ -4,7 +4,7 @@
             &times;
         </button>
         <span class="modal-title-icon"><i class="fa fa-edit" aria-hidden="true"></i></span><span
-            class="modal-title">修改个人信息</span>
+            class="modal-title">修改信息</span>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="userForm">
@@ -12,22 +12,17 @@
             <table class="table table-condensed table-bordered">
                 <tr>
                     <td class="warning" width="100">
-                        <mine-key name="账号" required></mine-key>
+                        <mine-key name="账号"></mine-key>
                     </td>
                     <td width="250"><span class="mine-win-value">{{user.account}}</span></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td class="warning">
-                        <mine-key name="用户名" required></mine-key>
+                        <mine-key name="用户名"></mine-key>
                     </td>
-                    <td><input type="text" class="form-control input-sm" ng-model="user.name" name="name"
-                               ng-pattern="/^.{1,20}$/" required></td>
-                    <td>
-                        <mine-validator right="true" valid="userForm.name.$valid"
-                                        when="userForm.name.$dirty"
-                                        error="长度20位以内"></mine-validator>
-                    </td>
+                    <td width="250"><span class="mine-win-value">{{user.name}}</span></td>
+                    <td> </td>
                 </tr>
                 <tr>
                     <td class="warning">

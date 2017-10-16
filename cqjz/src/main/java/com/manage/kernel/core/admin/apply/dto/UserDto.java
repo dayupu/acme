@@ -53,6 +53,7 @@ public class UserDto implements Serializable {
     private boolean enabled;
     private Long organId;
     private String organName;
+    private String passwordNew;
 
     public String getAccount() {
         return account;
@@ -212,5 +213,13 @@ public class UserDto implements Serializable {
 
     public void setOrganName(String organName) {
         this.organName = organName;
+    }
+
+    public String getPasswordNew() {
+        return passwordNew;
+    }
+
+    public void setPasswordNew(String passwordNew) {
+        this.passwordNew = passwordNew;
     }
 }

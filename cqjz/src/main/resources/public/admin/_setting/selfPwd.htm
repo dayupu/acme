@@ -1,0 +1,70 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+        <span class="modal-title-icon"><i class="fa fa-edit" aria-hidden="true"></i></span><span
+            class="modal-title">更新密码</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="userForm">
+            <mine-message status="messageStatus" message="message"></mine-message>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="账号"></mine-key>
+                    </td>
+                    <td width="250"><span class="mine-win-value">{{user.account}}</span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="用户名"></mine-key>
+                    </td>
+                    <td width="250"><span class="mine-win-value">{{user.name}}</span></td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="原密码" required></mine-key>
+                    </td>
+                    <td><input type="text" onfocus="this.type='password'" class="form-control input-sm"
+                               ng-model="user.password" name="password" ng-pattern="/^.{1,20}$/" required></td>
+                    <td>
+                        <mine-validator right="true" valid="userForm.password.$valid"
+                                        when="userForm.password.$dirty"
+                                        error="长度20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="新密码" required></mine-key>
+                    </td>
+                    <td><input type="text" onfocus="this.type='password'" class="form-control input-sm"
+                               ng-model="user.passwordNew" name="passwordNew" ng-pattern="/^.{1,20}$/" required></td>
+                    <td>
+                        <mine-validator right="true" valid="userForm.passwordNew.$valid"
+                                        when="userForm.passwordNew.$dirty"
+                                        error="长度20位以内"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="确认密码" required></mine-key>
+                    </td>
+                    <td><input type="text" onfocus="this.type='password'" class="form-control input-sm"
+                               ng-model="user.passwordNew2" name="passwordNew2" ng-pattern="/^.{1,20}$/" required></td>
+                    <td>
+                        <mine-validator right="true" valid="userForm.passwordNew2.$valid"
+                                        when="userForm.passwordNew2.$dirty"
+                                        error="长度20位以内"></mine-validator>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="userForm.$invalid">更新</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import com.manage.base.supplier.page.TreeNode;
 import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.base.supplier.page.PageQuery;
+import org.dom4j.util.UserDataDocumentFactory;
 
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface IUserService {
     void resetUserRole(UserDto userDto);
 
     void modifyUserStatus(UserDto userDto);
+
+    UserDto editSessionUser(UserDto userDto);
+
+    void changePassword(UserDto userDto);
 }

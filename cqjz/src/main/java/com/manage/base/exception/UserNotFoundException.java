@@ -11,5 +11,4 @@ public class UserNotFoundException extends NotFoundException {
         super(MessageErrors.USER_NOT_FOUND);
     }
 
-
 }

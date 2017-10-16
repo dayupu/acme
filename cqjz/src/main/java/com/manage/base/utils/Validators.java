@@ -1,6 +1,7 @@
 package com.manage.base.utils;
 
 import com.manage.base.exception.ValidateParamException;
+
 import java.util.Collection;
 
 public class Validators {
@@ -25,6 +26,12 @@ public class Validators {
 
     public static void notBlank(String str) {
         if (str == null || "".equals(str.trim())) {
+            throw new ValidateParamException();
+        }
+    }
+
+    public static void isTrue(boolean result) {
+        if (!result) {
             throw new ValidateParamException();
         }
     }
