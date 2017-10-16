@@ -7,8 +7,8 @@ INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequen
 VALUES(5, NULL, NULL, 2, '用户信息', 1, 2, 'user.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(6, NULL, NULL, 2, '菜单信息', 1, 3, 'menu.list');
-INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(7, NULL, NULL, 2, '组织机构', 1, 4, 'depart.list');
+-- INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+-- VALUES(7, NULL, NULL, 2, '组织机构', 1, 4, 'depart.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(14, NULL, NULL, 2, '组织机构', 1, 5, 'organ.list');
 -- 工作流任务
@@ -29,3 +29,16 @@ INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequen
 VALUES(12, NULL, NULL, 2, '发布新闻', 3, 1, 'news.publish');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(13, NULL, NULL, 2, '新闻列表', 3, 2, 'news.list');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+-- 工作事项
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(15, NULL, NULL, 1, '工作事项', NULL, 4, NULL);
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(16, NULL, NULL, 2, '值班信息', 15, 1, 'jz.list.watch');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(17, NULL, NULL, 2, '技侦明星', 15, 2, 'jz.list.superstar');
+-- 我的设置
+VALUES(18, NULL, NULL, 1, '我的设置', NULL, 5, NULL);
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(19, NULL, NULL, 2, '个人信息', 18, 1, 'setting.self');
+
