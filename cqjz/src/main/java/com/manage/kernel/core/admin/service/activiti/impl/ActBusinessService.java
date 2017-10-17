@@ -78,15 +78,15 @@ public class ActBusinessService implements IActBusinessService {
             status = NewsStatus.PASS;
         } else {
             switch (process) {
-                case APPLY:
-                    status = NewsStatus.SUBMIT;
-                    break;
-                case AGREE:
-                    status = NewsStatus.APPROVE;
-                    break;
-                case REJECT:
-                    status = NewsStatus.REJECT;
-                    break;
+            case APPLY:
+                status = NewsStatus.SUBMIT;
+                break;
+            case AGREE:
+                status = NewsStatus.APPROVE;
+                break;
+            case REJECT:
+                status = NewsStatus.REJECT;
+                break;
             }
         }
         news.setStatus(status);
@@ -161,6 +161,7 @@ public class ActBusinessService implements IActBusinessService {
         approveTask.setBusinessKey(actBusiness.businessKey());
         approveTask.setSubject(variable.getSubject());
         approveTask.setProcessType(variable.getProcessType());
+        approveTask.setApplyUser(variable.getApplyUser());
         actApproveTaskRepo.save(approveTask);
     }
 

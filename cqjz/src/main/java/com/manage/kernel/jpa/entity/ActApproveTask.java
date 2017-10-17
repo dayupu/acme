@@ -43,6 +43,9 @@ public class ActApproveTask {
     @Column(name = "subject_")
     private String subject;
 
+    @Column(name = "apply_user_")
+    private String applyUser;
+
     @Column(name = "approve_user_")
     private String approveUser;
 
@@ -144,5 +147,13 @@ public class ActApproveTask {
 
     public void setProcessType(String processType) {
         this.processType = processType;
+    }
+
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
     }
 }

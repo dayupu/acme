@@ -13,7 +13,8 @@ public class ActConstants {
     // 临时变量
     public static final String TEMP_ACTION = "action";
     // 流程变量
-    public static final String PROCESS_APPLY_USER = "applyUser";//发布人
+    public static final String PROCESS_APPLY_USER = "applyUser";//申请人
+    public static final String PROCESS_APPLY_TIME = "applyTime";//申请时间
     public static final String PROCESS_SUBJECT = "PROCESS_subject";//主题
     public static final String PROCESS_TYPE = "PROCESS_type";//类型
     // 任务变量

@@ -125,7 +125,8 @@ public class FlowService implements IFlowService {
         List<FlowDto> flows = new ArrayList<>();
         String account = SessionHelper.user().getAccount();
 
-        HistoricProcessInstanceQuery processQuery = historyService.createHistoricProcessInstanceQuery().startedBy(account);
+        HistoricProcessInstanceQuery processQuery = historyService.createHistoricProcessInstanceQuery()
+                .startedBy(account);
         if (query.getQueryTime() != null) {
             processQuery.startedAfter(query.getQueryTime().toDate());
         }
@@ -247,7 +248,7 @@ public class FlowService implements IFlowService {
     @Override
     @Transactional
     public PageResult approvedTaskList(PageQuery page, FlowDto query) {
-        Page<ActApproveTask> userPage = approveTaskRepo.findAll((root, criteriaQuery, cb) -> {
+        Page<ActApproveTask> taskResult = approveTaskRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("approveUser"), SessionHelper.user().getAccount()));
             if (StringUtil.isNotBlank(query.getSubject())) {
@@ -269,7 +270,7 @@ public class FlowService implements IFlowService {
 
         FlowDto flow;
         List<FlowDto> flowDtos = new ArrayList<>();
-        for (ActApproveTask approveTask : userPage.getContent()) {
+        for (ActApproveTask approveTask : taskResult.getContent()) {
             flow = new FlowDto();
             flow.setTaskId(approveTask.getTaskId());
             flow.setTaskName(approveTask.getTaskName());
@@ -281,10 +282,13 @@ public class FlowService implements IFlowService {
             flow.setProcessType(ActSource.processTypeName(approveTask.getProcessType()));
             flow.setProcess(approveTask.getApproveResult());
             flow.setProcessTime(approveTask.getApproveTime());
+            ProcessUser user = businessService.getProcessUser(approveTask.getApplyUser());
+            flow.setApplyUser(user.getUserName());
+            flow.setApplyUserOrgan(user.getUserOrganName());
             flowDtos.add(flow);
         }
 
-        pageResult.setTotal(userPage.getTotalElements());
+        pageResult.setTotal(taskResult.getTotalElements());
         pageResult.setRows(flowDtos);
         return pageResult;
     }
@@ -395,7 +399,6 @@ public class FlowService implements IFlowService {
             history.setStartTime(LocalDateTime.fromDateFields(activity.getStartTime()));
             history.setEndTime(LocalDateTime.fromDateFields(activity.getEndTime()));
 
-
             ProcessUser processUser = businessService.getProcessUser(approve.getUserId());
             history.setApproveUser(processUser.getUserName());
             history.setApproveUserOrgan(processUser.getUserOrganName());
@@ -438,10 +441,9 @@ public class FlowService implements IFlowService {
         }
     }
 
-
     @Override
     @Transactional
-    public  Map<String, List<FlowDto>> newestFlow(AdUser adUser) {
+    public Map<String, List<FlowDto>> newestFlow(AdUser adUser) {
         Map<String, List<FlowDto>> flowMap = new HashMap<>();
         AdUser user = userRepo.findUserByAccount(adUser.getAccount());
         String groupId = user.getApproveRole().actGroupId();

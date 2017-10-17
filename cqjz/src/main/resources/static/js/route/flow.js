@@ -131,7 +131,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
             {
                 field: 'id',
                 displayName: '操作',
-                width: 150,
+                width: 100,
                 sortable: false,
                 cellTemplate: "<mine-action icon='fa fa-eye' action='approve(row.entity)' name='审核'></mine-action>"
             }
@@ -172,6 +172,8 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
                 sortable: false,
                 cellTemplate: "<mine-action action='businessPreview(row.entity)' name='{{row.entity.subject}}'></mine-action>"
             },
+            {field: 'applyUser', width: 150, sortable: false, displayName: '申请人'},
+            {field: 'applyUserOrgan', width: 150, sortable: false, displayName: '所属部门'},
             {field: 'taskName', width: 150, sortable: false, displayName: '处理流程'},
             {
                 field: 'process',
@@ -183,7 +185,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
             {
                 field: 'id',
                 displayName: '操作',
-                width: 150,
+                width: 100,
                 sortable: false,
                 cellTemplate: "<mine-action icon='fa fa-search' action='preview(row.entity)' name='详情'></mine-action>"
             }
