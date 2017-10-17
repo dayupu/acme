@@ -97,11 +97,6 @@ public class ResourceService implements IResourceService {
     }
 
     @Override
-    public void uploadFile(MultipartFile file, FileSource source) {
-
-    }
-
-    @Override
     public String imagePath(String imageId) {
         ResourceImage image = imageRepo.findByImageId(imageId);
         if (image == null) {

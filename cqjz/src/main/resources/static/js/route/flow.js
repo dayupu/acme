@@ -42,7 +42,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mi
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
@@ -88,7 +88,7 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
+       mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
@@ -147,7 +147,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         $state.go("flow.approve", {taskId: flow.taskId, processId: flow.processId});
     };
     $scope.preview = function (flow) {
-        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
     };
     $scope.query();
 });
@@ -196,7 +196,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
@@ -211,7 +211,7 @@ mainApp.controller("flowApproveCtl", function ($scope, $stateParams, mineHttp, m
     $scope.approve.taskId = taskId;
     $scope.approve.process = "2";
     $scope.preview = function (flow) {
-        mineUtil.modal("admin/_news/newsPreview.htm", "newsPreviewCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
     };
     mineHttp.send("GET", "admin/flow/" + processId + "/approve", null, function (result) {
         $scope.messageStatus = verifyData(result);
@@ -241,4 +241,18 @@ mainApp.controller("flowPreviewCtl", function ($scope, $uibModalInstance, mineHt
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+});
+
+// 审批预览页
+mainApp.controller("businessNewsCtl", function ($scope, $uibModalInstance, mineHttp, data) {
+   mineHttp.send("GET", "admin/news/" + data, null, function (result) {
+       $scope.news = result.content;
+       $("#newsContent").html($scope.news.content);
+       if(typeof $scope.news.imageId == "string"){
+          $scope.imgUrl = imageUrl($scope.news.imageId);
+       }
+   });
+   $scope.cancel = function () {
+       $uibModalInstance.dismiss('cancel');
+   };
 });

@@ -1,6 +1,7 @@
 package com.manage.kernel.core.admin.service.activiti.impl;
 
 import com.manage.base.database.enums.ApproveRole;
+import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
 import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.spring.comm.Messages;
 import org.activiti.engine.IdentityService;
@@ -17,13 +18,13 @@ import java.util.List;
  * Created by bert on 2017/10/6.
  */
 @Service
-public class ActIdentityService {
+public class ActIdentityService implements IActIdentityService{
 
 
     @Autowired
     private IdentityService identityService;
 
-
+    @Override
     @Transactional
     public void saveActUser(AdUser user) {
 
@@ -52,6 +53,7 @@ public class ActIdentityService {
         }
     }
 
+    @Override
     @Transactional
     public void initActGroup() {
         List<Group> groups = identityService.createGroupQuery().list();

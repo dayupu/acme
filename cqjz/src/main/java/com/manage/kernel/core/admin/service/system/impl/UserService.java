@@ -11,7 +11,7 @@ import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.UserDto;
 import com.manage.kernel.core.admin.apply.parser.UserParser;
-import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
+import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
 import com.manage.kernel.core.admin.service.system.IUserService;
 import com.manage.kernel.jpa.entity.AdOrganization;
 import com.manage.kernel.jpa.entity.AdRole;
@@ -53,7 +53,7 @@ public class UserService implements IUserService {
     private AdOrganRepo organRepo;
 
     @Autowired
-    private ActIdentityService actIdentityService;
+    private IActIdentityService actIdentityService;
 
     @Autowired
     private AuthPasswordEncoder authPasswordEncoder;

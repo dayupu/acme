@@ -12,7 +12,5 @@ public interface IResourceService {
 
     public ImageResult uploadImage(MultipartFile file, FileSource source);
 
-    public void uploadFile(MultipartFile file, FileSource source);
-
     public String imagePath(String imageId);
 }
