@@ -291,3 +291,14 @@
 .mine-win-required {
     color: red;
 }
+
+.mine-header-message{
+    margin-top: 0;
+    width: 180px;
+    height: 200px;
+    border: 1px solid gray;
+    overflow: auto;
+    background-color: white;
+    z-index: 39999;
+    position: absolute;
+}

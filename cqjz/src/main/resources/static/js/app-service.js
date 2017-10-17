@@ -191,17 +191,17 @@ mainApp.service("mineTree", function (mineHttp) {
             if (!(event.target.id == objId || event.target.id == treeContent || $(event.target).parents("#"+treeContent).length>0)) {
                 hideMenu();
             }
-        }
+        };
         var showMenu = function() {
             var cityObj = $(obj);
             var cityOffset = $(obj).offset();
             $("#"+treeContent).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
             $("body").bind("mousedown", onBodyDown);
-        }
+        };
         var hideMenu = function() {
             $("#"+treeContent).fadeOut("fast");
             $("body").unbind("mousedown", onBodyDown);
-        }
+        };
         $(obj).focus(function(){
               showMenu();
         });

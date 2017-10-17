@@ -177,6 +177,10 @@ mainApp.controller("headerController", function ($http, $scope, $location, $sess
         location.href = fullPath("admin/loginOut");
     };
 
+    $scope.lookMessage = function () {
+        $("#headerMessage").slideDown("fast");
+    };
+
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {

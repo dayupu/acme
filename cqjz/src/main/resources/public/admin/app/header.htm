@@ -11,11 +11,16 @@
                         <span>&nbsp;&nbsp;首页&nbsp;&nbsp;</span>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:void(0);" title="我的消息">
+                <li ng-mouseover="lookMessage()">
+                    <a  href="javascript:void(0);" title="我的消息">
                         <i class="fa  fa-envelope-o fa-fw"></i>
                         <span>我的消息<i style="color: orange;font-size: 13px;">(0)</i></span>
                     </a>
+                    <div id='headerMessage' class='mine-header-message' style="display: none;">
+
+
+
+                    </div>
                 </li>
                 <li>
                     <a href="javascript:void(0);" title="安全退出" ng-click="loginOut()">
