@@ -115,11 +115,12 @@ public class ActBusinessService implements IActBusinessService {
             // 指定流程发起人
             identityService.setAuthenticatedUserId(applyUser);
             Map<String, Object> variables = new HashMap<>();
-            variables.put(ActConstants.PROCESS_APPLY_USER, applyUser);
-            variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
-            variables.put(ActConstants.PROCESS_TYPE, actBusiness.getSource().genProcessType(news.getType()));
+            variables.put(ActVariable.FLOW_APPLY_USER.varName(), applyUser);
+            variables.put(ActVariable.FLOW_SUBJECT.varName(), news.getTitle());
+            variables.put(ActVariable.FLOW_BUSINESS_TYPE.varName(),
+                    actBusiness.getSource().genProcessType(news.getType()));
             process = runtimeService
-                    .startProcessInstanceByKey(ActConstants.FLOW_NEWS, actBusiness.businessKey(), variables);
+                    .startProcessInstanceByKey(ActConstants.ACT_PROCESS_NEWS, actBusiness.businessKey(), variables);
             Task task = getRunningTask(applyUser, process.getProcessInstanceId());
             if (task == null) {
                 throw new ActTaskNotFoundException();
@@ -131,15 +132,16 @@ public class ActBusinessService implements IActBusinessService {
                 throw new ActTaskNotFoundException();
             }
             Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put(ActConstants.TEMP_ACTION, ActProcess.APPLY.action());
-            variables.put(ActConstants.PROCESS_SUBJECT, news.getTitle());
-            variables.put(ActConstants.PROCESS_TYPE, actBusiness.getSource().genProcessType(news.getType()));
+            variables.put(ActVariable.FLOW_ACTION.varName(), ActProcess.APPLY.action());
+            variables.put(ActVariable.FLOW_SUBJECT.varName(), news.getTitle());
+            variables.put(ActVariable.FLOW_BUSINESS_TYPE.varName(),
+                    actBusiness.getSource().genProcessType(news.getType()));
 
             ActApprove approve = new ActApprove();
             approve.setUserId(applyUser);
             approve.setProcess(ActProcess.APPLY);
             approve.setComment("重新申请");
-            taskService.setVariableLocal(task.getId(), ActConstants.TASK_APPROVE, approve);
+            taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
             taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
             taskService.complete(task.getId(), variables);
             saveApproveTask(task, actBusiness, approve);
@@ -193,17 +195,26 @@ public class ActBusinessService implements IActBusinessService {
         ProcessVariable processVariable = new ProcessVariable();
         List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery()
                 .processInstanceId(processId).list();
+        ActVariable actVar;
         for (HistoricVariableInstance variable : variables) {
-            if (ActConstants.PROCESS_SUBJECT.equals(variable.getVariableName())) {
+            actVar = ActVariable.fromVarName(variable.getVariableName());
+            if (actVar == null) {
+                continue;
+            }
+            switch (actVar) {
+            case FLOW_SUBJECT:
                 processVariable.setSubject((String) variable.getValue());
-            } else if (ActConstants.PROCESS_TYPE.equals(variable.getVariableName())) {
+                break;
+            case FLOW_APPLY_USER:
+                processVariable.setApplyUser((String) variable.getValue());
+                break;
+            case FLOW_BUSINESS_TYPE:
                 String processType = (String) variable.getValue();
                 processVariable.setProcessType(processType);
                 if (processType != null) {
                     processVariable.setProcessTypeName(ActSource.processTypeName(processType));
                 }
-            } else if (ActConstants.PROCESS_APPLY_USER.equals(variable.getVariableName())) {
-                processVariable.setApplyUser((String) variable.getValue());
+                break;
             }
         }
         return processVariable;

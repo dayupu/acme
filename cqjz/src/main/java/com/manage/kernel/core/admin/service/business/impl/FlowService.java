@@ -2,7 +2,6 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.act.*;
 import com.manage.base.constant.ActConstants;
-import com.manage.base.database.enums.NewsType;
 import com.manage.base.enums.ActStatus;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
@@ -76,10 +75,10 @@ public class FlowService implements IFlowService {
         String account = SessionHelper.user().getAccount();
         TaskQuery taskQuery = taskService.createTaskQuery().taskAssignee(account).active();
         if (StringUtil.isNotBlank(query.getSubject())) {
-            taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
+            taskQuery.processVariableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
         if (StringUtil.isNotBlank(query.getProcessType())) {
-            taskQuery.processVariableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
+            taskQuery.processVariableValueLike(ActVariable.FLOW_BUSINESS_TYPE.varName(), query.getProcessType() + "%");
         }
         if (StringUtil.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
@@ -134,10 +133,10 @@ public class FlowService implements IFlowService {
             processQuery.startedBefore(query.getQueryTimeEnd().toDate());
         }
         if (StringUtil.isNotBlank(query.getSubject())) {
-            processQuery.variableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
+            processQuery.variableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
         if (StringUtil.isNotBlank(query.getProcessType())) {
-            processQuery.variableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
+            processQuery.variableValueLike(ActVariable.FLOW_BUSINESS_TYPE.varName(), query.getProcessType() + "%");
         }
 
         long count = processQuery.count();
@@ -197,10 +196,10 @@ public class FlowService implements IFlowService {
         String groupId = user.getApproveRole().actGroupId();
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
         if (StringUtil.isNotBlank(query.getSubject())) {
-            taskQuery.processVariableValueLike(ActConstants.PROCESS_SUBJECT, "%" + query.getSubject() + "%");
+            taskQuery.processVariableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
         if (StringUtil.isNotBlank(query.getProcessType())) {
-            taskQuery.processVariableValueLike(ActConstants.PROCESS_TYPE, query.getProcessType() + "%");
+            taskQuery.processVariableValueLike(ActVariable.FLOW_BUSINESS_TYPE.varName(), query.getProcessType() + "%");
         }
         if (StringUtil.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
@@ -307,11 +306,11 @@ public class FlowService implements IFlowService {
         approve.setUserId(account);
         approve.setProcess(approveDto.getProcess());
         approve.setComment(approveDto.getComment());
-        taskService.setVariableLocal(task.getId(), ActConstants.TASK_APPROVE, approve);
+        taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
 
         Map<String, Object> map = new HashMap<>();
-        map.put(ActConstants.TEMP_ACTION, approveDto.getProcess().action());
+        map.put(ActVariable.FLOW_ACTION.varName(), approveDto.getProcess().action());
         taskService.complete(task.getId(), map);
 
         HistoricProcessInstance processInstance = getHistoricProcessInstance(task.getProcessInstanceId());
@@ -372,7 +371,7 @@ public class FlowService implements IFlowService {
     private List<ApproveHistory> approveHistory(String processId) {
 
         List<HistoricActivityInstance> activityInstances = historyService.createHistoricActivityInstanceQuery()
-                .activityType(ActConstants.NODE_USER_TASK).processInstanceId(processId)
+                .activityType(ActConstants.ACT_USER_TASK).processInstanceId(processId)
                 .orderByHistoricActivityInstanceStartTime().asc().list();
         List<ApproveHistory> histories = new ArrayList<>();
         ApproveHistory history;
@@ -415,7 +414,7 @@ public class FlowService implements IFlowService {
 
     private ActApprove getHistoricActApprove(String taskId) {
         HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery().taskId(taskId)
-                .variableName(ActConstants.TASK_APPROVE).singleResult();
+                .variableName(ActVariable.TASK_APPROVE.varName()).singleResult();
         if (variable == null) {
             return null;
         }
