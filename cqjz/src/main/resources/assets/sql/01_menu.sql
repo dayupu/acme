@@ -19,9 +19,9 @@ VALUES(8, NULL, NULL, 2, '已发起', 2, 1, 'flow.list.submit');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(9, NULL, NULL, 2, '待处理', 2, 2, 'flow.list.pending');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(10, NULL, NULL, 2, '已处理', 2, 3, 'flow.list.approve');
+VALUES(11, NULL, NULL, 2, '未通过', 2, 3, 'flow.list.reject');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(11, NULL, NULL, 2, '未通过', 2, 4, 'flow.list.reject');
+VALUES(10, NULL, NULL, 2, '已处理', 2, 4, 'flow.list.approve');
 -- 新闻管理
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(3, NULL, NULL, 1, '新闻管理', NULL, 3, NULL);

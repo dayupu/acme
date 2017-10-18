@@ -15,6 +15,7 @@ import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
 import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
+import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -73,7 +74,7 @@ public class ActBusinessService implements IActBusinessService {
 
         NewsStatus status = null;
         if (process == ActProcess.CANCEL) {
-            status = NewsStatus.DRAFT;
+            status = NewsStatus.CANCEL;
         } else if (processEnd) {
             status = NewsStatus.PASS;
         } else {
@@ -140,7 +141,7 @@ public class ActBusinessService implements IActBusinessService {
             ActApprove approve = new ActApprove();
             approve.setUserId(applyUser);
             approve.setProcess(ActProcess.APPLY);
-            approve.setComment("重新申请");
+            approve.setComment(Messages.get("text.act.comment.reApply"));
             taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
             taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
             taskService.complete(task.getId(), variables);

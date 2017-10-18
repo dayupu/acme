@@ -2,6 +2,7 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.act.*;
 import com.manage.base.constant.ActConstants;
+import com.manage.base.database.enums.ActProcess;
 import com.manage.base.enums.ActStatus;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
@@ -11,6 +12,8 @@ import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.apply.dto.ApproveDto;
 import com.manage.kernel.core.admin.apply.dto.ApproveHistory;
 import com.manage.kernel.core.admin.apply.dto.FlowDto;
+import com.manage.kernel.core.admin.apply.dto.FlowNotification;
+import com.manage.kernel.core.admin.apply.dto.NewestFlowDto;
 import com.manage.kernel.core.admin.apply.dto.ProcessDetail;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.IFlowService;
@@ -18,6 +21,7 @@ import com.manage.kernel.jpa.entity.ActApproveTask;
 import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
 import com.manage.kernel.jpa.repository.AdUserRepo;
+import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
 
 import javax.persistence.criteria.Predicate;
@@ -442,8 +446,8 @@ public class FlowService implements IFlowService {
 
     @Override
     @Transactional
-    public Map<String, List<FlowDto>> newestFlow(AdUser adUser) {
-        Map<String, List<FlowDto>> flowMap = new HashMap<>();
+    public NewestFlowDto newestFlow(AdUser adUser) {
+        NewestFlowDto newestFlow = new NewestFlowDto();
         AdUser user = userRepo.findUserByAccount(adUser.getAccount());
         String groupId = user.getApproveRole().actGroupId();
 
@@ -459,9 +463,43 @@ public class FlowService implements IFlowService {
             rejectFlows.add(taskWithReject(task));
         }
 
-        flowMap.put("pending", pendingFlows);
-        flowMap.put("reject", rejectFlows);
-        return flowMap;
+        newestFlow.setPendingTask(pendingFlows);
+        newestFlow.setRejectTask(rejectFlows);
+        return newestFlow;
+    }
+
+    @Override
+    public FlowNotification notification(AdUser adUser) {
+        FlowNotification notification = new FlowNotification();
+        AdUser user = userRepo.findUserByAccount(adUser.getAccount());
+        String groupId = user.getApproveRole().actGroupId();
+        notification.setPendingCount(taskService.createTaskQuery().taskCandidateGroup(groupId).active().count());
+        notification.setRejectCount(taskService.createTaskQuery().taskAssignee(adUser.getAccount()).active().count());
+        notification.calculateTotal();
+        return notification;
+    }
+
+    @Override
+    @Transactional
+    public void cancelProcess(String processId) {
+        String account = SessionHelper.user().getAccount();
+        Task task = taskService.createTaskQuery().processInstanceId(processId).taskAssignee(account).active()
+                .singleResult();
+        if (task == null) {
+            throw new ActTaskNotFoundException();
+        }
+
+        Map<String, Object> vars = new HashMap<>();
+        vars.put(ActVariable.FLOW_ACTION.varName(), ActProcess.CANCEL.action());
+        taskService.complete(task.getId(), vars);
+        HistoricProcessInstance processInstance = getHistoricProcessInstance(task.getProcessInstanceId());
+        ActBusiness actBusiness = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
+        ActApprove approve = new ActApprove();
+        approve.setUserId(account);
+        approve.setComment(Messages.get("text.act.comment.cancel"));
+        approve.setProcess(ActProcess.CANCEL);
+        businessService.saveApproveTask(task, actBusiness, approve);
+        businessService.changeStatus(actBusiness, ActProcess.CANCEL, false);
     }
 }
 

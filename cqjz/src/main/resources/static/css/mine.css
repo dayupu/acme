@@ -19,7 +19,7 @@
     color: white;
 }
 
-.mine-navbar-right li a i {
+.mine-navbar-right > li > a > i {
     font-size: 23px;
     color: #f28080;
 }
@@ -293,12 +293,15 @@
 }
 
 .mine-header-message{
-    margin-top: 0;
-    width: 180px;
-    height: 200px;
-    border: 1px solid gray;
-    overflow: auto;
-    background-color: white;
+    width: 150px;
+    height: 60px;
+    padding:10px;
+    background-color: #132e41;
     z-index: 39999;
+    color:#c2c5c9;
     position: absolute;
+}
+.mine-text-notificate{
+   color:orange;
+   font-size:15px;
 }

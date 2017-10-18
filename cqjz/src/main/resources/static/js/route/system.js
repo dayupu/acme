@@ -262,17 +262,16 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
             {
                 field: 'id',
                 displayName: '操作',
-                width: 200,
+                width: 220,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
                 "<mine-action icon='fa fa-search' action='detail(row.entity)' name='查看'></mine-action>" +
-                "<mine-action icon='fa fa-street-view' action='privilege(row.entity)' name='权限'></mine-action></div>"
+                "<mine-action icon='fa fa-street-view' action='privilege(row.entity)' name='权限'></mine-action>" +
+                "<mine-action icon='fa fa-trash' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
 
         ]
     });
-    // init load datas
-    $scope.gridPageQuery();
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
@@ -304,7 +303,19 @@ mainApp.controller("systemRoleListCtl", function ($scope, $uibModal, mineHttp, m
         modalInstance.result.then(function () {
         }, function () {
         });
-    }
+    };
+    $scope.drop = function (role) {
+        mineUtil.confirm("确认删除吗？", function () {
+            mineHttp.send("DELETE", "admin/role/" + role.id, {}, function (data) {
+                if (!verifyData(data)) {
+                    return;
+                }
+                mineUtil.alert("删除成功");
+                $scope.query();
+            });
+        });
+    };
+    $scope.query();
 });
 mainApp.controller("systemRoleAddController", function ($scope, $uibModalInstance, mineHttp) {
     $scope.ok = function () {

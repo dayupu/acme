@@ -177,10 +177,27 @@ mainApp.controller("headerController", function ($http, $scope, $location, $sess
         location.href = fullPath("admin/loginOut");
     };
 
-    $scope.lookMessage = function () {
-        $("#headerMessage").slideDown("fast");
+    $scope.onMouseLeave = function(event) {
+         $scope.messageHide();
     };
+    $scope.messageHide = function(){
+         $("#headerMessage").fadeOut("fast");
+         $("#headerMessage").unbind("mouseleave", $scope.onMouseLeave);
+    }
+    $scope.lookMessage = function () {
+        if($("#headerMessage").css("display") == "none"){
+            $("#headerMessage").slideDown("fast");
+            $("#headerMessage").bind("mouseleave", $scope.onMouseLeave);
+        }
+    };
+    $scope.getMessage = function(){
+         mineHttp.send("GET", "admin/index/message", {}, function (data) {
+             $scope.message = data.content;
+         });
+    }
 
+    $scope.getMessage();
+    setInterval($scope.getMessage,30000);
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {

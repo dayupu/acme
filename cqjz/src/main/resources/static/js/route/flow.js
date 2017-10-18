@@ -77,7 +77,7 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-search' action='preview(row.entity)' name='查看'></mine-action>" +
                 "<mine-action icon='fa fa-edit' action='edit(row.entity)' name='修改'></mine-action>" +
-                "<mine-action icon='fa fa-undo' action='cancel(row.entity)' name='取消'></mine-action></div>"
+                "<mine-action icon='fa fa-undo' action='cancel(row.entity)' name='撤销'></mine-action></div>"
             }
         ]
     });
@@ -97,7 +97,16 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         $state.go("news.edit", {number: flow.businessNumber});
     };
     $scope.cancel = function (flow) {
-        alert(flow.businessNumber);
+        mineUtil.confirm("确认撤销吗？", function () {
+            mineHttp.send("POST", "admin/flow/" + flow.processId + "/cancel", null, function (result) {
+                  if(!verifyData(result)){
+                      return;
+                  }
+                  mineUtil.alert("撤销成功");
+                  $scope.query();
+            });
+        });
+
     };
     $scope.query();
 });

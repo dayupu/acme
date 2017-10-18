@@ -13,6 +13,7 @@ public enum NewsStatus implements DBEnum, Localizable {
     APPROVE(3, "resource.constant.news.status.approve"),
     REJECT(4, "resource.constant.news.status.reject"),
     PASS(5, "resource.constant.news.status.pass"),
+    CANCEL(6, "resource.constant.news.status.cancel"),
     DELETE(0, "resource.constant.news.status.delete");
 
     private int constant;

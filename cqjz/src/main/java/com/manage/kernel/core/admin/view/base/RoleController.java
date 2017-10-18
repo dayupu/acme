@@ -113,7 +113,6 @@ public class RoleController {
 
     @InboundLog
     @DeleteMapping("/{id}")
-    @UserPermit(value = Permit.DELETE)
     public ResponseInfo dropRole(@PathVariable("id") Long roleId) {
         ResponseInfo response = new ResponseInfo();
         try {

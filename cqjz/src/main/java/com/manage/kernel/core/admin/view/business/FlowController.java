@@ -118,4 +118,23 @@ public class FlowController {
         }
         return response;
     }
+
+    @InboundLog
+    @PostMapping("/{processId}/cancel")
+    public ResponseInfo taskCancel(@PathVariable("processId") String processId) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(processId);
+            flowService.cancelProcess(processId);
+            response.wrapSuccess(null);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
 }

@@ -8,7 +8,7 @@ mainApp.service("mineHttp", function ($http, Upload) {
         $http(setting).then(function successCallback(response) {
             callback(response.data);
         }, function errorCallback(response) {
-            alert("request error")
+            alert("请求异常！")
         });
     };
     this.upload = function (url, data, callback) {

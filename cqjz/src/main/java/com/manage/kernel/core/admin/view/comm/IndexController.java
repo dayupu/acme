@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/admin/index")
@@ -77,14 +76,14 @@ public class IndexController {
             newses.add(new Newest(dto, info));
         }
 
-        Map<String, List<FlowDto>> flowMap = flowService.newestFlow(SessionHelper.user());
+        NewestFlowDto newestFlow = flowService.newestFlow(SessionHelper.user());
         List<Newest<FlowDto>> flows = new ArrayList<>();
-        for (FlowDto dto : flowMap.get("pending")) {
+        for (FlowDto dto : newestFlow.getPendingTask()) {
             String info = Messages.get("text.home.newest.flow.apply", CoreUtil.toDatetimeStr(dto.getReceiveTime()),
                     dto.getApplyUserOrgan(), dto.getApplyUser(), dto.getSubject());
             flows.add(new Newest(dto, info));
         }
-        for (FlowDto dto : flowMap.get("reject")) {
+        for (FlowDto dto : newestFlow.getRejectTask()) {
             String info = Messages.get("text.home.newest.flow.reject", CoreUtil.toDatetimeStr(dto.getRejectTime()),
                     dto.getSubject());
             flows.add(new Newest(dto, info));
@@ -92,6 +91,14 @@ public class IndexController {
         home.setFlows(flows);
         home.setNewses(newses);
         response.wrapSuccess(home);
+        return response;
+    }
+
+    @GetMapping("/message")
+    public ResponseInfo homeMessage() {
+        ResponseInfo response = new ResponseInfo();
+        FlowNotification notification  = flowService.notification(SessionHelper.user());
+        response.wrapSuccess(notification);
         return response;
     }
 }
