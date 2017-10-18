@@ -14,11 +14,13 @@
                 <li ng-mouseover="lookMessage()">
                     <a  href="javascript:void(0);" title="我的消息">
                         <i class="fa  fa-envelope-o fa-fw"></i>
-                        <span>我的消息<i class="mine-text-notificate">({{message.total}})</i></span>
+                        <span>我的消息<strong class="text-danger">({{message.total}})</strong></span>
                     </a>
                     <div id='headerMessage' class='mine-header-message' style="display: none;">
-                        <div>待处理任务<a ui-sref="flow.list.pending" class="mine-text-notificate">&nbsp;{{message.pendingCount}}&nbsp;</a>条</div>
-                        <div>未通过任务<a ui-sref="flow.list.reject" class="mine-text-notificate">&nbsp;{{message.rejectCount}}&nbsp;</a>条</div>
+                        <ul>
+                            <li><i class="fa fa-envelope-o text-warning"></i>&nbsp;<a ui-sref="flow.list.pending">待处理任务<i>{{message.pendingCount}}</i>条</a></li>
+                            <li><i class="fa fa-envelope-o text-warning"></i>&nbsp;<a ui-sref="flow.list.reject">未通过任务<i>{{message.rejectCount}}</i>条</a></li>
+                        </ul>
                     </div>
                 </li>
                 <li>

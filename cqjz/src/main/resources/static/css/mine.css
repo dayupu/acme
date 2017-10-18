@@ -301,7 +301,19 @@
     color:#c2c5c9;
     position: absolute;
 }
-.mine-text-notificate{
-   color:orange;
+.mine-header-message > ul{
+   list-style:none;
+   margin:0px;
+   padding:0px;
+}
+
+.mine-header-message > ul > li > a{
+  color:#c2c5c9;
+}
+.mine-header-message > ul > li > a > i{
+  color:orange;
+  margin:0px 2px;
+}
+.mine-home{
    font-size:15px;
 }
