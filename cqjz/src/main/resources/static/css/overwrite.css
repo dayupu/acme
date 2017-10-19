@@ -164,3 +164,7 @@
 .table{
   margin-bottom:5px;
 }
+
+.ztree *{
+ font-size:13px;
+}

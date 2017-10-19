@@ -78,9 +78,9 @@
                 <form class="form-horizontal" name="processForm">
                     <div class="mine-subject bg-primary">处理信息</div>
                     <input type="hidden" ng-model="approve.taskId"/>
-                    <table class="table table-condensed table-bordered">
+                    <table class="table table-condensed table-bordered table-striped">
                         <tr>
-                            <td width="150" class="mine-table-key warning">
+                            <td width="150" class="mine-table-key">
                                 审批意见<span class="acme-required">*</span>
                             </td>
                             <td class="mine-table-value">
@@ -95,7 +95,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="mine-table-key warning">
+                            <td class="mine-table-key">
                                 批注<span class="acme-required">*</span>
                             </td>
                             <td class="mine-table-value">
@@ -104,7 +104,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="mine-table-key warning"></td>
+                            <td class="mine-table-key"></td>
                             <td class="mine-table-value">
                                 <button class="btn btn-primary btn-sm" ng-disabled="processForm.$invalid"
                                         ng-click="approveSubmit()">提交

@@ -71,22 +71,21 @@ public class IndexController {
         List<NewsDto> newsDtos = newsService.newestNews(SessionHelper.user());
         List<Newest<NewsDto>> newses = new ArrayList<>();
         for (NewsDto dto : newsDtos) {
-            String info = Messages.get("text.home.newest.news", CoreUtil.toDatetimeStr(dto.getApprovedTime()),
-                    dto.getCreatedByOrgan(), dto.getCreatedBy(), dto.getTitle());
-            newses.add(new Newest(dto, info));
+            String info = Messages
+                    .get("text.home.newest.news", dto.getCreatedByOrgan(), dto.getCreatedBy(), dto.getTitle());
+            newses.add(new Newest(dto.getApprovedTime(), info, dto));
         }
 
         NewestFlowDto newestFlow = flowService.newestFlow(SessionHelper.user());
         List<Newest<FlowDto>> flows = new ArrayList<>();
         for (FlowDto dto : newestFlow.getPendingTask()) {
-            String info = Messages.get("text.home.newest.flow.apply", CoreUtil.toDatetimeStr(dto.getReceiveTime()),
-                    dto.getApplyUserOrgan(), dto.getApplyUser(), dto.getSubject());
-            flows.add(new Newest(dto, info));
+            String info = Messages
+                    .get("text.home.newest.flow.apply", dto.getApplyUserOrgan(), dto.getApplyUser(), dto.getSubject());
+            flows.add(new Newest(dto.getReceiveTime(), info, dto));
         }
         for (FlowDto dto : newestFlow.getRejectTask()) {
-            String info = Messages.get("text.home.newest.flow.reject", CoreUtil.toDatetimeStr(dto.getRejectTime()),
-                    dto.getSubject());
-            flows.add(new Newest(dto, info));
+            String info = Messages.get("text.home.newest.flow.reject", dto.getSubject());
+            flows.add(new Newest(dto.getRejectTime(), info, dto));
         }
         home.setFlows(flows);
         home.setNewses(newses);
@@ -97,7 +96,7 @@ public class IndexController {
     @GetMapping("/message")
     public ResponseInfo homeMessage() {
         ResponseInfo response = new ResponseInfo();
-        FlowNotification notification  = flowService.notification(SessionHelper.user());
+        FlowNotification notification = flowService.notification(SessionHelper.user());
         response.wrapSuccess(notification);
         return response;
     }

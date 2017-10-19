@@ -4,26 +4,35 @@
         <div class="mine-content">
             <table class="table table-hover table-bordered table-striped mine-home">
                 <tr class="info">
-                    <td>
+                    <td colspan="2">
                         <i class="fa fa-server" aria-hidden="true"></i>&nbsp;最新动态
                     </td>
                 </tr>
                 <tr ng-repeat="news in newest.newses">
                     <td>
-                        <i class="fa fa-bookmark-o text-danger" aria-hidden="true"></i>&nbsp;&nbsp;{{news.info}}
+                        <i class="fa fa-bookmark-o text-danger" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{news.info}}
+                    </td>
+                    <td width="160" class="mine-home-td-1">
+                        <span>{{news.time}}</span>
                     </td>
                 </tr>
             </table>
-            <table class="table table-hover table-bordered table-striped mine-home">
+            <table class="table table-hover table-bordered table-bordered table-striped mine-home">
                 <tr class="danger">
-                    <td>
+                    <td colspan="2">
                         <i class="fa fa-comments"  aria-hidden="true"></i>&nbsp;最新消息
                     </td>
                 </tr>
                 <tr ng-repeat="flow in newest.flows">
                     <td>
-                        <i class="fa fa-envelope-o text-danger" aria-hidden="true"></i>&nbsp;&nbsp;{{flow.info}}
+                        <i class="fa fa-envelope-o text-danger" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{flow.info}}
                     </td>
+                    <td width="160" class="mine-home-td-1">
+                        <span>{{flow.time}}</span>
+                    </td>
+
                 </tr>
             </table>
         </div>
