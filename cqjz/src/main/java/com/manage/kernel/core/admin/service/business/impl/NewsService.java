@@ -108,7 +108,7 @@ public class NewsService implements INewsService {
             throw new PrivilegeDeniedException();
         }
 
-        if (news.getStatus().canDrop()) {
+        if (!news.getStatus().canDrop()) {
             throw new PrivilegeDeniedException();
         }
 
