@@ -417,12 +417,12 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             {
                 field: 'gender',
                 displayName: '性别',
-                cellTemplate: "<span class='mine-table-span'>{{row.entity.genderMessage}}</span>"
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.genderMessage}}</div>"
             },
             {
                 field: 'approveRole',
                 displayName: '审批角色',
-                cellTemplate: "<span class='mine-table-span'>{{row.entity.approveRoleMessage}}</span>"
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.approveRoleMessage}}</div>"
             },
             {field: 'email', displayName: '电子邮箱'},
             {field: 'mobile', displayName: '联系电话'},

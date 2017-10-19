@@ -218,6 +218,7 @@ mainApp.service("mineGrid", function ($http, $parse) {
         requestMethod: "GET",
         multiSelect: false,
         enablePaging: true,
+        enableCellSelection: true,
         enableSorting: true,
         useExternalSorting: true,
         showFooter: true,

@@ -31,6 +31,11 @@
     color: dimgray;
 }
 
+.ngCellElement:focus {
+  outline: 0;
+  background-color: #FFCC99;
+}
+
 .ngCell {
     border-bottom: 1px solid #edeef2;
     font-size: 13px;

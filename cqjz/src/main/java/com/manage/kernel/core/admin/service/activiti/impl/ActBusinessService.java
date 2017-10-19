@@ -198,8 +198,7 @@ public class ActBusinessService implements IActBusinessService {
     @Override
     public ProcessVariable getProcessVaribale(String processId) {
         ProcessVariable processVariable = new ProcessVariable();
-        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery()
-                .processInstanceId(processId).list();
+        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery().processInstanceId(processId).list();
         ActVariable actVar;
         for (HistoricVariableInstance variable : variables) {
             actVar = ActVariable.fromVarName(variable.getVariableName());

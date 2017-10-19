@@ -188,7 +188,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
                 field: 'process',
                 width: 150,
                 displayName: '处理结果',
-                cellTemplate: "<span class='mine-table-span'>{{row.entity.processMessage}}</span>"
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.processMessage}}</div>"
             },
             {field: 'processTime', width: 150, sortable: false, displayName: '处理时间'},
             {

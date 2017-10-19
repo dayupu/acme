@@ -25,11 +25,7 @@
 }
 
 .mine-action {
-    display: inline-table;
-    margin-top: 5px;
-    margin-left: 10px;
     font-size: 13px;
-    font-weight: bold;
 }
 
 .mine-action > a {
@@ -200,7 +196,7 @@
 }
 
 .mine-table-span {
-    line-height: 25px;
+    line-height: 30px;
     margin-left: 5px;
 }
 

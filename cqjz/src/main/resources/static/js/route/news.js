@@ -126,7 +126,7 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
                 field: 'status',
                 displayName: '状态',
                 width: 100,
-                cellTemplate: "<span class='mine-table-span'>{{row.entity.statusMessage}}</span>"
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.statusMessage}}</div>"
             },
             {field: 'createdAt', width: 150, displayName: '创建时间'},
             {field: 'updatedAt', width: 150, displayName: '修改时间'},

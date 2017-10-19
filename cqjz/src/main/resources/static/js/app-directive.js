@@ -6,7 +6,7 @@ mainApp.directive("mineAction", function () {
             action: "&",
             icon: "@"
         },
-        template: "<span class='mine-action'><a href='javascript:void(0);' ng-click='action()'><i ng-if='icon != null' ng-class='icon'></i>{{name}}</a></span>",
+        template: "<button type='button' ng-click='action()' class='btn btn-link btn-sm mine-action'><i ng-if='icon != null' ng-class='icon'></i>{{name}}</button>",
         replace: true
     }
 });
