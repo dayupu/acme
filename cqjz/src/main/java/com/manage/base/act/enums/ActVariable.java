@@ -1,4 +1,4 @@
-package com.manage.base.act;
+package com.manage.base.act.enums;
 
 /**
  * Created by bert on 17-10-17.

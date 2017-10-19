@@ -1,6 +1,5 @@
 package com.manage.base.supplier;
 
-
 public class Pair<L, R> {
 
     private L left;
@@ -29,5 +28,13 @@ public class Pair<L, R> {
 
     public void setRight(R right) {
         this.right = right;
+    }
+
+    public L key() {
+        return getLeft();
+    }
+
+    public R value() {
+        return getRight();
     }
 }

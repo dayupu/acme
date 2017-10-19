@@ -1,4 +1,4 @@
-package com.manage.base.act;
+package com.manage.base.act.vars;
 
 import com.manage.base.database.enums.ActProcess;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by bert on 2017/10/8.
  */
-public class ActApprove implements Serializable {
+public class ActApproveObj implements Serializable {
 
     private static final long serialVersionUID = 5605220837822865457L;
 

@@ -37,4 +37,12 @@ public enum NewsStatus implements DBEnum, Localizable {
     public boolean canEdit() {
         return this == DRAFT || this == REJECT;
     }
+
+    public boolean canDrop() {
+        return this == DRAFT || this == REJECT || this == CANCEL;
+    }
+
+    public boolean isPass() {
+        return this == PASS;
+    }
 }

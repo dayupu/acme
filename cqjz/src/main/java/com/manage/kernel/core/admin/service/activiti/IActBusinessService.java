@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.service.activiti;
 
-import com.manage.base.act.ActApprove;
+import com.manage.base.act.vars.ActApproveObj;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.act.ProcessUser;
 import com.manage.base.act.ProcessVariable;
@@ -12,7 +12,7 @@ import org.activiti.engine.task.TaskInfo;
  */
 public interface IActBusinessService {
 
-    public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApprove approve);
+    public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApproveObj approve);
 
     public void changeStatus(ActBusiness actBusiness, ActProcess process, boolean processEnd);
 

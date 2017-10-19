@@ -1,7 +1,10 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.act.*;
-import com.manage.base.constant.ActConstants;
+import com.manage.base.act.enums.ActSource;
+import com.manage.base.act.enums.ActVariable;
+import com.manage.base.act.vars.ActApproveObj;
+import com.manage.base.constant.Constants;
 import com.manage.base.database.enums.ActProcess;
 import com.manage.base.enums.ActStatus;
 import com.manage.base.exception.ActTaskNotFoundException;
@@ -306,7 +309,7 @@ public class FlowService implements IFlowService {
         }
 
         String account = SessionHelper.user().getAccount();
-        ActApprove approve = new ActApprove();
+        ActApproveObj approve = new ActApproveObj();
         approve.setUserId(account);
         approve.setProcess(approveDto.getProcess());
         approve.setComment(approveDto.getComment());
@@ -317,10 +320,10 @@ public class FlowService implements IFlowService {
         map.put(ActVariable.FLOW_ACTION.varName(), approveDto.getProcess().action());
         taskService.complete(task.getId(), map);
 
-        HistoricProcessInstance processInstance = getHistoricProcessInstance(task.getProcessInstanceId());
-        ActBusiness actBusiness = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
+        HistoricProcessInstance process = getHistoricProcessInstance(task.getProcessInstanceId());
+        ActBusiness actBusiness = ActBusiness.fromBusinessKey(process.getBusinessKey());
         boolean processEnd = false;
-        if (processInstance.getEndTime() != null) {
+        if (process.getEndTime() != null) {
             processEnd = true;
         }
 
@@ -375,7 +378,7 @@ public class FlowService implements IFlowService {
     private List<ApproveHistory> approveHistory(String processId) {
 
         List<HistoricActivityInstance> activityInstances = historyService.createHistoricActivityInstanceQuery()
-                .activityType(ActConstants.ACT_USER_TASK).processInstanceId(processId)
+                .activityType(Constants.ACT_USER_TASK).processInstanceId(processId)
                 .orderByHistoricActivityInstanceStartTime().asc().list();
         List<ApproveHistory> histories = new ArrayList<>();
         ApproveHistory history;
@@ -383,7 +386,7 @@ public class FlowService implements IFlowService {
             if (activity.getEndTime() == null) {
                 continue;
             }
-            ActApprove approve = getHistoricActApprove(activity.getTaskId());
+            ActApproveObj approve = getHistoricActApprove(activity.getTaskId());
             if (approve == null) {
                 continue;
             }
@@ -416,13 +419,13 @@ public class FlowService implements IFlowService {
         return historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     }
 
-    private ActApprove getHistoricActApprove(String taskId) {
+    private ActApproveObj getHistoricActApprove(String taskId) {
         HistoricVariableInstance variable = historyService.createHistoricVariableInstanceQuery().taskId(taskId)
                 .variableName(ActVariable.TASK_APPROVE.varName()).singleResult();
         if (variable == null) {
             return null;
         }
-        return (ActApprove) variable.getValue();
+        return (ActApproveObj) variable.getValue();
     }
 
     private TaskInfo getTaskInfo(String taskId) {
@@ -494,7 +497,7 @@ public class FlowService implements IFlowService {
         taskService.complete(task.getId(), vars);
         HistoricProcessInstance processInstance = getHistoricProcessInstance(task.getProcessInstanceId());
         ActBusiness actBusiness = ActBusiness.fromBusinessKey(processInstance.getBusinessKey());
-        ActApprove approve = new ActApprove();
+        ActApproveObj approve = new ActApproveObj();
         approve.setUserId(account);
         approve.setComment(Messages.get("text.act.comment.cancel"));
         approve.setProcess(ActProcess.CANCEL);

@@ -1,46 +1,24 @@
 package com.manage.base.utils;
 
-import com.manage.base.constant.Constants;
-import com.manage.base.constant.Image;
 import com.manage.base.supplier.Pair;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.joda.time.LocalDate;
 import org.springframework.util.Base64Utils;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StreamUtils;
-import sun.misc.BASE64Decoder;
 
 /**
  * Created by bert on 17-8-25.
  */
 public class FileUtil {
 
-    private static String resourcePath;
-
     private static String IMAGE_BASE64_PREFIX = "data:image/%s;base64,%s";
-
-    public static String resourcePath() {
-        if (resourcePath == null) {
-            resourcePath = ClassUtils.getDefaultClassLoader().getResource(Constants.STATIC_RESOURCE_PATH).getPath();
-        }
-        return resourcePath;
-    }
-
-    public static void uploadPublic(InputStream inputStream, String filePath) throws Exception {
-        if (!filePath.startsWith(Constants.SEPARATOR)) {
-            filePath = Constants.SEPARATOR + filePath;
-        }
-        upload(inputStream, resourcePath() + filePath);
-    }
 
     public static void upload(InputStream inputStream, String filePath) throws Exception {
         upload(inputStream, new File(filePath));

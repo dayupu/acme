@@ -2,9 +2,8 @@ package com.manage.kernel.core.admin.apply.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.act.ActSource;
+import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.ActProcess;
-import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;

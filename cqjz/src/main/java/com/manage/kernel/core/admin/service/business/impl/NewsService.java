@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.act.ActBusiness;
-import com.manage.base.act.ActSource;
+import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
@@ -42,8 +42,8 @@ public class NewsService implements INewsService {
     @Override
     @Transactional
     public NewsDto submitNews(NewsDto newsDto) {
-        News news = saveOrUpdateNews(newsDto);
 
+        News news = saveOrUpdateNews(newsDto);
         ActBusiness actBusiness = new ActBusiness();
         actBusiness.setId(news.getId());
         actBusiness.setNumber(news.getNumber());
@@ -108,6 +108,10 @@ public class NewsService implements INewsService {
             throw new PrivilegeDeniedException();
         }
 
+        if (news.getStatus().canDrop()) {
+            throw new PrivilegeDeniedException();
+        }
+
         news.setStatus(NewsStatus.DELETE);
         news.setUpdatedAt(LocalDateTime.now());
         news.setUpdatedUser(user);
@@ -132,12 +136,10 @@ public class NewsService implements INewsService {
                 list.add(cb.notEqual(root.get("status"), NewsStatus.DELETE));
             }
             if (StringUtil.isNotNull(query.getCreatedAt())) {
-                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
-                        query.getCreatedAt()));
+                list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), query.getCreatedAt()));
             }
             if (StringUtil.isNotNull(query.getCreatedAtEnd())) {
-                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class),
-                        query.getCreatedAtEnd()));
+                list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), query.getCreatedAtEnd()));
             }
 
             return cb.and(list.toArray(new Predicate[0]));

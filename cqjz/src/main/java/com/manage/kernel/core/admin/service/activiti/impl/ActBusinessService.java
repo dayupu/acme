@@ -1,7 +1,11 @@
 package com.manage.kernel.core.admin.service.activiti.impl;
 
 import com.manage.base.act.*;
-import com.manage.base.constant.ActConstants;
+import com.manage.base.act.enums.ActSource;
+import com.manage.base.act.enums.ActVariable;
+import com.manage.base.act.vars.ActApproveObj;
+import com.manage.base.act.vars.ActParams;
+import com.manage.base.constant.Constants;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.ActProcess;
 import com.manage.base.exception.ActNotSupportException;
@@ -30,9 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by bert on 2017/10/3.
@@ -73,25 +75,25 @@ public class ActBusinessService implements IActBusinessService {
         }
 
         NewsStatus status = null;
-        if (process == ActProcess.CANCEL) {
-            status = NewsStatus.CANCEL;
-        } else if (processEnd) {
-            status = NewsStatus.PASS;
-        } else {
-            switch (process) {
-            case APPLY:
-                status = NewsStatus.SUBMIT;
-                break;
-            case AGREE:
-                status = NewsStatus.APPROVE;
-                break;
-            case REJECT:
-                status = NewsStatus.REJECT;
-                break;
+        switch (process) {
+        case APPLY:
+            status = NewsStatus.SUBMIT;
+            break;
+        case AGREE:
+            status = NewsStatus.APPROVE;
+            if (processEnd) {
+                status = NewsStatus.PASS;
             }
+            break;
+        case REJECT:
+            status = NewsStatus.REJECT;
+            break;
+        case CANCEL:
+            status = NewsStatus.CANCEL;
+            break;
         }
         news.setStatus(status);
-        if (status == NewsStatus.PASS) {
+        if (status.isPass()) {
             news.setApprovedTime(LocalDateTime.now());
         }
         newsRepo.save(news);
@@ -99,58 +101,60 @@ public class ActBusinessService implements IActBusinessService {
 
     @Override
     @Transactional
-    public void submit(ActBusiness actBusiness) {
-        if (actBusiness.getSource() != ActSource.NEWS) {
+    public void submit(ActBusiness business) {
+        if (business.getSource() != ActSource.NEWS) {
             throw new ActNotSupportException();
         }
 
-        News news = newsRepo.findOne(actBusiness.getId());
+        News news = newsRepo.findOne(business.getId());
         if (news == null) {
             throw new NewsNotFoundException();
         }
 
-        String applyUser = SessionHelper.user().getAccount();
+        String actUserId = SessionHelper.user().actUserId();
         ProcessInstance process = runtimeService.createProcessInstanceQuery()
-                .processInstanceBusinessKey(actBusiness.businessKey()).singleResult();
+                .processInstanceBusinessKey(business.businessKey()).singleResult();
         if (process == null) {
             // 指定流程发起人
-            identityService.setAuthenticatedUserId(applyUser);
-            Map<String, Object> variables = new HashMap<>();
-            variables.put(ActVariable.FLOW_APPLY_USER.varName(), applyUser);
-            variables.put(ActVariable.FLOW_SUBJECT.varName(), news.getTitle());
-            variables.put(ActVariable.FLOW_BUSINESS_TYPE.varName(),
-                    actBusiness.getSource().genProcessType(news.getType()));
-            process = runtimeService
-                    .startProcessInstanceByKey(ActConstants.ACT_PROCESS_NEWS, actBusiness.businessKey(), variables);
-            Task task = getRunningTask(applyUser, process.getProcessInstanceId());
-            if (task == null) {
-                throw new ActTaskNotFoundException();
-            }
-            taskService.complete(task.getId());
-        } else {
-            Task task = getRunningTask(applyUser, process.getProcessInstanceId());
-            if (task == null) {
-                throw new ActTaskNotFoundException();
-            }
-            Map<String, Object> variables = new HashMap<String, Object>();
-            variables.put(ActVariable.FLOW_ACTION.varName(), ActProcess.APPLY.action());
-            variables.put(ActVariable.FLOW_SUBJECT.varName(), news.getTitle());
-            variables.put(ActVariable.FLOW_BUSINESS_TYPE.varName(),
-                    actBusiness.getSource().genProcessType(news.getType()));
+            identityService.setAuthenticatedUserId(actUserId);
 
-            ActApprove approve = new ActApprove();
-            approve.setUserId(applyUser);
-            approve.setProcess(ActProcess.APPLY);
-            approve.setComment(Messages.get("text.act.comment.reApply"));
-            taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
-            taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
-            taskService.complete(task.getId(), variables);
-            saveApproveTask(task, actBusiness, approve);
+            ActParams params = new ActParams();
+            params.putFlowApplyUser(actUserId);
+            params.putFlowSubject(news.getTitle());
+            params.putFlowBusinessType(business.getSource().processTypeGen(news.getType()));
+            process = runtimeService.startProcessInstanceByKey(Constants.ACT_PROCESS_NEWS, business.businessKey(),
+                    params.buildMap());
+            Task task = getRunningTask(actUserId, process.getProcessInstanceId());
+            if (task == null) {
+                throw new ActTaskNotFoundException();
+            }
+
+            taskService.complete(task.getId());
+            return;
         }
+
+        Task task = getRunningTask(actUserId, process.getProcessInstanceId());
+        if (task == null) {
+            throw new ActTaskNotFoundException();
+        }
+        ActApproveObj approveObj = new ActApproveObj();
+        approveObj.setUserId(actUserId);
+        approveObj.setProcess(ActProcess.APPLY);
+        approveObj.setComment(Messages.get("text.act.comment.reApply"));
+        taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approveObj);
+        taskService.addComment(task.getId(), task.getProcessInstanceId(), approveObj.getComment());
+
+        ActParams params = new ActParams();
+        params.putFlowAction(ActProcess.APPLY.action());
+        params.putFlowSubject(news.getTitle());
+        params.putFlowBusinessType(business.getSource().processTypeGen(news.getType()));
+        taskService.complete(task.getId(), params.buildMap());
+        saveApproveTask(task, business, approveObj);
+
     }
 
     @Override
-    public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApprove approve) {
+    public void saveApproveTask(TaskInfo taskInfo, ActBusiness actBusiness, ActApproveObj approve) {
 
         ProcessVariable variable = getProcessVaribale(taskInfo.getProcessInstanceId());
         ActApproveTask approveTask = new ActApproveTask();

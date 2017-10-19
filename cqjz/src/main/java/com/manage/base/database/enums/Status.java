@@ -10,6 +10,7 @@ public enum Status implements DBEnum, Localizable {
     DISABLE(2, "resource.constant.data.status.disabled"),
     DELETE(3, "resource.constant.data.status.deleted"),
     EXPIRE(4, "resource.constant.data.status.expired");
+
     private int constant;
     private String messageKey;
 

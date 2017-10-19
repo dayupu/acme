@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.view.comm;
 
-import com.manage.base.act.ActSource;
+import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
@@ -8,6 +8,7 @@ import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.kernel.core.admin.service.system.IOrganService;
+import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.comm.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class ConstantController {
     @Autowired
     private IOrganService organService;
 
+    @InboundLog
     @GetMapping("/newsType")
     public ResponseInfo newsType() {
         ResponseInfo response = new ResponseInfo();
@@ -42,6 +44,7 @@ public class ConstantController {
         return response;
     }
 
+    @InboundLog
     @GetMapping("/newsStatus")
     public ResponseInfo newsStatus() {
         ResponseInfo response = new ResponseInfo();
@@ -60,6 +63,7 @@ public class ConstantController {
         return response;
     }
 
+    @InboundLog
     @GetMapping("/actType")
     public List<TreeNode> actType() {
         TreeNode treeNode;
@@ -86,11 +90,13 @@ public class ConstantController {
         return treeNodes;
     }
 
+    @InboundLog
     @GetMapping("/organs")
     public List<TreeNode> organs() {
         return organService.organTree();
     }
 
+    @InboundLog
     @GetMapping("/approveRole")
     public ResponseInfo approveRole() {
         ResponseInfo response = new ResponseInfo();

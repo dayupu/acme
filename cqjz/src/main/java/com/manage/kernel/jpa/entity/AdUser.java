@@ -30,12 +30,12 @@ public class AdUser extends StatusBase {
 
     @Column(name = "gender")
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Gender")})
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.Gender") })
     private Gender gender;
 
     @Column(name = "approve_role")
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole") })
     private ApproveRole approveRole;
 
     @Column(name = "telephone", length = 50)
@@ -184,5 +184,9 @@ public class AdUser extends StatusBase {
 
     public void setOrgan(AdOrganization organ) {
         this.organ = organ;
+    }
+
+    public String actUserId() {
+        return account;
     }
 }

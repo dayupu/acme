@@ -16,8 +16,7 @@ public enum NewsType implements DBEnum, Localizable {
     XXYD(14, "resource.constant.news.type.xxyd", false),//学习园地
     WHSB(15, "resource.constant.news.type.whsb", false),//网海拾贝
     KJLW(16, "resource.constant.news.type.kjlw", false),//科技瞭望
-    JZFC(17, "resource.constant.news.type.jzfc", true),//技侦风采
-    ;
+    JZFC(17, "resource.constant.news.type.jzfc", true);//技侦风采
 
     private int constant;
     private String messageKey;

@@ -1,4 +1,4 @@
-package com.manage.base.act;
+package com.manage.base.act.enums;
 
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.model.Localizable;
@@ -27,7 +27,7 @@ public enum ActSource implements Localizable {
         return key;
     }
 
-    public String genProcessType(Enum enumType) {
+    public String processTypeGen(Enum enumType) {
         if (enumType == null) {
             return null;
         }
