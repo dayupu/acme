@@ -1,7 +1,9 @@
 package com.manage.kernel.core.admin.service.comm.impl;
 
 import com.manage.base.database.enums.FileSource;
+import com.manage.base.enums.ImageSuffix;
 import com.manage.base.enums.UploadState;
+import com.manage.base.supplier.Pair;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.FileUtil;
 import com.manage.kernel.basic.model.ImageResult;
@@ -9,8 +11,10 @@ import com.manage.kernel.core.admin.service.comm.IResourceService;
 import com.manage.kernel.jpa.entity.ResourceImage;
 import com.manage.kernel.jpa.repository.ResourceImageRepo;
 import com.manage.kernel.spring.PropertySupplier;
+
 import java.io.File;
 import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDateTime;
@@ -26,9 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ResourceService implements IResourceService {
 
     private static final Logger LOGGER = LogManager.getLogger(ResourceService.class);
-
     private static final long IMAGE_MAX_SIZE = 5 * 1024 * 1024;
-    private static final String[] IMAGE_SUFFIX_TYPES = { ".gif", ".png", ".jpg", ".jpeg", ".bmp" };
+    private static final String[] IMAGE_SUFFIX_TYPES = {"gif", "png", "jpg", "jpeg", "bmp"};
 
     @Autowired
     private ResourceImageRepo imageRepo;
@@ -50,7 +53,7 @@ public class ResourceService implements IResourceService {
             imageResult.setState(UploadState.TYPE);
             return imageResult;
         }
-
+        suffix = ImageSuffix.imageSuffixFilter(suffix);
         String imagesDir = supplier.getUploadImagesDir();
         String imageId = FileUtil.genImageId();
         String dateDir = FileUtil.genDateDir();
@@ -60,7 +63,7 @@ public class ResourceService implements IResourceService {
         if (!saveDir.exists()) {
             saveDir.mkdir();
         }
-        String fileName = imageId + suffix;
+        String fileName = imageId + "." + suffix;
         try {
             FileUtil.upload(file.getInputStream(), FileUtil.joinPath(savePath, fileName));
 
@@ -97,17 +100,21 @@ public class ResourceService implements IResourceService {
     }
 
     @Override
-    public String imagePath(String imageId) {
+    public ImageResult getImage(String imageId) {
         ResourceImage image = imageRepo.findByImageId(imageId);
         if (image == null) {
             return null;
         }
-        return FileUtil.joinPath(supplier.getUploadImagesDir(), image.getPath());
+
+        ImageResult result = new ImageResult();
+        result.setType(image.getSuffix());
+        result.setUrl(FileUtil.joinPath(supplier.getUploadImagesDir(), image.getPath()));
+        return result;
     }
 
     private boolean checkSuffix(String suffix) {
         for (String suff : IMAGE_SUFFIX_TYPES) {
-            if (suff.equals(suffix)) {
+            if (suff.equalsIgnoreCase(suffix)) {
                 return true;
             }
         }

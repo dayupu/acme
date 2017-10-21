@@ -78,7 +78,7 @@ public class FileUtil {
     }
 
     /**
-     * 获取文件名后缀(例:.png)
+     * 获取文件名后缀(例:png)
      *
      * @param fileName
      * @return
@@ -88,13 +88,12 @@ public class FileUtil {
         if (fileName == null) {
             return null;
         }
-
         int index = fileName.lastIndexOf(".");
         if (index == -1) {
             return null;
         }
 
-        return fileName.substring(index);
+        return fileName.substring(index + 1);
     }
 
     public static boolean copyFile(File origin, File newFile) {
@@ -108,14 +107,8 @@ public class FileUtil {
     }
 
     public static String imageByteToBase64(byte[] bytes, String suffix) {
-        if (bytes == null || bytes.length == 0) {
+        if (bytes == null || bytes.length == 0 || suffix == null) {
             return null;
-        }
-        if (suffix == null) {
-            return null;
-        }
-        if (suffix.startsWith(".")) {
-            suffix = suffix.substring(1);
         }
         return String.format(IMAGE_BASE64_PREFIX, suffix, Base64Utils.encodeToString(bytes));
     }
@@ -131,11 +124,4 @@ public class FileUtil {
         return imagePair;
     }
 
-    public static void main(String[] args) throws Exception {
-        //        File file = new File("/home/bert/Documents/github/acme/cqjz/src/main/resources/static/images/other/head.png");
-        //        FileInputStream in = new FileInputStream(file);
-        //        byte[] buffer = new byte[(int) file.length()];
-        //        in.read(buffer);
-        //        System.out.println(imageByteToBase64(buffer, file.getName()));
-    }
 }

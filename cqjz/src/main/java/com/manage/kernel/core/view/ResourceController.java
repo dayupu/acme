@@ -1,17 +1,13 @@
 package com.manage.kernel.core.view;
 
-import com.manage.base.constant.Image;
+import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.service.comm.IResourceService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
@@ -29,18 +25,17 @@ public class ResourceController {
 
     @RequestMapping("/image/{id}")
     public void showImage(HttpServletResponse response, @PathVariable("id") String imageId) {
-        response.setContentType("image/png");
-        response.setCharacterEncoding("utf-8");
         try {
-            String imagePath = resourceService.imagePath(imageId);
-            if (imagePath == null) {
+            ImageResult image = resourceService.getImage(imageId);
+            if (image == null) {
                 LOGGER.error("Not found the imageId: {}", imageId);
                 return;
             }
-
-            File imageFile = new File(imagePath);
+            response.setContentType("image/" + image.getType());
+            response.setCharacterEncoding("utf-8");
+            File imageFile = new File(image.getUrl());
             if (!imageFile.exists()) {
-                LOGGER.error("image not exists: {}", imagePath);
+                LOGGER.error("image not exists: {}", image.getUrl());
                 return;
             }
 
