@@ -1,0 +1,75 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "宋体", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    background-color: #afdde0;
+}
+
+.wrapper {
+    width: 1003px;
+    margin: 0 auto;
+    min-height: 100%;
+}
+
+.wrapper .header {
+    height: 251px;
+}
+
+.wrapper .content {
+
+}
+
+.wrapper .footer-push {
+    height: 57px;
+}
+
+.footer {
+    position: relative;
+    top: -57px;
+    height: 57px;
+    width: 1003px;
+    clear: both;
+    margin: 0 auto;
+    background: url("../images/anyone/footer.jpg");
+    font-size: 13px;
+    color: white;
+    text-align: center;
+}
+
+.header-top {
+    background: url("../images/anyone/top.jpg") repeat;
+    height: 27px;
+}
+
+.header-image {
+    background: url("../images/anyone/top201507_06.jpg");
+    height: 183px;
+}
+
+.header-menu {
+    background: url("../images/anyone/jzmenu_02.jpg") repeat;
+    height: 41px;
+}
+
+.header-top span, .header-menu span {
+    float: right;
+}
+.header-top img, .header-menu img{
+    padding: 0;
+    margin: 0;
+    float: left;
+    cursor: pointer;
+}
+.header-menu label{
+    margin-left: 20px;
+    display: inline-block;
+}
+.header-menu > label > input{
+    margin-top: 5px;
+}

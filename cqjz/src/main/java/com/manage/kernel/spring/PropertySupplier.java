@@ -12,7 +12,6 @@ public class PropertySupplier {
     @Value("${resource.image.access.url}")
     private String imageAccessUrl;
 
-
     public String getUploadImagesDir() {
         return uploadImagesDir;
     }

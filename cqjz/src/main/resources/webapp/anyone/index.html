@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>公安网网站管理后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <link rel="stylesheet" th:href="@{/css/anyoneApp.css}"/>
+    <link rel="stylesheet" th:href="@{/css/anyoneHome.css}"/>
+</head>
+<body ng-app="anyoneApp">
+<input id="appContextPath" type="hidden" th:value="@{/}"/>
+<div class="wrapper">
+    <div class="header">
+        <div class="header-top">
+            <span>
+               <img th:src="@{/images/anyone/top201507_02.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/top201507_03.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/top201507_04.jpg}" onclick=""/>
+            </span>
+        </div>
+        <div class="header-image"></div>
+        <div class="header-menu">
+            <label>
+                <img th:src="@{/images/anyone/jzmenu_find.jpg}"/>
+                <input type="text"/>&nbsp;<input type="button" value=" 搜 索 "/>
+            </label>
+            <span>
+               <img th:src="@{/images/anyone/jzmenu_03.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/jzmenu_04.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/jzmenu_06.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/jzmenu_05.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/jzmenu_07.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/jzmenu_09.jpg}" onclick=""/>
+            </span>
+        </div>
+    </div>
+    <div class="content">
+        <div ng-view></div>
+    </div>
+    <div class="footer-push"></div>
+</div>
+<div class="footer">
+    <br/>版权所有：重庆市公安局技术侦察总队&nbsp;设计制作：贤松科技<br/>
+    联系地址：渝中区大网港15号&nbsp;联系电话：（023）63758402&nbsp;目前在线：5&nbsp;总访问数：621040&nbsp;当月访问：1137
+</div>
+<script th:src="@{/lib/jquery/jquery.min.js}"></script>
+<script th:src="@{/anyone/angular.min.js}"></script>
+<script th:src="@{/anyone/angular-route.min.js}"></script>
+<script th:src="@{/anyone/app.js}"></script>
+</body>
+</html>
