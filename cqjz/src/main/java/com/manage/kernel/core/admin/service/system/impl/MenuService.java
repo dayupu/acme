@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import com.manage.base.exception.DeleteException;
 import com.manage.base.exception.MenuNotFoundException;
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.kernel.core.admin.apply.dto.MenuDto;
-import com.manage.kernel.core.admin.apply.dto.MenuNav;
+import com.manage.kernel.core.model.dto.MenuDto;
+import com.manage.kernel.core.model.dto.MenuNav;
 import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.jpa.entity.AdMenu;
 import com.manage.kernel.jpa.repository.AdMenuRepo;
@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;

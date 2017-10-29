@@ -2,8 +2,7 @@ package com.manage.kernel.core.admin.service.business;
 
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
-import com.manage.kernel.core.admin.apply.dto.NewsDto;
-import com.manage.kernel.core.admin.apply.dto.WatchDto;
+import com.manage.kernel.core.model.dto.WatchDto;
 import org.joda.time.LocalDate;
 
 /**

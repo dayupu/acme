@@ -14,4 +14,8 @@ public interface JzWatchRepo extends CrudRepository<JzWatch, Serializable>, JpaS
     @Query("from JzWatch where watchTime between :watchTime and :watchTimeEnd")
     public List<JzWatch> findByWatchTime(@Param("watchTime") LocalDate watchTime,
             @Param("watchTimeEnd") LocalDate watchTimeEnd);
+
+    @Query("from JzWatch where watchTime = :watchTime")
+    public JzWatch findByWatchTime(@Param("watchTime") LocalDate watchTime);
 }
+

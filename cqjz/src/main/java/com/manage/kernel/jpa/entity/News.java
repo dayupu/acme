@@ -53,9 +53,9 @@ public class News extends EntityBase {
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsStatus")})
     private NewsStatus status;
 
-    @Column(name = "approved_time")
+    @Column(name = "publish_time")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime approvedTime;
+    private LocalDateTime publishTime;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
     private List<NewsAttach> attaches;
@@ -149,11 +149,11 @@ public class News extends EntityBase {
         this.status = status;
     }
 
-    public LocalDateTime getApprovedTime() {
-        return approvedTime;
+    public LocalDateTime getPublishTime() {
+        return publishTime;
     }
 
-    public void setApprovedTime(LocalDateTime approvedTime) {
-        this.approvedTime = approvedTime;
+    public void setPublishTime(LocalDateTime publishTime) {
+        this.publishTime = publishTime;
     }
 }

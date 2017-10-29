@@ -9,7 +9,7 @@ import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.utils.Validators;
 import com.manage.kernel.basic.model.ImageResult;
-import com.manage.kernel.core.admin.apply.dto.NewsDto;
+import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.admin.service.business.INewsService;
 
 import com.manage.kernel.core.admin.service.comm.IResourceService;

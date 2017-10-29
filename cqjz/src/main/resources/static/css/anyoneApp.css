@@ -5,9 +5,17 @@ body {
     padding: 0;
 }
 
+p {
+    margin: 0;
+}
+
+a {
+    color: black;
+}
+
 body {
     font-family: "宋体", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     background-color: #afdde0;
 }
 
@@ -15,6 +23,7 @@ body {
     width: 1003px;
     margin: 0 auto;
     min-height: 100%;
+    background-color: #eeedde;
 }
 
 .wrapper .header {
@@ -60,16 +69,65 @@ body {
 .header-top span, .header-menu span {
     float: right;
 }
-.header-top img, .header-menu img{
+
+.header-top img, .header-menu img {
     padding: 0;
     margin: 0;
     float: left;
     cursor: pointer;
 }
-.header-menu label{
+
+.header-menu label {
     margin-left: 20px;
     display: inline-block;
 }
-.header-menu > label > input{
-    margin-top: 5px;
+
+.search-btn {
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: -3px;
+    font-size: 12px;
+}
+
+/*新闻列表页面*/
+.news-bg-title {
+    background: url("../images/anyone/news/news_show_title.jpg") no-repeat;
+    height: 47px;
+}
+
+.news-bg-title span {
+    display: inline-block;
+    margin-top: 12px;
+    margin-left: 33px;
+}
+
+.news-bg-bottom {
+    background: url("../images/anyone/news/news_show_bottm.jpg") repeat-y;
+    height: 33px;
+}
+
+.news-bg-content {
+    background: url("../images/anyone/news/news_show_bj.jpg") repeat-y;
+}
+
+.news-content {
+    margin: 0 40px;
+    font-size: 14px;
+}
+
+.news-content .news-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+
+.table tbody tr.news-title > td {
+    background-color: #6774a4;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
 }

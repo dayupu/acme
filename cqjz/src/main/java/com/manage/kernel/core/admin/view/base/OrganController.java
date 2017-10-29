@@ -1,15 +1,13 @@
 package com.manage.kernel.core.admin.view.base;
 
 import com.manage.base.exception.CoreException;
-import com.manage.base.exception.DepartNotFoundException;
 import com.manage.base.exception.OrganNotFoundException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.utils.Validators;
-import com.manage.kernel.core.admin.apply.dto.DepartDto;
-import com.manage.kernel.core.admin.apply.dto.OrganDto;
+import com.manage.kernel.core.model.dto.OrganDto;
 import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import org.apache.logging.log4j.LogManager;

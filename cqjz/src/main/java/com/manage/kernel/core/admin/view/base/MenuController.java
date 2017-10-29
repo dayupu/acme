@@ -7,8 +7,7 @@ import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.Validators;
-import com.manage.kernel.core.admin.apply.dto.MenuDto;
-import com.manage.kernel.core.admin.apply.dto.MenuNav;
+import com.manage.kernel.core.model.dto.MenuDto;
 import com.manage.kernel.core.admin.service.system.IMenuService;
 import com.manage.kernel.spring.annotation.InboundLog;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

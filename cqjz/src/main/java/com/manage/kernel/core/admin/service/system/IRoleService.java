@@ -3,7 +3,7 @@ package com.manage.kernel.core.admin.service.system;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.kernel.core.admin.apply.dto.RoleDto;
+import com.manage.kernel.core.model.dto.RoleDto;
 import com.manage.base.supplier.page.PageQuery;
 
 import java.util.List;

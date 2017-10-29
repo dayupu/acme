@@ -8,7 +8,7 @@ import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.enums.ResponseStatus;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.Validators;
-import com.manage.kernel.core.admin.apply.dto.UserDto;
+import com.manage.kernel.core.model.dto.UserDto;
 import com.manage.kernel.core.admin.service.system.IUserService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;

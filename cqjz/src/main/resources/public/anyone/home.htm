@@ -3,12 +3,31 @@
         <td width="201" valign="top">
             <!--值班人员-->
             <div class="home-zbry-top"></div>
-            <div class="home-zbry-body"></div>
+            <div class="home-zbry-body">
+                <table width="180" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td width="70" class="zbry-key">值班领导：</td>
+                        <td class="zbry-value">{{home.watch.leader}}</td>
+                    </tr>
+                    <tr>
+                        <td class="zbry-key">值<span style="display: inline-block;margin: 0 7px;">班</span>长：</td>
+                        <td class="zbry-value">{{home.watch.captain}}</td>
+                    </tr>
+                    <tr>
+                        <td class="zbry-key">值班民警：</td>
+                        <td class="zbry-value">{{home.watch.worker}}</td>
+                    </tr>
+                    <tr>
+                        <td class="zbry-key">值班电话：</td>
+                        <td class="zbry-value">{{home.watch.phone}}</td>
+                    </tr>
+                </table>
+            </div>
             <div class="home-window-foot"></div>
             <!--星级民警-->
             <div class="home-xjmj"></div>
             <div class="home-window-top"></div>
-            <div class="home-window-body" style="height: 180px;"></div>
+            <div class="home-window-body" style="height: 220px;"></div>
             <div class="home-window-foot"></div>
             <!--市局邮箱-->
             <div class="home-sjyx"></div>
@@ -32,15 +51,38 @@
             <table width="795" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="3">
-                        <div class="home-news-pic-title"></div>
+                        <div class="home-news-pic-title">
+                            <a class="home-more" href="#/newsList/tpxw" title="更多"
+                               style="margin-right: 20px;margin-top: 27px;"></a>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td width="12">
-                        <div class="home-news-pic-left"></div>
+                        <div class="home-news-pic-left">
+                        </div>
                     </td>
-                    <td style="background-color: white;">
-
+                    <td style="background-color: white;padding: 0 5px">
+                        <div class="tpxw-show">
+                            <div class="tpxw-inbox">
+                                <ul class="tpxw-pic">
+                                    <li ng-repeat="news in home.picNews" number="{{news.number}}">
+                                        <img class="news-tpxw-image" ng-src="{{news.imageUrl}}">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="home-new-tpxw" cellpadding="2">
+                                <tr type="tpxw" class="news-no-select" ng-repeat="news in home.picNews"
+                                    number="{{news.number}}">
+                                    <td><img class="news-tpxw-image-sm" ng-src="{{news.imageUrl}}"/></td>
+                                    <td><a href="#/newsInfo/{{news.number}}"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td>{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                     <td width="13">
                         <div class="home-news-pic-right"></div>
@@ -57,26 +99,70 @@
                 <div style="height: 470px;">
                     <!--警情快讯-->
                     <div class="home-news-module">
-                        <div class="home-news-title-jqkx"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-jqkx">
+                            <a class="home-more home-more-02" href="#/newsList/jqkx" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.jqkxNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                     <!--队伍建设-->
                     <div class="home-news-module">
-                        <div class="home-news-title-dwjs"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-dwjs">
+                            <a class="home-more home-more-02" href="#/newsList/dwjs" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.dwjsNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                     <!--部门动态-->
                     <div class="home-news-module">
-                        <div class="home-news-title-bmdt"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-bmdt">
+                            <a class="home-more home-more-02" href="#/newsList/bmdt" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.bmdtNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                     <!--学习园地-->
                     <div class="home-news-module">
-                        <div class="home-news-title-xxyd"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-xxyd">
+                            <a class="home-more home-more-02" href="#/newsList/xxyd" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.xxydNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                 </div>
@@ -84,14 +170,36 @@
                 <div>
                     <!--网海拾贝-->
                     <div class="home-news-module">
-                        <div class="home-news-title-whsb"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-whsb">
+                            <a class="home-more home-more-02" href="#/newsList/whsb" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.whsbNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                     <!--科技瞭望-->
                     <div class="home-news-module">
-                        <div class="home-news-title-kjlw"></div>
-                        <div class="home-news-window-body"></div>
+                        <div class="home-news-title-kjlw">
+                            <a class="home-more home-more-02" href="#/newsList/kjlw" title="更多"></a>
+                        </div>
+                        <div class="home-news-window-body">
+                            <table>
+                                <tr ng-repeat="news in home.kjlwNews">
+                                    <td width="10"><i class="fa fa-caret-right"></i></td>
+                                    <td><a href="#/newsInfo/{{news.number}}" class="home-news-title"
+                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td width="35">{{news.simpleTime}}</td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="home-news-window-foot"></div>
                     </div>
                 </div>

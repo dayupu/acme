@@ -9,8 +9,8 @@ import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
-import com.manage.kernel.core.admin.apply.dto.NewsDto;
-import com.manage.kernel.core.admin.apply.parser.NewsParser;
+import com.manage.kernel.core.model.dto.NewsDto;
+import com.manage.kernel.core.model.parser.NewsParser;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.jpa.entity.News;
@@ -170,7 +170,7 @@ public class NewsService implements INewsService {
         PageQuery page = new PageQuery();
         page.setPageNumber(1);
         page.setPageSize(5);
-        page.setSortField("approvedTime");
+        page.setSortField("publishTime");
         page.setSortDirection(PageQuery.ORDER_DESC);
         Page<News> newses = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.manage.kernel.jpa.repository;
 
+import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.database.enums.NewsType;
 import com.manage.kernel.jpa.entity.News;
 
 import java.io.Serializable;

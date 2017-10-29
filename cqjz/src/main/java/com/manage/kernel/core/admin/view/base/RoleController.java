@@ -9,11 +9,10 @@ import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.utils.Validators;
-import com.manage.kernel.core.admin.apply.dto.RoleDto;
+import com.manage.kernel.core.model.dto.RoleDto;
 import com.manage.kernel.core.admin.service.system.IRoleService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
-import com.manage.kernel.spring.annotation.UserPermit;
 import com.manage.kernel.spring.annotation.UserPermitGroup;
 import com.manage.base.supplier.page.PageQuery;
 

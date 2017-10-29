@@ -94,7 +94,7 @@ public class ActBusinessService implements IActBusinessService {
         }
         news.setStatus(status);
         if (status.isPass()) {
-            news.setApprovedTime(LocalDateTime.now());
+            news.setPublishTime(LocalDateTime.now());
         }
         newsRepo.save(news);
     }

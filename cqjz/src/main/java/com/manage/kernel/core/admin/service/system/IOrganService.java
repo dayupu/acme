@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service.system;
 
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.kernel.core.admin.apply.dto.OrganDto;
+import com.manage.kernel.core.model.dto.OrganDto;
 
 import java.util.List;
 

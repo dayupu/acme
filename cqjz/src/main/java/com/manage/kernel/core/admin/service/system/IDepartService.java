@@ -1,7 +1,7 @@
 package com.manage.kernel.core.admin.service.system;
 
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.kernel.core.admin.apply.dto.DepartDto;
+import com.manage.kernel.core.model.dto.DepartDto;
 
 import java.util.List;
 

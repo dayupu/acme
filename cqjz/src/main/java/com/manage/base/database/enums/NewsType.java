@@ -15,8 +15,7 @@ public enum NewsType implements DBEnum, Localizable {
     BMDT(13, "resource.constant.news.type.bmdt", false),//部门动态
     XXYD(14, "resource.constant.news.type.xxyd", false),//学习园地
     WHSB(15, "resource.constant.news.type.whsb", false),//网海拾贝
-    KJLW(16, "resource.constant.news.type.kjlw", false),//科技瞭望
-    JZFC(17, "resource.constant.news.type.jzfc", true);//技侦风采
+    KJLW(16, "resource.constant.news.type.kjlw", false);//科技瞭望
 
     private int constant;
     private String messageKey;
@@ -26,6 +25,17 @@ public enum NewsType implements DBEnum, Localizable {
         this.constant = constant;
         this.messageKey = messageKey;
         this.hasImage = hasImage;
+    }
+
+    public static NewsType fromTypeName(String typeName) {
+        if (typeName != null) {
+            for (NewsType type : NewsType.values()) {
+                if (type.name().equalsIgnoreCase(typeName)) {
+                    return type;
+                }
+            }
+        }
+        return null;
     }
 
     public static String getTypeName(Integer constant) {
@@ -58,7 +68,7 @@ public enum NewsType implements DBEnum, Localizable {
     }
 
     public boolean requireImage() {
-        return this == TPXW || this == JZFC;
+        return this == TPXW;
     }
 
 

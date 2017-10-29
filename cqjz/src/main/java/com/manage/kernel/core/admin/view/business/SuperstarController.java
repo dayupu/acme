@@ -1,7 +1,6 @@
 package com.manage.kernel.core.admin.view.business;
 
 import com.manage.base.constant.Image;
-import com.manage.base.enums.ResponseStatus;
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
 import com.manage.base.supplier.msgs.MessageInfos;
@@ -10,15 +9,10 @@ import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.utils.FileUtil;
 import com.manage.base.utils.Validators;
-import com.manage.kernel.core.admin.apply.dto.SuperstarDto;
-import com.manage.kernel.core.admin.apply.dto.WatchDto;
+import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.admin.service.business.ISuperStarService;
-import com.manage.kernel.core.admin.service.business.IWatchService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,17 +1,14 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
-import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.exception.CoreException;
 import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.StringUtil;
-import com.manage.kernel.core.admin.apply.dto.WatchDto;
-import com.manage.kernel.core.admin.apply.parser.NewsParser;
-import com.manage.kernel.core.admin.apply.parser.WatchParser;
+import com.manage.kernel.core.model.dto.WatchDto;
+import com.manage.kernel.core.model.parser.WatchParser;
 import com.manage.kernel.core.admin.service.business.IWatchService;
 import com.manage.kernel.jpa.entity.JzWatch;
-import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

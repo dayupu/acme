@@ -4,6 +4,8 @@
     <title>公安网网站管理后台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/anyoneApp.css}"/>
     <link rel="stylesheet" th:href="@{/css/anyoneHome.css}"/>
 </head>
@@ -13,8 +15,8 @@
     <div class="header" ng-controller="headerController">
         <div class="header-top">
             <span>
-               <img th:src="@{/images/anyone/top201507_02.jpg}" onclick=""/>
-               <img th:src="@{/images/anyone/top201507_03.jpg}" onclick=""/>
+               <img th:src="@{/images/anyone/top201507_02.jpg}" onclick="goto('https://www.baidu.com')"/>
+               <img th:src="@{/images/anyone/top201507_03.jpg}" onclick="setHome(this)" />
                <img th:src="@{/images/anyone/top201507_04.jpg}" onclick="goto('login')"/>
             </span>
         </div>
@@ -22,14 +24,13 @@
         <div class="header-menu">
             <label>
                 <img th:src="@{/images/anyone/jzmenu_find.jpg}"/>
-                <input type="text"/>&nbsp;<input type="button" value=" 搜 索 "/>
+                <input type="text" style="width: 150px; height: 14px;margin-top: 5px;"/>&nbsp;
+                <input type="button" value="  搜 索  " class="search-btn"/>
             </label>
             <span>
                <img th:src="@{/images/anyone/jzmenu_03.jpg}"/>
                <img th:src="@{/images/anyone/jzmenu_04.jpg}" ng-click="gotToUrl('/')"/>
                <img th:src="@{/images/anyone/jzmenu_06.jpg}" ng-click="gotToUrl('contacts')"/>
-               <img th:src="@{/images/anyone/jzmenu_05.jpg}" ng-click="gotToUrl('jzfz')"/>
-               <img th:src="@{/images/anyone/jzmenu_07.jpg}" ng-click="gotToUrl('bmjy')"/>
                <img th:src="@{/images/anyone/jzmenu_09.jpg}"/>
             </span>
         </div>
@@ -46,7 +47,7 @@
 <script th:src="@{/lib/jquery/jquery.min.js}"></script>
 <script th:src="@{/anyone/angular.min.js}"></script>
 <script th:src="@{/anyone/angular-route.min.js}"></script>
+<script th:src="@{/anyone/app-base.js}"></script>
 <script th:src="@{/anyone/app.js}"></script>
-<script th:src="@{/anyone/app-home.js}"></script>
 </body>
 </html>
