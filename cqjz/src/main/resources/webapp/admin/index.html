@@ -8,7 +8,9 @@
     <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all'/>
     <link rel="stylesheet" th:href="@{/lib/zTree/css/zTreeStyle/zTreeStyle.css}"/>
     <link rel="stylesheet" th:href="@{/lib/angular/ngGrid/ng-grid.min.css}"/>
-    <link rel="stylesheet" th:href="@{/lib/umeditor/themes/default/css/umeditor.min.css}"/>
+    <!--<link rel="stylesheet" th:href="@{/lib/umeditor/themes/default/css/umeditor.min.css}"/>-->
+    <link rel="stylesheet" th:href="@{/lib/ueditor/themes/default/css/ueditor.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/ueditor/themes/iframe.css}"/>
     <link rel="stylesheet" th:href="@{/lib/datetimepicker/css/jquery.datetimepicker.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
     <link rel="stylesheet" th:href="@{/css/mine.css}"/>
@@ -16,7 +18,7 @@
 
 </head>
 <body>
-<input id="appContextPath" type="hidden" th:value="@{/}" />
+<input id="appContextPath" type="hidden" th:value="@{/}"/>
 <div class="app app-header-fixed" ng-app="mainApp">
     <div ng-controller="headerController" ng-include="'app/header.htm'" class="app-header"></div>
     <div ng-controller="menuController" ng-include="'app/menu.htm'" class="app-aside bg-dark"></div>
@@ -44,13 +46,19 @@
 <script th:src="@{/js/app-base.js}"></script>
 <script th:src="@{/js/app-directive.js}"></script>
 <script th:src="@{/js/app-service.js}"></script>
-<script th:src="@{/lib/umeditor/umeditor.config.js}"></script>
-<script th:src="@{/lib/umeditor/umeditor.js}"></script>
-<script th:src="@{/lib/umeditor/lang/zh-cn/zh-cn.js}"></script>
+<!--<script th:src="@{/lib/umeditor/umeditor.config.js}"></script>-->
+<!--<script th:src="@{/lib/umeditor/umeditor.js}"></script>-->
+<!--<script th:src="@{/lib/umeditor/lang/zh-cn/zh-cn.js}"></script>-->
 <script th:src="@{/js/route/system.js}"></script>
 <script th:src="@{/js/route/news.js}"></script>
 <script th:src="@{/js/route/flow.js}"></script>
 <script th:src="@{/js/route/jz.js}"></script>
 <script th:src="@{/js/route/setting.js}"></script>
+
+<script th:src="@{/lib/ueditor/ueditor.config.js}"></script>
+<script th:src="@{/lib/ueditor/ueditor.all.js}"></script>
+<script th:src="@{/lib/ueditor/angular-ueditor.min.js}"></script>
+<script th:src="@{/lib/ueditor/ueditor.parse.min.js}"></script>
+
 </body>
 </html>

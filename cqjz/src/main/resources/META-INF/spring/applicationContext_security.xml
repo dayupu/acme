@@ -6,8 +6,12 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security.xsd">
 
+
     <!--拦截配置-->
-    <http auto-config="true" use-expressions="true" request-matcher="ant" >
+    <http auto-config="true" use-expressions="true" request-matcher="ant">
+        <headers>
+            <frame-options disabled="true"/>
+        </headers>
         <form-login login-page="/login"/>
         <intercept-url pattern="/admin/ajax/login" access="permitAll"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
@@ -32,16 +36,20 @@
     </beans:bean>
     <beans:bean id="redirectStrategy" class="org.springframework.security.web.DefaultRedirectStrategy"></beans:bean>
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"></beans:bean>
-    <beans:bean id="sessionStrategy" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+    <beans:bean id="sessionStrategy"
+                class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
         <beans:constructor-arg>
             <beans:list>
-                <beans:bean class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
                     <beans:constructor-arg ref="sessionRegistry"/>
                     <beans:property name="maximumSessions" value="1"/>
                 </beans:bean>
-                <beans:bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
                 </beans:bean>
-                <beans:bean class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+                <beans:bean
+                        class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
                     <beans:constructor-arg ref="sessionRegistry"/>
                 </beans:bean>
             </beans:list>

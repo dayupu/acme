@@ -36,6 +36,11 @@ INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequen
 VALUES(16, NULL, NULL, 2, '值班信息', 15, 1, 'jz.list.watch');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(17, NULL, NULL, 2, '技侦明星', 15, 2, 'jz.list.superstar');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(20, NULL, NULL, 2, '技侦风采', 15, 3, 'jz.list.mien');
+INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
+VALUES(21, NULL, NULL, 2, '通讯录', 15, 4, 'jz.list.contacts');
+
 -- 我的设置
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(18, NULL, NULL, 1, '我的设置', NULL, 5, NULL);

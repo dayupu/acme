@@ -1,4 +1,4 @@
-var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap", "ngFileUpload"]);
+var mainApp = angular.module("mainApp", ["angular-loading-bar", "ui.router", "ngAnimate", "ngStorage", "ngGrid", "ui.bootstrap", "ngFileUpload","ng.ueditor"]);
 mainApp.config(function ($stateProvider, $urlRouterProvider) {
     routeConfig($stateProvider, $urlRouterProvider);
 });
@@ -60,6 +60,9 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         .state("jz.list.superstar", {
             url: "/superstar", templateUrl: './_jz/superstarList.htm', controller: "jzSuperstarListCtl"
+        })
+        .state("jz.list.contacts", {
+            url: "/contacts", templateUrl: './_jz/contacts.htm', controller: "jzContactsListCtl"
         })
         // setting
         .state("setting", {url: "/setting", templateUrl: './_setting/setting.htm'})

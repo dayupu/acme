@@ -102,14 +102,14 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
         var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", null);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
-         $scope.query();
+            $scope.query();
         });
     };
     $scope.edit = function (superstar) {
         var modalInstance = mineUtil.modal("admin/_jz/superstar.htm", "systemSuperstarController", superstar);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
-          $scope.query();
+            $scope.query();
         });
     };
     $scope.detail = function (superstar) {
@@ -119,17 +119,17 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
         });
     };
     $scope.drop = function (entity) {
-            mineUtil.confirm("确认删除吗？", function () {
-                mineHttp.send("DELETE", "admin/jz/superstar/" + entity.id, null, function (result) {
-                    $scope.query();
-                });
+        mineUtil.confirm("确认删除吗？", function () {
+            mineHttp.send("DELETE", "admin/jz/superstar/" + entity.id, null, function (result) {
+                $scope.query();
             });
-        };
+        });
+    };
 });
 
 mainApp.controller("systemSuperstarController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
     $scope.months = getMonths();
-    $scope.superstar={};
+    $scope.superstar = {};
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -141,7 +141,7 @@ mainApp.controller("systemSuperstarController", function ($scope, data, $uibModa
     };
     $scope.upload = function (file) {
         mineHttp.upload("admin/jz/superstar/upload", {file: file}, function (data) {
-             $scope.superstar.imageBase64 = data.content;
+            $scope.superstar.imageBase64 = data.content;
         });
     };
     if (data != null && data.id != null) {
@@ -156,7 +156,7 @@ mainApp.controller("systemSuperstarController", function ($scope, data, $uibModa
         });
     } else {
         mineHttp.send("GET", "admin/jz/superstar/headImage", {}, function (result) {
-           $scope.superstar.imageBase64 = result.content;
+            $scope.superstar.imageBase64 = result.content;
         });
     }
     $scope.ok = function () {
@@ -176,5 +176,25 @@ mainApp.controller("systemSuperstarDetailController", function ($scope, data, $u
     });
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("jzContactsListCtl", function ($scope) {
+    $scope.config = {
+        initialFrameHeight:250,
+        enableAutoSave: false,
+        toolbars: [[
+            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+            'directionalityltr', 'directionalityrtl', 'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+            'print', 'preview', 'searchreplace', 'help', 'drafts'
+        ]]
     };
 });
