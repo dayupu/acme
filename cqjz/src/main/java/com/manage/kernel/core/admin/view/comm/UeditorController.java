@@ -82,6 +82,6 @@ public class UeditorController {
         }
 
         MultipartHttpServletRequest fileRequest = (MultipartHttpServletRequest) request;
-        return JsonUtil.toJson(resourceService.uploadImage(fileRequest.getFile(filedName), FileSource.NEWS_BODY));
+        return JsonUtil.toJson(resourceService.uploadImage(fileRequest.getFile(filedName), FileSource.UEDITOR));
     }
 }

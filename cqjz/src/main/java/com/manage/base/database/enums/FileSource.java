@@ -8,7 +8,8 @@ import com.manage.base.database.model.DBEnum;
 public enum FileSource implements DBEnum {
 
     NEWS_SUMMARY(10, "news.summary"),
-    NEWS_BODY(11, "news.body");
+    NEWS_BODY(11, "news.body"),
+    UEDITOR(12, "ueditor");
 
     private Integer constant;
     private String message;

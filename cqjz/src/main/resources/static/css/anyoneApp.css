@@ -138,3 +138,10 @@ body {
     padding:20px 15px;
     min-height:500px;
 }
+
+.ueditor-table {
+   border:none;
+}
+.ueditor-table tr td{
+    padding:3px 3px;
+}

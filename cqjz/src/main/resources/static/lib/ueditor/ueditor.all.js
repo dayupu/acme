@@ -18970,7 +18970,7 @@ UE.plugins['video'] = function (){
                     html.push('</tr>')
                 }
                 //禁止指定table-width
-                return '<table border="1"><tbody>' + html.join('') + '</tbody></table>'
+                return '<table class="ueditor-table" border="1"><tbody>' + html.join('') + '</tbody></table>'
             }
 
             if (!opt) {
