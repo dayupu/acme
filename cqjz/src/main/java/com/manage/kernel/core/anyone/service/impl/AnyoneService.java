@@ -77,7 +77,7 @@ public class AnyoneService implements IAnyoneService {
         Page<JzSuperStar> pageResult = superStarRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             return cb.and(list.toArray(new Predicate[0]));
-        }, new PageRequest(1, 1, Sort.Direction.DESC, "year", "month"));
+        }, new PageRequest(0, 1, Sort.Direction.DESC, "year", "month"));
 
         if (CollectionUtils.isEmpty(pageResult.getContent())) {
             return new ArrayList<>();
@@ -164,7 +164,7 @@ public class AnyoneService implements IAnyoneService {
             list.add(cb.equal(root.get("status"), NewsStatus.PASS));
             list.add(cb.isNotNull(root.get("publishTime")));
             return cb.and(list.toArray(new Predicate[0]));
-        }, new PageRequest(1, count, Sort.Direction.DESC, "publishTime"));
+        }, new PageRequest(0, count, Sort.Direction.DESC, "publishTime"));
 
         NewsVo newsVo;
         for (News news : pageResult.getContent()) {
