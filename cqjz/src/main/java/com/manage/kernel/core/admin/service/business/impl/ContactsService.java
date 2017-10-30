@@ -28,8 +28,6 @@ public class ContactsService implements IContactsService {
         JzContacts contacts = contactsRepo.findContactsForPublish();
         if (contacts == null) {
             contacts = new JzContacts();
-            contacts.setCreatedAt(LocalDateTime.now());
-            contacts.setCreatedUser(SessionHelper.user());
             contacts.setVersion(0);
             contacts.setHistory(false);
             contacts = contactsRepo.save(contacts);

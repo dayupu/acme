@@ -122,8 +122,8 @@
     color: #76f582;
 }
 
-.home-news-window-body table td {
-    border-bottom: 1px dotted #b1b1af;
+.home-news-window-body table td, .home-new-tpxw td {
+    border-bottom: 1px dashed #b1b1af;
 }
 
 .home-news-window-body .home-news-title {
@@ -197,6 +197,7 @@
     margin-top: 17px;
 }
 
+/*图片新闻*/
 .tpxw-show {
     width: 405px;
     float: left;
@@ -248,4 +249,33 @@
     -moz-opacity: 1;
     -khtml-opacity: 1;
     opacity: 1;
+}
+
+/*星级民警样式*/
+.xjmj-show {
+    margin: 0 auto;
+    width: 150px;
+}
+
+.xjmj-inbox {
+    text-align: center;
+    width: 150px;
+    height: 220px;
+    overflow: hidden;
+}
+
+.xjmj-inbox ul, .xjmj-inbox li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.xjmj-inbox ul li {
+    position: relative;
+    float: left;
+}
+
+.xjmj-image {
+    width: 150px;
+    height: 180px;
 }

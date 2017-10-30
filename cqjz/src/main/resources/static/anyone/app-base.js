@@ -38,7 +38,7 @@ function tpxwRoll(count) {
     if (_tpxwInterval != null) {
         clearInterval(_tpxwInterval);
     }
-    var picRollLeft = function () {
+    var tpxwRollLeft = function () {
         var first = $('.tpxw-pic li').first();
         var loop = true;
         $('.tpxw-pic li').not(":animated").animate({
@@ -70,14 +70,44 @@ function tpxwRoll(count) {
         });
     };
 
-    var pickRoll = function () {
+    var tpxwRoll = function () {
         $('.tpxw-pic').width(400 * count);
         if ($("tr[type='tpxw']").length > 0) {
             newsSelected($("tr[type='tpxw']").eq(0));
         }
         _tpxwInterval = setInterval(function () {
-            picRollLeft();
+            tpxwRollLeft();
         }, 5000);
     };
-    setTimeout(pickRoll, 1000);
+    setTimeout(tpxwRoll, 1000);
+}
+
+/**图片新闻滚动**/
+var _xjmjInterval = null;
+function xjmjRoll(count) {
+    if (_xjmjInterval != null) {
+        clearInterval(_xjmjInterval);
+    }
+    var xjmjRollLeft = function () {
+        var first = $('.xjmj-pic li').first();
+        var loop = true;
+        $('.xjmj-pic li').not(":animated").animate({
+            left: -150
+        }, 1000, function () {
+            if (loop) {
+                $('.xjmj-pic').append($(first).clone(false));
+                $(first).remove();
+                loop = false;
+            };
+            $(this).css("left", 0);
+        });
+    };
+
+    var xjmjRoll = function () {
+        $('.xjmj-pic').width(150 * count);
+        _xjmjInterval = setInterval(function () {
+            xjmjRollLeft();
+        }, 6000);
+    };
+    setTimeout(xjmjRoll, 1000);
 }

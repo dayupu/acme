@@ -14,6 +14,6 @@ import org.springframework.data.repository.query.Param;
 public interface JzSuperStarRepo extends CrudRepository<JzSuperStar, Serializable>, JpaSpecificationExecutor<JzSuperStar> {
 
 
-    @Query("from JzSuperStar where year = :year and month = :month order by year desc, month desc")
-    public List<JzSuperStar> findByYearMonth(@Param("year") String year, @Param("month") String month);
+    @Query("from JzSuperStar where year = :year and month in (:months)")
+    public List<JzSuperStar> findByYearMonth(@Param("year") String year, @Param("months") List<String> months);
 }

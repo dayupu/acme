@@ -27,7 +27,19 @@
             <!--星级民警-->
             <div class="home-xjmj"></div>
             <div class="home-window-top"></div>
-            <div class="home-window-body" style="height: 220px;"></div>
+            <div class="home-window-body" style="height: 220px;">
+                <div class="xjmj-show">
+                    <div class="xjmj-inbox">
+                        <ul class="xjmj-pic">
+                            <li ng-repeat="superstar in home.superstars">
+                                <img class="xjmj-image" ng-src="{{superstar.imageBase64}}">
+                                <br/>{{superstar.name}}
+                                <br/>{{superstar.honor}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="home-window-foot"></div>
             <!--市局邮箱-->
             <div class="home-sjyx"></div>

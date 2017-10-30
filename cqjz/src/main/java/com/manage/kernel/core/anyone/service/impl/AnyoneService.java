@@ -3,7 +3,9 @@ package com.manage.kernel.core.anyone.service.impl;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.supplier.page.PageQuery;
+import com.manage.base.utils.FileUtil;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
+import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.model.parser.SuperstarParser;
 import com.manage.kernel.core.model.parser.WatchParser;
 import com.manage.kernel.core.model.vo.HomeVo;
@@ -18,6 +20,8 @@ import com.manage.kernel.jpa.repository.NewsRepo;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -55,14 +59,8 @@ public class AnyoneService implements IAnyoneService {
             home.setWatch(WatchParser.toDto(watch));
         }
 
-        // 获取本月星级民警
-        String year = String.valueOf(today.getYear());
-        String month = String.valueOf(today.getMonthOfYear());
-        List<JzSuperStar> superStars = superStarRepo.findByYearMonth(year, month);
-        if (!CollectionUtils.isEmpty(superStars)) {
-            home.setSuperstar(SuperstarParser.toDto(superStars.get(0)));
-        }
-
+        // 获取最新季度的星级民警
+        home.setSuperstars(getJzSuperStars());
         // 获取图片新闻
         home.setPicNews(findPublishNews(NewsType.TPXW, 6));
         int newsCount = 8;
@@ -73,6 +71,64 @@ public class AnyoneService implements IAnyoneService {
         home.setWhsbNews(findPublishNews(NewsType.WHSB, newsCount));
         home.setKjlwNews(findPublishNews(NewsType.KJLW, newsCount));
         return home;
+    }
+
+    private List<SuperstarDto> getJzSuperStars() {
+        Page<JzSuperStar> pageResult = superStarRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            return cb.and(list.toArray(new Predicate[0]));
+        }, new PageRequest(1, 1, Sort.Direction.DESC, "year", "month"));
+
+        if (CollectionUtils.isEmpty(pageResult.getContent())) {
+            return new ArrayList<>();
+        }
+
+        JzSuperStar superStar = pageResult.getContent().get(0);
+        String year = superStar.getYear();
+        String month = superStar.getMonth();
+        List<String> months = new ArrayList<>();
+        switch (Integer.valueOf(month)) {
+            case 1:
+            case 2:
+            case 3:
+                months.add("1");
+                months.add("2");
+                months.add("3");
+                break;
+            case 4:
+            case 5:
+            case 6:
+                months.add("4");
+                months.add("5");
+                months.add("6");
+                break;
+            case 7:
+            case 8:
+            case 9:
+                months.add("7");
+                months.add("8");
+                months.add("9");
+                break;
+            case 10:
+            case 11:
+            case 12:
+                months.add("10");
+                months.add("11");
+                months.add("12");
+                break;
+        }
+
+        SuperstarDto superstarDto;
+        List<SuperstarDto> superstarDtos = new ArrayList<>();
+        for (JzSuperStar entity : superStarRepo.findByYearMonth(year, months)) {
+            superstarDto = SuperstarParser.toDto(entity);
+            if (superStar.getPhoto() != null) {
+                superstarDto.setImageBase64(FileUtil.imageByteToBase64(superStar.getPhoto(), superStar.getSuffix()));
+            }
+            superstarDtos.add(superstarDto);
+        }
+
+        return superstarDtos;
     }
 
     @Override
@@ -101,18 +157,14 @@ public class AnyoneService implements IAnyoneService {
 
     private List<NewsVo> findPublishNews(NewsType type, int count) {
         List<NewsVo> newsVos = new ArrayList<>();
-        PageQuery page = new PageQuery();
-        page.setPageNumber(1);
-        page.setPageSize(count);
-        page.setSortField("publishTime");
-        page.setSortDirection(PageQuery.ORDER_DESC);
+
         Page<News> pageResult = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("type"), type));
             list.add(cb.equal(root.get("status"), NewsStatus.PASS));
             list.add(cb.isNotNull(root.get("publishTime")));
             return cb.and(list.toArray(new Predicate[0]));
-        }, page.sortPage());
+        }, new PageRequest(1, count, Sort.Direction.DESC, "publishTime"));
 
         NewsVo newsVo;
         for (News news : pageResult.getContent()) {
@@ -127,3 +179,4 @@ public class AnyoneService implements IAnyoneService {
         return newsVos;
     }
 }
+

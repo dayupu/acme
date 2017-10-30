@@ -15,7 +15,7 @@ public class HomeVo {
     /*值班人员*/
     private WatchDto watch = new WatchDto();
     /*星级民警*/
-    private SuperstarDto superstar = new SuperstarDto();
+    private List<SuperstarDto> superstars =  new ArrayList<>();
     /*图片新闻*/
     private List<NewsVo> picNews = new ArrayList<>();
     /*警情快讯*/
@@ -39,12 +39,12 @@ public class HomeVo {
         this.watch = watch;
     }
 
-    public SuperstarDto getSuperstar() {
-        return superstar;
+    public List<SuperstarDto> getSuperstars() {
+        return superstars;
     }
 
-    public void setSuperstar(SuperstarDto superstar) {
-        this.superstar = superstar;
+    public void setSuperstars(List<SuperstarDto> superstars) {
+        this.superstars = superstars;
     }
 
     public List<NewsVo> getPicNews() {
