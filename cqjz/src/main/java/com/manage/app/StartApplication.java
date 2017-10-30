@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ServletComponentScan
 @ComponentScan(basePackages = "com.manage.kernel")
 @ImportResource({ "classpath:META-INF/spring/applicationContext*.xml" })
 public class StartApplication extends SpringBootServletInitializer {

@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "cargo_discrepancy_event")
+@Table(name = "confirm_discrepancy_event")
 public class EventPush {
 
     @Id

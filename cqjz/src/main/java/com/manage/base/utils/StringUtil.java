@@ -1,8 +1,10 @@
 package com.manage.base.utils;
 
-
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import org.springframework.util.StringUtils;
 
 public class StringUtil extends org.springframework.util.StringUtils {
 
@@ -50,7 +52,6 @@ public class StringUtil extends org.springframework.util.StringUtils {
         return !equals(obj1, obj2);
     }
 
-
     public static String fileSize(Long size) {
         if (size == null) {
             return null;
@@ -68,4 +69,23 @@ public class StringUtil extends org.springframework.util.StringUtils {
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(result) + unit;
     }
+
+    public static List<String> strArrayToList(String strArray) {
+        if (isEmpty(strArray)) {
+            return new ArrayList<>();
+        }
+        if (strArray.startsWith("[")) {
+            strArray = strArray.substring(1);
+        }
+        if (strArray.endsWith("]")) {
+            strArray = strArray.substring(0, strArray.length() - 1);
+        }
+        String[] arrays = strArray.split(",");
+        List<String> strings = new ArrayList<>();
+        for (String element : arrays) {
+            strings.add(element.trim());
+        }
+        return strings;
+    }
+
 }

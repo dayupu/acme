@@ -11,7 +11,7 @@
                 <mine-message status="messageStatus" message="message"></mine-message>
                 <table class="table">
                     <tr>
-                        <td>
+                        <td width="100">
                             <mine-label name="标题" required></mine-label>
                         </td>
                         <td><input type="text" ng-model="news.title"
@@ -69,8 +69,7 @@
                             <mine-label name="正文" required></mine-label>
                         </td>
                         <td height="300">
-                            <div mine-umeditor ng-model="news.content" id="newsEditor" height="300"
-                                 style="width:100%;"></div>
+                            <div class="ueditor" id="newsEditor" config="config" ng-model="news.content" style="width:950px;"></div>
                         </td>
                     </tr>
                     <tr>

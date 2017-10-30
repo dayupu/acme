@@ -76,7 +76,7 @@ http://inhu.net
                   content = this.modelContent;
                 }
                 if (this.editor && this.editorReady) {
-                  this.editor.setContent(content);
+                  this.editor.setContent(content, false);
                 }
               };
 
