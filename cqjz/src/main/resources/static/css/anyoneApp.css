@@ -131,3 +131,10 @@ body {
     font-size: 14px;
     font-weight: bold;
 }
+.contacts-content{
+    width:920px;
+    margin:0 auto;
+    background-color:white;
+    padding:20px 15px;
+    min-height:500px;
+}

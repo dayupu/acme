@@ -4,7 +4,25 @@
             通讯录
         </div>
         <div class="mine-content">
-            <div class="ueditor" config="config" ng-model="ueditorContacts" style="width:950px;"></div>
+            <mine-message status="messageStatus" message="message"></mine-message>
+            <table class="table">
+                <tr>
+                    <td width="100">
+                        <mine-label name="通讯录" required></mine-label>
+                    </td>
+                    <td>
+                        <div id="contactsEditor" class="ueditor" config="config" ng-model="contacts.content" style="width:950px;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" ng-click="save()">
+                            保存
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

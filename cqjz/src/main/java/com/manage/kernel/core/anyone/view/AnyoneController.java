@@ -1,7 +1,9 @@
 package com.manage.kernel.core.anyone.view;
 
 import com.manage.base.database.enums.NewsType;
+import com.manage.kernel.core.admin.service.business.IContactsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
+import com.manage.kernel.core.model.dto.ContactsDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
@@ -24,6 +26,9 @@ public class AnyoneController {
     @Autowired
     private IAnyoneService anyoneService;
 
+    @Autowired
+    private IContactsService contactsService;
+
     @GetMapping("/home")
     public HomeVo home() {
         return anyoneService.homeDetail();
@@ -37,5 +42,9 @@ public class AnyoneController {
     @GetMapping("/newsList/{type}")
     public List<NewsVo> newsList(@PathVariable("type") String type) {
         return anyoneService.newsList(NewsType.fromTypeName(type));
+    }
+    @GetMapping("/contacts")
+    public ContactsDto contacts() {
+        return contactsService.contactsInfo();
     }
 }

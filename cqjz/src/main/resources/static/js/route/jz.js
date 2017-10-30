@@ -179,9 +179,9 @@ mainApp.controller("systemSuperstarDetailController", function ($scope, data, $u
     };
 });
 
-mainApp.controller("jzContactsListCtl", function ($scope) {
+mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
     $scope.config = {
-        initialFrameHeight:250,
+        initialFrameHeight:400,
         enableAutoSave: false,
         autoHeightEnabled: false,
         toolbars: [[
@@ -198,5 +198,40 @@ mainApp.controller("jzContactsListCtl", function ($scope) {
             'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
             'print', 'preview', 'searchreplace', 'help'
         ]]
+    };
+
+    mineHttp.send("GET", "admin/jz/contacts", {}, function (result) {
+        $scope.contacts = result.content;
+    });
+
+    $scope.refreshContent = function(){
+            $scope.contacts.content = UE.getEditor('contactsEditor').getContent();
+    }
+
+    $scope.setMessage = function (message, status) {
+        $scope.messageStatus = status;
+        $scope.message = message;
+    };
+
+    $scope.validator = function () {
+        if (isEmpty($scope.contacts.content)) {
+            $scope.setMessage("内容不能为空", false);
+            return false;
+        }
+        return true;
+    };
+    $scope.save = function () {
+        $scope.refreshContent();
+        if (!$scope.validator()) {
+            return;
+        }
+        mineHttp.send("POST", "admin/jz/contacts", {data: $scope.contacts}, function (result) {
+                $scope.messageStatus = verifyData(result);
+                $scope.message = result.message;
+                if ($scope.messageStatus) {
+                    $scope.contacts = result.content;
+                }
+            }
+        );
     };
 });

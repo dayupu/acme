@@ -2,9 +2,7 @@ var anyoneApp = angular.module("anyoneApp", ['ngRoute']);
 anyoneApp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {templateUrl: './anyone/home.htm', controller: 'homeController'})
-        .when('/contacts', {templateUrl: './anyone/contacts.htm'})
-        .when('/jzfz', {templateUrl: './anyone/jzfz.htm'})
-        .when('/bmjy', {templateUrl: './anyone/bmjy.htm'})
+        .when('/contacts', {templateUrl: './anyone/contacts.htm', controller: 'contactsController'})
         .when('/newsList/:type', {templateUrl: './anyone/newsList.htm', controller: 'newsListController'})
         .when('/newsInfo/:number', {templateUrl: './anyone/newsInfo.htm', controller: 'newsInfoController'})
         .otherwise({redirectTo: '/'});
@@ -31,6 +29,7 @@ anyoneApp.controller("headerController", function ($scope, $location) {
     }
 });
 
+/*首页*/
 anyoneApp.controller("homeController", function ($scope, mineHttp) {
     $scope.home = {};
     $scope.loadDatas = function () {
@@ -44,8 +43,7 @@ anyoneApp.controller("homeController", function ($scope, mineHttp) {
     };
     $scope.loadDatas();
 });
-
-
+/*新闻列表*/
 anyoneApp.controller("newsListController", function ($scope, $routeParams, mineHttp) {
     /*alert($routeParams.type);*/
     if ($routeParams.type == "tpxw") {
@@ -71,7 +69,7 @@ anyoneApp.controller("newsListController", function ($scope, $routeParams, mineH
     });
 
 });
-
+/*新闻查看*/
 anyoneApp.controller("newsInfoController", function ($scope, $routeParams, mineHttp) {
     var number = $routeParams.number;
     if (typeof number != "string") {
@@ -80,5 +78,11 @@ anyoneApp.controller("newsInfoController", function ($scope, $routeParams, mineH
     mineHttp.send("GET", "free/newsInfo/" + number, null, function (data) {
         $scope.news = data;
         $("#newsContent").html(data.content);
+    });
+});
+/*通讯录*/
+anyoneApp.controller("contactsController", function ($scope, mineHttp) {
+    mineHttp.send("GET", "free/contacts", null, function (data) {
+        $("#contactsContent").html(data.content);
     });
 });
