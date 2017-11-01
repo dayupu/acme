@@ -1372,7 +1372,6 @@
                     '</button>',
                     '<ul class="dropdown-menu" role="menu">'
                 ];
-
             if (typeof this.options.pageList === 'string') {
                 var list = this.options.pageList.replace('[', '').replace(']', '')
                     .replace(/ /g, '').split(',');

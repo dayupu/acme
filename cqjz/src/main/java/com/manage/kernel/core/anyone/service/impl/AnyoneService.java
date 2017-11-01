@@ -20,6 +20,8 @@ import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -90,34 +92,34 @@ public class AnyoneService implements IAnyoneService {
         String month = superStar.getMonth();
         List<String> months = new ArrayList<>();
         switch (Integer.valueOf(month)) {
-        case 1:
-        case 2:
-        case 3:
-            months.add("1");
-            months.add("2");
-            months.add("3");
-            break;
-        case 4:
-        case 5:
-        case 6:
-            months.add("4");
-            months.add("5");
-            months.add("6");
-            break;
-        case 7:
-        case 8:
-        case 9:
-            months.add("7");
-            months.add("8");
-            months.add("9");
-            break;
-        case 10:
-        case 11:
-        case 12:
-            months.add("10");
-            months.add("11");
-            months.add("12");
-            break;
+            case 1:
+            case 2:
+            case 3:
+                months.add("1");
+                months.add("2");
+                months.add("3");
+                break;
+            case 4:
+            case 5:
+            case 6:
+                months.add("4");
+                months.add("5");
+                months.add("6");
+                break;
+            case 7:
+            case 8:
+            case 9:
+                months.add("7");
+                months.add("8");
+                months.add("9");
+                break;
+            case 10:
+            case 11:
+            case 12:
+                months.add("10");
+                months.add("11");
+                months.add("12");
+                break;
         }
 
         SuperstarDto superstarDto;
@@ -157,6 +159,9 @@ public class AnyoneService implements IAnyoneService {
         PageResultBS<NewsVo> pageResult = new PageResultBS<>();
         pageResult.setTotal(result.getRight());
         pageResult.setRows(result.getLeft());
+        for (NewsVo newsVo : pageResult.getRows()) {
+            newsVo.setTitle(StringEscapeUtils.escapeHtml4(newsVo.getTitle()));
+        }
         return pageResult;
     }
 

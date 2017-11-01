@@ -114,7 +114,7 @@ body {
 
 .news-content {
     margin: 0 40px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .news-content .news-title {
@@ -124,13 +124,6 @@ body {
     margin-bottom: 20px;
 }
 
-.table tbody tr.news-title > td {
-    background-color: #6774a4;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-}
 .contacts-content{
     width:920px;
     margin:0 auto;
@@ -144,4 +137,9 @@ body {
 }
 .ueditor-table tr td{
     padding:3px 3px;
+}
+
+.th-inner{
+    background-color: #6774a4;
+    color: white;
 }

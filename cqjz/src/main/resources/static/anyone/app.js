@@ -65,38 +65,42 @@ anyoneApp.controller("newsListController", function ($scope, $routeParams, mineH
         return;
     }
 
-     $("#newsListTable").bootstrapTable({
+    $("#newsListTable").bootstrapTable({
         url: fullPath("free/newsList/" + $routeParams.type),
         dataType: "json",
-        method:"POST",
-        pagination: true, //分页
+        method: "post",
         singleSelect: false,
-        pageSize: 10,
-        pageList: [10, 25, 50, 100],
-        search: false, //显示搜索框
-        queryParamsType:"",
-        queryParams: function(params) {
-            return JSON.stringify(params);
-        },
         sidePagination: "server", //服务端处理分页
-          columns: [
-              {
+        pageNumber: 1,
+        pageSize: 20,
+        pageList: [20, 50],
+        pagination: true, //分页
+        search: false,
+        queryParamsType: "",
+        queryParams: function (params) {
+            return $.extend({}, params);
+        },
+        sortable: true,
+        sortName: "publishTime",
+        sortOrder: "desc",
+        columns: [
+            {
                 title: '标题',
-                  field: 'title',
-                  align: 'left',
-                  formatter:function(value, row, index){
-                      return '<a href="#/newsInfo/'+row.number+'">'+row.title+'</a>';
-                  }
-              },
-              {
-                  title: '发布日期',
-                  field: 'publishTime',
-                  align: 'center',
-                  width:150,
-                  valign: 'middle',
-              }
-          ]
-         });
+                field: 'title',
+                align: 'left',
+                formatter: function (value, row, index) {
+                    return '<a href="#/newsInfo/' + row.number + '">' + row.title + '</a>';
+                }
+            },
+            {
+                title: '发布日期',
+                field: 'publishTime',
+                align: 'center',
+                width: 150,
+                sortable: true
+            }
+        ]
+    });
 
 });
 /*新闻查看*/

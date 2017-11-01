@@ -5,6 +5,7 @@
 
 .home-window-body {
     background: url("../images/anyone/home/window_body.jpg") repeat-y;
+    padding-left: 15px;
 }
 
 .home-window-foot {
@@ -253,14 +254,14 @@
 
 /*星级民警样式*/
 .xjmj-show {
-    margin: 0 auto;
+    margin-left: 10px;
     width: 150px;
 }
 
 .xjmj-inbox {
     text-align: center;
     width: 150px;
-    height: 220px;
+    height: 230px;
     overflow: hidden;
 }
 
@@ -278,4 +279,37 @@
 .xjmj-image {
     width: 150px;
     height: 180px;
+}
+
+.home-window-body ul {
+    list-style: none;
+    margin: 0;
+}
+
+.home-window-body li {
+    line-height: 25px;
+}
+
+.sjyx-table input[type="text"],
+.sjyx-table input[type="password"] {
+    margin-bottom: 0px;
+    height: 15px;
+    width: 110px;
+}
+
+.sjyx-table .btn {
+    font-size: 12px;
+    padding: 0 12px;
+}
+
+.sjyx-table td {
+    height: 30px;
+}
+
+.home-window-body select {
+    width: 170px;
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 12px;
+    height: 25px;
 }
