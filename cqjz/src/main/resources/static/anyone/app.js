@@ -65,9 +65,38 @@ anyoneApp.controller("newsListController", function ($scope, $routeParams, mineH
         return;
     }
 
-    mineHttp.send("GET", "free/newsList/" + $routeParams.type, null, function (data) {
-        $scope.newses = data;
-    });
+     $("#newsListTable").bootstrapTable({
+        url: fullPath("free/newsList/" + $routeParams.type),
+        dataType: "json",
+        method:"POST",
+        pagination: true, //分页
+        singleSelect: false,
+        pageSize: 10,
+        pageList: [10, 25, 50, 100],
+        search: false, //显示搜索框
+        queryParamsType:"",
+        queryParams: function(params) {
+            return JSON.stringify(params);
+        },
+        sidePagination: "server", //服务端处理分页
+          columns: [
+              {
+                title: '标题',
+                  field: 'title',
+                  align: 'left',
+                  formatter:function(value, row, index){
+                      return '<a href="#/newsInfo/'+row.number+'">'+row.title+'</a>';
+                  }
+              },
+              {
+                  title: '发布日期',
+                  field: 'publishTime',
+                  align: 'center',
+                  width:150,
+                  valign: 'middle',
+              }
+          ]
+         });
 
 });
 /*新闻查看*/

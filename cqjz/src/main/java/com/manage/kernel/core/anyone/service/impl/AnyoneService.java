@@ -2,6 +2,9 @@ package com.manage.kernel.core.anyone.service.impl;
 
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
+import com.manage.base.supplier.Pair;
+import com.manage.base.supplier.bootstrap.PageQueryBS;
+import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.utils.FileUtil;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
@@ -36,7 +39,6 @@ import java.util.List;
 @Service
 public class AnyoneService implements IAnyoneService {
 
-
     @Autowired
     private NewsRepo newsRepo;
 
@@ -62,14 +64,14 @@ public class AnyoneService implements IAnyoneService {
         // 获取最新季度的星级民警
         home.setSuperstars(getJzSuperStars());
         // 获取图片新闻
-        home.setPicNews(findPublishNews(NewsType.TPXW, 6));
+        home.setPicNews(findPublishNews(NewsType.TPXW, newsFirstPageRequest(6)).getLeft());
         int newsCount = 8;
-        home.setJqkxNews(findPublishNews(NewsType.JQKX, newsCount));
-        home.setDwjsNews(findPublishNews(NewsType.DWJS, newsCount));
-        home.setBmdtNews(findPublishNews(NewsType.BMDT, newsCount));
-        home.setXxydNews(findPublishNews(NewsType.XXYD, newsCount));
-        home.setWhsbNews(findPublishNews(NewsType.WHSB, newsCount));
-        home.setKjlwNews(findPublishNews(NewsType.KJLW, newsCount));
+        home.setJqkxNews(findPublishNews(NewsType.JQKX, newsFirstPageRequest(newsCount)).getLeft());
+        home.setDwjsNews(findPublishNews(NewsType.DWJS, newsFirstPageRequest(newsCount)).getLeft());
+        home.setBmdtNews(findPublishNews(NewsType.BMDT, newsFirstPageRequest(newsCount)).getLeft());
+        home.setXxydNews(findPublishNews(NewsType.XXYD, newsFirstPageRequest(newsCount)).getLeft());
+        home.setWhsbNews(findPublishNews(NewsType.WHSB, newsFirstPageRequest(newsCount)).getLeft());
+        home.setKjlwNews(findPublishNews(NewsType.KJLW, newsFirstPageRequest(newsCount)).getLeft());
         return home;
     }
 
@@ -88,34 +90,34 @@ public class AnyoneService implements IAnyoneService {
         String month = superStar.getMonth();
         List<String> months = new ArrayList<>();
         switch (Integer.valueOf(month)) {
-            case 1:
-            case 2:
-            case 3:
-                months.add("1");
-                months.add("2");
-                months.add("3");
-                break;
-            case 4:
-            case 5:
-            case 6:
-                months.add("4");
-                months.add("5");
-                months.add("6");
-                break;
-            case 7:
-            case 8:
-            case 9:
-                months.add("7");
-                months.add("8");
-                months.add("9");
-                break;
-            case 10:
-            case 11:
-            case 12:
-                months.add("10");
-                months.add("11");
-                months.add("12");
-                break;
+        case 1:
+        case 2:
+        case 3:
+            months.add("1");
+            months.add("2");
+            months.add("3");
+            break;
+        case 4:
+        case 5:
+        case 6:
+            months.add("4");
+            months.add("5");
+            months.add("6");
+            break;
+        case 7:
+        case 8:
+        case 9:
+            months.add("7");
+            months.add("8");
+            months.add("9");
+            break;
+        case 10:
+        case 11:
+        case 12:
+            months.add("10");
+            months.add("11");
+            months.add("12");
+            break;
         }
 
         SuperstarDto superstarDto;
@@ -146,16 +148,23 @@ public class AnyoneService implements IAnyoneService {
 
     @Override
     @Transactional
-    public List<NewsVo> newsList(NewsType type) {
-        List<NewsVo> newsVos = new ArrayList<>();
+    public PageResultBS<NewsVo> newsList(NewsType type, PageQueryBS pageQuery) {
         if (type == null) {
-            return newsVos;
+            return null;
         }
 
-        return findPublishNews(type, 50);
+        Pair<List<NewsVo>, Long> result = findPublishNews(type, pageQuery.buildPageRequest(true));
+        PageResultBS<NewsVo> pageResult = new PageResultBS<>();
+        pageResult.setTotal(result.getRight());
+        pageResult.setRows(result.getLeft());
+        return pageResult;
     }
 
-    private List<NewsVo> findPublishNews(NewsType type, int count) {
+    private PageRequest newsFirstPageRequest(int count) {
+        return new PageRequest(0, count, Sort.Direction.DESC, "publishTime");
+    }
+
+    private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest) {
         List<NewsVo> newsVos = new ArrayList<>();
 
         Page<News> pageResult = newsRepo.findAll((root, criteriaQuery, cb) -> {
@@ -164,7 +173,7 @@ public class AnyoneService implements IAnyoneService {
             list.add(cb.equal(root.get("status"), NewsStatus.PASS));
             list.add(cb.isNotNull(root.get("publishTime")));
             return cb.and(list.toArray(new Predicate[0]));
-        }, new PageRequest(0, count, Sort.Direction.DESC, "publishTime"));
+        }, pageRequest);
 
         NewsVo newsVo;
         for (News news : pageResult.getContent()) {
@@ -176,7 +185,10 @@ public class AnyoneService implements IAnyoneService {
             newsVo.setSimpleTime(news.getPublishTime());
             newsVos.add(newsVo);
         }
-        return newsVos;
+        Pair<List<NewsVo>, Long> pairResult = new Pair<>();
+        pairResult.setLeft(newsVos);
+        pairResult.setRight(pageResult.getTotalElements());
+        return pairResult;
     }
 }
 

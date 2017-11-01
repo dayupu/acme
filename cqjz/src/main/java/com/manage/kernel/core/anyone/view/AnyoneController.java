@@ -1,20 +1,20 @@
 package com.manage.kernel.core.anyone.view;
 
 import com.manage.base.database.enums.NewsType;
+import com.manage.base.supplier.bootstrap.PageQueryBS;
+import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.kernel.core.admin.service.business.IContactsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.ContactsDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
-import com.manage.kernel.core.model.vo.NewsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bert on 17-7-28.
@@ -39,9 +39,9 @@ public class AnyoneController {
         return anyoneService.newsDetail(number);
     }
 
-    @GetMapping("/newsList/{type}")
-    public List<NewsVo> newsList(@PathVariable("type") String type) {
-        return anyoneService.newsList(NewsType.fromTypeName(type));
+    @PostMapping("/newsList/{type}")
+    public PageResultBS newsList(@PathVariable("type") String type, @RequestBody PageQueryBS pageQuery) {
+        return anyoneService.newsList(NewsType.fromTypeName(type), pageQuery);
     }
     @GetMapping("/contacts")
     public ContactsDto contacts() {
