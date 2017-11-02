@@ -53,24 +53,20 @@ public class PageQueryBS {
     }
 
     public PageRequest buildPageRequest(boolean sortable) {
-        if(sortable){
+        if (sortable) {
             return buildPageRequest(sortName);
-        }else{
+        } else {
             return new PageRequest(this.pageNumber - 1, this.pageSize);
         }
     }
 
-    public PageRequest buildPageRequest(Sort sort) {
-        return new PageRequest(this.pageNumber - 1, this.pageSize, sort);
-    }
-
-    public PageRequest buildPageRequest(String sortName) {
+    public PageRequest buildPageRequest(String... sortNames) {
         Sort sort = null;
-        if (!StringUtils.isEmpty(sortName)) {
+        if (sortNames != null && sortNames.length > 0) {
             if ("asc".equalsIgnoreCase(this.sortOrder)) {
-                sort = new Sort(Sort.Direction.ASC, sortName);
+                sort = new Sort(Sort.Direction.ASC, sortNames);
             } else if ("desc".equalsIgnoreCase(this.sortOrder)) {
-                sort = new Sort(Sort.Direction.DESC, sortName);
+                sort = new Sort(Sort.Direction.DESC, sortNames);
             }
         }
         return new PageRequest(this.pageNumber - 1, this.pageSize, sort);

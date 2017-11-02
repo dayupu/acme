@@ -83,11 +83,11 @@ body {
 }
 
 .search-btn {
-    height: 22px;
+    height: 25px;
     margin: 0;
-    padding: 0;
     position: relative;
     top: -3px;
+    padding: 0 10px;
     font-size: 12px;
 }
 

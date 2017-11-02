@@ -1,5 +1,6 @@
 package com.manage.kernel.core.anyone.service.impl;
 
+import com.manage.base.constant.Image;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.supplier.Pair;
@@ -20,6 +21,7 @@ import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
+import com.sun.imageio.plugins.common.ImageUtil;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalDate;
@@ -148,13 +150,47 @@ public class AnyoneService implements IAnyoneService {
         return detail;
     }
 
+
+    @Override
+    public PageResultBS<SuperstarDto> superstarList(PageQueryBS pageQuery) {
+
+
+        PageRequest pageRequest;
+        if ("year".equals(pageQuery.getSortName())) {
+            pageRequest = pageQuery.buildPageRequest("year", "month");
+        } else {
+            pageRequest = pageQuery.buildPageRequest(true);
+        }
+
+        PageResultBS<SuperstarDto> result = new PageResultBS<>();
+        Page<JzSuperStar> pageResult = superStarRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            return cb.and(list.toArray(new Predicate[0]));
+        }, pageRequest);
+
+        SuperstarDto superstarDto;
+        List<SuperstarDto> superstarDtos = new ArrayList<>();
+        for (JzSuperStar superStar : pageResult.getContent()) {
+            superstarDto = new SuperstarDto();
+            superstarDto = SuperstarParser.toDto(superStar);
+            if (superStar.getPhoto() != null) {
+                superstarDto.setImageBase64(FileUtil.imageByteToBase64(superStar.getPhoto(), superStar.getSuffix()));
+            } else {
+                superstarDto.setImageBase64(Image.DEFAULT_HEAD_IMAGE);
+            }
+            superstarDtos.add(superstarDto);
+        }
+        result.setTotal(pageResult.getTotalElements());
+        result.setRows(superstarDtos);
+        return result;
+    }
+
     @Override
     @Transactional
     public PageResultBS<NewsVo> newsList(NewsType type, PageQueryBS pageQuery) {
         if (type == null) {
             return null;
         }
-
         Pair<List<NewsVo>, Long> result = findPublishNews(type, pageQuery.buildPageRequest(true));
         PageResultBS<NewsVo> pageResult = new PageResultBS<>();
         pageResult.setTotal(result.getRight());

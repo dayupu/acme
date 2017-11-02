@@ -1,6 +1,7 @@
 package com.manage.base.utils;
 
 import com.manage.base.supplier.Pair;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.joda.time.LocalDate;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.FileCopyUtils;
@@ -105,6 +107,7 @@ public class FileUtil {
         }
         return true;
     }
+
 
     public static String imageByteToBase64(byte[] bytes, String suffix) {
         if (bytes == null || bytes.length == 0 || suffix == null) {

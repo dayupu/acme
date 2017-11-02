@@ -4,7 +4,9 @@ anyoneApp.config(['$routeProvider', function ($routeProvider) {
         .when('/', {templateUrl: './anyone/home.htm', controller: 'homeController'})
         .when('/contacts', {templateUrl: './anyone/contacts.htm', controller: 'contactsController'})
         .when('/newsList/:type', {templateUrl: './anyone/newsList.htm', controller: 'newsListController'})
+        .when('/superstarList', {templateUrl: './anyone/superstarList.htm', controller: 'superstarListController'})
         .when('/newsInfo/:number', {templateUrl: './anyone/newsInfo.htm', controller: 'newsInfoController'})
+        .when('/search/:content', {templateUrl: './anyone/search.htm', controller: 'searchController'})
         .otherwise({redirectTo: '/'});
 }]);
 anyoneApp.service("mineHttp", function ($http) {
@@ -26,6 +28,13 @@ anyoneApp.service("mineHttp", function ($http) {
 anyoneApp.controller("headerController", function ($scope, $location) {
     $scope.gotToUrl = function (url) {
         $location.path(url)
+    };
+
+    $scope.search = function () {
+        if (typeof $scope.searchContent != "string") {
+            return;
+        }
+        $location.path("/search/" + $scope.searchContent);
     }
 });
 
@@ -99,6 +108,71 @@ anyoneApp.controller("newsListController", function ($scope, $routeParams, mineH
                 width: 150,
                 sortable: true
             }
+        ]
+    });
+
+});
+
+/*搜索结果*/
+anyoneApp.controller("searchController", function ($scope, $routeParams, mineHttp) {
+    alert($routeParams.content);
+});
+/*技侦明星列表*/
+anyoneApp.controller("superstarListController", function ($scope, mineHttp) {
+    $("#superstarListTable").bootstrapTable({
+        url: fullPath("free/superstarList/"),
+        dataType: "json",
+        method: "post",
+        singleSelect: false,
+        sidePagination: "server", //服务端处理分页
+        pageNumber: 1,
+        pageSize: 5,
+        pageList: [5, 10],
+        pagination: true, //分页
+        search: false,
+        queryParamsType: "",
+        queryParams: function (params) {
+            return $.extend({}, params);
+        },
+        sortable: true,
+        sortName: "year",
+        sortOrder: "desc",
+        columns: [
+            {
+                title: '相片',
+                field: 'imageBase64',
+                align: 'left',
+                width: 150,
+                formatter: function (value, row) {
+                    return '<img src="' + row.imageBase64 + '" class="xjmj-image" />';
+                }
+            },
+            {
+                title: '姓名',
+                field: 'name',
+                align: 'center',
+                width: 100
+            },
+            {
+                title: '年月',
+                field: 'year',
+                align: 'center',
+                width: 100,
+                sortable: true,
+                formatter: function (value, row) {
+                    return row.year + "-" + row.month;
+                }
+            },
+            {
+                title: '荣誉',
+                field: 'honor',
+                width: 200
+            },
+            {
+                title: '事迹',
+                field: 'story',
+            }
+
         ]
     });
 
