@@ -43,6 +43,11 @@ public class AnyoneController {
     public PageResultBS newsList(@PathVariable("type") String type, @RequestBody PageQueryBS pageQuery) {
         return anyoneService.newsList(NewsType.fromTypeName(type), pageQuery);
     }
+    @PostMapping("/search/news")
+    public PageResultBS searchNews( @RequestBody PageQueryBS pageQuery) {
+        return anyoneService.searchNews(pageQuery);
+    }
+
     @PostMapping("/superstarList")
     public PageResultBS newsList( @RequestBody PageQueryBS pageQuery) {
         return anyoneService.superstarList(pageQuery);

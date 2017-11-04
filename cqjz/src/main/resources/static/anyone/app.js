@@ -6,9 +6,10 @@ anyoneApp.config(['$routeProvider', function ($routeProvider) {
         .when('/newsList/:type', {templateUrl: './anyone/newsList.htm', controller: 'newsListController'})
         .when('/superstarList', {templateUrl: './anyone/superstarList.htm', controller: 'superstarListController'})
         .when('/newsInfo/:number', {templateUrl: './anyone/newsInfo.htm', controller: 'newsInfoController'})
-        .when('/search/:content', {templateUrl: './anyone/search.htm', controller: 'searchController'})
+        .when('/search/:searchText', {templateUrl: './anyone/search.htm', controller: 'searchController'})
         .otherwise({redirectTo: '/'});
 }]);
+
 anyoneApp.service("mineHttp", function ($http) {
     this.send = function (method, url, params, callback) {
         var setting = {
@@ -31,10 +32,10 @@ anyoneApp.controller("headerController", function ($scope, $location) {
     };
 
     $scope.search = function () {
-        if (typeof $scope.searchContent != "string") {
+        if (typeof $scope.searchText != "string" || $scope.searchText == "") {
             return;
         }
-        $location.path("/search/" + $scope.searchContent);
+        $location.path("/search/" + encodeURIComponent($scope.searchText));
     }
 });
 
@@ -54,7 +55,7 @@ anyoneApp.controller("homeController", function ($scope, mineHttp) {
     $scope.loadDatas();
 });
 /*新闻列表*/
-anyoneApp.controller("newsListController", function ($scope, $routeParams, mineHttp) {
+anyoneApp.controller("newsListController", function ($scope, $routeParams) {
     /*alert($routeParams.type);*/
     if ($routeParams.type == "tpxw") {
         $scope.newsType = "图片新闻";
@@ -114,8 +115,45 @@ anyoneApp.controller("newsListController", function ($scope, $routeParams, mineH
 });
 
 /*搜索结果*/
-anyoneApp.controller("searchController", function ($scope, $routeParams, mineHttp) {
-    alert($routeParams.content);
+anyoneApp.controller("searchController", function ($scope, $routeParams) {
+    var searchText = decodeURIComponent($routeParams.searchText);
+    $("#searchListTable").bootstrapTable({
+        url: fullPath("free/search/news"),
+        dataType: "json",
+        method: "post",
+        singleSelect: false,
+        sidePagination: "server", //服务端处理分页
+        pageNumber: 1,
+        pageSize: 20,
+        pageList: [20, 50],
+        pagination: true, //分页
+        search: false,
+        queryParamsType: "",
+        queryParams: function (params) {
+            return $.extend({}, params, {"searchText": searchText});
+        },
+        sortable: true,
+        sortName: "publishTime",
+        sortOrder: "desc",
+        columns: [
+            {
+                title: '标题',
+                field: 'title',
+                align: 'left',
+                formatter: function (value, row) {
+                    return '<a href="#/newsInfo/' + row.number + '">' + row.title + '</a>';
+                }
+            },
+            {
+                title: '发布日期',
+                field: 'publishTime',
+                align: 'center',
+                width: 150,
+                sortable: true
+            }
+        ]
+    });
+
 });
 /*技侦明星列表*/
 anyoneApp.controller("superstarListController", function ($scope, mineHttp) {
@@ -170,7 +208,7 @@ anyoneApp.controller("superstarListController", function ($scope, mineHttp) {
             },
             {
                 title: '事迹',
-                field: 'story',
+                field: 'story'
             }
 
         ]

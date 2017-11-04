@@ -8,6 +8,7 @@ import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.utils.FileUtil;
+import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.model.parser.SuperstarParser;
@@ -205,12 +206,40 @@ public class AnyoneService implements IAnyoneService {
         return new PageRequest(0, count, Sort.Direction.DESC, "publishTime");
     }
 
+    @Override
+    public PageResultBS<NewsVo> searchNews(PageQueryBS pageQuery) {
+        Pair<List<NewsVo>, Long> result = findPublishNews(pageQuery.getSearchText(), pageQuery.buildPageRequest(true));
+        PageResultBS<NewsVo> pageResult = new PageResultBS<>();
+        pageResult.setTotal(result.getRight());
+        pageResult.setRows(result.getLeft());
+        for (NewsVo newsVo : pageResult.getRows()) {
+            newsVo.setTitle(StringEscapeUtils.escapeHtml4(newsVo.getTitle()));
+        }
+        return pageResult;
+    }
+
+    private Pair<List<NewsVo>, Long> findPublishNews(String searchText, PageRequest pageRequest) {
+        return findPublishNews(null, pageRequest, searchText);
+    }
+
+
     private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest) {
+        return findPublishNews(type, pageRequest, null);
+    }
+
+    private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest, String searchText) {
+
         List<NewsVo> newsVos = new ArrayList<>();
 
         Page<News> pageResult = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
-            list.add(cb.equal(root.get("type"), type));
+            if (type != null) {
+                list.add(cb.equal(root.get("type"), type));
+            }
+            if (!StringUtil.isEmpty(searchText)) {
+                list.add(cb.like(root.get("title"), "%" + searchText + "%"));
+            }
+
             list.add(cb.equal(root.get("status"), NewsStatus.PASS));
             list.add(cb.isNotNull(root.get("publishTime")));
             return cb.and(list.toArray(new Predicate[0]));

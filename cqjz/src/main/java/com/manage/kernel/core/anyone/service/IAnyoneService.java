@@ -15,5 +15,6 @@ public interface IAnyoneService {
     public HomeVo homeDetail();
     public NewsDetailVo newsDetail(String number);
     public PageResultBS<NewsVo> newsList(NewsType type, PageQueryBS pageQuery);
+    public PageResultBS<NewsVo> searchNews(PageQueryBS pageQuery);
     public PageResultBS<SuperstarDto> superstarList(PageQueryBS pageQuery);
 }
