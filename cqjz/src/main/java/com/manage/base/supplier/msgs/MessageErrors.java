@@ -25,7 +25,9 @@ public enum MessageErrors implements CoreMsgs {
     WATCH_TIME_RANGE_INVALID(200051, "watch time range greater than 30"),
     SUPERSTAR_NOT_FOUND(200060, "NOT found the superstar"),
     PASSWORD_ERROR(200070, "Password error"),
+    STYLE_NOT_FOUND(200080, "NOT found the style"),
     NEWS_NOT_FOUND(200100, "NOT found the news");
+
 
     private int code;
     private String message;

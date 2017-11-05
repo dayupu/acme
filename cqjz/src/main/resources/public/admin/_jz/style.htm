@@ -1,0 +1,49 @@
+<div class="mine-layout">
+    <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-star"></i>{{title}}</div>
+        <div class="mine-content">
+            <form class="form-horizontal" name="newsForm" novalidate>
+                <input type="hidden" ng-model="style.number"/>
+                <mine-message status="messageStatus" message="message"></mine-message>
+                <table class="table">
+                    <tr>
+                        <td width="100">
+                            <mine-label name="标题" required></mine-label>
+                        </td>
+                        <td><input type="text" ng-model="style.title"
+                                   name="title" ng-pattern="/^.{1,100}$/"
+                                   class="form-control input-sm mine-input-abeam"
+                                   style="width:400px;" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mine-label name="图片" required></mine-label>
+                        </td>
+                        <td>
+                            <table id="styleImagesTable" class="table table-bordered table-condensed" style="width:600px;">
+                                <tr class="success">
+                                    <td><strong>图片</strong></td>
+                                    <td width="200"><strong>描述</strong></td>
+                                    <td width="60"><strong>操作</strong></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" ngf-select="imageUpload()" ng-model="file"
+                                    name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
+                                    ngf-min-height="100">上传图片
+                            </button>
+                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="save()">
+                                保存
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

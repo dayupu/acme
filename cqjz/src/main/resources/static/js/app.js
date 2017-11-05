@@ -54,7 +54,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         // jz
         .state("jz", {url: "/jz", templateUrl: './_jz/jz.htm'})
-        .state("jz.list", {url: "/jz/list", templateUrl: './_jz/jz.htm'})
+        .state("jz.list", {url: "/list", templateUrl: './_jz/jz.htm'})
         .state("jz.list.watch", {
             url: "/watch", templateUrl: './_jz/watchList.htm', controller: "jzWatchListCtl"
         })
@@ -63,6 +63,12 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         .state("jz.list.contacts", {
             url: "/contacts", templateUrl: './_jz/contacts.htm', controller: "jzContactsListCtl"
+        })
+        .state("jz.list.style", {
+            url: "/style", templateUrl: './_jz/styleList.htm', controller: "jzStyleListCtl"
+        })
+        .state("jz.list.styleEdit", {
+            url: "/style/:number", templateUrl: './_jz/style.htm', controller: "jzStyleEditListCtl"
         })
         // setting
         .state("setting", {url: "/setting", templateUrl: './_setting/setting.htm'})

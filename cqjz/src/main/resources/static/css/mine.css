@@ -317,3 +317,8 @@
 .mine-home-td-1{
   font-size:13px;
 }
+.mine-style-image{
+    margin: 0 auto;
+    display: block;
+    max-width: 300px;
+}

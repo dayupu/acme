@@ -181,18 +181,18 @@ mainApp.controller("systemSuperstarDetailController", function ($scope, data, $u
 
 mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
     $scope.config = {
-        initialFrameHeight:400,
+        initialFrameHeight: 400,
         enableAutoSave: false,
         autoHeightEnabled: false,
         toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|','bold', 'italic', 'underline', 'fontborder', 'strikethrough',
+            'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',
             'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-             'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|','customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+            'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|', 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage','insertcode',  'pagebreak', 'template', 'background', '|',
+            'simpleupload', 'insertimage', 'insertcode', 'pagebreak', 'template', 'background', '|',
             'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
             'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol',
             'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
@@ -204,8 +204,8 @@ mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
         $scope.contacts = result.content;
     });
 
-    $scope.refreshContent = function(){
-            $scope.contacts.content = UE.getEditor('contactsEditor').getContent();
+    $scope.refreshContent = function () {
+        $scope.contacts.content = UE.getEditor('contactsEditor').getContent();
     }
 
     $scope.setMessage = function (message, status) {
@@ -235,3 +235,91 @@ mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
         );
     };
 });
+mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHttp) {
+    mineGrid.gridPageInit("gridOptions", $scope, {
+        data: 'myData',
+        multiSelect: false,
+        selectWithCheckboxOnly: true,
+        requestMethod: "POST",
+        requestUrl: fullPath("admin/jz/style/list"),
+        columnDefs: [
+            {field: 'number', width: 100, displayName: '编号'},
+            {field: 'title', displayName: '标题'},
+            {
+                field: 'id',
+                displayName: '操作',
+                width: 100,
+                sortable: false,
+                cellTemplate: "<div><mine-action icon='fa fa-trash-o' action='drop(row.entity)' name='删除'></mine-action></div>"
+            }
+        ]
+    });
+
+    $scope.gridPageQueryCallback = function (data) {
+        return {data: data.content.rows, total: data.content.total};
+    };
+    $scope.query = function () {
+        $scope.gridPageQuery({}, $scope.filter);
+    };
+    $scope.query();
+
+    $scope.edit = function (number) {
+        $state.go("jz.list.styleEdit", {number: number});
+    };
+
+});
+
+mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compile, mineHttp) {
+    var number = $stateParams.number;
+    $scope.style = {};
+    if (number == "add") {
+        $scope.title = "新增风采";
+    } else {
+        $scope.title = "编辑风采";
+    }
+
+    $scope.imageUpload = function () {
+        if ($scope.file) {
+            $scope.upload($scope.file);
+        }
+    };
+    $scope.upload = function (file) {
+        mineHttp.upload("admin/jz/style/image", {file: file}, function (data) {
+            $scope.image = data.content;
+            $scope.addImageLine($scope.image.imageId);
+        });
+    };
+
+    $scope.jzStyleImageRemove = function (imageId) {
+        $("#styleImagesTable").find("tr[imageId='" + imageId + "']").remove();
+    };
+
+    $scope.addImageLine = function (imageId) {
+        var accessUrl = imageUrl(imageId);
+        var html = "<tr imageId='" + imageId + "'><td><img class='mine-style-image' src='" + accessUrl + "'/></td>" +
+            "<td><textarea style='width: 100%; height: 100px;'></textarea></td>" +
+            "<td><button class='btn btn-sm btn-warning' ng-click='jzStyleImageRemove(\"" + imageId + "\")'>删除</button></td></tr>"
+        angular.element("#styleImagesTable").append($compile(angular.element(html))($scope));
+    };
+
+    $scope.save = function () {
+        var imageList = [];
+        $("#styleImagesTable").find("tr").each(function (index) {
+            if (index == 0) {return;}
+            var imageLine = {};
+            imageLine.imageId = $(this).attr("imageId");
+            imageLine.description = $(this).find("textarea").val();
+            imageList.push(imageLine);
+        });
+        $scope.style.styleLines = imageList;
+        mineHttp.send("POST", "admin/jz/style", {data: $scope.style}, function (result) {
+                $scope.messageStatus = verifyData(result);
+                $scope.message = result.message;
+                if ($scope.messageStatus) {
+                    $scope.style = result.content;
+                }
+            }
+        );
+    };
+});
+
