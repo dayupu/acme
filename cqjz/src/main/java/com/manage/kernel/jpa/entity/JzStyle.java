@@ -2,6 +2,7 @@ package com.manage.kernel.jpa.entity;
 
 import com.manage.kernel.jpa.base.EntityBase;
 
+import com.manage.kernel.jpa.base.StatusBase;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "jz_style")
 @SequenceGenerator(name = "seq_jz_style", sequenceName = "seq_jz_style", allocationSize = 1)
-public class JzStyle extends EntityBase {
+public class JzStyle extends StatusBase {
 
     @Id
     @Column(name = "number")

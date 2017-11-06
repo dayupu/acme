@@ -29,12 +29,19 @@ public class StyleParser {
     private static StyleDto toDto(JzStyle entity, StyleDto dto) {
         dto.setTitle(entity.getTitle());
         dto.setNumber(entity.getNumber());
-        for (JzStyleLine styleLine : entity.getStyleLines()) {
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setCreatedBy(entity.getCreatedUserName());
+        dto.setUpdatedAt(entity.getUpdatedAt());
+        dto.setUpdatedBy(entity.getUpdatedUserName());
+
+        List<JzStyleLine> styleLines = entity.getStyleLines();
+        for (JzStyleLine styleLine : styleLines) {
             StyleDto.StyleLine styleLineDto = new StyleDto.StyleLine();
             styleLineDto.setImageId(styleLine.getImageId());
             styleLineDto.setDescription(styleLine.getDescription());
             dto.getStyleLines().add(styleLineDto);
         }
+        dto.setImageCount(styleLines.size());
         return dto;
     }
 }

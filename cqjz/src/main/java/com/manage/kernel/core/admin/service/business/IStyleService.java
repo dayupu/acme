@@ -12,4 +12,8 @@ public interface IStyleService {
     public PageResult pageList(PageQuery page, StyleDto query);
 
     public StyleDto saveStyle(StyleDto styleDto);
+
+    public StyleDto styleDetail(String number);
+
+    public void dropStyle(String number);
 }

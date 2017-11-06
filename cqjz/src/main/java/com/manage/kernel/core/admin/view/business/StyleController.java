@@ -7,6 +7,7 @@ import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
+import com.manage.base.utils.Validators;
 import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.service.business.IStyleService;
 import com.manage.kernel.core.admin.service.comm.IResourceService;
@@ -40,8 +41,48 @@ public class StyleController {
     public ResponseInfo saveStyle(@RequestBody StyleDto styleDto) {
         ResponseInfo response = new ResponseInfo();
         try {
+            Validators.notNull(styleDto);
+            Validators.notEmpty(styleDto.getStyleLines());
             StyleDto result = styleService.saveStyle(styleDto);
             response.wrapSuccess(result, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @GetMapping("{number}")
+    public ResponseInfo styleDetail(@PathVariable("number") String number) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(number);
+            StyleDto result = styleService.styleDetail(number);
+            response.wrapSuccess(result);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @DeleteMapping("{number}")
+    public ResponseInfo dropStyle(@PathVariable("number") String number) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(number);
+            styleService.dropStyle(number);
+            response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

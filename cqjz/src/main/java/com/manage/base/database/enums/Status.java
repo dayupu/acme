@@ -2,6 +2,8 @@ package com.manage.base.database.enums;
 
 import com.manage.base.database.model.DBEnum;
 import com.manage.base.database.model.Localizable;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum Status implements DBEnum, Localizable {
 
@@ -27,6 +29,13 @@ public enum Status implements DBEnum, Localizable {
     @Override
     public String messageKey() {
         return messageKey;
+    }
+
+    public static List<Status> enableList() {
+        return new ArrayList<Status>() {{
+            add(INIT);
+            add(ENABLE);
+        }};
     }
 
     public boolean isEnabled() {

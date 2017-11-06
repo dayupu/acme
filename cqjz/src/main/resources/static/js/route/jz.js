@@ -235,7 +235,7 @@ mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
         );
     };
 });
-mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHttp) {
+mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHttp, mineUtil) {
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -243,14 +243,19 @@ mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHtt
         requestMethod: "POST",
         requestUrl: fullPath("admin/jz/style/list"),
         columnDefs: [
-            {field: 'number', width: 100, displayName: '编号'},
             {field: 'title', displayName: '标题'},
+            {field: 'imageCount', width: 70,sortable: false,displayName: '图片数'},
+            {field: 'createdAt', width: 150,displayName: '创建时间'},
+            {field: 'createdBy', width: 100,sortable: false,displayName: '创建者'},
+            {field: 'updatedAt', width: 150,displayName: '修改时间'},
+            {field: 'updatedBy', width: 100,sortable: false, displayName: '修改者'},
             {
-                field: 'id',
+                field: 'number',
                 displayName: '操作',
-                width: 100,
+                width: 150,
                 sortable: false,
-                cellTemplate: "<div><mine-action icon='fa fa-trash-o' action='drop(row.entity)' name='删除'></mine-action></div>"
+                cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity.number)' name='编辑'></mine-action>"
+                             +"<mine-action icon='fa fa-trash-o' action='drop(row.entity.number)' name='删除'></mine-action></div>"
             }
         ]
     });
@@ -267,6 +272,18 @@ mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHtt
         $state.go("jz.list.styleEdit", {number: number});
     };
 
+    $scope.drop = function (number) {
+        mineUtil.confirm("确认删除吗？", function () {
+            mineHttp.send("DELETE", "admin/jz/style/" + number, {}, function (data) {
+                if (!verifyData(data)) {
+                    mineUtil.alert(data.message);
+                    return;
+                }
+                mineUtil.alert("删除成功");
+                $scope.query();
+            });
+        });
+    }
 });
 
 mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compile, mineHttp) {
@@ -276,8 +293,23 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
         $scope.title = "新增风采";
     } else {
         $scope.title = "编辑风采";
+        mineHttp.send("GET", "admin/jz/style/" + number, null, function (result) {
+            $scope.initPage(result.content);
+        });
     }
 
+    $scope.initPage = function(style){
+        for(index in style.styleLines){
+            style.styleLines[index].imageUrl = imageUrl(style.styleLines[index].imageId);
+        }
+        $scope.style = style;
+        $("#styleImagesTable").find("tr").each(function (index) {
+            if(index == 0){
+                return;
+            }
+            $(this).remove();
+        });
+    }
     $scope.imageUpload = function () {
         if ($scope.file) {
             $scope.upload($scope.file);
@@ -291,23 +323,43 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
     };
 
     $scope.jzStyleImageRemove = function (imageId) {
-        $("#styleImagesTable").find("tr[imageId='" + imageId + "']").remove();
+        $("#styleImagesTable").find("tr[image-id='" + imageId + "']").remove();
     };
 
     $scope.addImageLine = function (imageId) {
         var accessUrl = imageUrl(imageId);
-        var html = "<tr imageId='" + imageId + "'><td><img class='mine-style-image' src='" + accessUrl + "'/></td>" +
+        var html = "<tr image-id='" + imageId + "'><td><img class='mine-style-image' src='" + accessUrl + "'/></td>" +
             "<td><textarea style='width: 100%; height: 100px;'></textarea></td>" +
             "<td><button class='btn btn-sm btn-warning' ng-click='jzStyleImageRemove(\"" + imageId + "\")'>删除</button></td></tr>"
         angular.element("#styleImagesTable").append($compile(angular.element(html))($scope));
     };
 
+    $scope.setMessage = function (message, status) {
+        $scope.messageStatus = status;
+        $scope.message = message;
+    };
+
+    $scope.validator = function () {
+        if (isEmpty($scope.style.title)) {
+            $scope.setMessage("请填写标题", false);
+            return false;
+        }
+        if ($("#styleImagesTable").find("tr").length <= 1) {
+            $scope.setMessage("请至少添加一张图片", false);
+            return false;
+        }
+        return true;
+    };
+
     $scope.save = function () {
+        if(!$scope.validator()){
+            return;
+        }
         var imageList = [];
         $("#styleImagesTable").find("tr").each(function (index) {
             if (index == 0) {return;}
             var imageLine = {};
-            imageLine.imageId = $(this).attr("imageId");
+            imageLine.imageId = $(this).attr("image-id");
             imageLine.description = $(this).find("textarea").val();
             imageList.push(imageLine);
         });
@@ -316,7 +368,7 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
-                    $scope.style = result.content;
+                    $scope.initPage(result.content);
                 }
             }
         );

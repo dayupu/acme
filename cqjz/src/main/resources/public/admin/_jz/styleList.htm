@@ -2,6 +2,15 @@
     <div class="mine-layout-content">
         <div class="mine-title"><i class="fa fa-star"></i>技侦风采</div>
         <div class="mine-content">
+            <div class="form-inline mine-query">
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control input-sm" ng-model="filter.title"/>
+                </div>
+                <span class="form-group">
+                    <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                </span>
+            </div>
             <button class="btn btn-sm btn-primary" type="button" ng-click="edit('add')">新增</button>
             <div class="gridStyle" ng-grid="gridOptions"></div>
         </div>
