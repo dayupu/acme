@@ -164,6 +164,13 @@ public class AnyoneService implements IAnyoneService {
     }
 
     @Override
+    @Transactional
+    public StyleDto styleDetail(String number) {
+        JzStyle jzStyle = styleRepo.findOne(number);
+        return StyleParser.toDto(jzStyle);
+    }
+
+    @Override
     public PageResultBS<SuperstarDto> superstarList(PageQueryBS pageQuery) {
 
         PageRequest pageRequest;
@@ -269,7 +276,6 @@ public class AnyoneService implements IAnyoneService {
         pairResult.setRight(pageResult.getTotalElements());
         return pairResult;
     }
-
 
     private List<StyleVo> findNewestStyles(int count) {
 

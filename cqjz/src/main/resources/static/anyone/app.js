@@ -245,6 +245,5 @@ anyoneApp.controller("styleInfoController", function ($scope, $routeParams, mine
     }
     mineHttp.send("GET", "free/styleInfo/" + number, null, function (data) {
         $scope.style = data;
-        $("#newsContent").html(data.content);
     });
 });

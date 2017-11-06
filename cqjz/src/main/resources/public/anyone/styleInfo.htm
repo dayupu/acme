@@ -8,8 +8,10 @@
         <td>
             <div class="news-bg-content">
                 <div class="news-content">
-                    <div class="news-title">{{news.title}}</div>
-                    <div id="newsContent"></div>
+                    <div class="news-title">{{style.title}}</div>
+                    <div id="newsContent" ng-repeat="line in style.styleLines">
+                        <img ng-src="" />
+                    </div>
                 </div>
             </div>
         </td>

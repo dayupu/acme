@@ -6,6 +6,7 @@ import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.kernel.core.admin.service.business.IContactsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.ContactsDto;
+import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.StyleVo;
@@ -59,5 +60,11 @@ public class AnyoneController {
     @GetMapping("/contacts")
     public ContactsDto contacts() {
         return contactsService.contactsInfo();
+    }
+
+
+    @GetMapping("/styleInfo/{number}")
+    public StyleDto styleInfo(@PathVariable("number") String number) {
+        return anyoneService.styleDetail(number);
     }
 }
