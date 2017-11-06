@@ -7,10 +7,13 @@
     <tr>
         <td>
             <div class="news-bg-content">
-                <div class="news-content">
+                <div class="style-content">
                     <div class="news-title">{{style.title}}</div>
-                    <div id="newsContent" ng-repeat="line in style.styleLines">
-                        <img ng-src="" />
+                    <div class="style-content-image" id="newsContent" ng-repeat="line in style.styleLines">
+                        <img ng-src="{{line.imageUrl}}" class="style-show-image" />
+                        <div>
+                            {{line.description}}
+                        </div>
                     </div>
                 </div>
             </div>

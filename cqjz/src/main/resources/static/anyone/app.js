@@ -244,6 +244,9 @@ anyoneApp.controller("styleInfoController", function ($scope, $routeParams, mine
         return;
     }
     mineHttp.send("GET", "free/styleInfo/" + number, null, function (data) {
+        for(index in data.styleLines){
+            data.styleLines[index].imageUrl = imageUrl(data.styleLines[index].imageId);
+        }
         $scope.style = data;
     });
 });

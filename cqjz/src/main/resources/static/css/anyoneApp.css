@@ -143,3 +143,17 @@ body {
     background-color: #6774a4;
     color: white;
 }
+
+.style-show-image{
+    display: block;
+    margin: 0 auto;
+    min-width: 600px;
+}
+.style-content {
+    margin: 0 40px;
+    font-size: 15px;
+    text-align: center;
+}
+.style-content-image{
+    margin-top: 5px;
+}
