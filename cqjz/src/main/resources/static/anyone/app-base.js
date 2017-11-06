@@ -111,3 +111,32 @@ function xjmjRoll(count) {
     };
     setTimeout(xjmjRoll, 1000);
 }
+/**技侦风采滚动**/
+var _jzfcInterval = null;
+function jzfcRoll(count) {
+    if (_jzfcInterval != null) {
+        clearInterval(_jzfcInterval);
+    }
+    var jzfcRollLeft = function () {
+        var first = $('.jzfc-pic li').first();
+        var loop = true;
+        $('.jzfc-pic li').not(":animated").animate({
+            left: -195
+        }, 1000, function () {
+            if (loop) {
+                $('.jzfc-pic').append($(first).clone(false));
+                $(first).remove();
+                loop = false;
+            };
+            $(this).css("left", 0);
+        });
+    };
+
+    var jzfcRoll = function () {
+        $('.jzfc-pic').width(195 * count);
+        _jzfcInterval = setInterval(function () {
+            jzfcRollLeft();
+        }, 6000);
+    };
+    setTimeout(jzfcRoll, 1000);
+}

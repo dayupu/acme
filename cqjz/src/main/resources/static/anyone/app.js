@@ -53,6 +53,7 @@ anyoneApp.controller("homeController", function ($scope, mineHttp) {
             $scope.home = data;
             tpxwRoll(data.picNews.length);
             xjmjRoll(data.superstars.length);
+            jzfcRoll(data.jzStyles.length);
         });
     };
     $scope.loadDatas();
