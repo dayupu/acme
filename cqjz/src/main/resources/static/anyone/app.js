@@ -7,6 +7,7 @@ anyoneApp.config(['$routeProvider', function ($routeProvider) {
         .when('/superstarList', {templateUrl: './anyone/superstarList.htm', controller: 'superstarListController'})
         .when('/newsInfo/:number', {templateUrl: './anyone/newsInfo.htm', controller: 'newsInfoController'})
         .when('/search/:searchText', {templateUrl: './anyone/search.htm', controller: 'searchController'})
+        .when('/style/:number', {templateUrl: './anyone/styleInfo.htm', controller: 'styleInfoController'})
         .otherwise({redirectTo: '/'});
 }]);
 
@@ -234,5 +235,16 @@ anyoneApp.controller("newsInfoController", function ($scope, $routeParams, mineH
 anyoneApp.controller("contactsController", function ($scope, mineHttp) {
     mineHttp.send("GET", "free/contacts", null, function (data) {
         $("#contactsContent").html(data.content);
+    });
+});
+/*新闻查看*/
+anyoneApp.controller("styleInfoController", function ($scope, $routeParams, mineHttp) {
+    var number = $routeParams.number;
+    if (typeof number != "string") {
+        return;
+    }
+    mineHttp.send("GET", "free/styleInfo/" + number, null, function (data) {
+        $scope.style = data;
+        $("#newsContent").html(data.content);
     });
 });
