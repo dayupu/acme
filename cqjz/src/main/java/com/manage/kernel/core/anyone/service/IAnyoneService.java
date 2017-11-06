@@ -7,6 +7,8 @@ import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
+import com.manage.kernel.core.model.vo.StyleVo;
+import java.util.List;
 
 /**
  * Created by bert on 2017/10/27.

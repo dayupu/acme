@@ -47,6 +47,9 @@ anyoneApp.controller("homeController", function ($scope, mineHttp) {
             for (var i = 0; i < data.picNews.length; i++) {
                 data.picNews[i].imageUrl = imageUrl(data.picNews[i].imageId);
             }
+            for (var i = 0; i < data.jzStyles.length; i++) {
+                data.jzStyles[i].imageUrl = imageUrl(data.jzStyles[i].imageId);
+            }
             $scope.home = data;
             tpxwRoll(data.picNews.length);
             xjmjRoll(data.superstars.length);

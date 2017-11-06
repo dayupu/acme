@@ -8,6 +8,8 @@ import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.ContactsDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
+import com.manage.kernel.core.model.vo.StyleVo;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,13 +45,14 @@ public class AnyoneController {
     public PageResultBS newsList(@PathVariable("type") String type, @RequestBody PageQueryBS pageQuery) {
         return anyoneService.newsList(NewsType.fromTypeName(type), pageQuery);
     }
+
     @PostMapping("/search/news")
-    public PageResultBS searchNews( @RequestBody PageQueryBS pageQuery) {
+    public PageResultBS searchNews(@RequestBody PageQueryBS pageQuery) {
         return anyoneService.searchNews(pageQuery);
     }
 
     @PostMapping("/superstarList")
-    public PageResultBS newsList( @RequestBody PageQueryBS pageQuery) {
+    public PageResultBS newsList(@RequestBody PageQueryBS pageQuery) {
         return anyoneService.superstarList(pageQuery);
     }
 

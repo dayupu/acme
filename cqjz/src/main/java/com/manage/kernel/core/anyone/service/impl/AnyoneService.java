@@ -3,22 +3,30 @@ package com.manage.kernel.core.anyone.service.impl;
 import com.manage.base.constant.Image;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
+import com.manage.base.database.enums.Status;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.base.supplier.page.PageQuery;
+import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.FileUtil;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
+import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.dto.SuperstarDto;
+import com.manage.kernel.core.model.parser.StyleParser;
 import com.manage.kernel.core.model.parser.SuperstarParser;
 import com.manage.kernel.core.model.parser.WatchParser;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
+import com.manage.kernel.core.model.vo.StyleVo;
+import com.manage.kernel.jpa.entity.JzStyle;
+import com.manage.kernel.jpa.entity.JzStyleLine;
 import com.manage.kernel.jpa.entity.JzSuperStar;
 import com.manage.kernel.jpa.entity.JzWatch;
 import com.manage.kernel.jpa.entity.News;
+import com.manage.kernel.jpa.repository.JzStyleRepo;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
@@ -53,6 +61,9 @@ public class AnyoneService implements IAnyoneService {
     @Autowired
     private JzSuperStarRepo superStarRepo;
 
+    @Autowired
+    private JzStyleRepo styleRepo;
+
     @Override
     @Transactional
     public HomeVo homeDetail() {
@@ -77,6 +88,7 @@ public class AnyoneService implements IAnyoneService {
         home.setXxydNews(findPublishNews(NewsType.XXYD, newsFirstPageRequest(newsCount)).getLeft());
         home.setWhsbNews(findPublishNews(NewsType.WHSB, newsFirstPageRequest(newsCount)).getLeft());
         home.setKjlwNews(findPublishNews(NewsType.KJLW, newsFirstPageRequest(newsCount)).getLeft());
+        home.setJzStyles(findNewestStyles(5));
         return home;
     }
 
@@ -95,34 +107,34 @@ public class AnyoneService implements IAnyoneService {
         String month = superStar.getMonth();
         List<String> months = new ArrayList<>();
         switch (Integer.valueOf(month)) {
-            case 1:
-            case 2:
-            case 3:
-                months.add("1");
-                months.add("2");
-                months.add("3");
-                break;
-            case 4:
-            case 5:
-            case 6:
-                months.add("4");
-                months.add("5");
-                months.add("6");
-                break;
-            case 7:
-            case 8:
-            case 9:
-                months.add("7");
-                months.add("8");
-                months.add("9");
-                break;
-            case 10:
-            case 11:
-            case 12:
-                months.add("10");
-                months.add("11");
-                months.add("12");
-                break;
+        case 1:
+        case 2:
+        case 3:
+            months.add("1");
+            months.add("2");
+            months.add("3");
+            break;
+        case 4:
+        case 5:
+        case 6:
+            months.add("4");
+            months.add("5");
+            months.add("6");
+            break;
+        case 7:
+        case 8:
+        case 9:
+            months.add("7");
+            months.add("8");
+            months.add("9");
+            break;
+        case 10:
+        case 11:
+        case 12:
+            months.add("10");
+            months.add("11");
+            months.add("12");
+            break;
         }
 
         SuperstarDto superstarDto;
@@ -151,10 +163,8 @@ public class AnyoneService implements IAnyoneService {
         return detail;
     }
 
-
     @Override
     public PageResultBS<SuperstarDto> superstarList(PageQueryBS pageQuery) {
-
 
         PageRequest pageRequest;
         if ("year".equals(pageQuery.getSortName())) {
@@ -222,7 +232,6 @@ public class AnyoneService implements IAnyoneService {
         return findPublishNews(null, pageRequest, searchText);
     }
 
-
     private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest) {
         return findPublishNews(type, pageRequest, null);
     }
@@ -259,6 +268,30 @@ public class AnyoneService implements IAnyoneService {
         pairResult.setLeft(newsVos);
         pairResult.setRight(pageResult.getTotalElements());
         return pairResult;
+    }
+
+
+    private List<StyleVo> findNewestStyles(int count) {
+
+        PageRequest page = new PageRequest(0, count, Sort.Direction.DESC, "createdAt");
+        Page<JzStyle> stylePage = styleRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            list.add(root.get("status").in(Status.enableList()));
+            return cb.and(list.toArray(new Predicate[0]));
+        }, page);
+
+        List<StyleVo> styleVos = new ArrayList<>();
+        StyleVo styleVo;
+        for (JzStyle style : stylePage.getContent()) {
+            for (JzStyleLine styleLine : style.getStyleLines()) {
+                styleVo = new StyleVo();
+                styleVo.setImageId(styleLine.getImageId());
+                styleVo.setNumber(styleLine.getNumber());
+                styleVos.add(styleVo);
+            }
+        }
+
+        return styleVos;
     }
 }
 

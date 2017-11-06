@@ -15,7 +15,7 @@ public class HomeVo {
     /*值班人员*/
     private WatchDto watch = new WatchDto();
     /*星级民警*/
-    private List<SuperstarDto> superstars =  new ArrayList<>();
+    private List<SuperstarDto> superstars = new ArrayList<>();
     /*图片新闻*/
     private List<NewsVo> picNews = new ArrayList<>();
     /*警情快讯*/
@@ -30,6 +30,8 @@ public class HomeVo {
     private List<NewsVo> whsbNews = new ArrayList<>();
     /*科技瞭望*/
     private List<NewsVo> kjlwNews = new ArrayList<>();
+
+    private List<StyleVo> jzStyles = new ArrayList<>();
 
     public WatchDto getWatch() {
         return watch;
@@ -101,5 +103,13 @@ public class HomeVo {
 
     public void setKjlwNews(List<NewsVo> kjlwNews) {
         this.kjlwNews = kjlwNews;
+    }
+
+    public List<StyleVo> getJzStyles() {
+        return jzStyles;
+    }
+
+    public void setJzStyles(List<StyleVo> jzStyles) {
+        this.jzStyles = jzStyles;
     }
 }
