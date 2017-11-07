@@ -199,33 +199,6 @@
 }
 
 /*图片新闻*/
-.tpxw-show {
-    width: 405px;
-    float: left;
-}
-
-.tpxw-inbox {
-    width: 400px;
-    height: 270px;
-    overflow: hidden;
-}
-
-.tpxw-inbox ul, .tpxw-inbox li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.tpxw-inbox ul li {
-    position: relative;
-    float: left;
-}
-
-.news-tpxw-image {
-    width: 400px;
-    height: 270px;
-}
-
 .news-tpxw-image-sm {
     width: 50px;
     height: 30px;
@@ -253,34 +226,6 @@
 }
 
 /*星级民警样式*/
-.xjmj-show {
-    margin-left: 10px;
-    width: 150px;
-}
-
-.xjmj-inbox {
-    text-align: center;
-    width: 150px;
-    height: 230px;
-    overflow: hidden;
-}
-
-.xjmj-inbox ul, .xjmj-inbox li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.xjmj-inbox ul li {
-    position: relative;
-    float: left;
-}
-
-.xjmj-image {
-    width: 150px;
-    height: 180px;
-}
-
 .home-window-body ul {
     list-style: none;
     margin: 0;
@@ -314,30 +259,58 @@
     height: 25px;
 }
 
-.jzfc-show {
-    margin-left:7px;
-    width: 980px;
-    float: left;
-}
-
-.jzfc-inbox {
-    width: 980px;
-    height: 102px;
-    overflow: hidden;
-}
-
-.jzfc-inbox ul, .jzfc-inbox li {
+/*******滚动效果********/
+.roll-inbox ul, .roll-inbox li {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
-.jzfc-inbox ul li {
+.roll-inbox ul li {
     position: relative;
     float: left;
 }
-
-.jzfc-image {
+/*图片新闻*/
+.tpxw-show {
+    width: 405px;
+    float: left;
+}
+.tpxw-show .roll-inbox {
+    width: 400px;
+    height: 270px;
+    overflow: hidden;
+}
+.tpxw-show .roll-image {
+    width: 400px;
+    height: 270px;
+}
+/*星级民警*/
+.xjmj-show {
+    margin-left: 10px;
+    width: 150px;
+}
+.xjmj-show .roll-inbox {
+    text-align: center;
+    width: 150px;
+    height: 230px;
+    overflow: hidden;
+}
+.xjmj-show .roll-image {
+    width: 150px;
+    height: 180px;
+}
+/*技侦风采*/
+.jzfc-show {
+    margin-left:7px;
+    width: 980px;
+    float: left;
+}
+.jzfc-show .roll-inbox {
+    width: 980px;
+    height: 102px;
+    overflow: hidden;
+}
+.jzfc-show .roll-image {
     margin-left:3px;
     width: 190px;
     height: 100px;

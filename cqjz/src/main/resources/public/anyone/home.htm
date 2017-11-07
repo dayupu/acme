@@ -32,10 +32,10 @@
             </div>
             <div class="home-window-body" style="height: 230px;">
                 <div class="xjmj-show">
-                    <div class="xjmj-inbox">
-                        <ul class="xjmj-pic">
+                    <div class="roll-inbox">
+                        <ul>
                             <li ng-repeat="superstar in home.superstars">
-                                <img class="xjmj-image" ng-src="{{superstar.imageBase64}}">
+                                <img class="roll-image" ng-src="{{superstar.imageBase64}}">
                                 <br/>{{superstar.name}}
                                 <br/>{{superstar.honor}}
                             </li>
@@ -134,21 +134,24 @@
                     </td>
                     <td style="background-color: white;padding: 0 5px">
                         <div class="tpxw-show">
-                            <div class="tpxw-inbox">
-                                <ul class="tpxw-pic">
+                            <div class="roll-inbox">
+                                <ul>
                                     <li ng-repeat="news in home.picNews" number="{{news.number}}">
-                                        <img class="news-tpxw-image" ng-src="{{news.imageUrl}}">
+                                        <a href="#/newsInfo/{{news.number}}" title="{{news.title}}">
+                                            <img class="roll-image" ng-src="{{news.imageUrl}}">
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div>
                             <table class="home-new-tpxw" cellpadding="2">
-                                <tr type="tpxw" class="news-no-select" ng-repeat="news in home.picNews"
+                                <tr type="tpxw" ng-class="{true:'news-no-select',false:'news-selected'}[$index == 1]" ng-repeat="news in home.picNews"
                                     number="{{news.number}}">
                                     <td><img class="news-tpxw-image-sm" ng-src="{{news.imageUrl}}"/></td>
-                                    <td><a href="#/newsInfo/{{news.number}}"
-                                           title="{{news.title}}">{{news.title}}</a></td>
+                                    <td>
+                                        <a href="#/newsInfo/{{news.number}}" title="{{news.title}}">{{news.title}}</a>
+                                    </td>
                                     <td>{{news.simpleTime}}</td>
                                 </tr>
                             </table>
@@ -282,10 +285,10 @@
             <div class="home-jzfc"></div>
             <div class="home-jzfc-body" style="height: 105px;">
                 <div class="jzfc-show">
-                    <div class="jzfc-inbox">
-                        <ul class="jzfc-pic">
+                    <div class="roll-inbox">
+                        <ul>
                             <li ng-repeat="jzStyle in home.jzStyles" number="{{jzStyle.number}}">
-                                <a href="#/style/{{jzStyle.number}}"><img class="jzfc-image" ng-src="{{jzStyle.imageUrl}}"></a>
+                                <a href="#/style/{{jzStyle.number}}"><img class="roll-image" ng-src="{{jzStyle.imageUrl}}"></a>
                             </li>
                         </ul>
                     </div>

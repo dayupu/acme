@@ -31,30 +31,13 @@ function setHome(obj) {
         }
     }
 }
-
 /**图片新闻滚动**/
 var _tpxwInterval = null;
 function tpxwRoll(count) {
     if (_tpxwInterval != null) {
         clearInterval(_tpxwInterval);
     }
-    var tpxwRollLeft = function () {
-        var first = $('.tpxw-pic li').first();
-        var loop = true;
-        $('.tpxw-pic li').not(":animated").animate({
-            left: -400
-        }, 1000, function () {
-            if (loop) {
-                $('.tpxw-pic').append($(first).clone(false));
-                $(first).remove();
-                loop = false;
-                newsSelected($('.tpxw-pic li').first());
-            };
-            $(this).css("left", 0);
-        });
-    };
-
-    var newsSelected = function (obj) {
+    var callback = function (obj) {
         if(typeof obj != "object"){
             return;
         }
@@ -69,17 +52,7 @@ function tpxwRoll(count) {
             }
         });
     };
-
-    var tpxwRoll = function () {
-        $('.tpxw-pic').width(400 * count);
-        if ($("tr[type='tpxw']").length > 0) {
-            newsSelected($("tr[type='tpxw']").eq(0));
-        }
-        _tpxwInterval = setInterval(function () {
-            tpxwRollLeft();
-        }, 5000);
-    };
-    setTimeout(tpxwRoll, 1000);
+    _tpxwInterval = imageRoll($(".tpxw-show"), 400, count, 5000, callback)
 }
 
 /**图片新闻滚动**/
@@ -88,28 +61,7 @@ function xjmjRoll(count) {
     if (_xjmjInterval != null) {
         clearInterval(_xjmjInterval);
     }
-    var xjmjRollLeft = function () {
-        var first = $('.xjmj-pic li').first();
-        var loop = true;
-        $('.xjmj-pic li').not(":animated").animate({
-            left: -150
-        }, 1000, function () {
-            if (loop) {
-                $('.xjmj-pic').append($(first).clone(false));
-                $(first).remove();
-                loop = false;
-            };
-            $(this).css("left", 0);
-        });
-    };
-
-    var xjmjRoll = function () {
-        $('.xjmj-pic').width(150 * count);
-        _xjmjInterval = setInterval(function () {
-            xjmjRollLeft();
-        }, 6000);
-    };
-    setTimeout(xjmjRoll, 1000);
+    _xjmjInterval = imageRoll($(".xjmj-show"), 150, count, 5000)
 }
 /**技侦风采滚动**/
 var _jzfcInterval = null;
@@ -117,26 +69,39 @@ function jzfcRoll(count) {
     if (_jzfcInterval != null) {
         clearInterval(_jzfcInterval);
     }
-    var jzfcRollLeft = function () {
-        var first = $('.jzfc-pic li').first();
+    _jzfcInterval = imageRoll($(".jzfc-show"), 195, count, 5000)
+}
+
+function imageRoll(obj, imageWidth, imageCount, mills, callback){
+    if(imageCount <= 1){
+       return null;
+    }
+    var rollLeft = function () {
+        var rollUL = $(obj).find(".roll-inbox > ul");
+        var first = $(rollUL).children("li").first();;
         var loop = true;
-        $('.jzfc-pic li').not(":animated").animate({
-            left: -195
+        $(rollUL).children("li").not(":animated").animate({
+            left: -imageWidth
         }, 1000, function () {
             if (loop) {
-                $('.jzfc-pic').append($(first).clone(false));
+                $(rollUL).append($(first).clone(false));
+                $(rollUL).children("li").last().css("left", 0);
                 $(first).remove();
                 loop = false;
             };
             $(this).css("left", 0);
+            if(callback && typeof callback == "function"){
+               callback($(rollUL).children("li").first());
+            }
         });
     };
-
-    var jzfcRoll = function () {
-        $('.jzfc-pic').width(195 * count);
-        _jzfcInterval = setInterval(function () {
-            jzfcRollLeft();
-        }, 6000);
+    var rollRun = function () {
+        var imageWidthTotal = imageWidth * imageCount;
+        if($(obj).find(".roll-inbox").width() >= imageWidthTotal){
+           return null;
+        }
+        $(obj).find(".roll-inbox > ul").width(imageWidthTotal);
+        return setInterval(function () { rollLeft();}, mills);
     };
-    setTimeout(jzfcRoll, 1000);
+    return rollRun();
 }

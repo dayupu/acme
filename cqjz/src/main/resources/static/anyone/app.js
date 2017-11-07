@@ -52,9 +52,9 @@ anyoneApp.controller("homeController", function ($scope, mineHttp) {
                 data.jzStyles[i].imageUrl = imageUrl(data.jzStyles[i].imageId);
             }
             $scope.home = data;
-            tpxwRoll(data.picNews.length);
-            xjmjRoll(data.superstars.length);
-            jzfcRoll(data.jzStyles.length);
+            tpxwRoll(data.picNews.length);//图片滚动
+            xjmjRoll(data.superstars.length);//图片滚动
+            jzfcRoll(data.jzStyles.length);//图片滚动
         });
     };
     $scope.loadDatas();

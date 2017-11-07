@@ -124,6 +124,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* 通讯录页  */
 .contacts-content{
     width:920px;
     margin:0 auto;
@@ -132,28 +133,34 @@ body {
     min-height:500px;
 }
 
+/* 技侦风采页  */
+.style-content {
+    margin: 0 40px;
+    font-size: 15px;
+    text-align: center;
+}
+.style-content .style-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+.style-content .style-line{
+    margin: 5px;
+}
+.style-content .style-image{
+   display: block;
+   margin: 0 auto;
+   max-width: 800px;
+}
+/* 重写ueditor样式 */
 .ueditor-table {
    border:none;
 }
 .ueditor-table tr td{
     padding:3px 3px;
 }
-
 .th-inner{
     background-color: #6774a4;
     color: white;
-}
-
-.style-show-image{
-    display: block;
-    margin: 0 auto;
-    min-width: 600px;
-}
-.style-content {
-    margin: 0 40px;
-    font-size: 15px;
-    text-align: center;
-}
-.style-content-image{
-    margin-top: 5px;
 }
