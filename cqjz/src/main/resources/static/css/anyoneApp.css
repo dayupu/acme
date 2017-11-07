@@ -123,18 +123,25 @@ body {
     font-weight: bolder;
     margin-bottom: 20px;
 }
+
 /* 星级民警 */
 .superstar-content {
     margin: 0 40px;
     font-size: 15px;
 }
+
+.superstar-image {
+    width: 150px;
+    height: 180px;
+}
+
 /* 通讯录页  */
-.contacts-content{
-    width:920px;
-    margin:0 auto;
-    background-color:white;
-    padding:20px 15px;
-    min-height:500px;
+.contacts-content {
+    width: 920px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px 15px;
+    min-height: 500px;
 }
 
 /* 技侦风采页  */
@@ -143,36 +150,44 @@ body {
     font-size: 15px;
     text-align: center;
 }
+
 .style-content .style-title {
     text-align: center;
     font-size: 17px;
     font-weight: bolder;
     margin-bottom: 20px;
 }
-.style-content .style-line{
+
+.style-content .style-line {
     margin: 5px;
 }
-.style-content .style-image{
-   display: block;
-   margin: 0 auto;
-   max-width: 800px;
+
+.style-content .style-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 800px;
 }
+
 /* 重写ueditor样式 */
 .ueditor-table {
-   border:none;
+    border: none;
 }
-.ueditor-table tr td{
-    padding:3px 3px;
+
+.ueditor-table tr td {
+    padding: 3px 3px;
 }
-.th-inner{
+
+.th-inner {
     background-color: #6774a4;
     color: white;
 }
+
 /* 重写bootstrap样式 */
-.table{
-  background-color:white;
+.table {
+    background-color: white;
 }
-.pagination-info{
-  margin-left:5px;
-  font-size: 13px;
+
+.pagination-info {
+    margin-left: 5px;
+    font-size: 13px;
 }

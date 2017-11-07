@@ -187,7 +187,7 @@ anyoneApp.controller("superstarListController", function ($scope, mineHttp) {
                 align: 'left',
                 width: 150,
                 formatter: function (value, row) {
-                    return '<img src="' + row.imageBase64 + '" class="xjmj-image" />';
+                    return '<img src="' + row.imageBase64 + '" class="superstar-image" />';
                 }
             },
             {

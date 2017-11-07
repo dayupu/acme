@@ -55,13 +55,13 @@ function tpxwRoll(count) {
     _tpxwInterval = imageRoll($(".tpxw-show"), 400, count, 5000, callback);
 }
 
-/**图片新闻滚动**/
+/**星级民警滚动**/
 var _xjmjInterval = null;
 function xjmjRoll(count) {
     if (_xjmjInterval != null) {
         clearInterval(_xjmjInterval);
     }
-    _xjmjInterval = imageRoll($(".xjmj-show"), 150, count, 5000);
+    _xjmjInterval = imageRoll($(".xjmj-show"), 150, count, 8000);
 }
 /**技侦风采滚动**/
 var _jzfcInterval = null;
@@ -69,7 +69,7 @@ function jzfcRoll(count) {
     if (_jzfcInterval != null) {
         clearInterval(_jzfcInterval);
     }
-    _jzfcInterval = imageRoll($(".jzfc-show"), 195, count, 5000);
+    _jzfcInterval = imageRoll($(".jzfc-show"), 195, count, 8000);
 }
 
 function imageRoll(obj, imageWidth, imageCount, mills, callback){

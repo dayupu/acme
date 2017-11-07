@@ -86,7 +86,7 @@
                 </ul>
             </div>
             <div class="home-window-foot"></div>
-            <div class="home-window-full" style="height: 200px;"></div>
+            <div class="home-window-full" style="height: 150px;"></div>
             <!--网站导航-->
             <div class="home-wzdh"></div>
             <div class="home-window-top"></div>
@@ -146,9 +146,9 @@
                         </div>
                         <div>
                             <table class="home-new-tpxw" cellpadding="2">
-                                <tr type="tpxw" ng-class="{true:'news-no-select',false:'news-selected'}[$index == 1]" ng-repeat="news in home.picNews"
+                                <tr type="tpxw" ng-class="{true:'news-selected',false:'news-no-select'}[$index == 0]" ng-repeat="news in home.picNews"
                                     number="{{news.number}}">
-                                    <td><img class="news-tpxw-image-sm" ng-src="{{news.imageUrl}}"/></td>
+                                    <td><img class="news-tpxw-image" ng-src="{{news.imageUrl}}"/></td>
                                     <td>
                                         <a href="#/newsInfo/{{news.number}}" title="{{news.title}}">{{news.title}}</a>
                                     </td>
