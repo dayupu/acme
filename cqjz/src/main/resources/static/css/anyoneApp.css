@@ -123,7 +123,11 @@ body {
     font-weight: bolder;
     margin-bottom: 20px;
 }
-
+/* 星级民警 */
+.superstar-content {
+    margin: 0 40px;
+    font-size: 15px;
+}
 /* 通讯录页  */
 .contacts-content{
     width:920px;
@@ -163,4 +167,12 @@ body {
 .th-inner{
     background-color: #6774a4;
     color: white;
+}
+/* 重写bootstrap样式 */
+.table{
+  background-color:white;
+}
+.pagination-info{
+  margin-left:5px;
+  font-size: 13px;
 }
