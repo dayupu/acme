@@ -56,6 +56,19 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         return true;
     };
 
+    $scope.typeChange = function(type){
+        if(typeof type != "number"){
+           $scope.hasImage = false;
+           return;
+        }
+        for(index in $scope.newsTypes){
+            if($scope.newsTypes[index].key == type){
+                 $scope.hasImage = $scope.newsTypes[index].hasImage;
+                 return;
+            }
+        }
+    }
+
     $scope.refreshContent = function () {
         $scope.news.content = UE.getEditor('newsEditor').getContent();
     };

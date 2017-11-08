@@ -7,6 +7,7 @@ import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.SimpleStatus;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
+import com.manage.base.supplier.page.SelectOptionNews;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.spring.annotation.InboundLog;
@@ -33,12 +34,13 @@ public class ConstantController {
     @GetMapping("/newsType")
     public ResponseInfo newsType() {
         ResponseInfo response = new ResponseInfo();
-        List<SelectOption> options = new ArrayList<>();
-        SelectOption<Integer, String> option;
+        List<SelectOptionNews> options = new ArrayList<>();
+        SelectOptionNews<Integer, String> option;
         for (NewsType type : NewsType.values()) {
-            option = new SelectOption<>();
+            option = new SelectOptionNews<>();
             option.setKey(type.getConstant());
             option.setValue(Messages.get(type));
+            option.setHasImage(type.hasImage());
             options.add(option);
         }
         response.wrapSuccess(options);

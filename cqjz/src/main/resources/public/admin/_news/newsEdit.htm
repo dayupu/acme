@@ -38,7 +38,7 @@
                             <mine-label name="新闻类别" required></mine-label>
                         </td>
                         <td>
-                            <select ng-model="news.type" name="type" ng-init="news.type=''"
+                            <select ng-model="news.type" name="type" ng-init="news.type=''" ng-change="typeChange(news.type)"
                                     class="form-control input-sm mine-input-abeam" style="width:200px;" required>
                                 <option value="">-- 请选择 --</option>
                                 <option ng-repeat="newsType in newsTypes" ng-value="newsType.key">{{newsType.value}}
@@ -47,7 +47,7 @@
                             <mine-validator when="newsForm.type.$dirty" valid="newsForm.type.$valid" error="必选项"></mine-validator>
                         </td>
                     </tr>
-                    <tr ng-show="news.type == '10'">
+                    <tr ng-show="hasImage">
                         <td>
                             <mine-label name="图片" required></mine-label>
                         </td>
