@@ -7,8 +7,8 @@ import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.SimpleStatus;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
-import com.manage.base.supplier.page.SelectOptionNews;
 import com.manage.base.supplier.page.TreeNode;
+import com.manage.base.supplier.page.TreeNodeNews;
 import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.comm.Messages;
@@ -31,36 +31,20 @@ public class ConstantController {
     private IOrganService organService;
 
     @InboundLog
-    @GetMapping("/newsType")
-    public ResponseInfo newsType() {
-        ResponseInfo response = new ResponseInfo();
-        List<SelectOptionNews> options = new ArrayList<>();
-        SelectOptionNews<Integer, String> option;
-        for (NewsType type : NewsType.values()) {
-            option = new SelectOptionNews<>();
-            option.setKey(type.getConstant());
-            option.setValue(Messages.get(type));
-            option.setHasImage(type.hasImage());
-            options.add(option);
-        }
-        response.wrapSuccess(options);
-        return response;
-    }
-
-    @InboundLog
     @GetMapping("/newsTypeTree")
-    public List<TreeNode> newsTypeTree() {
-        List<TreeNode> treeNodes = new ArrayList<>();
+    public List<TreeNodeNews> newsTypeTree() {
+        List<TreeNodeNews> treeNodes = new ArrayList<>();
         // 首页新闻
-        TreeNode treeNode = new TreeNode();
+        TreeNodeNews treeNode = new TreeNodeNews();
         treeNode.setId(0);
         treeNode.setName(Messages.get("resource.constant.news.basic"));
         treeNodes.add(treeNode);
         for (NewsType type : NewsType.values()) {
-            treeNode = new TreeNode();
+            treeNode = new TreeNodeNews();
+            treeNode.setPid(0);
             treeNode.setId(type.getConstant());
             treeNode.setName(Messages.get(type.messageKey()));
-            treeNode.setPid(0);
+            treeNode.setHasImage(type.hasImage());
             treeNodes.add(treeNode);
         }
         return treeNodes;

@@ -1,9 +1,9 @@
 package com.manage.base.supplier.page;
 
 /**
- * Created by bert on 2017/9/3.
+ * Created by bert on 2017/8/5.
  */
-public class SelectOptionNews<K, V> extends SelectOption<K, V> {
+public class TreeNodeNews<T> extends TreeNode<T>{
 
     private boolean hasImage = false;
 

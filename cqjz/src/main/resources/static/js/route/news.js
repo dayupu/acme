@@ -1,23 +1,8 @@
-function initDatas($scope, mineHttp) {
-
-    $scope.loadTypes = function () {
-        mineHttp.constant("newsType", function (data) {
-            $scope.newsTypes = data.content;
-        });
-    };
-    $scope.loadStatus = function () {
-        mineHttp.constant("newsStatus", function (data) {
-            $scope.statuses = data.content;
-        });
-    };
-}
-
 mainApp.controller("newsPublishCtl", function ($scope, $state) {
     $state.go("news.add");
 });
 
 mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
-    initDatas($scope, mineHttp);
     $scope.buttonDisable = false;
     $scope.news = {};
     $scope.newsTypes = [];
@@ -35,7 +20,11 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
     mineHttp.constant("newsTypeTree", function (data) {
         var callback = {
             beforeClick: function (treeId, treeNode, clickFlag) {
-                return treeNode.pid != null;
+                var selectable = (treeNode.pid != null);
+                if (selectable) {
+                    $scope.hasImage = treeNode.hasImage;
+                }
+                return selectable;
             }
         };
         mineTree.dropDown($("#newsTypeTree"), data, callback)
@@ -145,10 +134,15 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         autoHeightEnabled: false,
         toolbars: [_ueditorToolbars]
     };
-    $scope.loadTypes();
 });
 
-mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, mineUtil) {
+mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, mineUtil, mineTree) {
+    mineHttp.constant("newsStatus", function (data) {
+        $scope.statuses = data.content;
+    });
+    mineHttp.constant("newsTypeTree", function (data) {
+        mineTree.dropDown($("#newsTypeTree"), data)
+    });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -159,13 +153,19 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
             {field: 'title', displayName: '标题'},
             {field: 'source', width: 150, displayName: '来源'},
             {
+                field: 'type',
+                width: 100,
+                displayName: '新闻类型',
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.typeMessage}}</div>"
+            },
+            {
                 field: 'status',
                 displayName: '状态',
                 width: 100,
                 cellTemplate: "<div class='mine-table-span'>{{row.entity.statusMessage}}</div>"
             },
-            {field: 'createdAt', width: 150, displayName: '创建时间'},
-            {field: 'updatedAt', width: 150, displayName: '修改时间'},
+            {field: 'createdAt', width: 130, displayName: '创建时间'},
+            {field: 'updatedAt', width: 130, displayName: '修改时间'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -215,9 +215,6 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
             });
         });
     };
-    initDatas($scope, mineHttp);
-    $scope.loadTypes();
-    $scope.loadStatus();
     $scope.query();
 });
 
