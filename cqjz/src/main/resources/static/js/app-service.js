@@ -143,7 +143,7 @@ mainApp.service("mineTree", function (mineHttp) {
                 enable: true,
                 type: "GET",
                 url: fullPath(url),
-                dataFilter: filter,
+                dataFilter: filter
             }
         };
         $.extend(setting, defaultSetting);
@@ -153,62 +153,71 @@ mainApp.service("mineTree", function (mineHttp) {
         return $.fn.zTree.init(obj, setting, nodes);
     };
 
-    this.dropDown = function(obj, nodes, options){
+    this.dropDown = function (obj, nodes, callback) {
         var objId = $(obj).attr("id");
-        var objHiddenId = objId+"_hidden";
-        var treeContent = objId+"_treeContent";
-        var treeDemo = objId+"_treeDemo";
-        if(!$("#"+treeContent)[0]){
-           var html = "<div id='"+treeContent+"' class='mine-dropdown' style='display:none; position: absolute;'>"
-                      +"<div><a class='mine-dropdown-clear' href='javascript:void(0);'>清除</a></div>"
-                      +"<ul id='"+treeDemo+"' class='ztree'></ul></div>";
-           $("body").append(html);
+        var objHiddenId = objId + "_hidden";
+        var treeContent = objId + "_treeContent";
+        var treeDemo = objId + "_treeDemo";
+        var width = $(obj).parent().width();
+        if (!$("#" + treeContent)[0]) {
+            var html = "<div id='" + treeContent + "' class='mine-dropdown' "
+                + "style='display:none; position: absolute;width:" + width + "px'>"
+                + "<div><a class='mine-dropdown-clear' href='javascript:void(0);'>清除</a></div>"
+                + "<ul id='" + treeDemo + "' class='ztree'></ul></div>";
+            $("body").append(html);
         }
-        var onClick = function(e, treeId, treeNode) {
+        var onClick = function (e, treeId, treeNode) {
             var zTree = $.fn.zTree.getZTreeObj(treeDemo),
-            nodes = zTree.getSelectedNodes(),
-            v = "";
-            vid = "";
-            nodes.sort(function compare(a,b){return a.id-b.id;});
-            for (var i=0, l=nodes.length; i<l; i++) {
+                nodes = zTree.getSelectedNodes(),
+                v = "",
+                vid = "";
+            nodes.sort(function compare(a, b) {
+                return a.id - b.id;
+            });
+            for (var i = 0, l = nodes.length; i < l; i++) {
                 v += nodes[i].name + ",";
                 vid += nodes[i].id + ",";
             }
-            if (v.length > 0 ) v = v.substring(0, v.length-1);
-            if (vid.length > 0 ) vid = vid.substring(0, vid.length-1);
+            if (v.length > 0) v = v.substring(0, v.length - 1);
+            if (vid.length > 0) vid = vid.substring(0, vid.length - 1);
             $(obj).val(v);
-            $("#"+objHiddenId).val(vid);
-            $("#"+objHiddenId).trigger("change");
+            $("#" + objHiddenId).val(vid);
+            $("#" + objHiddenId).trigger("change");
         };
-        var setting = {view: {dblClickExpand: false},
-                       callback: {onClick: onClick}};
+        var setting = {
+            view: {dblClickExpand: false},
+            callback: {onClick: onClick}
+        };
         $.extend(setting, defaultSetting);
-        if (typeof options != "undefined") {
-            $.extend(setting, options);
+        if (typeof callback != "undefined") {
+            $.extend(setting, {callback: $.extend(setting.callback, callback)});
         }
-        $.fn.zTree.init($("#"+treeDemo), setting, nodes);
-        var onBodyDown = function(event) {
-            if (!(event.target.id == objId || event.target.id == treeContent || $(event.target).parents("#"+treeContent).length>0)) {
+        $.fn.zTree.init($("#" + treeDemo), setting, nodes);
+        var onBodyDown = function (event) {
+            if (!(event.target.id == objId || event.target.id == treeContent || $(event.target).parents("#" + treeContent).length > 0)) {
                 hideMenu();
             }
         };
-        var showMenu = function() {
+        var showMenu = function () {
             var cityObj = $(obj);
             var cityOffset = $(obj).offset();
-            $("#"+treeContent).css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+            $("#" + treeContent).css({
+                left: cityOffset.left + "px",
+                top: cityOffset.top + cityObj.outerHeight() + "px"
+            }).slideDown("fast");
             $("body").bind("mousedown", onBodyDown);
         };
-        var hideMenu = function() {
-            $("#"+treeContent).fadeOut("fast");
+        var hideMenu = function () {
+            $("#" + treeContent).fadeOut("fast");
             $("body").unbind("mousedown", onBodyDown);
         };
-        $(obj).focus(function(){
-              showMenu();
+        $(obj).focus(function () {
+            showMenu();
         });
-        $("#"+treeContent).find("a[class='mine-dropdown-clear']").click(function(){
-           $(obj).val("");
-           $("#"+objHiddenId).val("");
-           $("#"+objHiddenId).trigger("change");
+        $("#" + treeContent).find("a[class='mine-dropdown-clear']").click(function () {
+            $(obj).val("");
+            $("#" + objHiddenId).val("");
+            $("#" + objHiddenId).trigger("change");
         });
     }
 });
@@ -339,10 +348,10 @@ mainApp.service("mineGrid", function ($http, $parse) {
         };
         // binding event when page changed
         scope.$watch('gridPagingOptions', function (newVal, oldVal) {
-           /* if (queryFlag) {
-                queryFlag = false;
-                return;
-            }*/
+            /* if (queryFlag) {
+             queryFlag = false;
+             return;
+             }*/
             if (newVal !== oldVal && (newVal.currentPage !== oldVal.currentPage || newVal.pageSize != oldVal.pageSize)) {
                 scope.gridPageLoadDataByAsync(scope.gridPagingOptions, scope.gridSortInfo, tempParams, tempData);
             }

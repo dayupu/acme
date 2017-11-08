@@ -247,7 +247,7 @@
 
 .mine-dropdown {
     margin-top: 0;
-    width: 180px;
+    mine-width: 150px;
     height: 200px;
     border: 1px solid gray;
     overflow: auto;

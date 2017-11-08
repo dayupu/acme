@@ -48,6 +48,25 @@ public class ConstantController {
     }
 
     @InboundLog
+    @GetMapping("/newsTypeTree")
+    public List<TreeNode> newsTypeTree() {
+        List<TreeNode> treeNodes = new ArrayList<>();
+        // 首页新闻
+        TreeNode treeNode = new TreeNode();
+        treeNode.setId(0);
+        treeNode.setName(Messages.get("resource.constant.news.basic"));
+        treeNodes.add(treeNode);
+        for (NewsType type : NewsType.values()) {
+            treeNode = new TreeNode();
+            treeNode.setId(type.getConstant());
+            treeNode.setName(Messages.get(type.messageKey()));
+            treeNode.setPid(0);
+            treeNodes.add(treeNode);
+        }
+        return treeNodes;
+    }
+
+    @InboundLog
     @GetMapping("/newsStatus")
     public ResponseInfo newsStatus() {
         ResponseInfo response = new ResponseInfo();
@@ -81,6 +100,7 @@ public class ConstantController {
         response.wrapSuccess(options);
         return response;
     }
+
 
     @InboundLog
     @GetMapping("/actType")

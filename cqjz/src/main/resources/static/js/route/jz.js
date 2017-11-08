@@ -184,20 +184,7 @@ mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
         initialFrameHeight: 400,
         enableAutoSave: false,
         autoHeightEnabled: false,
-        toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',
-            'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-            'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|', 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'insertcode', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol',
-            'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'help'
-        ]]
+        toolbars: [_ueditorToolbars]
     };
 
     mineHttp.send("GET", "admin/jz/contacts", {}, function (result) {
@@ -206,7 +193,7 @@ mainApp.controller("jzContactsListCtl", function ($scope, mineHttp) {
 
     $scope.refreshContent = function () {
         $scope.contacts.content = UE.getEditor('contactsEditor').getContent();
-    }
+    };
 
     $scope.setMessage = function (message, status) {
         $scope.messageStatus = status;
@@ -244,18 +231,18 @@ mainApp.controller("jzStyleListCtl", function ($scope, mineGrid, $state, mineHtt
         requestUrl: fullPath("admin/jz/style/list"),
         columnDefs: [
             {field: 'title', displayName: '标题'},
-            {field: 'imageCount', width: 70,sortable: false,displayName: '图片数'},
-            {field: 'createdAt', width: 150,displayName: '创建时间'},
-            {field: 'createdBy', width: 100,sortable: false,displayName: '创建者'},
-            {field: 'updatedAt', width: 150,displayName: '修改时间'},
-            {field: 'updatedBy', width: 100,sortable: false, displayName: '修改者'},
+            {field: 'imageCount', width: 70, sortable: false, displayName: '图片数'},
+            {field: 'createdAt', width: 150, displayName: '创建时间'},
+            {field: 'createdBy', width: 100, sortable: false, displayName: '创建者'},
+            {field: 'updatedAt', width: 150, displayName: '修改时间'},
+            {field: 'updatedBy', width: 100, sortable: false, displayName: '修改者'},
             {
                 field: 'number',
                 displayName: '操作',
                 width: 150,
                 sortable: false,
                 cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity.number)' name='编辑'></mine-action>"
-                             +"<mine-action icon='fa fa-trash-o' action='drop(row.entity.number)' name='删除'></mine-action></div>"
+                + "<mine-action icon='fa fa-trash-o' action='drop(row.entity.number)' name='删除'></mine-action></div>"
             }
         ]
     });
@@ -298,13 +285,13 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
         });
     }
 
-    $scope.initPage = function(style){
-        for(index in style.styleLines){
+    $scope.initPage = function (style) {
+        for (index in style.styleLines) {
             style.styleLines[index].imageUrl = imageUrl(style.styleLines[index].imageId);
         }
         $scope.style = style;
         $("#styleImagesTable").find("tr").each(function (index) {
-            if(index == 0){
+            if (index == 0) {
                 return;
             }
             $(this).remove();
@@ -352,12 +339,14 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
     };
 
     $scope.save = function () {
-        if(!$scope.validator()){
+        if (!$scope.validator()) {
             return;
         }
         var imageList = [];
         $("#styleImagesTable").find("tr").each(function (index) {
-            if (index == 0) {return;}
+            if (index == 0) {
+                return;
+            }
             var imageLine = {};
             imageLine.imageId = $(this).attr("image-id");
             imageLine.description = $(this).find("textarea").val();

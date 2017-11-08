@@ -111,10 +111,11 @@ mainApp.directive("mineDropdown", function (mineTree) {
         restrict: 'E',
         require: 'ngModel',
         scope: {
-            inputId: "@"
+            inputId: "@",
+            width:"@"
         },
         template: "<div class='input-group mine-dropdown-group'>"
-        + "<input type='text' class='form-control input-sm' style='width: 152px;' readonly/>"
+        + "<input type='text' class='form-control input-sm' readonly/>"
         + "<input type='hidden'/>"
         + "<div class='input-group-btn'>"
         + "<button type='button' class='btn btn-default btn-sm'data-toggle='dropdown'>"
@@ -123,10 +124,16 @@ mainApp.directive("mineDropdown", function (mineTree) {
         + "</div>"
         + "</div>",
         link: function (scope, element, attrs, ngModel) {
+            var width = 180;
+            if (typeof attrs.width != "undefined") {
+                width = attrs.width;
+            }
             var inputText = $(element).children("input[type='text']");
             var hiddenText = $(element).children("input[type='hidden']");
             var dropBtn = $(element).find("button[type='button']");
             var inputId = $(element).attr("inputId");
+            $(element).css("width", width + "px");
+            $(inputText).css("width", (width - 28) + "px");
             $(inputText).attr("id", inputId);
             $(hiddenText).attr("id", inputId + "_hidden");
             $(hiddenText).change(function () {

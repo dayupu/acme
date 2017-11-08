@@ -13,10 +13,10 @@ function initDatas($scope, mineHttp) {
 }
 
 mainApp.controller("newsPublishCtl", function ($scope, $state) {
-   $state.go("news.add");
+    $state.go("news.add");
 });
 
-mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineUtil) {
+mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
     initDatas($scope, mineHttp);
     $scope.buttonDisable = false;
     $scope.news = {};
@@ -31,6 +31,16 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
             }
         })
     }
+
+    mineHttp.constant("newsTypeTree", function (data) {
+        var callback = {
+            beforeClick: function (treeId, treeNode, clickFlag) {
+                return treeNode.pid != null;
+            }
+        };
+        mineTree.dropDown($("#newsTypeTree"), data, callback)
+    });
+
     $scope.setMessage = function (message, status) {
         $scope.messageStatus = status;
         $scope.message = message;
@@ -56,29 +66,29 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         return true;
     };
 
-    $scope.typeChange = function(type){
-        if(typeof type != "number"){
-           $scope.hasImage = false;
-           return;
+    $scope.typeChange = function (type) {
+        if (typeof type != "number") {
+            $scope.hasImage = false;
+            return;
         }
-        for(index in $scope.newsTypes){
-            if($scope.newsTypes[index].key == type){
-                 $scope.hasImage = $scope.newsTypes[index].hasImage;
-                 return;
+        for (index in $scope.newsTypes) {
+            if ($scope.newsTypes[index].key == type) {
+                $scope.hasImage = $scope.newsTypes[index].hasImage;
+                return;
             }
         }
-    }
+    };
 
     $scope.refreshContent = function () {
         $scope.news.content = UE.getEditor('newsEditor').getContent();
     };
 
-    $scope.refreshPage = function(news){
-       if($scope.model == "publish"){
-          $scope.model = "edit";
-       }
-       $scope.news = news;
-    }
+    $scope.refreshPage = function (news) {
+        if ($scope.model == "publish") {
+            $scope.model = "edit";
+        }
+        $scope.news = news;
+    };
     $scope.save = function () {
         $scope.refreshContent();
         if (!$scope.validator()) {
@@ -133,20 +143,7 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         initialFrameHeight: 300,
         enableAutoSave: false,
         autoHeightEnabled: false,
-        toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough',
-            'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',
-            'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|', 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'insertcode', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol',
-            'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'help'
-        ]]
+        toolbars: [_ueditorToolbars]
     };
     $scope.loadTypes();
 });
@@ -247,7 +244,9 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
         e.preventDefault();
         $(this).tab('show');
     });
-    mineHttp.constant("simpleStatus", function (data) {$scope.statuses = data.content;});
+    mineHttp.constant("simpleStatus", function (data) {
+        $scope.statuses = data.content;
+    });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -257,12 +256,17 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
         columnDefs: [
             {field: 'name', width: 150, displayName: '专题名称'},
             {field: 'itemCount', width: 60, displayName: '栏目数', sortable: false},
-            {field: 'status', width: 100,displayName: '状态', cellTemplate: "<div class='mine-table-span'>{{row.entity.statusMessage}}</div>"},
-            {field: 'description',  displayName: '描述', sortable: false},
-            {field: 'createdAt', width: 150,displayName: '创建时间'},
-            {field: 'createdBy', width: 100,sortable: false,displayName: '创建者'},
-            {field: 'updatedAt', width: 150,displayName: '修改时间'},
-            {field: 'updatedBy', width: 100,sortable: false, displayName: '修改者'},
+            {
+                field: 'status',
+                width: 100,
+                displayName: '状态',
+                cellTemplate: "<div class='mine-table-span'>{{row.entity.statusMessage}}</div>"
+            },
+            {field: 'description', displayName: '描述', sortable: false},
+            {field: 'createdAt', width: 150, displayName: '创建时间'},
+            {field: 'createdBy', width: 100, sortable: false, displayName: '创建者'},
+            {field: 'updatedAt', width: 150, displayName: '修改时间'},
+            {field: 'updatedBy', width: 100, sortable: false, displayName: '修改者'},
             {
                 field: 'id',
                 displayName: '操作',
@@ -292,10 +296,12 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
 });
 
 mainApp.controller("newsTopicController", function ($scope, $uibModalInstance, mineHttp, mineMessage, data) {
-    mineHttp.constant("simpleStatus", function (data) {$scope.statuses = data.content;});
+    mineHttp.constant("simpleStatus", function (data) {
+        $scope.statuses = data.content;
+    });
     $scope.newsTopic = {};
     $scope.modal = "edit";
-    if(data.code == null){
+    if (data.code == null) {
         $scope.modal = "new";
     } else {
         mineHttp.send("GET", "admin/news/topic/" + data.code, {}, function (result) {
