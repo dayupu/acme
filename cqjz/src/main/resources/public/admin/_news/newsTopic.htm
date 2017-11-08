@@ -1,0 +1,41 @@
+<div class="mine-layout">
+    <div class="mine-layout-content">
+        <div class="mine-title"><i class="fa fa-pencil-square"></i>专题管理</div>
+        <div class="mine-content">
+            <ul id="newsTopicTab" class="nav nav-tabs" style="height:40px;">
+                <li role="presentation" class="active">
+                    <a href="#newsTopicList">专题列表</a>
+                </li>
+                <li role="presentation">
+                    <a href="#newsTopicItems">专题栏目</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active mine-pane" id="newsTopicList">
+                    <div class="form-inline mine-query">
+                        <div class="form-group">
+                            <label>专题名称</label>
+                            <input type="text" class="form-control input-sm" ng-model="filter.name"/>
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select ng-model="filter.status" name="status" ng-init="filter.status=''"
+                                    class="form-control input-sm">
+                                <option value="">全部</option>
+                                <option ng-repeat="status in statuses" ng-value="status.key">{{status.value}}</option>
+                            </select>
+                        </div>
+                        <span class="form-group">
+                            <button class="btn btn-sm btn-danger" type="button" ng-click="query()">查询</button>
+                        </span>
+                    </div>
+                    <button class="btn btn-sm btn-primary" type="button" ng-click="edit('add')">新增</button>
+                    <div class="gridStyle" ng-grid="gridOptions"></div>
+                </div>
+                <div class="tab-pane fade mine-pane" id="newsTopicItems">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

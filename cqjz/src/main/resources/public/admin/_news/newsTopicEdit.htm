@@ -1,0 +1,59 @@
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">
+            &times;
+        </button>
+
+        <span class="modal-title-icon">
+            <i class="fa" ng-class="{true:'fa-plus-circle', false:'fa-edit'}[modal == 'new']" aria-hidden="true"></i>
+        </span>
+        <span class="modal-title" ng-if="modal == 'edit'">专题编辑</span>
+        <span class="modal-title" ng-if="modal == 'new'">新建专题</span>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="winForm">
+            <input type="hidden" ng-model="newsTopic.code">
+            <mine-message status="messageStatus" message="message"></mine-message>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td class="warning" width="100">
+                        <mine-key name="专题名称" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <input type="text" class="form-control input-sm" ng-model="newsTopic.name" name="name" required/>
+                    </td>
+                    <td>
+                        <mine-validator right="true" valid="winForm.name.$valid" when="winForm.name.$dirty" error="必填项"></mine-validator>
+                    </td>
+                </tr>
+                <tr ng-if="modal == 'edit'">
+                    <td class="warning" width="100">
+                        <mine-key name="状态" required></mine-key>
+                    </td>
+                    <td width="250">
+                        <select ng-model="newsTopic.status" name="status" class="form-control input-sm" style="width:100px;">
+                            <option ng-repeat="status in statuses" ng-value="status.key">{{status.value}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <mine-validator right="true" valid="winForm.status.$valid" when="winForm.status.$dirty" error="必填项"></mine-validator>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <mine-key name="描述"></mine-key>
+                    </td>
+                    <td colspan="2">
+                        <textarea name="story" ng-model="newsTopic.description" rows="5" class="form-control" style="overflow-y: auto;">
+
+                        </textarea>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" type="button" ng-click="ok()" ng-disabled="winForm.$invalid">保存</button>
+        <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>
+    </div>
+</div>

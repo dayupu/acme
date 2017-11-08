@@ -3,20 +3,28 @@ package com.manage.kernel.core.admin.service.business.impl;
 import com.manage.base.act.ActBusiness;
 import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.database.enums.SimpleStatus;
+import com.manage.base.database.enums.Status;
 import com.manage.base.exception.NewsNotFoundException;
+import com.manage.base.exception.NewsTopicNotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.model.dto.NewsDto;
+import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.parser.NewsParser;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.INewsService;
+import com.manage.kernel.core.model.parser.NewsTopicParser;
 import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.entity.NewsTopic;
 import com.manage.kernel.jpa.repository.NewsRepo;
+import com.manage.kernel.jpa.repository.NewsTopicRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
+import java.nio.channels.SeekableByteChannel;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +43,9 @@ public class NewsService implements INewsService {
 
     @Autowired
     private NewsRepo newsRepo;
+
+    @Autowired
+    private NewsTopicRepo newsTopicRepo;
 
     @Autowired
     private IActBusinessService newsActivitiService;
@@ -121,7 +132,7 @@ public class NewsService implements INewsService {
     @Override
     @Transactional
     public PageResult pageList(PageQuery page, NewsDto query) {
-        Page<News> userPage = newsRepo.findAll((root, criteriaQuery, cb) -> {
+        Page<News> jpaPage = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("createdBy"), SessionHelper.user().getId()));
             if (StringUtil.isNotBlank(query.getTitle())) {
@@ -146,8 +157,8 @@ public class NewsService implements INewsService {
         }, page.sortPageDefault("id"));
 
         PageResult<NewsDto> pageResult = new PageResult<>();
-        pageResult.setTotal(userPage.getTotalElements());
-        pageResult.setRows(NewsParser.toDtoList(userPage.getContent()));
+        pageResult.setTotal(jpaPage.getTotalElements());
+        pageResult.setRows(NewsParser.toDtoList(jpaPage.getContent()));
         return pageResult;
     }
 
@@ -186,5 +197,61 @@ public class NewsService implements INewsService {
             newsDtos.add(newsDto);
         }
         return newsDtos;
+    }
+
+    @Override
+    @Transactional
+    public NewsTopicDto topicDetail(Integer code) {
+        NewsTopic topic = newsTopicRepo.findOne(code);
+        if (topic == null) {
+            throw new NewsTopicNotFoundException();
+        }
+        return NewsTopicParser.toDto(topic);
+    }
+
+    @Override
+    @Transactional
+    public PageResult topicPageList(PageQuery page, NewsTopicDto query) {
+        Page<NewsTopic> jpaPage = newsTopicRepo.findAll((root, criteriaQuery, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            list.add(cb.equal(root.get("level"), 1));
+            if (StringUtil.isNotBlank(query.getName())) {
+                list.add(cb.like(root.get("name"), "%" + query.getName() + "%"));
+            }
+            if (StringUtil.isNotNull(query.getStatus())) {
+                list.add(cb.equal(root.get("status"), query.getStatus()));
+            }
+            return cb.and(list.toArray(new Predicate[0]));
+        }, page.sortPageDefault("code"));
+        PageResult<NewsTopicDto> pageResult = new PageResult<>();
+        pageResult.setTotal(jpaPage.getTotalElements());
+        pageResult.setRows(NewsTopicParser.toDtoList(jpaPage.getContent()));
+        return pageResult;
+    }
+
+    @Override
+    @Transactional
+    public NewsTopicDto saveNewsTopic(NewsTopicDto topicDto) {
+        NewsTopic topic;
+        if (StringUtil.isEmpty(topicDto.getCode())) {
+            topic = new NewsTopic();
+            topic.setStatus(SimpleStatus.ENABLE);
+            topic.setCreatedAt(LocalDateTime.now());
+            topic.setCreatedUser(SessionHelper.user());
+        } else {
+            topic = newsTopicRepo.findOne(topicDto.getCode());
+            if (topic == null) {
+                throw new NewsTopicNotFoundException();
+            }
+            topic.setStatus(topicDto.getStatus());
+            topic.setUpdatedAt(LocalDateTime.now());
+            topic.setUpdatedUser(SessionHelper.user());
+        }
+        topic.setLevel(1);
+        topic.setName(topicDto.getName());
+        topic.setDescription(topicDto.getDescription());
+
+        newsTopicRepo.save(topic);
+        return NewsTopicParser.toDto(topic);
     }
 }

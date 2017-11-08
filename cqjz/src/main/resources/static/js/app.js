@@ -28,8 +28,10 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         // news
         .state("news", {url: "/news", templateUrl: './_news/news.htm'})
-        .state("news.publish", {url: "/publish", templateUrl: './_news/newsAdd.htm', controller: "newsPublishCtl"})
-        .state("news.edit", {url: "/edit/:number", templateUrl: './_news/newsAdd.htm', controller: "newsPublishCtl"})
+        .state("news.publish", {url: "/publish", controller: "newsPublishCtl"})
+        .state("news.add", {url: "/add", templateUrl: './_news/newsEdit.htm', controller: "newsEditCtl"})
+        .state("news.edit", {url: "/edit/:number", templateUrl: './_news/newsEdit.htm', controller: "newsEditCtl"})
+        .state("news.topic", {url: "/topic", templateUrl: './_news/newsTopic.htm', controller: "newsTopicCtl"})
         .state("news.preview", {
             url: "/preview/:number", templateUrl: './_news/preview.htm', controller: "newsPreviewCtl"
         })

@@ -1,6 +1,5 @@
 package com.manage.kernel.core.model.vo;
 
-import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.model.dto.WatchDto;
 

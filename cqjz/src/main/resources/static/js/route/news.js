@@ -12,17 +12,18 @@ function initDatas($scope, mineHttp) {
     };
 }
 
+mainApp.controller("newsPublishCtl", function ($scope, $state) {
+   $state.go("news.add");
+});
 
-mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, mineUtil) {
+mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineUtil) {
+    initDatas($scope, mineHttp);
     $scope.buttonDisable = false;
     $scope.news = {};
     $scope.newsTypes = [];
-    $scope.newsTitle = "新闻发布";
-    $scope.pageModel = "new";
-    initDatas($scope, mineHttp);
+    $scope.model = "publish";
     if (typeof $stateParams.number == "string") {
-        $scope.newsTitle = "新闻编辑";
-        $scope.pageModel = "edit";
+        $scope.model = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
             if (result.content.status != 1 && result.content.status != 4) {
@@ -30,7 +31,6 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
             }
         })
     }
-
     $scope.setMessage = function (message, status) {
         $scope.messageStatus = status;
         $scope.message = message;
@@ -60,6 +60,12 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         $scope.news.content = UE.getEditor('newsEditor').getContent();
     };
 
+    $scope.refreshPage = function(news){
+       if($scope.model == "publish"){
+          $scope.model = "edit";
+       }
+       $scope.news = news;
+    }
     $scope.save = function () {
         $scope.refreshContent();
         if (!$scope.validator()) {
@@ -69,7 +75,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
-                    $scope.news = result.content;
+                    $scope.refreshPage(result.content);
                 }
             }
         );
@@ -83,7 +89,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
-                    $scope.news = result.content;
+                    $scope.refreshPage(result.content);
                     if (result.content.status != 1 && result.content.status != 4) {
                         $scope.buttonDisable = true;
                     }
@@ -104,7 +110,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $stateParams, mineHttp, m
         });
     };
     $scope.preview = function (imageId) {
-        var modalInstance = mineUtil.modal("admin/_news/picturePreview.htm", "newsPictureCtl", imageId, "lg");
+        var modalInstance = mineUtil.modal("admin/_news/newsPicture.htm", "newsPictureCtl", imageId, "lg");
         modalInstance.result.then(function () {
         }, function () {
         });
@@ -219,5 +225,86 @@ mainApp.controller("newsPreviewCtl", function ($scope, $uibModalInstance, mineHt
     });
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
+    $scope.watch = {};
+    $('#newsTopicTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    mineHttp.constant("simpleStatus", function (data) {$scope.statuses = data.content;});
+    mineGrid.gridPageInit("gridOptions", $scope, {
+        data: 'myData',
+        multiSelect: false,
+        selectWithCheckboxOnly: true,
+        requestMethod: "POST",
+        requestUrl: fullPath("admin/news/topic/list"),
+        columnDefs: [
+            {field: 'name', width: 150, displayName: '专题名称'},
+            {field: 'itemCount', width: 60, displayName: '栏目数', sortable: false},
+            {field: 'status', width: 100,displayName: '状态', cellTemplate: "<div class='mine-table-span'>{{row.entity.statusMessage}}</div>"},
+            {field: 'description',  displayName: '描述', sortable: false},
+            {field: 'createdAt', width: 150,displayName: '创建时间'},
+            {field: 'createdBy', width: 100,sortable: false,displayName: '创建者'},
+            {field: 'updatedAt', width: 150,displayName: '修改时间'},
+            {field: 'updatedBy', width: 100,sortable: false, displayName: '修改者'},
+            {
+                field: 'id',
+                displayName: '操作',
+                width: 100,
+                sortable: false,
+                cellTemplate: "<div><mine-action icon='fa fa-edit' action='edit(row.entity.code)' name='编辑'></mine-action></div>"
+            }
+        ]
+    });
+    $scope.gridPageQueryCallback = function (data) {
+        return {data: data.content.rows, total: data.content.total};
+    };
+    $scope.query = function () {
+        $scope.gridPageQuery({}, $scope.filter);
+    };
+    $scope.query();
+
+    $scope.edit = function (key) {
+        var param = {};
+        param.code = (key == "add" ? null : key);
+        var modalInstance = mineUtil.modal("admin/_news/newsTopicEdit.htm", "newsTopicController", param);
+        modalInstance.result.then(function (selectedItem) {
+        }, function () {
+            $scope.query();
+        });
+    };
+});
+
+mainApp.controller("newsTopicController", function ($scope, $uibModalInstance, mineHttp, mineMessage, data) {
+    mineHttp.constant("simpleStatus", function (data) {$scope.statuses = data.content;});
+    $scope.newsTopic = {};
+    $scope.modal = "edit";
+    if(data.code == null){
+        $scope.modal = "new";
+    } else {
+        mineHttp.send("GET", "admin/news/topic/" + data.code, {}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            if (!$scope.messageStatus) {
+                $scope.message = result.message;
+                return;
+            }
+            $scope.newsTopic = result.content;
+        });
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+    $scope.ok = function () {
+        mineHttp.send("POST", "admin/news/topic/save", {data: $scope.newsTopic}, function (result) {
+            $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
+            if ($scope.messageStatus) {
+                $scope.modal = "edit";
+                $scope.newsTopic = result.content;
+            }
+        });
     };
 });

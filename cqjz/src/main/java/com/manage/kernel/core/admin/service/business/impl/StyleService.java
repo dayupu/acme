@@ -1,6 +1,5 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
-import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.Status;
 import com.manage.base.exception.StyleNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
@@ -8,13 +7,10 @@ import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.service.business.IStyleService;
-import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.model.dto.StyleDto;
-import com.manage.kernel.core.model.parser.NewsParser;
 import com.manage.kernel.core.model.parser.StyleParser;
 import com.manage.kernel.jpa.entity.JzStyle;
 import com.manage.kernel.jpa.entity.JzStyleLine;
-import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.JzStyleLineRepo;
 import com.manage.kernel.jpa.repository.JzStyleRepo;
 import com.manage.kernel.spring.comm.SessionHelper;

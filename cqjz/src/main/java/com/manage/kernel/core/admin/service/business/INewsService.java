@@ -3,6 +3,7 @@ package com.manage.kernel.core.admin.service.business;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.kernel.core.model.dto.NewsDto;
+import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.jpa.entity.AdUser;
 
 import java.util.List;
@@ -24,4 +25,9 @@ public interface INewsService {
 
     public List<NewsDto> newestNews(AdUser adUser);
 
+    public NewsTopicDto topicDetail(Integer code);
+
+    public NewsTopicDto saveNewsTopic(NewsTopicDto topicDto);
+
+    public PageResult topicPageList(PageQuery page, NewsTopicDto query);
 }

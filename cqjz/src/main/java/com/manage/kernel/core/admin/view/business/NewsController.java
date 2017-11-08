@@ -13,6 +13,7 @@ import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.admin.service.business.INewsService;
 
 import com.manage.kernel.core.admin.service.comm.IResourceService;
+import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
 
@@ -79,8 +80,7 @@ public class NewsController {
     @PostMapping("/list")
     public ResponseInfo pageList(@PageQueryAon PageQuery page, @RequestBody NewsDto query) {
         ResponseInfo response = new ResponseInfo();
-        PageResult result = newsService.pageList(page, query);
-        response.wrapSuccess(result);
+        response.wrapSuccess(newsService.pageList(page, query));
         return response;
     }
 
@@ -136,6 +136,50 @@ public class NewsController {
         try {
             ImageResult result = resourceService.uploadImage(file, FileSource.NEWS_SUMMARY);
             response.wrapSuccess(result);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @PostMapping("/topic/list")
+    public ResponseInfo topicPageList(@PageQueryAon PageQuery page, @RequestBody NewsTopicDto query) {
+        ResponseInfo response = new ResponseInfo();
+        response.wrapSuccess(newsService.topicPageList(page, query));
+        return response;
+    }
+
+    @GetMapping("/topic/{code}")
+    public ResponseInfo topicDetail(@PathVariable("code") Integer code) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(code);
+            NewsTopicDto topicDto = newsService.topicDetail(code);
+            response.wrapSuccess(topicDto);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @PostMapping("/topic/save")
+    public ResponseInfo topicSave(@RequestBody NewsTopicDto topicDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notBlank(topicDto.getName());
+            topicDto = newsService.saveNewsTopic(topicDto);
+            response.wrapSuccess(topicDto, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

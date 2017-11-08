@@ -4,6 +4,7 @@ import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
+import com.manage.base.database.enums.SimpleStatus;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.supplier.page.TreeNode;
@@ -57,6 +58,22 @@ public class ConstantController {
             option = new SelectOption<>();
             option.setKey(type.getConstant());
             option.setValue(Messages.get(type));
+            options.add(option);
+        }
+        response.wrapSuccess(options);
+        return response;
+    }
+
+    @InboundLog
+    @GetMapping("/simpleStatus")
+    public ResponseInfo simpleStatus() {
+        ResponseInfo response = new ResponseInfo();
+        List<SelectOption> options = new ArrayList<>();
+        SelectOption<Integer, String> option;
+        for (SimpleStatus status : SimpleStatus.values()) {
+            option = new SelectOption<>();
+            option.setKey(status.getConstant());
+            option.setValue(Messages.get(status));
             options.add(option);
         }
         response.wrapSuccess(options);
