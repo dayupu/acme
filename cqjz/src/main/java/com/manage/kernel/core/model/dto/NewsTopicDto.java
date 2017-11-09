@@ -9,6 +9,8 @@ import com.manage.base.database.serialize.LocalDateTimeDeserializer;
 import com.manage.base.database.serialize.LocalDateTimeSerializer;
 import org.joda.time.LocalDateTime;
 
+import java.util.List;
+
 /**
  * Created by bert on 2017/9/3.
  */
@@ -32,6 +34,8 @@ public class NewsTopicDto {
     private LocalDateTime createdAtEnd;
     private String createdBy;
     private String updatedBy;
+    private List<NewsTopicDto> topicLines;
+    private Boolean hasImage = Boolean.FALSE;
 
     public Integer getCode() {
         return code;
@@ -111,5 +115,21 @@ public class NewsTopicDto {
 
     public void setItemCount(Integer itemCount) {
         this.itemCount = itemCount;
+    }
+
+    public List<NewsTopicDto> getTopicLines() {
+        return topicLines;
+    }
+
+    public void setTopicLines(List<NewsTopicDto> topicLines) {
+        this.topicLines = topicLines;
+    }
+
+    public Boolean getHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(Boolean hasImage) {
+        this.hasImage = hasImage;
     }
 }

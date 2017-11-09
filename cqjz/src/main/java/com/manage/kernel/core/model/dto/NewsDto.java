@@ -48,6 +48,7 @@ public class NewsDto {
     private String createdByOrgan;
     private String updatedBy;
     private boolean canEdit = true;
+    private boolean canDrop = true;
 
     public String getTitle() {
         return title;
@@ -175,5 +176,13 @@ public class NewsDto {
 
     public void setCanEdit(boolean canEdit) {
         this.canEdit = canEdit;
+    }
+
+    public boolean isCanDrop() {
+        return canDrop;
+    }
+
+    public void setCanDrop(boolean canDrop) {
+        this.canDrop = canDrop;
     }
 }

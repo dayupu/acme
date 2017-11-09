@@ -150,21 +150,13 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
                 displayName: '操作',
                 width: 200,
                 sortable: false,
-                cellTemplate: "<div><mine-action ng-show='checkShow(row.entity, 1)' icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
+                cellTemplate: "<div><mine-action ng-show='row.entity.canEdit' icon='fa fa-edit' action='edit(row.entity)' name='编辑'></mine-action>" +
                 "<mine-action icon='fa fa-search' action='preview(row.entity)' name='预览'></mine-action>" +
-                "<mine-action ng-show='checkShow(row.entity, 2)' icon='fa fa-trash' action='drop(row.entity)' name='删除'></mine-action></div>"
+                "<mine-action ng-show='row.entity.canDrop' icon='fa fa-trash' action='drop(row.entity)' name='删除'></mine-action></div>"
             }
         ]
     });
 
-    $scope.checkShow = function (news, operate) {
-        if (operate == 1) {
-            return news.status == 1 || news.status == 4;
-        } else if (operate == 2) {
-            return news.status == 1 || news.status == 6;
-        }
-        return false;
-    };
     $scope.gridPageQueryCallback = function (data) {
         return {data: data.content.rows, total: data.content.total};
     };
@@ -214,7 +206,7 @@ mainApp.controller("newsPreviewCtl", function ($scope, $uibModalInstance, mineHt
     };
 });
 
-mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
+mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTree, mineHttp, mineUtil) {
 
     $('#newsTopicTab a').click(function (e) {
         e.preventDefault();
@@ -224,11 +216,11 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
         $scope.statuses = data.content;
     });
 
-    $scope.loadRootTopics = function(){
+    $scope.loadRootTopics = function () {
         mineHttp.constant("rootTopics", function (data) {
             $scope.rootTopics = data.content;
         });
-    }
+    };
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -280,11 +272,63 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
 
     /*专题栏目*/
     $scope.newsTopic = {};
-    $scope.topicSelect = function(rootTopic){
-        if(typeof rootTopic != "number"){
-           return;
+    $scope.topicSelect = function (rootTopic) {
+        if (typeof rootTopic != "number") {
+            return;
         }
-    }
+    };
+
+    $scope.moveTopicLine = function (event, arrow) {
+        var trObj = $(event.target).parents("tr").eq(0);
+        if (arrow == "up") {
+            if ($(trObj).index() != 1) {
+                $(trObj).prev().before($(trObj));
+            }
+        }
+        if (arrow == "down") {
+            var trLength = $("#newsTopicTable").children("tr").length;
+            if ($(trObj).index() != trLength - 1) {
+                $(trObj).next().after($(trObj));
+            }
+        }
+    };
+    $scope.dropTopicLine = function (event) {
+        var trObj = $(event.target).parents("tr").eq(0);
+        $(trObj).remove();
+    };
+    $scope.addTopicLine = function () {
+        var html = "<tr><td><input type='text' class='form-control input-sm' required/></td>" +
+            "<td><div class='checkbox'><label><input type='checkbox'>上传图片</label></div></td>" +
+            "<td><textarea style='width: 100%;' rows='2'></textarea></td>" +
+            "<td><button class='btn btn-danger mine-btn-sm'  ng-click='dropTopicLine($event)'>删除</button>" +
+            "<button class='btn btn-info mine-btn-sm'  ng-click='moveTopicLine($event,\"up\")'>上移</button>" +
+            "<button class='btn btn-info mine-btn-sm'  ng-click='moveTopicLine($event,\"down\")'>下移</button>" +
+            "</td></tr>";
+        angular.element("#newsTopicTable").append($compile(angular.element(html))($scope));
+    };
+    $scope.save = function () {
+        var topicList = [];
+        $("#newsTopicTable").find("tr").each(function (index) {
+            if (index == 0) {
+                return;
+            }
+            var topic = {};
+            topic.code = $(this).attr("code");
+            topic.name = $(this).find("input[type='text']").val();
+            topic.hasImage = $(this).find("input[type='checkbox']").is(":checked");
+            topic.description = $(this).find("textarea").val();
+            topicList.push(topic);
+        });
+        $scope.newsTopic.topicLines = topicList;
+        mineHttp.send("PUT", "admin/news/topic", {data: $scope.newsTopic}, function (result) {
+                $scope.messageStatus = verifyData(result);
+                $scope.message = result.message;
+                if ($scope.messageStatus) {
+
+                }
+            }
+        );
+    };
 
 });
 
@@ -310,7 +354,7 @@ mainApp.controller("newsTopicController", function ($scope, $uibModalInstance, m
         $uibModalInstance.dismiss('cancel');
     };
     $scope.ok = function () {
-        mineHttp.send("POST", "admin/news/topic/save", {data: $scope.newsTopic}, function (result) {
+        mineHttp.send("POST", "admin/news/topic", {data: $scope.newsTopic}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {

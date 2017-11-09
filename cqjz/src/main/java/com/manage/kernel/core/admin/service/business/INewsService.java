@@ -29,6 +29,8 @@ public interface INewsService {
 
     public NewsTopicDto saveNewsTopic(NewsTopicDto topicDto);
 
+    public NewsTopicDto saveNewsTopicLines(NewsTopicDto topicDto);
+
     public PageResult topicPageList(PageQuery page, NewsTopicDto query);
 
     public List<NewsTopicDto> rootNewsTopics();

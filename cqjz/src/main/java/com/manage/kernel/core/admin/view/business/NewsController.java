@@ -173,12 +173,31 @@ public class NewsController {
         return response;
     }
 
-    @PostMapping("/topic/save")
+    @PostMapping("/topic")
     public ResponseInfo topicSave(@RequestBody NewsTopicDto topicDto) {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notBlank(topicDto.getName());
             topicDto = newsService.saveNewsTopic(topicDto);
+            response.wrapSuccess(topicDto, MessageInfos.SAVE_SUCCESS);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @PutMapping("/topic")
+    public ResponseInfo topicFullSave(@RequestBody NewsTopicDto topicDto) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notNull(topicDto.getCode());
+            Validators.notEmpty(topicDto.getTopicLines());
+            topicDto = newsService.saveNewsTopicLines(topicDto);
             response.wrapSuccess(topicDto, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

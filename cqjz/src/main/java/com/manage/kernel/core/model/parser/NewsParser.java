@@ -35,6 +35,7 @@ public class NewsParser {
         newsDto.setCreatedBy(news.getCreatedUserName());
         newsDto.setUpdatedBy(news.getUpdatedUserName());
         newsDto.setCanEdit(news.getStatus().canEdit());
+        newsDto.setCanDrop(news.getStatus().canDrop());
         return newsDto;
     }
 }

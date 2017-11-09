@@ -56,9 +56,9 @@ public class NewsTopic extends EntityBase {
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.TopicStatus")})
     private TopicStatus status;
 
-    @OneToMany(mappedBy = "parent", cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     @OrderBy("sequence asc")
-    private List<NewsTopic> topicItems = new ArrayList<>();
+    private List<NewsTopic> topicLines = new ArrayList<>();
 
     @Column(name = "has_image")
     private Boolean hasImage = Boolean.FALSE;
@@ -111,12 +111,12 @@ public class NewsTopic extends EntityBase {
         this.description = description;
     }
 
-    public List<NewsTopic> getTopicItems() {
-        return topicItems;
+    public List<NewsTopic> getTopicLines() {
+        return topicLines;
     }
 
-    public void setTopicItems(List<NewsTopic> topicItems) {
-        this.topicItems = topicItems;
+    public void setTopicLines(List<NewsTopic> topicLines) {
+        this.topicLines = topicLines;
     }
 
     public Boolean getHasImage() {

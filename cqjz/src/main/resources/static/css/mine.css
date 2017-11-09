@@ -322,3 +322,9 @@
     display: block;
     max-width: 300px;
 }
+
+.mine-btn-sm{
+    padding: 2px 5px;
+    margin-right: 2px;
+    font-size: 12px;
+}

@@ -5,6 +5,7 @@ import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NewsTopicNotFoundException;
+import com.manage.base.exception.NotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
@@ -245,6 +246,39 @@ public class NewsService implements INewsService {
         topic.setDescription(topicDto.getDescription());
 
         newsTopicRepo.save(topic);
+        return NewsTopicParser.toDto(topic);
+    }
+
+    @Override
+    @Transactional
+    public NewsTopicDto saveNewsTopicLines(NewsTopicDto topicDto) {
+        NewsTopic topic = newsTopicRepo.findOne(topicDto.getCode());
+        if (topic == null) {
+            throw new NotFoundException();//TODO
+        }
+        NewsTopic topicLine;
+        int sequence = 0;
+        for (NewsTopicDto lineDto : topicDto.getTopicLines()) {
+            if (lineDto.getCode() == null) {
+                topicLine = new NewsTopic();
+                topicLine.setCreatedAt(LocalDateTime.now());
+                topicLine.setCreatedUser(SessionHelper.user());
+                topicLine.setParent(topic);
+            } else {
+                topicLine = newsTopicRepo.findOne(lineDto.getCode());
+                if (topicLine == null) {
+                    throw new NotFoundException();//TODO
+                }
+                topicLine.setUpdatedAt(LocalDateTime.now());
+                topicLine.setUpdatedUser(SessionHelper.user());
+            }
+            topicLine.setName(lineDto.getName());
+            topicLine.setSequence(++sequence);
+            topicLine.setHasImage(lineDto.getHasImage());
+            topicLine.setDescription(lineDto.getDescription());
+            topic.getTopicLines().add(topicLine);
+        }
+        topic = newsTopicRepo.save(topic);
         return NewsTopicParser.toDto(topic);
     }
 
