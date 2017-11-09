@@ -1,10 +1,7 @@
 // 已提交一览
 mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
-    mineHttp.constant("newsType", function (data) {
-        $scope.newsTypes = data.content;
-    });
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"), data)
+        mineTree.dropDown($("#businessKey"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -15,7 +12,8 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mi
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
             {field: 'status', width: 70, sortable: false, displayName: '状态'},
-            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
+            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -42,7 +40,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mi
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessKey, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
@@ -52,7 +50,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mi
 // 未通过一览
 mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mineHttp, mineUtil, mineTree) {
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"), data)
+        mineTree.dropDown($("#businessKey"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -62,7 +60,8 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         requestUrl: fullPath("admin/flow/list/reject"),
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
-            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
+            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -88,13 +87,13 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-       mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
+       mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessKey, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
     };
     $scope.edit = function (flow) {
-        $state.go("news.edit", {number: flow.businessNumber});
+        $state.go("news.edit", {number: flow.businessKey});
     };
     $scope.cancel = function (flow) {
         mineUtil.confirm("确认撤销吗？", function () {
@@ -112,11 +111,8 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
 });
 // 待处理一览
 mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, mineHttp, mineGrid, mineUtil) {
-    mineHttp.constant("newsType", function (data) {
-        $scope.newsTypes = data.content;
-    });
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"), data)
+        mineTree.dropDown($("#businessKey"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -126,7 +122,8 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         requestUrl: fullPath("admin/flow/list/pending"),
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
-            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
+            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -156,14 +153,14 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         $state.go("flow.approve", {taskId: flow.taskId, processId: flow.processId});
     };
     $scope.preview = function (flow) {
-        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessKey, "lg");
     };
     $scope.query();
 });
 // 已审批一览
 mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, mineUtil, mineHttp, mineTree) {
     mineHttp.constant("actType", function (data) {
-        mineTree.dropDown($("#processType"), data)
+        mineTree.dropDown($("#businessKey"), data)
     });
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
@@ -174,7 +171,8 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
             {field: 'taskId', width: 80, sortable: false, displayName: '任务号'},
-            {field: 'processType', width: 150, sortable: false, displayName: '业务类型'},
+            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
                 displayName: '主题',
@@ -207,7 +205,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         $scope.gridPageQuery({}, $scope.filter);
     };
     $scope.businessPreview = function (flow) {
-        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessKey, "lg");
     };
     $scope.preview = function (flow) {
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
@@ -222,7 +220,7 @@ mainApp.controller("flowApproveCtl", function ($scope, $stateParams, mineHttp, m
     $scope.approve.taskId = taskId;
     $scope.approve.process = "2";
     $scope.preview = function (flow) {
-        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessNumber, "lg");
+        mineUtil.modal("admin/_flow/businessNews.htm", "businessNewsCtl", flow.businessKey, "lg");
     };
     mineHttp.send("GET", "admin/flow/" + processId + "/approve", null, function (result) {
         $scope.messageStatus = verifyData(result);
@@ -256,7 +254,7 @@ mainApp.controller("flowPreviewCtl", function ($scope, $uibModalInstance, mineHt
 
 // 审批预览页
 mainApp.controller("businessNewsCtl", function ($scope, $uibModalInstance, mineHttp, data) {
-   mineHttp.send("GET", "admin/news/" + data, null, function (result) {
+   mineHttp.send("GET", "admin/flow/business/" + data, null, function (result) {
        $scope.news = result.content;
        $("#newsContent").html($scope.news.content);
        if(typeof $scope.news.imageId == "string"){

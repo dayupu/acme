@@ -71,10 +71,10 @@
                     <tr>
                         <td></td>
                         <td>
-                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="save()">
+                            <button class="btn btn-primary btn-sm" ng-disabled="!news.canEdit" ng-click="save()">
                                 保存
                             </button>
-                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="submit()">
+                            <button class="btn btn-primary btn-sm" ng-disabled="!news.canEdit" ng-click="submit()">
                                 提交
                             </button>
                         </td>

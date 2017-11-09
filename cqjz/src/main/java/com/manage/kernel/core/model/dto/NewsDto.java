@@ -44,10 +44,10 @@ public class NewsDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime approvedTime;
 
-
     private String createdBy;
     private String createdByOrgan;
     private String updatedBy;
+    private boolean canEdit = true;
 
     public String getTitle() {
         return title;
@@ -167,5 +167,13 @@ public class NewsDto {
 
     public void setCreatedByOrgan(String createdByOrgan) {
         this.createdByOrgan = createdByOrgan;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
     }
 }

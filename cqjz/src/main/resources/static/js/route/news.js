@@ -3,17 +3,13 @@ mainApp.controller("newsPublishCtl", function ($scope, $state) {
 });
 
 mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
-    $scope.buttonDisable = false;
     $scope.news = {};
-    $scope.newsTypes = [];
+    $scope.news.canEdit = true;
     $scope.model = "publish";
     if (typeof $stateParams.number == "string") {
         $scope.model = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
-            if (result.content.status != 1 && result.content.status != 4) {
-                $scope.buttonDisable = true;
-            }
         })
     }
 
@@ -55,19 +51,6 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         return true;
     };
 
-    $scope.typeChange = function (type) {
-        if (typeof type != "number") {
-            $scope.hasImage = false;
-            return;
-        }
-        for (index in $scope.newsTypes) {
-            if ($scope.newsTypes[index].key == type) {
-                $scope.hasImage = $scope.newsTypes[index].hasImage;
-                return;
-            }
-        }
-    };
-
     $scope.refreshContent = function () {
         $scope.news.content = UE.getEditor('newsEditor').getContent();
     };
@@ -102,11 +85,7 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
                     $scope.refreshPage(result.content);
-                    if (result.content.status != 1 && result.content.status != 4) {
-                        $scope.buttonDisable = true;
-                    }
                 }
-
             }
         );
     };

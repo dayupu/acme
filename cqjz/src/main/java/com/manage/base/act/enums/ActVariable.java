@@ -9,7 +9,7 @@ public enum ActVariable {
     FLOW_ACTION("action"),
     FLOW_APPLY_USER("applyUser"),
     FLOW_SUBJECT("flow_subject"),
-    FLOW_BUSINESS_TYPE("flow_businessType"),
+    FLOW_BUSINESS("flow_business"),
     /*任务变量*/
     TASK_APPROVE("task_approve");
 

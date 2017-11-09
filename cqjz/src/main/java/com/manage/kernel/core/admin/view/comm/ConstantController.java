@@ -1,7 +1,8 @@
 package com.manage.kernel.core.admin.view.comm;
 
-import com.manage.base.act.enums.ActSource;
+import com.manage.base.act.support.ActBusiness;
 import com.manage.base.database.enums.ApproveRole;
+import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.SimpleStatus;
@@ -36,12 +37,12 @@ public class ConstantController {
         List<TreeNodeNews> treeNodes = new ArrayList<>();
         // 首页新闻
         TreeNodeNews treeNode = new TreeNodeNews();
-        treeNode.setId(0);
-        treeNode.setName(Messages.get("resource.constant.news.basic"));
+        treeNode.setId(NewsType.TOPIC.getConstant());
+        treeNode.setName(Messages.get(NewsType.TOPIC.messageKey()));
         treeNodes.add(treeNode);
-        for (NewsType type : NewsType.values()) {
+        for (NewsType type : NewsType.getTypeList()) {
             treeNode = new TreeNodeNews();
-            treeNode.setPid(0);
+            treeNode.setPid(NewsType.TOPIC.getConstant());
             treeNode.setId(type.getConstant());
             treeNode.setName(Messages.get(type.messageKey()));
             treeNode.setHasImage(type.hasImage());
@@ -85,29 +86,37 @@ public class ConstantController {
         return response;
     }
 
-
     @InboundLog
     @GetMapping("/actType")
     public List<TreeNode> actType() {
         TreeNode treeNode;
         List<TreeNode> treeNodes = new ArrayList<>();
-        for (ActSource source : ActSource.values()) {
+        for (FlowSource source : FlowSource.values()) {
             switch (source) {
-                case NEWS:
+            case NEWS:
+                String code = source.getCode();
+                treeNode = new TreeNode();
+                treeNode.setId(code);
+                treeNode.setName(Messages.get(source.messageKey()));
+                treeNodes.add(treeNode);
+
+                treeNode = new TreeNode();
+                String topicCode = ActBusiness.join(code, NewsType.TOPIC.getConstant());
+                treeNode.setId(topicCode);
+                treeNode.setName(Messages.get(NewsType.TOPIC.messageKey()));
+                treeNode.setPid(code);
+                treeNodes.add(treeNode);
+
+                for (NewsType type : NewsType.getTypeList()) {
                     treeNode = new TreeNode();
-                    treeNode.setId(source.getKey());
-                    treeNode.setName(Messages.get(source.messageKey()));
+                    treeNode.setId(ActBusiness.join(topicCode, type.getConstant()));
+                    treeNode.setName(Messages.get(type.messageKey()));
+                    treeNode.setPid(topicCode);
                     treeNodes.add(treeNode);
-                    for (NewsType type : NewsType.values()) {
-                        treeNode = new TreeNode();
-                        treeNode.setId(source.getKey() + "_" + type.getConstant());
-                        treeNode.setName(Messages.get(type.messageKey()));
-                        treeNode.setPid(source.getKey());
-                        treeNodes.add(treeNode);
-                    }
-                    break;
-                default:
-                    break;
+                }
+                break;
+            default:
+                break;
             }
         }
         return treeNodes;

@@ -1,11 +1,11 @@
 package com.manage.kernel.jpa.entity;
 
+import com.manage.base.act.support.ActFlowInfo;
+import com.manage.base.act.support.ActFlowSupport;
+import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.kernel.jpa.base.EntityBase;
-import com.manage.kernel.jpa.base.Process;
-import com.manage.kernel.jpa.base.StatusBase;
-
 import java.util.List;
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ import org.joda.time.LocalDateTime;
 @Entity
 @Table(name = "news")
 @SequenceGenerator(name = "seq_news", sequenceName = "seq_news", allocationSize = 1)
-public class News extends EntityBase {
+public class News extends EntityBase implements ActFlowSupport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_news")
@@ -25,9 +25,12 @@ public class News extends EntityBase {
     @Column(name = "number", nullable = false, length = 50, unique = true)
     private String number;
 
+    @Column(name = "topic")
+    private Integer topic;
+
     @Column(name = "type", nullable = false)
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType")})
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType") })
     private NewsType type;
 
     @Column(name = "title", nullable = false, columnDefinition = "text")
@@ -42,15 +45,12 @@ public class News extends EntityBase {
     @Column(name = "hits")
     private Integer hits = 0;
 
-    @Embedded
-    private Process process;
-
     @Column(name = "image_id")
     private String imageId;
 
     @Column(name = "status", length = 2)
-    @Type(type = "com.manage.base.database.model.DBEnumType",
-            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsStatus")})
+    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsStatus") })
     private NewsStatus status;
 
     @Column(name = "publish_time")
@@ -59,7 +59,6 @@ public class News extends EntityBase {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
     private List<NewsAttach> attaches;
-
 
     public Long getId() {
         return id;
@@ -125,14 +124,6 @@ public class News extends EntityBase {
         this.attaches = attaches;
     }
 
-    public Process getProcess() {
-        return process;
-    }
-
-    public void setProcess(Process process) {
-        this.process = process;
-    }
-
     public String getImageId() {
         return imageId;
     }
@@ -155,5 +146,24 @@ public class News extends EntityBase {
 
     public void setPublishTime(LocalDateTime publishTime) {
         this.publishTime = publishTime;
+    }
+
+    public Integer getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Integer topic) {
+        this.topic = topic;
+    }
+
+    @Override
+    public ActFlowInfo actFlowInfo() {
+        ActFlowInfo flowInfo = new ActFlowInfo();
+        flowInfo.setFlowSource(FlowSource.NEWS);
+        flowInfo.setSubject(this.title);
+        flowInfo.setType(this.topic);
+        flowInfo.setSubType(this.type.getConstant());
+        flowInfo.setTargetId(this.number);
+        return flowInfo;
     }
 }

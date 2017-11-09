@@ -1,10 +1,8 @@
 package com.manage.kernel.core.admin.service.business.impl;
 
-import com.manage.base.act.ActBusiness;
-import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.SimpleStatus;
-import com.manage.base.database.enums.Status;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NewsTopicNotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
@@ -12,10 +10,10 @@ import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringUtil;
+import com.manage.kernel.core.admin.service.activiti.IActFlowService;
 import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.parser.NewsParser;
-import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.core.model.parser.NewsTopicParser;
 import com.manage.kernel.jpa.entity.News;
@@ -24,7 +22,6 @@ import com.manage.kernel.jpa.entity.NewsTopic;
 import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.jpa.repository.NewsTopicRepo;
 import com.manage.kernel.spring.comm.SessionHelper;
-import java.nio.channels.SeekableByteChannel;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,21 +45,16 @@ public class NewsService implements INewsService {
     private NewsTopicRepo newsTopicRepo;
 
     @Autowired
-    private IActBusinessService newsActivitiService;
+    private IActFlowService actFlowService;
 
     @Override
     @Transactional
     public NewsDto submitNews(NewsDto newsDto) {
 
         News news = saveOrUpdateNews(newsDto);
-        ActBusiness actBusiness = new ActBusiness();
-        actBusiness.setId(news.getId());
-        actBusiness.setNumber(news.getNumber());
-        actBusiness.setSource(ActSource.NEWS);
-
-        newsActivitiService.submit(actBusiness);
         news.setStatus(NewsStatus.SUBMIT);
         newsRepo.save(news);
+        actFlowService.actFlowCommit(news);
         return NewsParser.toDto(news);
     }
 
@@ -165,6 +157,7 @@ public class NewsService implements INewsService {
     private void setNewsInfo(News news, NewsDto newsDto) {
         news.setTitle(newsDto.getTitle());
         news.setContent(newsDto.getContent());
+        news.setTopic(NewsType.TOPIC.getConstant());
         news.setType(newsDto.getType());
         if (newsDto.getType().hasImage()) {
             news.setImageId(newsDto.getImageId());

@@ -2,7 +2,7 @@ package com.manage.kernel.core.model.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.act.enums.ActSource;
+import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
@@ -18,11 +18,10 @@ public class ProcessDetail {
 
     private String processId;
     private String subject;
-    private String processType;
-    private String businessNumber;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
-    private ActSource businessSource;
+    private FlowSource flowSource;
+    private String businessKey;
     private String businessType;
     private String applyUser;
     private String applyUserOrgan;
@@ -48,20 +47,20 @@ public class ProcessDetail {
         this.subject = subject;
     }
 
-    public String getBusinessNumber() {
-        return businessNumber;
+    public String getBusinessKey() {
+        return businessKey;
     }
 
-    public void setBusinessNumber(String businessNumber) {
-        this.businessNumber = businessNumber;
+    public void setBusinessKey(String businessKey) {
+        this.businessKey = businessKey;
     }
 
-    public ActSource getBusinessSource() {
-        return businessSource;
+    public FlowSource getFlowSource() {
+        return flowSource;
     }
 
-    public void setBusinessSource(ActSource businessSource) {
-        this.businessSource = businessSource;
+    public void setFlowSource(FlowSource flowSource) {
+        this.flowSource = flowSource;
     }
 
     public String getApplyUser() {
@@ -102,14 +101,6 @@ public class ProcessDetail {
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
-    }
-
-    public String getProcessType() {
-        return processType;
-    }
-
-    public void setProcessType(String processType) {
-        this.processType = processType;
     }
 
     public String getApplyUserOrgan() {

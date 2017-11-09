@@ -9,6 +9,7 @@ import com.manage.base.utils.Validators;
 import com.manage.kernel.core.model.dto.ApproveDto;
 import com.manage.kernel.core.model.dto.FlowDto;
 import com.manage.kernel.core.admin.service.business.IFlowService;
+import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.annotation.PageQueryAon;
 import org.apache.logging.log4j.LogManager;
@@ -125,6 +126,24 @@ public class FlowController {
             Validators.notNull(processId);
             flowService.cancelProcess(processId);
             response.wrapSuccess(null);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @GetMapping("/business/{businessId}")
+    public ResponseInfo businessNews(@PathVariable("businessId") String businessId) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Validators.notBlank(businessId);
+            response.wrapSuccess(flowService.businessObject(businessId));
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

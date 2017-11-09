@@ -1,6 +1,7 @@
 package com.manage.base.act.vars;
 
 import com.manage.base.act.enums.ActVariable;
+import com.manage.base.database.enums.ActProcess;
 import com.manage.base.supplier.Pair;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +14,24 @@ public class ActParams {
     private Pair<String, Object> flowApplyUser = new Pair<>(ActVariable.FLOW_APPLY_USER.varName(), null);
     private Pair<String, Object> flowAction = new Pair<>(ActVariable.FLOW_ACTION.varName(), null);
     private Pair<String, Object> flowSubject = new Pair<>(ActVariable.FLOW_SUBJECT.varName(), null);
-    private Pair<String, Object> flowBusinessType = new Pair<>(ActVariable.FLOW_BUSINESS_TYPE.varName(), null);
+    private Pair<String, Object> flowBusiness = new Pair<>(ActVariable.FLOW_BUSINESS.varName(), null);
     private Pair<String, Object> taskApproveObj = new Pair<>(ActVariable.TASK_APPROVE.varName(), null);
+
+    public static ActParams flowStart(String applyUser, String subject, String business) {
+        ActParams actParams = new ActParams();
+        actParams.putFlowApplyUser(applyUser);
+        actParams.putFlowSubject(subject);
+        actParams.putFlowBusiness(business);
+        return actParams;
+    }
+
+    public static ActParams flowProcess(ActProcess process, String subject, String business) {
+        ActParams actParams = new ActParams();
+        actParams.putFlowAction(process.action());
+        actParams.putFlowSubject(subject);
+        actParams.putFlowBusiness(business);
+        return actParams;
+    }
 
     public String varFlowApplyUser() {
         return flowApplyUser.key();
@@ -28,8 +45,8 @@ public class ActParams {
         return flowSubject.key();
     }
 
-    public String varFlowBusinessType() {
-        return flowBusinessType.key();
+    public String varFlowBusiness() {
+        return flowBusiness.key();
     }
 
     public String varTaskAPproveObj() {
@@ -48,15 +65,15 @@ public class ActParams {
         this.flowSubject.setRight(value);
     }
 
-    public void putFlowBusinessType(Object value) {
-        this.flowBusinessType.setRight(value);
+    public void putFlowBusiness(Object value) {
+        this.flowBusiness.setRight(value);
     }
 
     public void putTaskApproveObj(Object value) {
         this.taskApproveObj.setRight(value);
     }
 
-    public Map<String, Object> buildMap() {
+    public Map<String, Object> build() {
         Map<String, Object> param = new HashMap();
         if (flowApplyUser.value() != null)
             param.put(flowApplyUser.key(), flowApplyUser.value());
@@ -64,8 +81,8 @@ public class ActParams {
             param.put(flowAction.key(), flowAction.value());
         if (flowSubject.value() != null)
             param.put(flowSubject.key(), flowSubject.value());
-        if (flowBusinessType.value() != null)
-            param.put(flowBusinessType.key(), flowBusinessType.value());
+        if (flowBusiness.value() != null)
+            param.put(flowBusiness.key(), flowBusiness.value());
         if (taskApproveObj.value() != null)
             param.put(taskApproveObj.key(), taskApproveObj.value());
         return param;

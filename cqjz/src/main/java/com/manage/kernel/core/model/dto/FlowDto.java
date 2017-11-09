@@ -2,8 +2,8 @@ package com.manage.kernel.core.model.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.act.enums.ActSource;
 import com.manage.base.database.enums.ActProcess;
+import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
@@ -23,8 +23,8 @@ public class FlowDto {
     private String nextTaskName;
     private String applyUser;
     private String applyUserOrgan;
-    private String businessNumber;
-    private String processType;
+    private String businessKey;
+    private String businessType;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private ActProcess process;
@@ -33,8 +33,7 @@ public class FlowDto {
     private ActStatus status;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
-    private ActSource businessSource;
-    private String businessType;
+    private FlowSource flowSource;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime applyTime;
@@ -60,13 +59,6 @@ public class FlowDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime rejectTime;
 
-    public String getProcessType() {
-        return processType;
-    }
-
-    public void setProcessType(String processType) {
-        this.processType = processType;
-    }
 
     public ActProcess getProcess() {
         return process;
@@ -100,20 +92,20 @@ public class FlowDto {
         this.subject = subject;
     }
 
-    public String getBusinessNumber() {
-        return businessNumber;
+    public String getBusinessKey() {
+        return businessKey;
     }
 
-    public void setBusinessNumber(String businessNumber) {
-        this.businessNumber = businessNumber;
+    public void setBusinessKey(String businessKey) {
+        this.businessKey = businessKey;
     }
 
-    public ActSource getBusinessSource() {
-        return businessSource;
+    public FlowSource getFlowSource() {
+        return flowSource;
     }
 
-    public void setBusinessSource(ActSource businessSource) {
-        this.businessSource = businessSource;
+    public void setFlowSource(FlowSource flowSource) {
+        this.flowSource = flowSource;
     }
 
     public String getTaskName() {

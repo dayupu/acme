@@ -26,4 +26,6 @@ public interface IFlowService {
     public FlowNotification notification(AdUser user);
 
     public void cancelProcess(String processId);
+
+    public Object businessObject(String businessId);
 }
