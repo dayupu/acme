@@ -41,7 +41,6 @@
                                         <button class='btn btn-sm btn-warning' ng-click="jzStyleImageRemove(line.imageId)">删除</button>
                                     </td>
                                 </tr>
-                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -52,9 +51,7 @@
                                     name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
                                     ngf-min-height="100">添加图片
                             </button>
-                            <button class="btn btn-primary btn-sm" ng-disabled="buttonDisable" ng-click="save()">
-                                保存
-                            </button>
+                            <button class="btn btn-primary btn-sm" ng-click="save()">保存</button>
                         </td>
                     </tr>
                 </table>

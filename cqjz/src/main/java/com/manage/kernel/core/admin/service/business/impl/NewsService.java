@@ -2,7 +2,7 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
-import com.manage.base.database.enums.SimpleStatus;
+import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NewsTopicNotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
@@ -228,7 +228,7 @@ public class NewsService implements INewsService {
         NewsTopic topic;
         if (StringUtil.isEmpty(topicDto.getCode())) {
             topic = new NewsTopic();
-            topic.setStatus(SimpleStatus.ENABLE);
+            topic.setStatus(TopicStatus.ENABLED);
             topic.setCreatedAt(LocalDateTime.now());
             topic.setCreatedUser(SessionHelper.user());
         } else {
@@ -246,5 +246,12 @@ public class NewsService implements INewsService {
 
         newsTopicRepo.save(topic);
         return NewsTopicParser.toDto(topic);
+    }
+
+    @Override
+    @Transactional
+    public List<NewsTopicDto> rootNewsTopics() {
+        List<NewsTopic> topics = newsTopicRepo.queryRootTopics(TopicStatus.ENABLED);
+        return NewsTopicParser.toDtoList(topics);
     }
 }

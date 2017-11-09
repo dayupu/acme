@@ -5,12 +5,15 @@ import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
-import com.manage.base.database.enums.SimpleStatus;
+import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.page.TreeNodeNews;
+import com.manage.kernel.core.admin.service.business.INewsService;
+import com.manage.kernel.core.admin.service.business.impl.NewsService;
 import com.manage.kernel.core.admin.service.system.IOrganService;
+import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.comm.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class ConstantController {
 
     @Autowired
     private IOrganService organService;
+
+    @Autowired
+    private INewsService newsService;
 
     @InboundLog
     @GetMapping("/newsTypeTree")
@@ -76,7 +82,7 @@ public class ConstantController {
         ResponseInfo response = new ResponseInfo();
         List<SelectOption> options = new ArrayList<>();
         SelectOption<Integer, String> option;
-        for (SimpleStatus status : SimpleStatus.values()) {
+        for (TopicStatus status : TopicStatus.values()) {
             option = new SelectOption<>();
             option.setKey(status.getConstant());
             option.setValue(Messages.get(status));
@@ -144,4 +150,20 @@ public class ConstantController {
         return response;
     }
 
+    @InboundLog
+    @GetMapping("/rootTopics")
+    public ResponseInfo newsTopics() {
+        ResponseInfo response = new ResponseInfo();
+        List<SelectOption> options = new ArrayList<>();
+        SelectOption<Integer, String> option;
+        List<NewsTopicDto> topicDtos = newsService.rootNewsTopics();
+        for (NewsTopicDto topic : topicDtos) {
+            option = new SelectOption<>();
+            option.setKey(topic.getCode());
+            option.setValue(topic.getName());
+            options.add(option);
+        }
+        response.wrapSuccess(options);
+        return response;
+    }
 }

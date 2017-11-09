@@ -2,10 +2,7 @@ package com.manage.kernel.core.model.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.manage.base.database.enums.NewsStatus;
-import com.manage.base.database.enums.NewsType;
-import com.manage.base.database.enums.SimpleStatus;
-import com.manage.base.database.enums.Status;
+import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
@@ -23,7 +20,7 @@ public class NewsTopicDto {
     private String description;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
-    private SimpleStatus status;
+    private TopicStatus status;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
@@ -60,11 +57,11 @@ public class NewsTopicDto {
         this.description = description;
     }
 
-    public SimpleStatus getStatus() {
+    public TopicStatus getStatus() {
         return status;
     }
 
-    public void setStatus(SimpleStatus status) {
+    public void setStatus(TopicStatus status) {
         this.status = status;
     }
 

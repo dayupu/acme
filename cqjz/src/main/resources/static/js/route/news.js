@@ -215,7 +215,7 @@ mainApp.controller("newsPreviewCtl", function ($scope, $uibModalInstance, mineHt
 });
 
 mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHttp, mineUtil) {
-    $scope.watch = {};
+
     $('#newsTopicTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
@@ -223,6 +223,12 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
     mineHttp.constant("simpleStatus", function (data) {
         $scope.statuses = data.content;
     });
+
+    $scope.loadRootTopics = function(){
+        mineHttp.constant("rootTopics", function (data) {
+            $scope.rootTopics = data.content;
+        });
+    }
     mineGrid.gridPageInit("gridOptions", $scope, {
         data: 'myData',
         multiSelect: false,
@@ -266,9 +272,20 @@ mainApp.controller("newsTopicCtl", function ($scope, mineGrid, mineTree, mineHtt
         var modalInstance = mineUtil.modal("admin/_news/newsTopicEdit.htm", "newsTopicController", param);
         modalInstance.result.then(function (selectedItem) {
         }, function () {
+            $scope.loadRootTopics();
             $scope.query();
         });
     };
+    $scope.loadRootTopics();
+
+    /*专题栏目*/
+    $scope.newsTopic = {};
+    $scope.topicSelect = function(rootTopic){
+        if(typeof rootTopic != "number"){
+           return;
+        }
+    }
+
 });
 
 mainApp.controller("newsTopicController", function ($scope, $uibModalInstance, mineHttp, mineMessage, data) {

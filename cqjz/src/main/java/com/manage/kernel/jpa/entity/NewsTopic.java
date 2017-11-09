@@ -1,9 +1,7 @@
 package com.manage.kernel.jpa.entity;
 
-import com.manage.base.database.enums.SimpleStatus;
-import com.manage.base.database.enums.Status;
+import com.manage.base.database.enums.TopicStatus;
 import com.manage.kernel.jpa.base.EntityBase;
-import com.manage.kernel.jpa.base.StatusBase;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -55,8 +53,8 @@ public class NewsTopic extends EntityBase {
 
     @Column(name = "status", length = 2)
     @Type(type = "com.manage.base.database.model.DBEnumType",
-            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.SimpleStatus")})
-    private SimpleStatus status;
+            parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.TopicStatus")})
+    private TopicStatus status;
 
     @OneToMany(mappedBy = "parent", cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, fetch = FetchType.LAZY)
     @OrderBy("sequence asc")
@@ -137,11 +135,11 @@ public class NewsTopic extends EntityBase {
         this.level = level;
     }
 
-    public SimpleStatus getStatus() {
+    public TopicStatus getStatus() {
         return status;
     }
 
-    public void setStatus(SimpleStatus status) {
+    public void setStatus(TopicStatus status) {
         this.status = status;
     }
 }
