@@ -130,6 +130,7 @@ mainApp.controller("jzSuperstarListCtl", function ($scope, mineGrid, mineTree, m
 mainApp.controller("systemSuperstarController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
     $scope.months = getMonths();
     $scope.superstar = {};
+    $scope.superstar.year = getYear();
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -296,7 +297,7 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
             }
             $(this).remove();
         });
-    }
+    };
     $scope.imageUpload = function () {
         if ($scope.file) {
             $scope.upload($scope.file);
@@ -335,7 +336,7 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
             "<td><button class='btn btn-danger mine-btn-sm' ng-click='jzStyleImageRemove(\"" + imageId + "\")'>删除</button>"+
             "<button class='btn btn-info mine-btn-sm' ng-click='moveStyleLine($event,\"up\")'>上移</button>"+
             "<button class='btn btn-info mine-btn-sm' ng-click='moveStyleLine($event,\"down\")'>下移</button>"+
-            "</td></tr>"
+            "</td></tr>";
         angular.element("#styleImagesTable").append($compile(angular.element(html))($scope));
     };
 

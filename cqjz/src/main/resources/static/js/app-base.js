@@ -1,7 +1,7 @@
 var _appContextPath = null;
-var _ueditorToolbars= ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder',
-    'strikethrough','superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain',
-    '|','forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+var _ueditorToolbars = ['fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold', 'italic', 'underline', 'fontborder',
+    'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain',
+    '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
     'rowspacingtop', 'rowspacingbottom', 'lineheight', '|', 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
     'directionalityltr', 'directionalityrtl', 'indent', '|',
     'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
@@ -37,6 +37,10 @@ function isEmpty(value) {
         return false;
     }
     return !value || !value.length;
+}
+
+function getYear() {
+    return new Date().getFullYear();
 }
 
 function today() {
@@ -189,27 +193,27 @@ mainApp.controller("headerController", function ($http, $scope, $location, $sess
         location.href = fullPath("admin/loginOut");
     };
 
-    $scope.onMouseLeave = function(event) {
-         $scope.messageHide();
+    $scope.onMouseLeave = function (event) {
+        $scope.messageHide();
     };
-    $scope.messageHide = function(){
-         $("#headerMessage").fadeOut("fast");
-         $("#headerMessage").parent().unbind("mouseleave", $scope.onMouseLeave);
+    $scope.messageHide = function () {
+        $("#headerMessage").fadeOut("fast");
+        $("#headerMessage").parent().unbind("mouseleave", $scope.onMouseLeave);
     }
     $scope.lookMessage = function () {
-        if($("#headerMessage").css("display") == "none"){
+        if ($("#headerMessage").css("display") == "none") {
             $("#headerMessage").slideDown("fast");
             $("#headerMessage").parent().bind("mouseleave", $scope.onMouseLeave);
         }
     };
-    $scope.getMessage = function(){
-         mineHttp.send("GET", "admin/index/message", {}, function (data) {
-             $scope.message = data.content;
-         });
-    }
+    $scope.getMessage = function () {
+        mineHttp.send("GET", "admin/index/message", {}, function (data) {
+            $scope.message = data.content;
+        });
+    };
 
     $scope.getMessage();
-    setInterval($scope.getMessage,300000);
+    setInterval($scope.getMessage, 300000);
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {
