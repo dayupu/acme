@@ -209,7 +209,7 @@ mainApp.controller("headerController", function ($http, $scope, $location, $sess
     }
 
     $scope.getMessage();
-    setInterval($scope.getMessage,30000);
+    setInterval($scope.getMessage,300000);
 });
 mainApp.controller("contentController", function ($scope, mineMessage, $sessionStorage, $location) {
     mineMessage.subscribe("menuLocation", function (event, menu) {

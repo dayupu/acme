@@ -93,7 +93,8 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         mineUtil.modal("admin/_flow/flowPreview.htm", "flowPreviewCtl", flow, "lg");
     };
     $scope.edit = function (flow) {
-        $state.go("news.edit", {number: flow.businessKey});
+        var args = flow.businessKey.split("-");
+        $state.go("news.edit", {number: args[args.length-1]});
     };
     $scope.cancel = function (flow) {
         mineUtil.confirm("确认撤销吗？", function () {
