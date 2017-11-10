@@ -250,7 +250,7 @@ public class AnyoneService implements IAnyoneService {
         Page<News> pageResult = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             if (type != null) {
-                list.add(cb.equal(root.get("type"), type));
+                list.add(cb.equal(root.get("type"), type.getConstant()));
             }
             if (!StringUtil.isEmpty(searchText)) {
                 list.add(cb.like(root.get("title"), "%" + searchText + "%"));
