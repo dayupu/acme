@@ -29,7 +29,7 @@ VALUES(3, NULL, NULL, 1, '新闻管理', NULL, 3, NULL);
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(30, NULL, NULL, 2, '发布新闻', 3, 1, 'news.publish');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(31, NULL, NULL, 2, '新闻列表', 3, 2, 'news.list');
+VALUES(31, NULL, NULL, 2, '我的新闻', 3, 2, 'news.list');
 -- 工作事项
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(4, NULL, NULL, 1, '工作事项', NULL, 4, NULL);

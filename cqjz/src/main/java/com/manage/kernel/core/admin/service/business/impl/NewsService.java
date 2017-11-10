@@ -2,7 +2,9 @@ package com.manage.kernel.core.admin.service.business.impl;
 
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
+
 import static com.manage.base.database.enums.NewsType.fromType;
+
 import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NewsNotImageException;
@@ -30,10 +32,13 @@ import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.jpa.repository.NewsTopicRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.transaction.NotSupportedException;
+
 import static org.activiti.engine.impl.util.json.XMLTokener.entity;
+
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -151,7 +157,8 @@ public class NewsService implements INewsService {
                 list.add(cb.like(root.get("title"), "%" + query.getTitle() + "%"));
             }
             if (StringUtil.isNotNull(query.getType())) {
-                list.add(cb.equal(root.get("type"), query.getType()));
+                list.add(cb.or(cb.equal(root.get("type"), query.getType()),
+                         cb.equal(root.get("topic"), query.getType())));
             }
             if (StringUtil.isNotNull(query.getStatus())) {
                 list.add(cb.equal(root.get("status"), query.getStatus()));

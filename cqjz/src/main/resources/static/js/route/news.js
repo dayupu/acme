@@ -129,8 +129,6 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
         requestMethod: "POST",
         requestUrl: fullPath("admin/news/list"),
         columnDefs: [
-            {field: 'title', displayName: '标题'},
-            {field: 'source', width: 150, displayName: '来源'},
             {
                 field: 'topic',
                 width: 100,
@@ -143,6 +141,8 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
                 displayName: '新闻类型',
                 cellTemplate: "<div class='mine-table-span'>{{row.entity.typeName}}</div>"
             },
+            {field: 'title', displayName: '标题'},
+            {field: 'source', width: 150, displayName: '来源'},
             {
                 field: 'status',
                 displayName: '状态',
