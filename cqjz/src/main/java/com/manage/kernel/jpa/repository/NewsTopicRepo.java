@@ -13,4 +13,8 @@ public interface NewsTopicRepo extends CrudRepository<NewsTopic, Serializable>, 
 
     @Query("from NewsTopic where status = :status and level = 1")
     public List<NewsTopic> queryRootTopics(@Param("status") TopicStatus status);
+
+    @Query("from NewsTopic where code = :code and parentCode = :parentCode")
+    public NewsTopic findTopicsByCode(@Param("code") Integer code, @Param("parentCode") Integer parentCode);
+
 }

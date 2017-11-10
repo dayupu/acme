@@ -258,27 +258,31 @@ public class NewsService implements INewsService {
         }
         NewsTopic topicLine;
         int sequence = 0;
+        List<NewsTopic> topicLines = new ArrayList<>();
         for (NewsTopicDto lineDto : topicDto.getTopicLines()) {
             if (lineDto.getCode() == null) {
                 topicLine = new NewsTopic();
                 topicLine.setCreatedAt(LocalDateTime.now());
                 topicLine.setCreatedUser(SessionHelper.user());
+                topicLine.setStatus(TopicStatus.ENABLED);
                 topicLine.setParent(topic);
             } else {
-                topicLine = newsTopicRepo.findOne(lineDto.getCode());
+                topicLine = newsTopicRepo.findTopicsByCode(lineDto.getCode(), topicDto.getCode());
                 if (topicLine == null) {
                     throw new NotFoundException();//TODO
                 }
                 topicLine.setUpdatedAt(LocalDateTime.now());
+                topicLine.setStatus(lineDto.getStatus());
                 topicLine.setUpdatedUser(SessionHelper.user());
             }
+            topicLine.setLevel(2);
             topicLine.setName(lineDto.getName());
             topicLine.setSequence(++sequence);
             topicLine.setHasImage(lineDto.getHasImage());
             topicLine.setDescription(lineDto.getDescription());
-            topic.getTopicLines().add(topicLine);
+            topicLines.add(newsTopicRepo.save(topicLine));
         }
-        topic = newsTopicRepo.save(topic);
+        topic.setTopicLines(topicLines);
         return NewsTopicParser.toDto(topic);
     }
 

@@ -272,10 +272,19 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
 
     /*专题栏目*/
     $scope.newsTopic = {};
-    $scope.topicSelect = function (rootTopic) {
-        if (typeof rootTopic != "number") {
+    $scope.buttonDisabled = true;
+    $scope.topicSelect = function (selectedCode) {
+        $scope.clearTopicLines();
+        if (typeof selectedCode != "number") {
+            $scope.newsTopic = {};
+            $scope.buttonDisabled = true;
             return;
         }
+        $scope.buttonDisabled = false;
+        $scope.newsTopic.code = selectedCode;
+        mineHttp.send("GET", "admin/news/topic/" + selectedCode, {}, function (result) {
+            $scope.newsTopic = result.content;
+        });
     };
 
     $scope.moveTopicLine = function (event, arrow) {
@@ -297,7 +306,7 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
         $(trObj).remove();
     };
     $scope.addTopicLine = function () {
-        var html = "<tr><td><input type='text' class='form-control input-sm' required/></td>" +
+        var html = "<tr><td><input type='text' class='form-control input-sm' maxlength='20' required/></td>" +
             "<td><div class='checkbox'><label><input type='checkbox'>上传图片</label></div></td>" +
             "<td><textarea style='width: 100%;' rows='2'></textarea></td>" +
             "<td><button class='btn btn-danger mine-btn-sm'  ng-click='dropTopicLine($event)'>删除</button>" +
@@ -306,6 +315,16 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
             "</td></tr>";
         angular.element("#newsTopicTable").append($compile(angular.element(html))($scope));
     };
+
+    $scope.clearTopicLines = function () {
+        $("#newsTopicTable").find("tr").each(function (index) {
+            if (index == 0) {
+                return;
+            }
+            $(this).remove();
+        });
+    }
+
     $scope.save = function () {
         var topicList = [];
         $("#newsTopicTable").find("tr").each(function (index) {
@@ -315,6 +334,9 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
             var topic = {};
             topic.code = $(this).attr("code");
             topic.name = $(this).find("input[type='text']").val();
+            if(typeof topic.code != "undefined"){
+               topic.status= $(this).find("select").val();
+            }
             topic.hasImage = $(this).find("input[type='checkbox']").is(":checked");
             topic.description = $(this).find("textarea").val();
             topicList.push(topic);
@@ -324,7 +346,8 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
                 if ($scope.messageStatus) {
-
+                    $scope.clearTopicLines();
+                    $scope.newsTopic = result.content;
                 }
             }
         );

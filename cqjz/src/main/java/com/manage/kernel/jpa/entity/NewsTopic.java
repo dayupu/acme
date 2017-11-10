@@ -35,11 +35,11 @@ public class NewsTopic extends EntityBase {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "parent_id", insertable = false, updatable = false)
-    private Long parentId;
+    @Column(name = "parent_code", insertable = false, updatable = false)
+    private Integer parentCode;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_code")
     private NewsTopic parent;
 
     @Column(name = "level", length = 2)
@@ -56,7 +56,7 @@ public class NewsTopic extends EntityBase {
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.TopicStatus")})
     private TopicStatus status;
 
-    @OneToMany(mappedBy = "parent", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
     @OrderBy("sequence asc")
     private List<NewsTopic> topicLines = new ArrayList<>();
 
@@ -79,12 +79,12 @@ public class NewsTopic extends EntityBase {
         this.name = name;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Integer getParentCode() {
+        return parentCode;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParentCode(Integer parentCode) {
+        this.parentCode = parentCode;
     }
 
     public NewsTopic getParent() {

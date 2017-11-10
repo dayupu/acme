@@ -33,13 +33,14 @@
                     <div class="gridStyle" ng-grid="gridOptions"></div>
                 </div>
                 <div class="tab-pane fade mine-pane" id="newsTopicItems">
+                    <mine-message status="messageStatus" message="message"></mine-message>
                     <table class="table">
                         <tr>
                             <td width="100">
                                 <mine-label name="新闻专题" required></mine-label>
                             </td>
                             <td>
-                                <select ng-model="newsTopic.code" ng-change="topicSelect(newsTopic.code)"
+                                <select ng-model="selectedCode" ng-change="topicSelect(selectedCode)"
                                         class="form-control input-sm" style="width:150px;">
                                     <option value="">请选择</option>
                                     <option ng-repeat="topic in rootTopics" ng-value="topic.key">{{topic.value}}
@@ -52,43 +53,44 @@
                                 <mine-label name="栏目" required></mine-label>
                             </td>
                             <td>
-                                <table id="newsTopicTable" class="table table-bordered table-condensed"
-                                       style="width:700px;">
+                                <table id="newsTopicTable" class="table table-bordered table-condensed table-striped"
+                                       style="width:600px;">
                                     <tr class="success">
                                         <td><strong>名称</strong></td>
                                         <td width="100"><strong>配置</strong></td>
                                         <td width="200"><strong>描述</strong></td>
-                                        <td width="170"><strong>操作</strong></td>
+                                        <td width="50"><strong>操作</strong></td>
                                     </tr>
-                                   <!-- <tr>
+                                    <tr ng-repeat = "line in newsTopic.topicLines" code="{{line.code}}">
                                         <td>
-                                            <input type="text" class="form-control input-sm"/>
+                                            <input type="text" class="form-control input-sm" value="{{line.name}}" maxlength="20"/>
                                         </td>
                                         <td>
+                                            <select class="form-control input-sm">
+                                                <option ng-repeat="status in statuses" ng-selected="status.key == line.status" ng-value="status.key">{{status.value}}</option>
+                                            </select>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox">上传图片
+                                                    <input type="checkbox" ng-checked="line.hasImage">上传图片
                                                 </label>
                                             </div>
                                         </td>
                                         <td>
-                                            <textarea style='width: 100%;' rows="2"></textarea>
+                                            <textarea style='width: 100%;' rows="3">{{line.description}}</textarea>
                                         </td>
                                         <td>
-                                            <button class='btn btn-primary mine-btn-sm'  ng-click="">启用</button>
-                                            <button class='btn btn-primary mine-btn-sm'  ng-click="">关闭</button>
-                                            <button class='btn btn-info mine-btn-sm'  ng-click="">上移</button>
-                                            <button class='btn btn-info mine-btn-sm'  ng-click="">下移</button>
+                                            <button class='btn btn-info mine-btn-sm'  ng-click="moveTopicLine($event,'up')">上移</button>
+                                            <button class='btn btn-info mine-btn-sm'  ng-click="moveTopicLine($event,'down')">下移</button>
                                         </td>
-                                    </tr>-->
+                                    </tr>
                                 </table>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
-                                <button class="btn btn-primary btn-sm" ng-click="addTopicLine()">添加栏目</button>
-                                <button class="btn btn-primary btn-sm" ng-click="save()">保存</button>
+                                <button class="btn btn-primary btn-sm" ng-disabled="buttonDisabled" ng-click="addTopicLine()">添加栏目</button>
+                                <button class="btn btn-primary btn-sm" ng-disabled="buttonDisabled" ng-click="save()">保存</button>
                             </td>
                         </tr>
                     </table>

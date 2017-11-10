@@ -27,6 +27,7 @@ public class NewsTopicParser {
         dto.setName(entity.getName());
         dto.setStatus(entity.getStatus());
         dto.setHasImage(entity.getHasImage());
+        dto.setStatus(entity.getStatus());
         dto.setDescription(entity.getDescription());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setUpdatedAt(entity.getUpdatedAt());

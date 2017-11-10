@@ -30,7 +30,7 @@
                                 <tr class="success">
                                     <td><strong>图片</strong></td>
                                     <td width="200"><strong>描述</strong></td>
-                                    <td width="60"><strong>操作</strong></td>
+                                    <td width="50"><strong>操作</strong></td>
                                 </tr>
                                 <tr ng-repeat="line in style.styleLines" image-id="{{line.imageId}}">
                                     <td><img class='mine-style-image' ng-src="{{line.imageUrl}}"/></td>
@@ -38,7 +38,9 @@
                                         <textarea style='width: 100%; height: 100px;'>{{line.description}}</textarea>
                                     </td>
                                     <td>
-                                        <button class='btn btn-sm btn-warning' ng-click="jzStyleImageRemove(line.imageId)">删除</button>
+                                        <button class='btn btn-danger mine-btn-sm' ng-click="jzStyleImageRemove(line.imageId)">删除</button>
+                                        <button class='btn btn-info mine-btn-sm' ng-click="moveStyleLine($event,'up')">上移</button>
+                                        <button class='btn btn-info mine-btn-sm' ng-click="moveStyleLine($event,'down')">下移</button>
                                     </td>
                                 </tr>
                             </table>

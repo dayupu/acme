@@ -22,7 +22,7 @@ public class NewsTopicDto {
     private String description;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
-    private TopicStatus status;
+    private TopicStatus status = TopicStatus.ENABLED;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;

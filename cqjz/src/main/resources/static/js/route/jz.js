@@ -313,11 +313,29 @@ mainApp.controller("jzStyleEditListCtl", function ($scope, $stateParams, $compil
         $("#styleImagesTable").find("tr[image-id='" + imageId + "']").remove();
     };
 
+    $scope.moveStyleLine = function (event, arrow) {
+        var trObj = $(event.target).parents("tr").eq(0);
+        if (arrow == "up") {
+            if ($(trObj).index() != 1) {
+                $(trObj).prev().before($(trObj));
+            }
+        }
+        if (arrow == "down") {
+            var trLength = $("#styleImagesTable").children("tr").length;
+            if ($(trObj).index() != trLength - 1) {
+                $(trObj).next().after($(trObj));
+            }
+        }
+    };
+
     $scope.addImageLine = function (imageId) {
         var accessUrl = imageUrl(imageId);
         var html = "<tr image-id='" + imageId + "'><td><img class='mine-style-image' src='" + accessUrl + "'/></td>" +
             "<td><textarea style='width: 100%; height: 100px;'></textarea></td>" +
-            "<td><button class='btn btn-sm btn-warning' ng-click='jzStyleImageRemove(\"" + imageId + "\")'>删除</button></td></tr>"
+            "<td><button class='btn btn-danger mine-btn-sm' ng-click='jzStyleImageRemove(\"" + imageId + "\")'>删除</button>"+
+            "<button class='btn btn-info mine-btn-sm' ng-click='moveStyleLine($event,\"up\")'>上移</button>"+
+            "<button class='btn btn-info mine-btn-sm' ng-click='moveStyleLine($event,\"down\")'>下移</button>"+
+            "</td></tr>"
         angular.element("#styleImagesTable").append($compile(angular.element(html))($scope));
     };
 

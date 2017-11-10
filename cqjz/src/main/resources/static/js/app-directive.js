@@ -54,7 +54,16 @@ mainApp.directive("mineMessage", function () {
             message: "=",
             status: "="
         },
-        template: "<div class='alert' ng-show='status != null && message != null'  ng-class=\"{true:'alert-success',false:'alert-danger'}[status]\">{{message}}</div>",
+        template: "<div class='alert' ng-show='status != null && message != null'  ng-class=\"{true:'alert-success',false:'alert-danger'}[status]\">"+
+        "<a href='javascript:void(0)' class='close'>&times;</a>"+
+        "{{message}}</div>",
+        link: function (scope, element, attrs, ngModel) {
+           $(element).children("a[class='close']").click(function(){
+                scope.status = null;
+                scope.message = null;
+                scope.$apply();
+           });
+        },
         replace: true
     }
 });
