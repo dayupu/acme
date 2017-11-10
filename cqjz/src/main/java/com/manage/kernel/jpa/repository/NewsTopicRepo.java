@@ -11,8 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface NewsTopicRepo extends CrudRepository<NewsTopic, Serializable>, JpaSpecificationExecutor<NewsTopic> {
 
-    @Query("from NewsTopic where status = :status and level = 1")
-    public List<NewsTopic> queryRootTopics(@Param("status") TopicStatus status);
+    @Query("from NewsTopic where level = 1")
+    public List<NewsTopic> queryAllRootTopics();
+
 
     @Query("from NewsTopic where code = :code and parentCode = :parentCode")
     public NewsTopic findTopicsByCode(@Param("code") Integer code, @Param("parentCode") Integer parentCode);

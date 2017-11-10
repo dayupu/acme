@@ -19,8 +19,7 @@
                         </div>
                         <div class="form-group">
                             <label>状态</label>
-                            <select ng-model="filter.status" name="status" ng-init="filter.status=''"
-                                    class="form-control input-sm">
+                            <select ng-model="filter.status" name="status" ng-init="filter.status=''" class="form-control input-sm">
                                 <option value="">全部</option>
                                 <option ng-repeat="status in statuses" ng-value="status.key">{{status.value}}</option>
                             </select>

@@ -52,6 +52,7 @@ import org.springframework.util.CollectionUtils;
 public class NewsService implements INewsService {
 
     private static final String CACHE_NEWS_TOPICS_TREE = "cache_news_topics_tree";
+    private static final String CACHE_ENABLE_NEWS_TOPICS_TREE = "cache_enable_news_topics_tree";
     private static final String CACHE_NEWS_TOPICS_MAP = "cache_news_topics_map";
 
     @Autowired
@@ -306,7 +307,7 @@ public class NewsService implements INewsService {
     public NewsTopicDto saveNewsTopicLines(NewsTopicDto topicDto) {
         NewsTopic topic = newsTopicRepo.findOne(topicDto.getCode());
         if (topic == null) {
-            throw new NotFoundException();//TODO
+            throw new NewsTopicNotFoundException();
         }
         NewsTopic topicLine;
         int sequence = 0;
@@ -321,7 +322,7 @@ public class NewsService implements INewsService {
             } else {
                 topicLine = newsTopicRepo.findTopicsByCode(lineDto.getCode(), topicDto.getCode());
                 if (topicLine == null) {
-                    throw new NotFoundException();//TODO
+                    throw new NewsTopicNotFoundException();
                 }
                 topicLine.setUpdatedAt(LocalDateTime.now());
                 topicLine.setStatus(lineDto.getStatus());
@@ -342,60 +343,83 @@ public class NewsService implements INewsService {
     @Override
     @Transactional
     public List<NewsTopicDto> rootNewsTopics() {
-        List<NewsTopic> topics = newsTopicRepo.queryRootTopics(TopicStatus.ENABLED);
+        List<NewsTopic> topics = newsTopicRepo.queryAllRootTopics();
         return NewsTopicParser.toDtoList(topics);
     }
 
     @Override
     @Transactional
-    public List<TreeNodeNews> newsTopicTree() {
+    public List<TreeNodeNews> allNewsTopicTree() {
         return (List<TreeNodeNews>) cacheManager.get(CACHE_NEWS_TOPICS_TREE);
+    }
+
+    @Override
+    public List<TreeNodeNews> enableNewsTopicTree() {
+        return (List<TreeNodeNews>) cacheManager.get(CACHE_ENABLE_NEWS_TOPICS_TREE);
     }
 
     @Override
     @Transactional
     public void cacheNewsTopics() {
-        List<TreeNodeNews> trees = new ArrayList<>();
+        List<TreeNodeNews> allTrees = new ArrayList<>();
+        List<TreeNodeNews> enableTrees = new ArrayList<>();
+
         TreeNodeNews tree = new TreeNodeNews();
         tree.setId(NewsType.TOPIC.getConstant());
         tree.setName(Messages.get(NewsType.TOPIC.messageKey()));
-        trees.add(tree);
+        allTrees.add(tree);
+        enableTrees.add(tree);
         for (NewsType type : NewsType.getTypeList()) {
             tree = new TreeNodeNews();
             tree.setPid(NewsType.TOPIC.getConstant());
             tree.setId(type.getConstant());
             tree.setName(Messages.get(type.messageKey()));
             tree.setHasImage(type.hasImage());
-            trees.add(tree);
+            tree.setEnabled(true);
+            allTrees.add(tree);
+            enableTrees.add(tree);
         }
-        List<NewsTopic> topics = newsTopicRepo.queryRootTopics(TopicStatus.ENABLED);
+        List<NewsTopic> topics = newsTopicRepo.queryAllRootTopics();
         for (NewsTopic topic : topics) {
-            List<TreeNodeNews> tempTrees = new ArrayList<>();
-            for (NewsTopic line : topic.getTopicLines()) {
-                tree = new TreeNodeNews();
-                tree.setId(line.getCode());
-                tree.setName(line.getName());
-                tree.setPid(line.getParentCode());
-                tree.setHasImage(line.getHasImage());
-                tree.setEnabled(line.getStatus().isEnable());
-                tempTrees.add(tree);
-            }
-            if (CollectionUtils.isEmpty(tempTrees)) {
+            if (CollectionUtils.isEmpty(topic.getTopicLines())) {
                 continue;
             }
-            tree = new TreeNodeNews();
-            tree.setId(topic.getCode());
-            tree.setName(topic.getName());
-            trees.add(tree);
-            trees.addAll(tempTrees);
+            // topic setting
+            tree = toTreeNodeNews(topic);
+            allTrees.add(tree);
+            boolean topicEnable = true;
+            if (tree.isEnabled()) {
+                enableTrees.add(tree);
+            } else {
+                topicEnable = false;
+            }
+            // type setting
+            for (NewsTopic line : topic.getTopicLines()) {
+                tree = toTreeNodeNews(line);
+                allTrees.add(tree);
+                if (tree.isEnabled() && topicEnable) {
+                    enableTrees.add(tree);
+                }
+            }
         }
 
         Map<Integer, TreeNodeNews> topicMap = new HashMap<>();
-        for (TreeNodeNews<Integer> node : trees) {
+        for (TreeNodeNews<Integer> node : allTrees) {
             topicMap.put(node.getId(), node);
         }
         cacheManager.put(CACHE_NEWS_TOPICS_MAP, topicMap);
-        cacheManager.put(CACHE_NEWS_TOPICS_TREE, trees);
+        cacheManager.put(CACHE_NEWS_TOPICS_TREE, allTrees);
+        cacheManager.put(CACHE_ENABLE_NEWS_TOPICS_TREE, enableTrees);
+    }
+
+    private TreeNodeNews toTreeNodeNews(NewsTopic topic) {
+        TreeNodeNews tree = new TreeNodeNews();
+        tree.setId(topic.getCode());
+        tree.setName(topic.getName());
+        tree.setPid(topic.getParentCode());
+        tree.setHasImage(topic.getHasImage());
+        tree.setEnabled(topic.getStatus().isEnable());
+        return tree;
     }
 
     private TreeNodeNews typeTopicNode(Integer code) {

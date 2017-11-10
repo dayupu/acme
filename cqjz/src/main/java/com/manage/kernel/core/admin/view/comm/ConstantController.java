@@ -15,6 +15,8 @@ import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.spring.annotation.InboundLog;
 import com.manage.kernel.spring.comm.Messages;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +41,7 @@ public class ConstantController {
     @InboundLog
     @GetMapping("/newsTypeTree")
     public List<TreeNodeNews> newsTypeTree() {
-        List<TreeNodeNews> newsTrees = new ArrayList<>();
-        for (TreeNodeNews node : newsService.newsTopicTree()) {
-            if (!node.isEnabled()) {
-                continue;
-            }
-            newsTrees.add(node);
-        }
-        return newsTrees;
+        return newsService.enableNewsTopicTree();
     }
 
     @InboundLog
@@ -97,9 +92,8 @@ public class ConstantController {
                 treeNode.setId(code);
                 treeNode.setName(Messages.get(source.messageKey()));
                 treeNodes.add(treeNode);
-                // load news topic and type
                 List<TreeNode> newsTrees = new ArrayList<>();
-                for (TreeNodeNews node : newsService.newsTopicTree()) {
+                for (TreeNodeNews node : newsService.allNewsTopicTree()) {
                     treeNode = new TreeNode();
                     treeNode.setName(node.getName());
                     if (node.getPid() == null) {
@@ -147,8 +141,10 @@ public class ConstantController {
         ResponseInfo response = new ResponseInfo();
         List<SelectOption> options = new ArrayList<>();
         SelectOption<Integer, String> option;
-        List<NewsTopicDto> topicDtos = newsService.rootNewsTopics();
-        for (NewsTopicDto topic : topicDtos) {
+        for (NewsTopicDto topic : newsService.rootNewsTopics()) {
+            if (!topic.getStatus().isEnable()) {
+                continue;
+            }
             option = new SelectOption<>();
             option.setKey(topic.getCode());
             option.setValue(topic.getName());

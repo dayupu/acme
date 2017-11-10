@@ -25,7 +25,6 @@ public class NewsTopicParser {
     private static NewsTopicDto toDto(NewsTopic entity, NewsTopicDto dto) {
         dto.setCode(entity.getCode());
         dto.setName(entity.getName());
-        dto.setStatus(entity.getStatus());
         dto.setHasImage(entity.getHasImage());
         dto.setStatus(entity.getStatus());
         dto.setDescription(entity.getDescription());

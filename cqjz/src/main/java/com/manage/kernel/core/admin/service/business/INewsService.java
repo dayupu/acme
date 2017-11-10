@@ -36,8 +36,8 @@ public interface INewsService {
 
     public List<NewsTopicDto> rootNewsTopics();
 
-    public List<TreeNodeNews> newsTopicTree();
-
+    public List<TreeNodeNews> allNewsTopicTree();
+    public List<TreeNodeNews> enableNewsTopicTree();
     public void cacheNewsTopics();
 
     public String typeTopicName(Integer code);
