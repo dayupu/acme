@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.comm;
 
-import com.manage.plugins.cache.CacheManager;
+import com.manage.cache.CacheManager;
 import com.manage.kernel.jpa.entity.AdPermission;
 import com.manage.kernel.jpa.entity.AdRole;
 import com.manage.kernel.jpa.repository.AdPermissionRepo;

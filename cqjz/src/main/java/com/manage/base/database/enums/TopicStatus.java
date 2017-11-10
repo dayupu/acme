@@ -25,4 +25,8 @@ public enum TopicStatus implements DBEnum, Localizable {
     public String messageKey() {
         return messageKey;
     }
+
+    public boolean isEnable() {
+        return this == ENABLED;
+    }
 }

@@ -29,9 +29,7 @@ public class News extends EntityBase implements ActFlowSupport {
     private Integer topic;
 
     @Column(name = "type", nullable = false)
-    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.NewsType") })
-    private NewsType type;
+    private Integer type;
 
     @Column(name = "title", nullable = false, columnDefinition = "text")
     private String title;
@@ -76,11 +74,11 @@ public class News extends EntityBase implements ActFlowSupport {
         this.number = number;
     }
 
-    public NewsType getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(NewsType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -162,7 +160,7 @@ public class News extends EntityBase implements ActFlowSupport {
         flowInfo.setFlowSource(FlowSource.NEWS);
         flowInfo.setSubject(this.title);
         flowInfo.setType(this.topic);
-        flowInfo.setSubType(this.type.getConstant());
+        flowInfo.setSubType(this.type);
         flowInfo.setTargetId(this.number);
         return flowInfo;
     }

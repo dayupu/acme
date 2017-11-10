@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.service.comm.impl;
 
-import com.manage.plugins.cache.CacheManager;
+import com.manage.cache.CacheManager;
 import com.manage.kernel.core.admin.service.comm.IPermissionService;
 import com.manage.kernel.jpa.entity.AdPermission;
 import com.manage.kernel.jpa.repository.AdPermissionRepo;

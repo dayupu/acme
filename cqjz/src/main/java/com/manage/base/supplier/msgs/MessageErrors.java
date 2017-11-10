@@ -27,7 +27,9 @@ public enum MessageErrors implements CoreMsgs {
     PASSWORD_ERROR(200070, "Password error"),
     STYLE_NOT_FOUND(200080, "NOT found the style"),
     NEWS_NOT_FOUND(200100, "NOT found the news"),
-    NEWS_TOPIC_NOT_FOUND(200101, "NOT found the news topic");
+    NEWS_TOPIC_NOT_FOUND(200101, "NOT found the news topic"),
+    NEWS_IMAGE_NOT_UPLOAD(200102, "News image not upload"),
+    NEWS_TYPE_NOT_SUPPORT(200103, "News type not support");
 
     private int code;
     private String message;

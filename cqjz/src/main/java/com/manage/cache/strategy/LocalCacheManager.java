@@ -1,6 +1,6 @@
-package com.manage.plugins.cache.strategy;
+package com.manage.cache.strategy;
 
-import com.manage.plugins.cache.CacheManager;
+import com.manage.cache.CacheManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

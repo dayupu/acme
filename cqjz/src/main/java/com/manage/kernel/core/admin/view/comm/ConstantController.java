@@ -11,7 +11,6 @@ import com.manage.base.supplier.page.SelectOption;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.page.TreeNodeNews;
 import com.manage.kernel.core.admin.service.business.INewsService;
-import com.manage.kernel.core.admin.service.business.impl.NewsService;
 import com.manage.kernel.core.admin.service.system.IOrganService;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.spring.annotation.InboundLog;
@@ -40,21 +39,14 @@ public class ConstantController {
     @InboundLog
     @GetMapping("/newsTypeTree")
     public List<TreeNodeNews> newsTypeTree() {
-        List<TreeNodeNews> treeNodes = new ArrayList<>();
-        // 首页新闻
-        TreeNodeNews treeNode = new TreeNodeNews();
-        treeNode.setId(NewsType.TOPIC.getConstant());
-        treeNode.setName(Messages.get(NewsType.TOPIC.messageKey()));
-        treeNodes.add(treeNode);
-        for (NewsType type : NewsType.getTypeList()) {
-            treeNode = new TreeNodeNews();
-            treeNode.setPid(NewsType.TOPIC.getConstant());
-            treeNode.setId(type.getConstant());
-            treeNode.setName(Messages.get(type.messageKey()));
-            treeNode.setHasImage(type.hasImage());
-            treeNodes.add(treeNode);
+        List<TreeNodeNews> newsTrees = new ArrayList<>();
+        for (TreeNodeNews node : newsService.newsTopicTree()) {
+            if (!node.isEnabled()) {
+                continue;
+            }
+            newsTrees.add(node);
         }
-        return treeNodes;
+        return newsTrees;
     }
 
     @InboundLog
@@ -105,21 +97,20 @@ public class ConstantController {
                 treeNode.setId(code);
                 treeNode.setName(Messages.get(source.messageKey()));
                 treeNodes.add(treeNode);
-
-                treeNode = new TreeNode();
-                String topicCode = ActBusiness.join(code, NewsType.TOPIC.getConstant());
-                treeNode.setId(topicCode);
-                treeNode.setName(Messages.get(NewsType.TOPIC.messageKey()));
-                treeNode.setPid(code);
-                treeNodes.add(treeNode);
-
-                for (NewsType type : NewsType.getTypeList()) {
+                // load news topic and type
+                List<TreeNode> newsTrees = new ArrayList<>();
+                for (TreeNodeNews node : newsService.newsTopicTree()) {
                     treeNode = new TreeNode();
-                    treeNode.setId(ActBusiness.join(topicCode, type.getConstant()));
-                    treeNode.setName(Messages.get(type.messageKey()));
-                    treeNode.setPid(topicCode);
-                    treeNodes.add(treeNode);
+                    treeNode.setName(node.getName());
+                    if (node.getPid() == null) {
+                        treeNode.setPid(code);
+                    } else {
+                        treeNode.setPid(ActBusiness.join(code, node.getPid()));
+                    }
+                    treeNode.setId(ActBusiness.join(treeNode.getPid(), node.getId()));
+                    newsTrees.add(treeNode);
                 }
+                treeNodes.addAll(newsTrees);
                 break;
             default:
                 break;
@@ -166,4 +157,5 @@ public class ConstantController {
         response.wrapSuccess(options);
         return response;
     }
+
 }

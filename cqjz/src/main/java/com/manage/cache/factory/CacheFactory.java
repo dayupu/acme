@@ -1,8 +1,8 @@
-package com.manage.plugins.cache.factory;
+package com.manage.cache.factory;
 
-import com.manage.plugins.cache.CacheManager;
-import com.manage.plugins.cache.strategy.LocalCacheManager;
-import com.manage.plugins.cache.strategy.RedisCacheManager;
+import com.manage.cache.CacheManager;
+import com.manage.cache.strategy.LocalCacheManager;
+import com.manage.cache.strategy.RedisCacheManager;
 
 import java.util.HashMap;
 

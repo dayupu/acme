@@ -19,9 +19,10 @@ public class NewsDto {
     private String title;
     private String number;
     private String content;
-    @JsonSerialize(using = EnumSerializer.class)
-    @JsonDeserialize(using = EnumDeserializer.class)
-    private NewsType type;
+    private Integer topic;
+    private String topicName;
+    private Integer type;
+    private String typeName;
     @JsonSerialize(using = EnumSerializer.class)
     @JsonDeserialize(using = EnumDeserializer.class)
     private NewsStatus status;
@@ -66,12 +67,20 @@ public class NewsDto {
         this.content = content;
     }
 
-    public NewsType getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(NewsType type) {
+    public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public Long getId() {
@@ -184,5 +193,21 @@ public class NewsDto {
 
     public void setCanDrop(boolean canDrop) {
         this.canDrop = canDrop;
+    }
+
+    public Integer getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Integer topic) {
+        this.topic = topic;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 }

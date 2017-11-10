@@ -47,6 +47,15 @@ public enum NewsType implements DBEnum, Localizable {
         this.hasImage = hasImage;
     }
 
+    public static NewsType fromType(int type) {
+        for (NewsType newsType : NewsType.getTypeList()) {
+            if (newsType.constant == type) {
+                return newsType;
+            }
+        }
+        return null;
+    }
+
     public static NewsType fromTypeName(String typeName) {
         if (typeName != null) {
             for (NewsType type : NewsType.getTypeList()) {

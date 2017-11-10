@@ -91,9 +91,6 @@ public class NewsController {
             Validators.notBlank(newsDto.getTitle());
             Validators.notBlank(newsDto.getContent());
             Validators.notNull(newsDto.getType());
-            if (newsDto.getType().requireImage()) {
-                Validators.notBlank(newsDto.getImageId());
-            }
             NewsDto news = newsService.saveNews(newsDto);
             response.wrapSuccess(news, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
@@ -114,9 +111,6 @@ public class NewsController {
             Validators.notBlank(newsDto.getTitle());
             Validators.notBlank(newsDto.getContent());
             Validators.notNull(newsDto.getType());
-            if (newsDto.getType().requireImage()) {
-                Validators.notBlank(newsDto.getImageId());
-            }
             NewsDto news = newsService.submitNews(newsDto);
             response.wrapSuccess(news, MessageInfos.SUBMIT_SUCCESS);
         } catch (ValidateException e) {

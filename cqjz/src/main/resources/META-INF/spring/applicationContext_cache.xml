@@ -28,7 +28,7 @@
         <property name="connectionFactory" ref="redisConnectionFactory"/>
     </bean>
 
-    <bean id="cacheFacory" class="com.manage.plugins.cache.factory.CacheFactory">
+    <bean id="cacheFacory" class="com.manage.cache.factory.CacheFactory">
         <property name="strategy" value="${cache.strategy}"/>
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean>

@@ -2,6 +2,7 @@ package com.manage.kernel.spring.config;
 
 import com.manage.base.utils.StringUtil;
 import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
+import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.spring.PropertySupplier;
 
 import java.io.File;
@@ -26,12 +27,15 @@ public class PrepareConfig implements InitializingBean {
     @Autowired
     private ActIdentityService actIdentityService;
 
+    @Autowired
+    private INewsService newsService;
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        // Init project directory
         initDirs();
-        // Init activiti datas
         initActDatas();
+        LOGGER.info("Cache news topic and type datas");
+        newsService.cacheNewsTopics();
     }
 
     private void initActDatas() {

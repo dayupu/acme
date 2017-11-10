@@ -2,6 +2,7 @@ package com.manage.kernel.core.admin.service.business;
 
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
+import com.manage.base.supplier.page.TreeNodeNews;
 import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.jpa.entity.AdUser;
@@ -34,4 +35,10 @@ public interface INewsService {
     public PageResult topicPageList(PageQuery page, NewsTopicDto query);
 
     public List<NewsTopicDto> rootNewsTopics();
+
+    public List<TreeNodeNews> newsTopicTree();
+
+    public void cacheNewsTopics();
+
+    public String typeTopicName(Integer code);
 }

@@ -2,7 +2,10 @@ package com.manage.base.act.support;
 
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsType;
+import com.manage.kernel.core.admin.service.business.INewsService;
+import com.manage.kernel.core.admin.service.business.impl.NewsService;
 import com.manage.kernel.spring.comm.Messages;
+import com.manage.kernel.spring.comm.SpringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +20,15 @@ public class ActBusiness {
     private FlowSource source;
     private String businessId;
     private String typeName;
+
+    private static INewsService newsService;
+
+    public static INewsService getNewsService() {
+        if (newsService == null) {
+            newsService = SpringUtils.getBean(NewsService.class);
+        }
+        return newsService;
+    }
 
     private void setSource(String flowSource) {
         for (FlowSource source : FlowSource.values()) {
@@ -59,27 +71,16 @@ public class ActBusiness {
 
             if (business.getSource() == FlowSource.NEWS) {
                 StringBuilder builder = new StringBuilder();
-                if (Integer.parseInt(args[1]) == NewsType.TOPIC.getConstant()) {
-                    builder.append(Messages.get(NewsType.TOPIC.messageKey()));
-                    builder.append(LINK);
-                    for (NewsType type : NewsType.getTypeList()) {
-                        if (type.getConstant() == Integer.parseInt(args[2])) {
-                            builder.append(Messages.get(type.messageKey()));
-                            break;
-                        }
-                    }
-                } else {
-                    builder.append(args[1]);
-                    builder.append(LINK);
-                    builder.append(args[2]);
-                }
+                builder.append(getNewsService().typeTopicName(Integer.parseInt(args[1])));
+                builder.append(LINK);
+                builder.append(getNewsService().typeTopicName(Integer.parseInt(args[2])));
                 business.typeName = builder.toString();
             }
             return business;
         } catch (Exception e) {
             LOGGER.error("Analysis businessKey-[{}]", businessKey, e);
+            return null;
         }
-        return null;
     }
 
     public FlowSource getSource() {

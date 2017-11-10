@@ -1,4 +1,4 @@
-package com.manage.plugins.cache;
+package com.manage.cache;
 
 
 public interface CacheManager<K, V> {
