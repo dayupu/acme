@@ -194,12 +194,12 @@ mainApp.controller("headerController", function ($http, $scope, $location, $sess
     };
     $scope.messageHide = function(){
          $("#headerMessage").fadeOut("fast");
-         $("#headerMessage").unbind("mouseleave", $scope.onMouseLeave);
+         $("#headerMessage").parent().unbind("mouseleave", $scope.onMouseLeave);
     }
     $scope.lookMessage = function () {
         if($("#headerMessage").css("display") == "none"){
             $("#headerMessage").slideDown("fast");
-            $("#headerMessage").bind("mouseleave", $scope.onMouseLeave);
+            $("#headerMessage").parent().bind("mouseleave", $scope.onMouseLeave);
         }
     };
     $scope.getMessage = function(){
