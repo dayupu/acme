@@ -1,35 +1,22 @@
 package com.manage.kernel.core.admin.view.comm;
 
-import com.baidu.ueditor.PathFormat;
-import com.baidu.ueditor.define.BaseState;
-import com.baidu.ueditor.define.FileType;
-import com.baidu.ueditor.define.State;
-import com.baidu.ueditor.upload.Base64Uploader;
-import com.baidu.ueditor.upload.BinaryUploader;
-import com.baidu.ueditor.upload.StorageManager;
+
 import com.manage.base.database.enums.FileSource;
 import com.manage.base.ueditor.ActionMap;
 import com.manage.base.ueditor.ConfigManager;
 import com.manage.base.utils.JsonUtil;
-import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.service.comm.IResourceService;
 import com.manage.kernel.spring.UeditorSupplier;
-import java.io.InputStream;
 import java.util.Map;
-import org.apache.tomcat.util.http.fileupload.FileItemIterator;
-import org.apache.tomcat.util.http.fileupload.FileItemStream;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
