@@ -160,7 +160,7 @@ mainApp.controller("systemOrganListCtl", function ($scope, $http, mineTree, mine
 
     $scope.drop = function () {
         mineUtil.confirm("确认删除吗？", function () {
-            mineHttp.send("DELETE", "admin/organ/" + $scope.organ.id, {}, function (data) {
+            mineHttp.send("DELETE", "admin/organ/" + $scope.organ.code, {}, function (data) {
                 if (!verifyData(data)) {
                     $scope.messageStatus = false;
                     $scope.message = data.message;
@@ -169,6 +169,7 @@ mainApp.controller("systemOrganListCtl", function ($scope, $http, mineTree, mine
                 mineUtil.alert("删除成功");
                 $scope.buildTree(function () {
                     organTree.expandAll(true);
+                    $scope.organ = {};
                 });
             });
         });
@@ -201,7 +202,7 @@ mainApp.controller("systemOrganAddController", function ($scope, data, $uibModal
             oneLevelFlag = true;
         } else {
             $scope.title = "下级部门";
-            $scope.organ.parentId = data.id;
+            $scope.organ.parentCode = data.code;
             $scope.organ.parentName = data.name;
         }
     };
@@ -211,7 +212,7 @@ mainApp.controller("systemOrganAddController", function ($scope, data, $uibModal
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                var nodeId = data == null ? null : data.id;
+                var nodeId = data == null ? null : data.code;
                 mineMessage.publish("systemOrganTreeRefresh", nodeId);
             }
             $scope.initPage();
@@ -223,7 +224,7 @@ mainApp.controller("systemOrganAddController", function ($scope, data, $uibModal
 });
 
 mainApp.controller("systemOrganEditController", function ($scope, data, $uibModalInstance, mineHttp, mineMessage) {
-    mineHttp.send("GET", "admin/organ/" + data.id, {}, function (data) {
+    mineHttp.send("GET", "admin/organ/" + data.code, {}, function (data) {
         if (verifyData(data)) {
             $scope.organ = data.content;
         } else {
@@ -231,12 +232,12 @@ mainApp.controller("systemOrganEditController", function ($scope, data, $uibModa
         }
     });
     $scope.ok = function () {
-        mineHttp.send("PUT", "admin/organ/" + $scope.organ.id, {data: $scope.organ}, function (data) {
+        mineHttp.send("PUT", "admin/organ/" + $scope.organ.code, {data: $scope.organ}, function (data) {
             $scope.messageStatus = verifyData(data);
             $scope.message = data.message;
             $scope.organ = data.content;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemOrganTreeRefresh", data.content.parentId);
+                mineMessage.publish("systemOrganTreeRefresh", data.content.parentCode);
             }
         });
     };

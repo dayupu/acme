@@ -1,6 +1,6 @@
 package com.manage.base.enums;
 
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 
 /**
  * Created by bert on 2017/10/21.
@@ -18,7 +18,7 @@ public enum ImageSuffix {
     }
 
     public static String imageSuffixFilter(String imageType) {
-        if (StringUtil.isBlank(imageType)) {
+        if (StringHandler.isBlank(imageType)) {
             return null;
         }
         for (ImageSuffix suffix : ImageSuffix.values()) {

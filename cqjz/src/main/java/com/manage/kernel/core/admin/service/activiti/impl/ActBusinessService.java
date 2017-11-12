@@ -60,14 +60,14 @@ public class ActBusinessService implements IActBusinessService {
         if (adUser == null) {
             return user;
         }
-        user.setUserId(adUser.getId());
-        user.setActUserId(adUser.getAccount());
-        user.setUserName(adUser.getName());
-        if (adUser.getOrganId() != null) {
+        user.setId(adUser.getId());
+        user.setActId(adUser.getAccount());
+        user.setName(adUser.getName());
+        if (adUser.getOrganCode() != null) {
             AdOrganization organ = adUser.getOrgan();
             if (organ != null) {
-                user.setUserOrganId(organ.getId());
-                user.setUserOrganName(organ.getName());
+                user.setOrganCode(organ.getCode());
+                user.setOrganName(organ.getName());
             }
         }
         return user;
@@ -102,12 +102,12 @@ public class ActBusinessService implements IActBusinessService {
                 continue;
             }
             switch (actVar) {
-            case FLOW_SUBJECT:
-                processVariable.setSubject((String) variable.getValue());
-                break;
-            case FLOW_APPLY_USER:
-                processVariable.setApplyUser((String) variable.getValue());
-                break;
+                case FLOW_SUBJECT:
+                    processVariable.setSubject((String) variable.getValue());
+                    break;
+                case FLOW_APPLY_USER:
+                    processVariable.setApplyUser((String) variable.getValue());
+                    break;
             }
         }
         return processVariable;

@@ -10,18 +10,16 @@ import java.util.List;
  */
 @Entity
 @Table(name = "ad_organization")
-@SequenceGenerator(name = "seq_ad_organization", sequenceName = "seq_ad_organization", allocationSize = 1)
 public class AdOrganization extends EntityBase {
 
     @Id
-    @GeneratedValue(generator = "seq_ad_organization", strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private String code;
 
-    @Column(name = "parent_id", insertable = false, updatable = false)
-    private Long parentId;
+    @Column(name = "parent_code", insertable = false, updatable = false)
+    private String parentCode;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_code")
     private AdOrganization parent;
 
     @Column(name = "sequence", length = 3)
@@ -44,24 +42,20 @@ public class AdOrganization extends EntityBase {
 
     }
 
-    public AdOrganization(Long id) {
-        this.id = id;
+    public String getCode() {
+        return code;
     }
 
-    public Long getId() {
-        return id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getParentCode() {
+        return parentCode;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 
     public AdOrganization getParent() {

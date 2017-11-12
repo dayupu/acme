@@ -5,7 +5,7 @@ import com.manage.base.database.enums.Status;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.TreeNode;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.RoleDto;
 import com.manage.kernel.core.model.parser.RoleParser;
 import com.manage.kernel.core.admin.service.system.IRoleService;
@@ -107,7 +107,7 @@ public class RoleService implements IRoleService {
     public PageResult<RoleDto> getRoleListByPage(PageQuery pageQuery, RoleDto roleQuery) {
         Page<AdRole> rolePage = roleRepo.findAll((Specification<AdRole>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
-            if (StringUtil.isNotBlank(roleQuery.getName())) {
+            if (StringHandler.isNotBlank(roleQuery.getName())) {
                 list.add(cb.like(root.get("name").as(String.class), "%" + roleQuery.getName() + "%"));
             }
             return cb.and(list.toArray(new Predicate[0]));

@@ -9,11 +9,11 @@ public interface IOrganService {
 
     List<TreeNode> organTree();
 
-    OrganDto getOrgan(Long id);
+    OrganDto getOrgan(String code);
 
     OrganDto updateOrgan(OrganDto organDto);
 
-    void deleteOrgan(Long id);
+    void deleteOrgan(String code);
 
     void addOrgan(OrganDto organDto);
 }

@@ -4,7 +4,7 @@ import com.manage.base.exception.CoreException;
 import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.WatchDto;
 import com.manage.kernel.core.model.parser.WatchParser;
 import com.manage.kernel.core.admin.service.business.IWatchService;
@@ -77,14 +77,14 @@ public class WatchService implements IWatchService {
         Page<JzWatch> results = watchRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
 
-            if (StringUtil.isNotNull(query.getWatchTime())) {
+            if (StringHandler.isNotNull(query.getWatchTime())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("watchTime"), query.getWatchTime()));
             }
-            if (StringUtil.isNotNull(query.getWatchTimeEnd())) {
+            if (StringHandler.isNotNull(query.getWatchTimeEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("watchTime"), query.getWatchTimeEnd()));
             }
 
-            if (StringUtil.isNotBlank(query.getQueryName())) {
+            if (StringHandler.isNotBlank(query.getQueryName())) {
                 List<Predicate> orlist = new ArrayList<>();
                 orlist.add(cb.like(root.get("leader"), "%" + query.getQueryName() + "%"));
                 orlist.add(cb.like(root.get("worker"), "%" + query.getQueryName() + "%"));

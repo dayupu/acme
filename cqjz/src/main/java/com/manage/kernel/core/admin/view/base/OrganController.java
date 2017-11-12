@@ -27,12 +27,12 @@ public class OrganController {
     private IOrganService organService;
 
     @InboundLog
-    @GetMapping("{id}")
-    public ResponseInfo getOrgan(@PathVariable("id") Long id) {
+    @GetMapping("{code}")
+    public ResponseInfo getOrgan(@PathVariable("code") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
-            OrganDto organDto = organService.getOrgan(id);
+            Validators.notNull(code);
+            OrganDto organDto = organService.getOrgan(code);
             if (organDto == null) {
                 throw new OrganNotFoundException();
             }
@@ -49,13 +49,13 @@ public class OrganController {
     }
 
     @InboundLog
-    @PutMapping("{id}")
-    public ResponseInfo editOrgan(@PathVariable("id") Long id, @RequestBody OrganDto organDto) {
+    @PutMapping("{code}")
+    public ResponseInfo editOrgan(@PathVariable("code") String code, @RequestBody OrganDto organDto) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
+            Validators.notNull(code);
             Validators.notNull(organDto);
-            organDto.setId(id);
+            organDto.setCode(code);
             OrganDto result = organService.updateOrgan(organDto);
             if (result == null) {
                 throw new CoreException();
@@ -73,12 +73,12 @@ public class OrganController {
     }
 
     @InboundLog
-    @DeleteMapping("{id}")
-    public ResponseInfo dropOrgan(@PathVariable("id") Long id) {
+    @DeleteMapping("{code}")
+    public ResponseInfo dropOrgan(@PathVariable("code") String code) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(id);
-            organService.deleteOrgan(id);
+            Validators.notNull(code);
+            organService.deleteOrgan(code);
             response.wrapSuccess(null, MessageInfos.DELETE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

@@ -8,6 +8,7 @@ public enum ActVariable {
     /*流程变量*/
     FLOW_ACTION("action"),
     FLOW_APPLY_USER("applyUser"),
+    FLOW_APPROVE_GROUPS("approveGroups"),
     FLOW_SUBJECT("flow_subject"),
     FLOW_BUSINESS("flow_business"),
     /*任务变量*/

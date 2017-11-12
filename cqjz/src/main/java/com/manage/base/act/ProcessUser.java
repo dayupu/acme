@@ -5,49 +5,49 @@ package com.manage.base.act;
  */
 public class ProcessUser {
 
-    private Long userId;
-    private String actUserId;
-    private String userName;
-    private Long userOrganId;
-    private String userOrganName;
+    private Long id;
+    private String name;
+    private String actId;
+    private String organCode;
+    private String organName;
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getUserOrganId() {
-        return userOrganId;
+    public String getOrganCode() {
+        return organCode;
     }
 
-    public void setUserOrganId(Long userOrganId) {
-        this.userOrganId = userOrganId;
+    public void setOrganCode(String organCode) {
+        this.organCode = organCode;
     }
 
-    public String getUserOrganName() {
-        return userOrganName;
+    public String getOrganName() {
+        return organName;
     }
 
-    public void setUserOrganName(String userOrganName) {
-        this.userOrganName = userOrganName;
+    public void setOrganName(String organName) {
+        this.organName = organName;
     }
 
-    public String getActUserId() {
-        return actUserId;
+    public String getActId() {
+        return actId;
     }
 
-    public void setActUserId(String actUserId) {
-        this.actUserId = actUserId;
+    public void setActId(String actId) {
+        this.actId = actId;
     }
 }

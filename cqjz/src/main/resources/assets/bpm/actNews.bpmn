@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://sourceforge.net/bpmn/definitions/_20171006" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" expressionLanguage="http://www.w3.org/1999/XPath" id="_20171006" name="$DEF_NAME$" targetNamespace="http://sourceforge.net/bpmn/definitions/_20171006" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="act_news_approve" isClosed="false" isExecutable="true" processType="None">
+    <userTask activiti:assignee="#{applyUser}" activiti:exclusive="true" id="step01-01" name="提交申请"/>
+    <userTask activiti:candidateGroups="#{approveGroups}" activiti:exclusive="true" id="step02" name="支队领导审批"/>
+    <userTask activiti:candidateGroups="#{approveGroups}" activiti:exclusive="true" id="step03" name="定密员审批"/>
+    <userTask activiti:candidateGroups="#{approveGroups}" activiti:exclusive="true" id="step04" name="总队领导审批"/>
+    <userTask activiti:assignee="#{applyUser}" activiti:async="false" activiti:exclusive="true" id="step01-02" name="申请被退回"/>
     <startEvent id="_2" name="开始"/>
     <endEvent id="_3" name="结束"/>
-    <userTask activiti:assignee="#{applyUser}" activiti:exclusive="true" id="step01-01" name="提交申请"/>
-    <userTask activiti:candidateGroups="101" activiti:exclusive="true" id="step02" name="支队领导审批"/>
     <sequenceFlow id="_6" sourceRef="step01-01" targetRef="step02"/>
-    <userTask activiti:candidateGroups="102" activiti:exclusive="true" id="step03" name="定密员审批"/>
-    <userTask activiti:candidateGroups="103" activiti:exclusive="true" id="step04" name="总队领导审批"/>
     <sequenceFlow id="_12" sourceRef="_2" targetRef="step01-01"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_13" name="ExclusiveGateway"/>
     <sequenceFlow id="_14" sourceRef="step02" targetRef="_13"/>
@@ -24,7 +25,6 @@
     <sequenceFlow id="_21" name="同意" sourceRef="_19" targetRef="_3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='agree'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask activiti:assignee="#{applyUser}" activiti:async="false" activiti:exclusive="true" id="step01-02" name="申请被退回"/>
     <sequenceFlow id="_4" name="拒绝" sourceRef="_13" targetRef="step01-02">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=='reject'}]]></conditionExpression>
     </sequenceFlow>

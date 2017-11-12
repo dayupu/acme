@@ -3,21 +3,18 @@ package com.manage.kernel.core.admin.service.business.impl;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 
-import static com.manage.base.database.enums.NewsType.fromType;
-
 import com.manage.base.database.enums.TopicStatus;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NewsNotImageException;
 import com.manage.base.exception.NewsTopicNotFoundException;
 import com.manage.base.exception.NewsTypeNotSupportException;
-import com.manage.base.exception.NotFoundException;
 import com.manage.base.exception.PrivilegeDeniedException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.page.TreeNodeNews;
 import com.manage.base.utils.CoreUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.cache.CacheManager;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
 import com.manage.kernel.core.model.dto.NewsDto;
@@ -35,9 +32,6 @@ import com.manage.kernel.spring.comm.SessionHelper;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.transaction.NotSupportedException;
-
-import static org.activiti.engine.impl.util.json.XMLTokener.entity;
 
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +127,7 @@ public class NewsService implements INewsService {
         }
 
         AdUser user = SessionHelper.user();
-        if (StringUtil.notEquals(news.getCreatedBy(), user.getId())) {
+        if (StringHandler.notEquals(news.getCreatedBy(), user.getId())) {
             throw new PrivilegeDeniedException();
         }
 
@@ -153,22 +147,22 @@ public class NewsService implements INewsService {
         Page<News> jpaPage = newsRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("createdBy"), SessionHelper.user().getId()));
-            if (StringUtil.isNotBlank(query.getTitle())) {
+            if (StringHandler.isNotBlank(query.getTitle())) {
                 list.add(cb.like(root.get("title"), "%" + query.getTitle() + "%"));
             }
-            if (StringUtil.isNotNull(query.getType())) {
+            if (StringHandler.isNotNull(query.getType())) {
                 list.add(cb.or(cb.equal(root.get("type"), query.getType()),
                          cb.equal(root.get("topic"), query.getType())));
             }
-            if (StringUtil.isNotNull(query.getStatus())) {
+            if (StringHandler.isNotNull(query.getStatus())) {
                 list.add(cb.equal(root.get("status"), query.getStatus()));
             } else {
                 list.add(cb.notEqual(root.get("status"), NewsStatus.DELETE));
             }
-            if (StringUtil.isNotNull(query.getCreatedAt())) {
+            if (StringHandler.isNotNull(query.getCreatedAt())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), query.getCreatedAt()));
             }
-            if (StringUtil.isNotNull(query.getCreatedAtEnd())) {
+            if (StringHandler.isNotNull(query.getCreatedAtEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("createdAt").as(LocalDateTime.class), query.getCreatedAtEnd()));
             }
 
@@ -268,10 +262,10 @@ public class NewsService implements INewsService {
         Page<NewsTopic> jpaPage = newsTopicRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("level"), 1));
-            if (StringUtil.isNotBlank(query.getName())) {
+            if (StringHandler.isNotBlank(query.getName())) {
                 list.add(cb.like(root.get("name"), "%" + query.getName() + "%"));
             }
-            if (StringUtil.isNotNull(query.getStatus())) {
+            if (StringHandler.isNotNull(query.getStatus())) {
                 list.add(cb.equal(root.get("status"), query.getStatus()));
             }
             return cb.and(list.toArray(new Predicate[0]));
@@ -286,7 +280,7 @@ public class NewsService implements INewsService {
     @Transactional
     public NewsTopicDto saveNewsTopic(NewsTopicDto topicDto) {
         NewsTopic topic;
-        if (StringUtil.isEmpty(topicDto.getCode())) {
+        if (StringHandler.isEmpty(topicDto.getCode())) {
             topic = new NewsTopic();
             topic.setStatus(TopicStatus.ENABLED);
             topic.setCreatedAt(LocalDateTime.now());

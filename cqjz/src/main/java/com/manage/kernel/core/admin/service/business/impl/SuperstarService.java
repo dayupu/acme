@@ -6,7 +6,7 @@ import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.FileUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.SuperstarDto;
 import com.manage.kernel.core.model.parser.SuperstarParser;
 import com.manage.kernel.core.admin.service.business.ISuperStarService;
@@ -37,16 +37,16 @@ public class SuperstarService implements ISuperStarService {
         Page<JzSuperStar> results = superStarRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("status"), Status.ENABLE));
-            if (StringUtil.isNotBlank(query.getName())) {
+            if (StringHandler.isNotBlank(query.getName())) {
                 list.add(cb.like(root.get("name"), "%" + query.getName() + "%"));
             }
-            if (StringUtil.isNotBlank(query.getYear())) {
+            if (StringHandler.isNotBlank(query.getYear())) {
                 list.add(cb.equal(root.get("year"), query.getYear()));
             }
-            if (StringUtil.isNotBlank(query.getMonth())) {
+            if (StringHandler.isNotBlank(query.getMonth())) {
                 list.add(cb.equal(root.get("month"), query.getMonth()));
             }
-            if (StringUtil.isNotBlank(query.getHonor())) {
+            if (StringHandler.isNotBlank(query.getHonor())) {
                 list.add(cb.equal(root.get("honor"), query.getHonor()));
             }
             return cb.and(list.toArray(new Predicate[0]));

@@ -1,6 +1,6 @@
 package com.manage.kernel.spring.config;
 
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.admin.service.activiti.impl.ActIdentityService;
 import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.spring.PropertySupplier;
@@ -44,7 +44,7 @@ public class PrepareConfig implements InitializingBean {
 
     private void initDirs() {
         String imagesDir = supplier.getUploadImagesDir();
-        if (StringUtil.isEmpty(imagesDir)) {
+        if (StringHandler.isEmpty(imagesDir)) {
             LOGGER.error("upload images dir not configured.");
         }
 

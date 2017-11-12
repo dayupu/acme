@@ -5,7 +5,7 @@ import com.manage.base.exception.DepartNotFoundException;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
 import com.manage.base.utils.CoreUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.DepartDto;
 import com.manage.kernel.core.model.parser.DepartParser;
 import com.manage.kernel.core.admin.service.system.IDepartService;
@@ -87,7 +87,7 @@ public class DepartService implements IDepartService {
         department.setFullCode(CoreUtil.departCodeFull(departDto.getCode()));
         department.setLevel(CoreUtil.departLevel(departDto.getCode()));
         department.setLeaf(true);
-        if (StringUtil.isNotBlank(departDto.getParentCode())) {
+        if (StringHandler.isNotBlank(departDto.getParentCode())) {
             Department parent = departRepo.findOne(departDto.getParentCode());
             if (parent == null) {
                 LOGGER.info("Not found the department {}", departDto.getParentCode());

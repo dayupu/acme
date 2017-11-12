@@ -1,6 +1,6 @@
 package com.manage.kernel.core.admin.view.comm;
 
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.base.utils.WebUtil;
 import com.manage.kernel.jpa.entity.LoginLog;
 import com.manage.kernel.jpa.repository.LoginLogRepo;
@@ -54,7 +54,7 @@ public class AdminController {
         boolean loginStatus = false;
         String message = null;
         try {
-            if (StringUtil.isEmptyAny(account, password)) {
+            if (StringHandler.isEmptyAny(account, password)) {
                 throw new CoreException();
             }
 

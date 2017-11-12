@@ -8,7 +8,7 @@ VALUES(11, NULL, NULL, 2, '用户信息', 1, 2, 'user.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(12, NULL, NULL, 2, '菜单信息', 1, 3, 'menu.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(13, NULL, NULL, 2, '组织机构', 1, 4, 'organ.list');
+VALUES(13, NULL, NULL, 2, '部门管理', 1, 4, 'organ.list');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(14, NULL, NULL, 2, '新闻专题', 1, 5, 'news.topic');
 

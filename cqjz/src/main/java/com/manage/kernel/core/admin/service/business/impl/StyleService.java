@@ -5,7 +5,7 @@ import com.manage.base.exception.StyleNotFoundException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.admin.service.business.IStyleService;
 import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.parser.StyleParser;
@@ -40,7 +40,7 @@ public class StyleService implements IStyleService {
     public StyleDto saveStyle(StyleDto styleDto) {
 
         JzStyle style = new JzStyle();
-        if (StringUtil.isBlank(styleDto.getNumber())) {
+        if (StringHandler.isBlank(styleDto.getNumber())) {
             style.setNumber(CoreUtil.nextRandomID());
             style.setTitle(styleDto.getTitle());
             style.setCreatedAt(LocalDateTime.now());
@@ -82,7 +82,7 @@ public class StyleService implements IStyleService {
         Page<JzStyle> stylePage = styleRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(root.get("status").in(Status.enableList()));
-            if (StringUtil.isNotBlank(query.getTitle())) {
+            if (StringHandler.isNotBlank(query.getTitle())) {
                 list.add(cb.like(root.get("title"), "%" + query.getTitle() + "%"));
             }
             return cb.and(list.toArray(new Predicate[0]));

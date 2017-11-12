@@ -1,6 +1,6 @@
 package com.manage.kernel.spring;
 
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -90,7 +90,7 @@ public class UeditorSupplier {
     }
 
     public void setImageAllowFiles(String imageAllowFiles) {
-        this.imageAllowFiles = StringUtil.strArrayToList(imageAllowFiles);
+        this.imageAllowFiles = StringHandler.strArrayToList(imageAllowFiles);
     }
 
     public String getImageCompressEnable() {
@@ -210,7 +210,7 @@ public class UeditorSupplier {
     }
 
     public void setCatcherLocalDomain(String catcherLocalDomain) {
-        this.catcherLocalDomain = StringUtil.strArrayToList(catcherLocalDomain);
+        this.catcherLocalDomain = StringHandler.strArrayToList(catcherLocalDomain);
     }
 
     public String getCatcherActionName() {
@@ -258,7 +258,7 @@ public class UeditorSupplier {
     }
 
     public void setCatcherAllowFiles(String catcherAllowFiles) {
-        this.catcherAllowFiles = StringUtil.strArrayToList(catcherAllowFiles);
+        this.catcherAllowFiles = StringHandler.strArrayToList(catcherAllowFiles);
     }
 
     public String getVideoActionName() {
@@ -306,7 +306,7 @@ public class UeditorSupplier {
     }
 
     public void setVideoAllowFiles(String videoAllowFiles) {
-        this.videoAllowFiles = StringUtil.strArrayToList(videoAllowFiles);
+        this.videoAllowFiles = StringHandler.strArrayToList(videoAllowFiles);
     }
 
     public String getFileActionName() {
@@ -354,7 +354,7 @@ public class UeditorSupplier {
     }
 
     public void setFileAllowFiles(String fileAllowFiles) {
-        this.fileAllowFiles = StringUtil.strArrayToList(fileAllowFiles);
+        this.fileAllowFiles = StringHandler.strArrayToList(fileAllowFiles);
     }
 
     public String getImageManagerActionName() {
@@ -402,7 +402,7 @@ public class UeditorSupplier {
     }
 
     public void setImageManagerAllowFiles(String imageManagerAllowFiles) {
-        this.imageManagerAllowFiles = StringUtil.strArrayToList(imageManagerAllowFiles);
+        this.imageManagerAllowFiles = StringHandler.strArrayToList(imageManagerAllowFiles);
     }
 
     public String getFileManagerActionName() {
@@ -442,6 +442,6 @@ public class UeditorSupplier {
     }
 
     public void setFileManagerAllowFiles(String fileManagerAllowFiles) {
-        this.fileManagerAllowFiles = StringUtil.strArrayToList(fileManagerAllowFiles);
+        this.fileManagerAllowFiles = StringHandler.strArrayToList(fileManagerAllowFiles);
     }
 }

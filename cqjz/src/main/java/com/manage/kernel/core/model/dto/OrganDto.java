@@ -9,20 +9,29 @@ public class OrganDto implements Serializable{
 
     private static final long serialVersionUID = 2702748339411631586L;
 
-    private Long id;
+    private String code;
     private String name;
     private int level;
     private int sequence;
-    private Long parentId;
+    private String parentCode;
     private String parentName;
     private String description;
 
-    public Long getId() {
-        return id;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 
     public String getName() {
@@ -39,14 +48,6 @@ public class OrganDto implements Serializable{
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public String getParentName() {

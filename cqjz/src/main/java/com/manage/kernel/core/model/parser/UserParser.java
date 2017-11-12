@@ -36,8 +36,8 @@ public class UserParser {
         userDto.setCreatedBy(user.getCreatedUserName());
         userDto.setUpdatedBy(user.getUpdatedUserName());
         userDto.setApproveRole(user.getApproveRole());
-        userDto.setOrganId(user.getOrganId());
-        if (user.getOrganId() != null) {
+        userDto.setOrganCode(user.getOrganCode());
+        if (user.getOrganCode() != null) {
             AdOrganization organ = user.getOrgan();
             if (organ != null) {
                 userDto.setOrganName(organ.getName());

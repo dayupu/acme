@@ -21,6 +21,7 @@ public enum MessageErrors implements CoreMsgs {
     DEPART_HAS_CHILDREN(200031, "The department has sub deparment"),
     ORGAN_NOT_FOUND(200040, "NOT found the organization"),
     ORGAN_HAS_CHILDREN(200041, "The organization has sub organization"),
+    ORGAN_CODE_ERROR(200042, "The organization code error"),
     WATCH_TIME_ERROR(200050, "The watchTime less than watchTimeEnd"),
     WATCH_TIME_RANGE_INVALID(200051, "watch time range greater than 30"),
     SUPERSTAR_NOT_FOUND(200060, "NOT found the superstar"),

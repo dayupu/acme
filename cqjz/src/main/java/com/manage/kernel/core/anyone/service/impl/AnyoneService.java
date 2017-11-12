@@ -7,10 +7,8 @@ import com.manage.base.database.enums.Status;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
-import com.manage.base.supplier.page.PageQuery;
-import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.FileUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.dto.SuperstarDto;
@@ -30,9 +28,7 @@ import com.manage.kernel.jpa.repository.JzStyleRepo;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
-import com.sun.imageio.plugins.common.ImageUtil;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -252,7 +248,7 @@ public class AnyoneService implements IAnyoneService {
             if (type != null) {
                 list.add(cb.equal(root.get("type"), type.getConstant()));
             }
-            if (!StringUtil.isEmpty(searchText)) {
+            if (!StringHandler.isEmpty(searchText)) {
                 list.add(cb.like(root.get("title"), "%" + searchText + "%"));
             }
 

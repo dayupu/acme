@@ -22,13 +22,13 @@ public class OrganParser {
     }
 
     private static OrganDto toDto(AdOrganization organ, OrganDto organDto) {
-        organDto.setId(organ.getId());
+        organDto.setCode(organ.getCode());
         organDto.setName(organ.getName());
         organDto.setLevel(organ.getLevel());
         organDto.setSequence(organ.getSequence());
         organDto.setDescription(organ.getDescription());
-        if (organ.getParentId() != null) {
-            organDto.setParentId(organ.getParentId());
+        if (organ.getParentCode() != null) {
+            organDto.setParentCode(organ.getParentCode());
             organDto.setParentName(organ.getParent().getName());
         }
         return organDto;

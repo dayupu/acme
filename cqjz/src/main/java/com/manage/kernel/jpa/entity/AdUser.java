@@ -55,11 +55,11 @@ public class AdUser extends StatusBase {
     @JoinTable(name = "ad_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<AdRole> roles = new ArrayList<AdRole>();
 
-    @Column(name = "organ_id", insertable = false, updatable = false)
-    private Long organId;
+    @Column(name = "organ_code", insertable = false, updatable = false)
+    private String organCode;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "organ_id")
+    @JoinColumn(name = "organ_code")
     private AdOrganization organ;
 
     public AdUser() {
@@ -163,12 +163,12 @@ public class AdUser extends StatusBase {
         this.approveRole = approveRole;
     }
 
-    public Long getOrganId() {
-        return organId;
+    public String getOrganCode() {
+        return organCode;
     }
 
-    public void setOrganId(Long organId) {
-        this.organId = organId;
+    public void setOrganCode(String organCode) {
+        this.organCode = organCode;
     }
 
     public AdOrganization getOrgan() {

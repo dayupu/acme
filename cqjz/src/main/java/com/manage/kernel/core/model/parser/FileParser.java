@@ -1,6 +1,6 @@
 package com.manage.kernel.core.model.parser;
 
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.FileDto;
 import com.manage.kernel.jpa.entity.ResourceFile;
 
@@ -29,7 +29,7 @@ public class FileParser {
         fileDto.setId(file.getId());
         fileDto.setOriginName(file.getOriginName());
         fileDto.setAccessUrl(file.getAccessUrl());
-        fileDto.setHumanSize(StringUtil.fileSize(file.getFileSize()));
+        fileDto.setHumanSize(StringHandler.fileSize(file.getFileSize()));
         return fileDto;
     }
 }

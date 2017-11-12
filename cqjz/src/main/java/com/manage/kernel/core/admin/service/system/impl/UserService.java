@@ -8,7 +8,7 @@ import com.manage.base.supplier.Pair;
 import com.manage.base.exception.CoreException;
 import com.manage.base.supplier.page.TreeNode;
 import com.manage.base.supplier.msgs.MessageErrors;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.model.dto.UserDto;
 import com.manage.kernel.core.model.parser.UserParser;
 import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
@@ -86,26 +86,26 @@ public class UserService implements IUserService {
     public PageResult<UserDto> getUserListByPage(PageQuery pageQuery, UserDto userQuery) {
         Page<AdUser> userPage = userRepo.findAll((Specification<AdUser>) (root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
-            if (StringUtil.isNotBlank(userQuery.getAccount())) {
+            if (StringHandler.isNotBlank(userQuery.getAccount())) {
                 list.add(cb.equal(root.get("account"), userQuery.getAccount()));
             }
-            if (StringUtil.isNotBlank(userQuery.getName())) {
+            if (StringHandler.isNotBlank(userQuery.getName())) {
                 list.add(cb.like(root.get("name"), "%" + userQuery.getName() + "%"));
             }
-            if (StringUtil.isNotBlank(userQuery.getMobile())) {
+            if (StringHandler.isNotBlank(userQuery.getMobile())) {
                 list.add(cb.equal(root.get("mobile"), userQuery.getMobile()));
             }
-            if (StringUtil.isNotNull(userQuery.getApproveRole())) {
+            if (StringHandler.isNotNull(userQuery.getApproveRole())) {
                 list.add(cb.equal(root.get("approveRole"), userQuery.getApproveRole()));
             }
-            if (StringUtil.isNotNull(userQuery.getCreatedAt())) {
+            if (StringHandler.isNotNull(userQuery.getCreatedAt())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("createdAt"), userQuery.getCreatedAt()));
             }
-            if (StringUtil.isNotNull(userQuery.getCreatedAtEnd())) {
+            if (StringHandler.isNotNull(userQuery.getCreatedAtEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("createdAt"), userQuery.getCreatedAtEnd()));
             }
-            if (StringUtil.isNotNull(userQuery.getOrganId())) {
-                list.add(cb.equal(root.get("organId"), userQuery.getOrganId()));
+            if (StringHandler.isNotNull(userQuery.getOrganCode())) {
+                list.add(cb.equal(root.get("organCode"), userQuery.getOrganCode()));
             }
             return cb.and(list.toArray(new Predicate[0]));
         }, pageQuery.sortPageDefault("id"));
@@ -136,7 +136,7 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(SessionHelper.user());
-        setUserOrgan(user, userDto.getOrganId());
+        setUserOrgan(user, userDto.getOrganCode());
         AdUser savedUser = userRepo.save(user);
         actIdentityService.saveActUser(savedUser);
     }
@@ -157,7 +157,7 @@ public class UserService implements IUserService {
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
         user.setUpdatedUser(SessionHelper.user());
-        setUserOrgan(user, userDto.getOrganId());
+        setUserOrgan(user, userDto.getOrganCode());
         AdUser updatedUser = userRepo.save(user);
         actIdentityService.saveActUser(updatedUser);
     }
@@ -235,11 +235,11 @@ public class UserService implements IUserService {
         }
     }
 
-    private void setUserOrgan(AdUser user, Long organId) {
-        if (organId == null) {
+    private void setUserOrgan(AdUser user, String organCode) {
+        if (organCode == null) {
             return;
         }
-        AdOrganization organ = organRepo.findOne(organId);
+        AdOrganization organ = organRepo.findOne(organCode);
         if (organ == null) {
             return;
         }

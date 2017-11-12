@@ -2,11 +2,10 @@ package com.manage.base.utils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import org.springframework.util.StringUtils;
 
-public class StringUtil extends org.springframework.util.StringUtils {
+public class StringHandler extends org.springframework.util.StringUtils {
 
     public static boolean isEmptyAll(Object... objects) {
         for (Object object : objects) {
@@ -46,6 +45,17 @@ public class StringUtil extends org.springframework.util.StringUtils {
             return false;
         }
         return obj1.equals(obj2);
+    }
+
+    public static String join(Collection list, String separator) {
+        StringBuilder builder = new StringBuilder();
+        for (Object node : list) {
+            builder.append(node.toString()).append(separator);
+        }
+        if (builder.length() > 1) {
+            builder.setLength(builder.length() - 1);
+        }
+        return builder.toString();
     }
 
     public static boolean notEquals(Object obj1, Object obj2) {

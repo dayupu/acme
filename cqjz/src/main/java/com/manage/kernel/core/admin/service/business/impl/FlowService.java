@@ -14,7 +14,7 @@ import com.manage.base.exception.NotFoundException;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
-import com.manage.base.utils.StringUtil;
+import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
 import com.manage.kernel.core.model.dto.ApproveDto;
 import com.manage.kernel.core.model.dto.ApproveHistory;
@@ -93,16 +93,16 @@ public class FlowService implements IFlowService {
         List<FlowDto> flows = new ArrayList<>();
         String account = SessionHelper.user().getAccount();
         TaskQuery taskQuery = taskService.createTaskQuery().taskAssignee(account).active();
-        if (StringUtil.isNotBlank(query.getSubject())) {
+        if (StringHandler.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
-        if (StringUtil.isNotBlank(query.getBusinessKey())) {
+        if (StringHandler.isNotBlank(query.getBusinessKey())) {
             taskQuery.processVariableValueLike(ActVariable.FLOW_BUSINESS.varName(), query.getBusinessKey() + "%");
         }
-        if (StringUtil.isNotNull(query.getQueryTime())) {
+        if (StringHandler.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
         }
-        if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+        if (StringHandler.isNotNull(query.getQueryTimeEnd())) {
             taskQuery.taskCreatedBefore(query.getQueryTimeEnd().toDate());
         }
         long count = taskQuery.count();
@@ -152,10 +152,10 @@ public class FlowService implements IFlowService {
         if (query.getQueryTimeEnd() != null) {
             processQuery.startedBefore(query.getQueryTimeEnd().toDate());
         }
-        if (StringUtil.isNotBlank(query.getSubject())) {
+        if (StringHandler.isNotBlank(query.getSubject())) {
             processQuery.variableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
-        if (StringUtil.isNotBlank(query.getBusinessKey())) {
+        if (StringHandler.isNotBlank(query.getBusinessKey())) {
             processQuery.variableValueLike(ActVariable.FLOW_BUSINESS.varName(), query.getBusinessKey() + "%");
         }
 
@@ -216,16 +216,16 @@ public class FlowService implements IFlowService {
         AdUser user = userRepo.findUserByAccount(account);
         String groupId = user.getApproveRole().actGroupId();
         TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
-        if (StringUtil.isNotBlank(query.getSubject())) {
+        if (StringHandler.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
-        if (StringUtil.isNotBlank(query.getBusinessKey())) {
+        if (StringHandler.isNotBlank(query.getBusinessKey())) {
             taskQuery.processVariableValueLike(ActVariable.FLOW_BUSINESS.varName(), query.getBusinessKey() + "%");
         }
-        if (StringUtil.isNotNull(query.getQueryTime())) {
+        if (StringHandler.isNotNull(query.getQueryTime())) {
             taskQuery.taskCreatedAfter(query.getQueryTime().toDate());
         }
-        if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+        if (StringHandler.isNotNull(query.getQueryTimeEnd())) {
             taskQuery.taskCreatedBefore(query.getQueryTime().toDate());
         }
 
@@ -259,8 +259,8 @@ public class FlowService implements IFlowService {
         ProcessVariable variable = businessService.getProcessVaribale(processId);
         flow.setSubject(variable.getSubject());
         ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
-        flow.setApplyUser(processUser.getUserName());
-        flow.setApplyUserOrgan(processUser.getUserOrganName());
+        flow.setApplyUser(processUser.getName());
+        flow.setApplyUserOrgan(processUser.getOrganName());
         return flow;
     }
 
@@ -270,16 +270,16 @@ public class FlowService implements IFlowService {
         Page<ActApproveTask> taskResult = approveTaskRepo.findAll((root, criteriaQuery, cb) -> {
             List<Predicate> list = new ArrayList<>();
             list.add(cb.equal(root.get("approveUser"), SessionHelper.user().getAccount()));
-            if (StringUtil.isNotBlank(query.getSubject())) {
+            if (StringHandler.isNotBlank(query.getSubject())) {
                 list.add(cb.like(root.get("subject"), "%" + query.getSubject() + "%"));
             }
-            if (StringUtil.isNotBlank(query.getBusinessKey())) {
+            if (StringHandler.isNotBlank(query.getBusinessKey())) {
                 list.add(cb.like(root.get("businessKey"), query.getBusinessKey() + "%"));
             }
-            if (StringUtil.isNotNull(query.getQueryTime())) {
+            if (StringHandler.isNotNull(query.getQueryTime())) {
                 list.add(cb.greaterThanOrEqualTo(root.get("approveTime"), query.getQueryTime()));
             }
-            if (StringUtil.isNotNull(query.getQueryTimeEnd())) {
+            if (StringHandler.isNotNull(query.getQueryTimeEnd())) {
                 list.add(cb.lessThanOrEqualTo(root.get("approveTime"), query.getQueryTimeEnd()));
             }
             return cb.and(list.toArray(new Predicate[0]));
@@ -302,8 +302,8 @@ public class FlowService implements IFlowService {
             flow.setProcess(approveTask.getApproveResult());
             flow.setProcessTime(approveTask.getApproveTime());
             ProcessUser user = businessService.getProcessUser(approveTask.getApplyUser());
-            flow.setApplyUser(user.getUserName());
-            flow.setApplyUserOrgan(user.getUserOrganName());
+            flow.setApplyUser(user.getName());
+            flow.setApplyUserOrgan(user.getOrganName());
             flowDtos.add(flow);
         }
 
@@ -365,8 +365,8 @@ public class FlowService implements IFlowService {
         HistoricProcessInstance process = getHistoricProcessInstance(processId);
         if (process != null) {
             ProcessUser processUser = businessService.getProcessUser(process.getStartUserId());
-            detail.setApplyUser(processUser.getUserName());
-            detail.setApplyUserOrgan(processUser.getUserOrganName());
+            detail.setApplyUser(processUser.getName());
+            detail.setApplyUserOrgan(processUser.getOrganName());
             detail.setApplyTime(LocalDateTime.fromDateFields(process.getStartTime()));
         }
 
@@ -418,8 +418,8 @@ public class FlowService implements IFlowService {
             history.setEndTime(LocalDateTime.fromDateFields(activity.getEndTime()));
 
             ProcessUser processUser = businessService.getProcessUser(approve.getUserId());
-            history.setApproveUser(processUser.getUserName());
-            history.setApproveUserOrgan(processUser.getUserOrganName());
+            history.setApproveUser(processUser.getName());
+            history.setApproveUserOrgan(processUser.getOrganName());
 
             histories.add(history);
         }

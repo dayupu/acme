@@ -10,4 +10,6 @@ public class Constants {
     // 流程模板ID
     public static final String ACT_PROCESS_NEWS = "act_news_approve";
 
+    public static final Integer ORGAN_LENTH = 4;
+
 }
