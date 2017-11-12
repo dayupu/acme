@@ -33,13 +33,8 @@ public class PrepareConfig implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         initDirs();
-        initActDatas();
         LOGGER.info("Cache news topic and type datas");
         newsService.cacheNewsTopics();
-    }
-
-    private void initActDatas() {
-        actIdentityService.initActGroup();
     }
 
     private void initDirs() {

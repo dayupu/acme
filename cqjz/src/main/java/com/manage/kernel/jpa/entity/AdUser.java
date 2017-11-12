@@ -34,7 +34,7 @@ public class AdUser extends StatusBase {
     private Gender gender;
 
     @Column(name = "approve_role")
-    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
+    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole") })
     private ApproveRole approveRole;
 

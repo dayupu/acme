@@ -13,4 +13,7 @@ public interface FlowProcessRepo
     @Query("from FlowProcess where businessId = :businessId")
     public FlowProcess findByBusinessId(@Param("businessId") String businessId);
 
+    @Query("from FlowProcess where processId = :processId")
+    public FlowProcess findByProcessId(@Param("processId") String processId);
+
 }

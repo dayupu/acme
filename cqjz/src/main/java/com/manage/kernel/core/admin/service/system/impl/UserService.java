@@ -133,7 +133,7 @@ public class UserService implements IUserService {
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
         user.setStatus(Status.ENABLE);
-        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
+        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.EMPLOYEE : userDto.getApproveRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setCreatedUser(SessionHelper.user());
         setUserOrgan(user, userDto.getOrganCode());
@@ -154,12 +154,13 @@ public class UserService implements IUserService {
         user.setMobile(userDto.getMobile());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
-        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.CLERK : userDto.getApproveRole());
+        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.EMPLOYEE : userDto.getApproveRole());
         user.setUpdatedAt(LocalDateTime.now());
         user.setUpdatedUser(SessionHelper.user());
         setUserOrgan(user, userDto.getOrganCode());
         AdUser updatedUser = userRepo.save(user);
         actIdentityService.saveActUser(updatedUser);
+        resetUserRole(userDto);
     }
 
     @Override

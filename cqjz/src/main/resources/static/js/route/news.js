@@ -142,7 +142,7 @@ mainApp.controller("newsListCtl", function ($scope, $state, mineHttp, mineGrid, 
                 cellTemplate: "<div class='mine-table-span'>{{row.entity.typeName}}</div>"
             },
             {field: 'title', displayName: '标题'},
-            {field: 'source', width: 150, displayName: '来源'},
+            {field: 'source', width: 200, displayName: '来源'},
             {
                 field: 'status',
                 displayName: '状态',

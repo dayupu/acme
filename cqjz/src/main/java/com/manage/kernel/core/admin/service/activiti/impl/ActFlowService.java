@@ -7,16 +7,19 @@ import com.manage.base.act.vars.ActApproveObj;
 import com.manage.base.act.vars.ActParams;
 import com.manage.base.constant.Constants;
 import com.manage.base.database.enums.ActProcess;
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
-import com.manage.base.exception.ActNotSupportException;
-import com.manage.base.exception.ActTaskNotFoundException;
-import com.manage.base.exception.NewsNotFoundException;
+import com.manage.base.exception.*;
+import com.manage.base.utils.CoreUtil;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
+import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
+import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.jpa.entity.FlowProcess;
 import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
+import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.jpa.repository.FlowProcessRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.spring.comm.Messages;
@@ -31,6 +34,8 @@ import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by bert on 17-11-9.
  */
@@ -44,16 +49,19 @@ public class ActFlowService implements IActFlowService {
     private IdentityService identityService;
 
     @Autowired
+    private IActIdentityService actIdentityService;
+
+    @Autowired
     private TaskService taskService;
 
     @Autowired
     private FlowProcessRepo flowProcessRepo;
 
     @Autowired
-    private ActApproveTaskRepo approveTaskRepo;
+    private NewsRepo newsRepo;
 
     @Autowired
-    private NewsRepo newsRepo;
+    private AdUserRepo userRepo;
 
     @Autowired
     private IActBusinessService actBusinessService;
@@ -83,9 +91,12 @@ public class ActFlowService implements IActFlowService {
         flowProcess.setType(flowInfo.getType());
         flowProcess.setSubType(flowInfo.getSubType());
         flowProcess.setSource(flowInfo.getFlowSource());
+        setFlowApplyInfo(flowProcess);
         boolean isSupport = false;
         if (flowInfo.getFlowSource() == FlowSource.NEWS) {
             flowProcess.setNews((News) flowSupport);
+            flowProcess.setCurrRole(ApproveRole.EMPLOYEE);
+            flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
             isSupport = true;
         }
 
@@ -93,8 +104,24 @@ public class ActFlowService implements IActFlowService {
             throw new ActNotSupportException();
         }
 
-        flowProcess = flowProcessRepo.save(flowProcess);
-        handleActFlow(flowProcess);
+        String processId = handleActFlow(flowProcess);
+        flowProcess.setProcessId(processId);
+        flowProcessRepo.save(flowProcess);
+    }
+
+    private void setFlowApplyInfo(FlowProcess flowProcess) {
+
+        String account = SessionHelper.user().getAccount();
+        flowProcess.setApplyActUser(account);
+        AdUser user = userRepo.findUserByAccount(account);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        String organCode = user.getOrganCode();
+        if (organCode == null) {
+            throw new OrganNotFoundException();
+        }
+        flowProcess.setApplyOrganCode(organCode);
     }
 
     @Override
@@ -119,21 +146,21 @@ public class ActFlowService implements IActFlowService {
         }
         NewsStatus status = null;
         switch (process) {
-        case APPLY:
-            status = NewsStatus.SUBMIT;
-            break;
-        case AGREE:
-            status = NewsStatus.APPROVE;
-            if (isOver) {
-                status = NewsStatus.PASS;
-            }
-            break;
-        case REJECT:
-            status = NewsStatus.REJECT;
-            break;
-        case CANCEL:
-            status = NewsStatus.CANCEL;
-            break;
+            case APPLY:
+                status = NewsStatus.SUBMIT;
+                break;
+            case AGREE:
+                status = NewsStatus.APPROVE;
+                if (isOver) {
+                    status = NewsStatus.PASS;
+                }
+                break;
+            case REJECT:
+                status = NewsStatus.REJECT;
+                break;
+            case CANCEL:
+                status = NewsStatus.CANCEL;
+                break;
         }
         news.setStatus(status);
         if (status.isPass()) {
@@ -142,7 +169,7 @@ public class ActFlowService implements IActFlowService {
         newsRepo.save(news);
     }
 
-    private void handleActFlow(FlowProcess flowProcess) {
+    private String handleActFlow(FlowProcess flowProcess) {
         String applyUserId = SessionHelper.user().actUserId();
         String businessId = flowProcess.getBusinessId();
 
@@ -156,8 +183,12 @@ public class ActFlowService implements IActFlowService {
             if (task == null) {
                 throw new ActTaskNotFoundException();
             }
-            taskService.complete(task.getId());
-            return;
+
+            params = new ActParams();
+            List<String> approveGroups = CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode());
+            params.setApproveGroups(approveGroups);
+            taskService.complete(task.getId(), params.build());
+            return task.getProcessInstanceId();
         }
 
         Task task = getRunningTask(applyUserId, process.getProcessInstanceId());
@@ -173,6 +204,8 @@ public class ActFlowService implements IActFlowService {
         ActParams params = ActParams.flowProcess(ActProcess.APPLY, flowProcess.getSubject(), businessId);
         taskService.complete(task.getId(), params.build());
         actBusinessService.saveApproveTask(task, businessId, approveObj);
+
+        return task.getProcessInstanceId();
     }
 
     private Task getRunningTask(String applyUserId, String processId) {

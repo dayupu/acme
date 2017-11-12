@@ -186,7 +186,7 @@ public class OrganService implements IOrganService {
         }
 
         String nextCode = String.valueOf(Long.valueOf(maxCode) + 1);
-        if (nextCode.length() % Constants.ORGAN_LENTH != 0) {
+        if (nextCode.length() / Constants.ORGAN_LENTH != level || nextCode.length() % Constants.ORGAN_LENTH != 0) {
             throw new CoreException(MessageErrors.ORGAN_CODE_ERROR);
         }
         return nextCode;

@@ -36,6 +36,13 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
                     }
                 }
             }
+            if (VarDBEnum.class.isAssignableFrom(enumClass)) {
+                for (Object enumObj : enumClass.getEnumConstants()) {
+                    if (value.equals(String.valueOf(((VarDBEnum) enumObj).getCode()))) {
+                        return (Enum) enumObj;
+                    }
+                }
+            }
         } catch (Exception e) {
             LOGGER.error("Deserializer the field {} exception", jsonParser.getCurrentName(), e);
         }

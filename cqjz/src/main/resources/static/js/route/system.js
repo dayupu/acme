@@ -530,6 +530,14 @@ mainApp.controller("systemUserEditController", function ($scope, $uibModalInstan
     mineHttp.constant("organs", function (data) {
         mineTree.dropDown($("#organDropdown"), data)
     });
+    var roleTree;
+    mineHttp.send("GET", "admin/user/" + data.id + "/role", {}, function (result) {
+        $scope.message = result.message;
+        $scope.user = result.content.user;
+        var options = {check: {enable: true}};
+        roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
+    });
+
     mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
         if (!verifyData(result)) {
             $scope.messageStatus = false;
@@ -537,12 +545,19 @@ mainApp.controller("systemUserEditController", function ($scope, $uibModalInstan
         }
         $scope.user = result.content;
     });
+
     $scope.ok = function () {
+        var roleNodes = roleTree.getCheckedNodes(true);
+        $scope.user.roleIds = [];
+        for (var index in roleNodes) {
+            $scope.user.roleIds.push(roleNodes[index].id);
+        }
         mineHttp.send("PUT", "admin/user/" + data.id, {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
         });
     };
+
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

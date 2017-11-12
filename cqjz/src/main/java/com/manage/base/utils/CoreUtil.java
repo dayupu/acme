@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.manage.base.constant.Constants;
+import com.manage.base.database.enums.ApproveRole;
 import org.apache.commons.codec.binary.Base32;
 import org.joda.time.LocalDateTime;
 
@@ -71,28 +73,6 @@ public class CoreUtil {
         return obj1.equals(obj2);
     }
 
-    public static List removeDuplicate(List list) {
-        List listTemp = new ArrayList();
-        for (int i = 0; i < list.size(); i++) {
-            if (!listTemp.contains(list.get(i))) {
-                listTemp.add(list.get(i));
-            }
-        }
-        return listTemp;
-    }
-
-    public static <T> boolean notEquals(T obj1, T obj2) {
-        return !equals(obj1, obj2);
-    }
-
-
-    public static String toDatetimeStr(LocalDateTime dateTime){
-        if(dateTime == null){
-            return null;
-        }
-        return dateTime.toString("yyyy-MM-dd HH:mm:ss");
-    }
-
     public static LocalDateTime fromDate(Date date) {
         if (date == null) {
             return null;
@@ -102,5 +82,22 @@ public class CoreUtil {
 
     public static String format(String text, Object... params) {
         return MessageFormat.format(text, params);
+    }
+
+    public static String actGroupId(ApproveRole role, String code) {
+        return role.getCode() + "_" + code;
+    }
+
+    public static List<String> actGroupIds(ApproveRole role, String organCode) {
+        List<String> groupIds = new ArrayList<>();
+        if (StringHandler.isBlank(organCode)) {
+            return groupIds;
+        }
+        String code = organCode;
+        do {
+            groupIds.add(actGroupId(role, code));
+            code = code.substring(0, code.length() - Constants.ORGAN_LENTH);
+        } while (!StringHandler.isEmpty(code));
+        return groupIds;
     }
 }

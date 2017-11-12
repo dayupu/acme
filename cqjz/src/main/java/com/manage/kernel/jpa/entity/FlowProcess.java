@@ -1,19 +1,15 @@
 package com.manage.kernel.jpa.entity;
 
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
+import com.manage.base.utils.CoreUtil;
 import com.manage.kernel.jpa.base.EntityBase;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "flow_process")
@@ -29,7 +25,10 @@ public class FlowProcess extends EntityBase {
             parameters = {@Parameter(name = "enumClass", value = "com.manage.base.database.enums.FlowSource")})
     private FlowSource source;
 
-    @Column(name = "businessId", unique = true)
+    @Column(name = "process_id", unique = true)
+    private String processId;
+
+    @Column(name = "business_id", unique = true)
     private String businessId;
 
     @Column(name = "type")
@@ -48,6 +47,22 @@ public class FlowProcess extends EntityBase {
     @JoinColumn(name = "news_id")
     private News news;
 
+    @Column(name = "curr_role")
+    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
+    private ApproveRole currRole;
+
+    @Column(name = "next_role")
+    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
+            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
+    private ApproveRole nextRole;
+
+    @Column(name = "apply_act_user", insertable = false, updatable = false)
+    private String applyActUser;
+
+    @Column(name = "apply_organ_code", insertable = false, updatable = false)
+    private String applyOrganCode;
+
     public Long getId() {
         return id;
     }
@@ -63,7 +78,6 @@ public class FlowProcess extends EntityBase {
     public void setSource(FlowSource source) {
         this.source = source;
     }
-
 
 
     public Integer getType() {
@@ -112,5 +126,45 @@ public class FlowProcess extends EntityBase {
 
     public void setSubType(Integer subType) {
         this.subType = subType;
+    }
+
+    public ApproveRole getCurrRole() {
+        return currRole;
+    }
+
+    public void setCurrRole(ApproveRole currRole) {
+        this.currRole = currRole;
+    }
+
+    public ApproveRole getNextRole() {
+        return nextRole;
+    }
+
+    public void setNextRole(ApproveRole nextRole) {
+        this.nextRole = nextRole;
+    }
+
+    public String getApplyActUser() {
+        return applyActUser;
+    }
+
+    public void setApplyActUser(String applyActUser) {
+        this.applyActUser = applyActUser;
+    }
+
+    public String getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
+
+    public String getApplyOrganCode() {
+        return applyOrganCode;
+    }
+
+    public void setApplyOrganCode(String applyOrganCode) {
+        this.applyOrganCode = applyOrganCode;
     }
 }

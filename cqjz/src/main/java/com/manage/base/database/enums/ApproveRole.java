@@ -1,23 +1,23 @@
 package com.manage.base.database.enums;
 
-import com.manage.base.database.model.DBEnum;
 import com.manage.base.database.model.Localizable;
+import com.manage.base.database.model.VarDBEnum;
 
 /**
  * Created by bert on 2017/10/6.
  */
-public enum ApproveRole implements DBEnum, Localizable {
+public enum ApproveRole implements VarDBEnum, Localizable {
 
-    CLERK(100, "resource.approve.group.clerk"),
-    TEAM_LEADER(101, "resource.approve.group.teamLeader"),
-    SECURE_MEMBER(102, "resource.approve.group.secureMember"),
-    CORPS_LEADER(103, "resource.approve.group.corpsLeader");
+    EMPLOYEE("EP", "resource.approve.group.clerk"),
+    CAPTAIN("CP", "resource.approve.group.teamLeader"),
+    SECURER("SP", "resource.approve.group.secureMember"),
+    LEADER("LP", "resource.approve.group.corpsLeader");
 
     private String messageKey;
-    private Integer constant;
+    private String code;
 
-    ApproveRole(Integer constant, String messageKey) {
-        this.constant = constant;
+    ApproveRole(String code, String messageKey) {
+        this.code = code;
         this.messageKey = messageKey;
     }
 
@@ -27,10 +27,22 @@ public enum ApproveRole implements DBEnum, Localizable {
     }
 
     @Override
-    public Integer getConstant() {
-        return constant;
+    public String getCode() {
+        return code;
     }
-    public String actGroupId() {
-        return String.valueOf(constant);
+
+    public ApproveRole nextRole() {
+        switch (this) {
+            case EMPLOYEE:
+                return CAPTAIN;
+            case CAPTAIN:
+                return SECURER;
+            case SECURER:
+                return LEADER;
+            case LEADER:
+                return null;
+            default:
+                return null;
+        }
     }
 }

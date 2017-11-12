@@ -4,10 +4,13 @@ import com.manage.base.act.*;
 import com.manage.base.act.enums.ActVariable;
 import com.manage.base.act.support.ActBusiness;
 import com.manage.base.act.vars.ActApproveObj;
+import com.manage.base.act.vars.ActParams;
 import com.manage.base.constant.Constants;
 import com.manage.base.database.enums.ActProcess;
+import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.enums.ActStatus;
+import com.manage.base.exception.ActNotSupportException;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.exception.NewsNotFoundException;
 import com.manage.base.exception.NotFoundException;
@@ -16,6 +19,7 @@ import com.manage.base.supplier.page.PageResult;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringHandler;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
+import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
 import com.manage.kernel.core.model.dto.ApproveDto;
 import com.manage.kernel.core.model.dto.ApproveHistory;
 import com.manage.kernel.core.model.dto.FlowDto;
@@ -34,7 +38,10 @@ import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.jpa.repository.FlowProcessRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
+
 import javax.persistence.criteria.Predicate;
+import javax.transaction.NotSupportedException;
+
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.TaskService;
@@ -212,10 +219,7 @@ public class FlowService implements IFlowService {
 
         PageResult result = new PageResult();
         List<FlowDto> flows = new ArrayList<>();
-        String account = SessionHelper.user().getAccount();
-        AdUser user = userRepo.findUserByAccount(account);
-        String groupId = user.getApproveRole().actGroupId();
-        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(groupId).active();
+        TaskQuery taskQuery = taskService.createTaskQuery().taskCandidateGroup(userActGroupId()).active();
         if (StringHandler.isNotBlank(query.getSubject())) {
             taskQuery.processVariableValueLike(ActVariable.FLOW_SUBJECT.varName(), "%" + query.getSubject() + "%");
         }
@@ -240,6 +244,11 @@ public class FlowService implements IFlowService {
             flows.add(taskWithPending(task));
         }
         return result;
+    }
+
+    private String userActGroupId() {
+        AdUser user = userRepo.findUserByAccount(SessionHelper.user().getAccount());
+        return CoreUtil.actGroupId(user.getApproveRole(), user.getOrganCode());
     }
 
     private FlowDto taskWithPending(Task task) {
@@ -321,18 +330,37 @@ public class FlowService implements IFlowService {
             throw new ActTaskNotFoundException();
         }
 
+        ActProcess actProcess = approveDto.getProcess();
         String account = SessionHelper.user().getAccount();
         ActApproveObj approve = new ActApproveObj();
         approve.setUserId(account);
-        approve.setProcess(approveDto.getProcess());
+        approve.setProcess(actProcess);
         approve.setComment(approveDto.getComment());
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
 
-        Map<String, Object> map = new HashMap<>();
-        map.put(ActVariable.FLOW_ACTION.varName(), approveDto.getProcess().action());
-        taskService.complete(task.getId(), map);
 
+        FlowProcess flowProcess = flowProcessRepo.findByProcessId(task.getProcessInstanceId());
+        if (flowProcess == null) {
+            throw new ActNotSupportException();
+        }
+
+        AdUser user = userRepo.findUserByAccount(SessionHelper.user().getAccount());
+        if (user.getApproveRole() != flowProcess.getNextRole()) {
+            throw new ActNotSupportException();
+        }
+
+        ActParams params = new ActParams();
+        params.putFlowAction(approveDto.getProcess().action());
+        if (actProcess.isReject()) {
+            flowProcess.setCurrRole(ApproveRole.EMPLOYEE);
+            flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
+        } else {
+            flowProcess.setCurrRole(flowProcess.getNextRole());
+            flowProcess.setNextRole(flowProcess.getNextRole().nextRole());
+            params.setApproveGroups(CoreUtil.actGroupIds(flowProcess.getCurrRole(), flowProcess.getApplyOrganCode()));
+        }
+        taskService.complete(task.getId(), params.build());
         HistoricProcessInstance process = getHistoricProcessInstance(task.getProcessInstanceId());
         String businessId = process.getBusinessKey();
         boolean processEnd = false;
@@ -340,6 +368,7 @@ public class FlowService implements IFlowService {
             processEnd = true;
         }
 
+        flowProcessRepo.save(flowProcess);
         businessService.saveApproveTask(task, businessId, approve);
         actFlowService.handleBusinessStatus(businessId, approveDto.getProcess(), processEnd);
         return processDetail(task.getProcessInstanceId(), true);
@@ -375,10 +404,7 @@ public class FlowService implements IFlowService {
             return detail;
         }
 
-        String account = SessionHelper.user().getAccount();
-        AdUser user = userRepo.findUserByAccount(account);
-        Task task = taskService.createTaskQuery().processInstanceId(processId)
-                .taskCandidateGroup(user.getApproveRole().actGroupId()).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(processId).taskCandidateGroup(userActGroupId()).singleResult();
         if (task == null) {
             detail.setCanApprove(false);
         } else {
@@ -464,7 +490,7 @@ public class FlowService implements IFlowService {
     public NewestFlowDto newestFlow(AdUser adUser) {
         NewestFlowDto newestFlow = new NewestFlowDto();
         AdUser user = userRepo.findUserByAccount(adUser.getAccount());
-        String groupId = user.getApproveRole().actGroupId();
+        String groupId = user.getApproveRole().getCode();
 
         List<FlowDto> pendingFlows = new ArrayList<>();
         List<Task> pendingTesks = taskService.createTaskQuery().taskCandidateGroup(groupId).active().list();
@@ -487,7 +513,7 @@ public class FlowService implements IFlowService {
     public FlowNotification notification(AdUser adUser) {
         FlowNotification notification = new FlowNotification();
         AdUser user = userRepo.findUserByAccount(adUser.getAccount());
-        String groupId = user.getApproveRole().actGroupId();
+        String groupId = user.getApproveRole().getCode();
         notification.setPendingCount(taskService.createTaskQuery().taskCandidateGroup(groupId).active().count());
         notification.setRejectCount(taskService.createTaskQuery().taskAssignee(adUser.getAccount()).active().count());
         notification.calculateTotal();

@@ -124,10 +124,10 @@ public class ConstantController {
     public ResponseInfo approveRole() {
         ResponseInfo response = new ResponseInfo();
         List<SelectOption> options = new ArrayList<>();
-        SelectOption<Integer, String> option;
+        SelectOption<String, String> option;
         for (ApproveRole role : ApproveRole.values()) {
             option = new SelectOption<>();
-            option.setKey(role.getConstant());
+            option.setKey(role.getCode());
             option.setValue(Messages.get(role));
             options.add(option);
         }

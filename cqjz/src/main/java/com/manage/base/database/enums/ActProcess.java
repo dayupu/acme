@@ -33,6 +33,10 @@ public enum ActProcess implements DBEnum, Localizable {
         return null;
     }
 
+    public boolean isReject() {
+        return this == REJECT;
+    }
+
     public String action() {
         return action;
     }

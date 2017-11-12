@@ -32,6 +32,15 @@ public class EnumSerializer extends JsonSerializer<Enum> {
             return;
         }
 
+        if (anEnum instanceof VarDBEnum) {
+            jsonGenerator.writeString(((VarDBEnum) anEnum).getCode());
+            if (anEnum instanceof Localizable) {
+                String fieldName = jsonGenerator.getOutputContext().getCurrentName();
+                jsonGenerator.writeStringField(fieldName + "Message", Messages.get((Localizable) anEnum));
+            }
+            return;
+        }
+
         if (anEnum instanceof Localizable) {
             jsonGenerator.writeString(Messages.get((Localizable) anEnum));
             return;
