@@ -47,15 +47,10 @@ public class FlowProcess extends EntityBase {
     @JoinColumn(name = "news_id")
     private News news;
 
-    @Column(name = "next_role")
-    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
-    private ApproveRole nextRole;
-
-    @Column(name = "apply_act_user", insertable = false, updatable = false)
+    @Column(name = "apply_act_user")
     private String applyActUser;
 
-    @Column(name = "apply_organ_code", insertable = false, updatable = false)
+    @Column(name = "apply_organ_code")
     private String applyOrganCode;
 
     public Long getId() {
@@ -121,14 +116,6 @@ public class FlowProcess extends EntityBase {
 
     public void setSubType(Integer subType) {
         this.subType = subType;
-    }
-
-    public ApproveRole getNextRole() {
-        return nextRole;
-    }
-
-    public void setNextRole(ApproveRole nextRole) {
-        this.nextRole = nextRole;
     }
 
     public String getApplyActUser() {

@@ -30,19 +30,4 @@ public enum ApproveRole implements VarDBEnum, Localizable {
     public String getCode() {
         return code;
     }
-
-    public ApproveRole nextRole() {
-        switch (this) {
-            case EMPLOYEE:
-                return CAPTAIN;
-            case CAPTAIN:
-                return SECURER;
-            case SECURER:
-                return LEADER;
-            case LEADER:
-                return null;
-            default:
-                return null;
-        }
-    }
 }

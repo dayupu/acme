@@ -28,6 +28,7 @@ public class ActParams {
         actParams.putFlowBusiness(business);
         return actParams;
     }
+
     public static ActParams flowProcess(ActProcess process, String subject, String business) {
         ActParams actParams = new ActParams();
         actParams.putFlowAction(process.action());
@@ -37,6 +38,9 @@ public class ActParams {
     }
 
     public ActParams setApproveGroups(List<String> groupIds) {
+        if (groupIds == null) {
+            return this;
+        }
         this.putFlowApproveGroups(StringHandler.join(groupIds, ","));
         return this;
     }

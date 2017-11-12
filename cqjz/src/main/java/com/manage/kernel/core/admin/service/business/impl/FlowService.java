@@ -10,6 +10,7 @@ import com.manage.base.database.enums.ActProcess;
 import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.enums.ActStatus;
+import com.manage.base.enums.NewsMachine;
 import com.manage.base.exception.ActNotSupportException;
 import com.manage.base.exception.ActTaskNotFoundException;
 import com.manage.base.exception.NewsNotFoundException;
@@ -344,19 +345,9 @@ public class FlowService implements IFlowService {
             throw new ActNotSupportException();
         }
 
-        AdUser user = userRepo.findUserByAccount(SessionHelper.user().getAccount());
-        if (user.getApproveRole() != flowProcess.getNextRole()) {
-            throw new ActNotSupportException();
-        }
-
         ActParams params = new ActParams();
         params.putFlowAction(approveDto.getProcess().action());
-        if (actProcess.isReject()) {
-            flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
-        } else {
-            params.setApproveGroups(CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode()));
-            flowProcess.setNextRole(flowProcess.getNextRole().nextRole());
-        }
+        params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), actProcess, flowProcess.getApplyOrganCode()));
         taskService.complete(task.getId(), params.build());
         HistoricProcessInstance process = getHistoricProcessInstance(task.getProcessInstanceId());
         String businessId = process.getBusinessKey();
@@ -364,7 +355,6 @@ public class FlowService implements IFlowService {
         if (process.getEndTime() != null) {
             processEnd = true;
         }
-
         flowProcessRepo.save(flowProcess);
         businessService.saveApproveTask(task, businessId, approve);
         actFlowService.handleBusinessStatus(businessId, approveDto.getProcess(), processEnd);
@@ -486,11 +476,8 @@ public class FlowService implements IFlowService {
     @Transactional
     public NewestFlowDto newestFlow(AdUser adUser) {
         NewestFlowDto newestFlow = new NewestFlowDto();
-        AdUser user = userRepo.findUserByAccount(adUser.getAccount());
-        String groupId = user.getApproveRole().getCode();
-
         List<FlowDto> pendingFlows = new ArrayList<>();
-        List<Task> pendingTesks = taskService.createTaskQuery().taskCandidateGroup(groupId).active().list();
+        List<Task> pendingTesks = taskService.createTaskQuery().taskCandidateGroup(userActGroupId()).active().list();
         for (Task task : pendingTesks) {
             pendingFlows.add(taskWithPending(task));
         }
@@ -509,9 +496,7 @@ public class FlowService implements IFlowService {
     @Override
     public FlowNotification notification(AdUser adUser) {
         FlowNotification notification = new FlowNotification();
-        AdUser user = userRepo.findUserByAccount(adUser.getAccount());
-        String groupId = user.getApproveRole().getCode();
-        notification.setPendingCount(taskService.createTaskQuery().taskCandidateGroup(groupId).active().count());
+        notification.setPendingCount(taskService.createTaskQuery().taskCandidateGroup(userActGroupId()).active().count());
         notification.setRejectCount(taskService.createTaskQuery().taskAssignee(adUser.getAccount()).active().count());
         notification.calculateTotal();
         return notification;

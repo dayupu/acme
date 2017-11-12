@@ -2,6 +2,8 @@ package com.manage.kernel.core.admin.view.business;
 
 import com.manage.base.exception.CoreException;
 import com.manage.base.exception.ValidateException;
+import com.manage.base.supplier.msgs.MessageErrors;
+import com.manage.base.supplier.msgs.MessageInfos;
 import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
@@ -106,7 +108,7 @@ public class FlowController {
             Validators.notBlank(approveDto.getTaskId());
             Validators.notNull(approveDto.getProcess());
             Validators.notBlank(approveDto.getComment());
-            response.wrapSuccess(flowService.approveTask(approveDto));
+            response.wrapSuccess(flowService.approveTask(approveDto), MessageInfos.APPROVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

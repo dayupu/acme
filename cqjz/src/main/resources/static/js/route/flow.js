@@ -234,8 +234,8 @@ mainApp.controller("flowApproveCtl", function ($scope, $stateParams, mineHttp, m
     $scope.approveSubmit = function () {
         mineHttp.send("POST", "admin/flow/approve", {data: $scope.approve}, function (result) {
             $scope.messageStatus = verifyData(result);
+            $scope.message = result.message;
             if (!$scope.messageStatus) {
-                $scope.message = result.message;
                 return;
             }
             $scope.flow = result.content;

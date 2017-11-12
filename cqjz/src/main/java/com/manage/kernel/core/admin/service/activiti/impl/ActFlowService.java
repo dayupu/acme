@@ -10,15 +10,14 @@ import com.manage.base.database.enums.ActProcess;
 import com.manage.base.database.enums.ApproveRole;
 import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
+import com.manage.base.enums.NewsMachine;
 import com.manage.base.exception.*;
-import com.manage.base.utils.CoreUtil;
 import com.manage.kernel.core.admin.service.activiti.IActBusinessService;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
 import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
 import com.manage.kernel.jpa.entity.AdUser;
 import com.manage.kernel.jpa.entity.FlowProcess;
 import com.manage.kernel.jpa.entity.News;
-import com.manage.kernel.jpa.repository.ActApproveTaskRepo;
 import com.manage.kernel.jpa.repository.AdUserRepo;
 import com.manage.kernel.jpa.repository.FlowProcessRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
@@ -33,8 +32,6 @@ import org.activiti.engine.task.Task;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by bert on 17-11-9.
@@ -95,7 +92,6 @@ public class ActFlowService implements IActFlowService {
         boolean isSupport = false;
         if (flowInfo.getFlowSource() == FlowSource.NEWS) {
             flowProcess.setNews((News) flowSupport);
-            flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
             isSupport = true;
         }
 
@@ -171,7 +167,7 @@ public class ActFlowService implements IActFlowService {
     private String handleActFlow(FlowProcess flowProcess) {
         String applyUserId = SessionHelper.user().actUserId();
         String businessId = flowProcess.getBusinessId();
-        List<String> approveGroups = CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode());
+        String applyOrganCode = flowProcess.getApplyOrganCode();
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
         ProcessInstance process = query.processInstanceBusinessKey(businessId).singleResult();
         if (process == null) {
@@ -184,7 +180,7 @@ public class ActFlowService implements IActFlowService {
             }
 
             params = new ActParams();
-            params.setApproveGroups(approveGroups);
+            params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
             taskService.complete(task.getId(), params.build());
             return task.getProcessInstanceId();
         }
@@ -200,7 +196,7 @@ public class ActFlowService implements IActFlowService {
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approveObj);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approveObj.getComment());
         ActParams params = ActParams.flowProcess(ActProcess.APPLY, flowProcess.getSubject(), businessId);
-        params.setApproveGroups(approveGroups);
+        params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
         taskService.complete(task.getId(), params.build());
         actBusinessService.saveApproveTask(task, businessId, approveObj);
 

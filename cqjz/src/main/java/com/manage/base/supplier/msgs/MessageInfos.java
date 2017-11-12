@@ -6,7 +6,8 @@ public enum MessageInfos implements CoreMsgs {
 
     SAVE_SUCCESS(10000, "upload success"),
     DELETE_SUCCESS(10001, "delete success"),
-    SUBMIT_SUCCESS(10002, "submit success");
+    SUBMIT_SUCCESS(10002, "submit success"),
+    APPROVE_SUCCESS(10003, "approve success");
 
     private int code;
     private String message;
