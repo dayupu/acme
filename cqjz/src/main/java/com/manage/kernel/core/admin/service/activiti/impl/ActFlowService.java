@@ -95,7 +95,6 @@ public class ActFlowService implements IActFlowService {
         boolean isSupport = false;
         if (flowInfo.getFlowSource() == FlowSource.NEWS) {
             flowProcess.setNews((News) flowSupport);
-            flowProcess.setCurrRole(ApproveRole.EMPLOYEE);
             flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
             isSupport = true;
         }
@@ -172,7 +171,7 @@ public class ActFlowService implements IActFlowService {
     private String handleActFlow(FlowProcess flowProcess) {
         String applyUserId = SessionHelper.user().actUserId();
         String businessId = flowProcess.getBusinessId();
-
+        List<String> approveGroups = CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode());
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
         ProcessInstance process = query.processInstanceBusinessKey(businessId).singleResult();
         if (process == null) {
@@ -185,7 +184,6 @@ public class ActFlowService implements IActFlowService {
             }
 
             params = new ActParams();
-            List<String> approveGroups = CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode());
             params.setApproveGroups(approveGroups);
             taskService.complete(task.getId(), params.build());
             return task.getProcessInstanceId();
@@ -202,6 +200,7 @@ public class ActFlowService implements IActFlowService {
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approveObj);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approveObj.getComment());
         ActParams params = ActParams.flowProcess(ActProcess.APPLY, flowProcess.getSubject(), businessId);
+        params.setApproveGroups(approveGroups);
         taskService.complete(task.getId(), params.build());
         actBusinessService.saveApproveTask(task, businessId, approveObj);
 

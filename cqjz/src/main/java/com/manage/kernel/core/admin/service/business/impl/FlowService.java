@@ -339,7 +339,6 @@ public class FlowService implements IFlowService {
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approve);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approve.getComment());
 
-
         FlowProcess flowProcess = flowProcessRepo.findByProcessId(task.getProcessInstanceId());
         if (flowProcess == null) {
             throw new ActNotSupportException();
@@ -353,12 +352,10 @@ public class FlowService implements IFlowService {
         ActParams params = new ActParams();
         params.putFlowAction(approveDto.getProcess().action());
         if (actProcess.isReject()) {
-            flowProcess.setCurrRole(ApproveRole.EMPLOYEE);
             flowProcess.setNextRole(ApproveRole.EMPLOYEE.nextRole());
         } else {
-            flowProcess.setCurrRole(flowProcess.getNextRole());
+            params.setApproveGroups(CoreUtil.actGroupIds(flowProcess.getNextRole(), flowProcess.getApplyOrganCode()));
             flowProcess.setNextRole(flowProcess.getNextRole().nextRole());
-            params.setApproveGroups(CoreUtil.actGroupIds(flowProcess.getCurrRole(), flowProcess.getApplyOrganCode()));
         }
         taskService.complete(task.getId(), params.build());
         HistoricProcessInstance process = getHistoricProcessInstance(task.getProcessInstanceId());

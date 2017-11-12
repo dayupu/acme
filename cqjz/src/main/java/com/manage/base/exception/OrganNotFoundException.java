@@ -8,7 +8,7 @@ import com.manage.base.supplier.msgs.MessageErrors;
 public class OrganNotFoundException extends NotFoundException {
 
     public OrganNotFoundException() {
-        super(MessageErrors.DEPART_NOT_FOUND);
+        super(MessageErrors.ORGAN_NOT_FOUND);
     }
 
 

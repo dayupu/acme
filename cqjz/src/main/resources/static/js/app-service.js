@@ -183,6 +183,7 @@ mainApp.service("mineTree", function (mineHttp) {
             $(obj).val(v);
             $("#" + objHiddenId).val(vid);
             $("#" + objHiddenId).trigger("change");
+            hideMenu();
         };
         var setting = {
             view: {dblClickExpand: false},

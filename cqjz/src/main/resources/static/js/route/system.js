@@ -422,7 +422,7 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
             },
             {
                 field: 'approveRole',
-                displayName: '审批角色',
+                displayName: '审批身份',
                 cellTemplate: "<div class='mine-table-span'>{{row.entity.approveRoleMessage}}</div>"
             },
             {field: 'email', displayName: '电子邮箱'},
@@ -457,15 +457,10 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         $scope.gridPageQuery({}, $scope.userQuery);
     };
     $scope.query();
-
-    $scope.add = function () {
-        var modalInstance = mineUtil.modal("admin/_system/user/userAdd.htm", "systemUserAddController", {});
-        modalInstance.result.then(function () {
-        }, function () {
-            $scope.query();
-        });
-    };
     $scope.edit = function (user) {
+        if (user == null) {
+            user = {};
+        }
         var modalInstance = mineUtil.modal("admin/_system/user/userEdit.htm", "systemUserEditController", user);
         modalInstance.result.then(function () {
         }, function () {
@@ -502,28 +497,9 @@ mainApp.controller("systemUserListCtl", function ($scope, $uibModal, mineHttp, m
         });
     }
 });
-mainApp.controller("systemUserAddController", function ($scope, $uibModalInstance, mineHttp, mineTree) {
-    mineHttp.constant("approveRole", function (data) {
-        $scope.approveRoles = data.content;
-    });
-    mineHttp.constant("organs", function (data) {
-        mineTree.dropDown($("#organDropdown"), data)
-    });
-    $scope.ok = function () {
-        mineHttp.send("POST", "admin/user", {data: $scope.user}, function (result) {
-            $scope.messageStatus = verifyData(result);
-            $scope.message = result.message;
-            if ($scope.messageStatus) {
-                $scope.user = {};
-                $scope.user.gender = 1;
-            }
-        });
-    };
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-});
+
 mainApp.controller("systemUserEditController", function ($scope, $uibModalInstance, mineHttp, mineTree, data) {
+    $scope.user = {};
     mineHttp.constant("approveRole", function (data) {
         $scope.approveRoles = data.content;
     });
@@ -531,30 +507,45 @@ mainApp.controller("systemUserEditController", function ($scope, $uibModalInstan
         mineTree.dropDown($("#organDropdown"), data)
     });
     var roleTree;
-    mineHttp.send("GET", "admin/user/" + data.id + "/role", {}, function (result) {
-        $scope.message = result.message;
-        $scope.user = result.content.user;
+    var roleTreeUrl = "admin/user/roleTree";
+    if (typeof data.id != "number") {
+        $scope.model = "new";
+        roleTreeUrl = "admin/user/roleTree";
+    } else {
+        $scope.model = "edit";
+        roleTreeUrl = "admin/user/roleTree/" + data.id;
+        mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
+            if (!verifyData(result)) {
+                $scope.messageStatus = false;
+                $scope.message = result.message;
+            }
+            $scope.user = result.content;
+        });
+    }
+    mineHttp.send("GET", roleTreeUrl, {}, function (result) {
         var options = {check: {enable: true}};
         roleTree = mineTree.build($("#roleTree"), result.content.roleTree, options);
     });
 
-    mineHttp.send("GET", "admin/user/" + data.id, {}, function (result) {
-        if (!verifyData(result)) {
-            $scope.messageStatus = false;
-            $scope.message = result.message;
-        }
-        $scope.user = result.content;
-    });
-
     $scope.ok = function () {
         var roleNodes = roleTree.getCheckedNodes(true);
+        if(roleNodes.length == 0){
+            $scope.messageStatus = false;
+            $scope.message = "用户未指定角色";
+            return;
+        }
+
         $scope.user.roleIds = [];
         for (var index in roleNodes) {
             $scope.user.roleIds.push(roleNodes[index].id);
         }
-        mineHttp.send("PUT", "admin/user/" + data.id, {data: $scope.user}, function (result) {
+        mineHttp.send("PUT", "admin/user", {data: $scope.user}, function (result) {
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
+            if ($scope.messageStatus) {
+                $scope.model = "edit";
+                $scope.user = result.content;
+            }
         });
     };
 
@@ -573,7 +564,7 @@ mainApp.controller("systemUserDetailController", function ($scope, $uibModalInst
 });
 mainApp.controller("systemUserRoleController", function ($scope, $uibModalInstance, mineHttp, mineTree, data) {
     var roleTree = {};
-    mineHttp.send("GET", "admin/user/" + data.id + "/role", {}, function (result) {
+    mineHttp.send("GET", "admin/user/roleTree/" + data.id, {}, function (result) {
         $scope.message = result.message;
         $scope.user = result.content.user;
         var options = {check: {enable: true}};
@@ -660,7 +651,7 @@ mainApp.controller("systemDepartListCtl", function ($scope, $http, mineTree, min
     mineMessage.subscribe("systemDepartTreeRefresh", function (event, make) {
 
         if (make.addFlag && make.oneLevelFlag) {
-           $scope.buildTree();
+            $scope.buildTree();
         } else {
             var nodes = departTree.getSelectedNodes();
             var parentNode = departTree.getNodeByTId(nodes[0].parentTId);
@@ -687,7 +678,7 @@ mainApp.controller("systemDepartAddController", function ($scope, data, $uibModa
             $scope.messageStatus = verifyData(result);
             $scope.message = result.message;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", {addFlag:true, oneLevelFlag:oneLevelFlag});
+                mineMessage.publish("systemDepartTreeRefresh", {addFlag: true, oneLevelFlag: oneLevelFlag});
             }
             $scope.initPage();
         });
@@ -711,7 +702,7 @@ mainApp.controller("systemDepartEditController", function ($scope, data, $uibMod
             $scope.message = data.message;
             $scope.depart = data.content;
             if ($scope.messageStatus) {
-                mineMessage.publish("systemDepartTreeRefresh", {addFlag:false});
+                mineMessage.publish("systemDepartTreeRefresh", {addFlag: false});
             }
         });
     };

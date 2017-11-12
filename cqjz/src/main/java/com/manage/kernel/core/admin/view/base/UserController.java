@@ -49,27 +49,6 @@ public class UserController {
     }
 
     @InboundLog
-    @PostMapping
-    public ResponseInfo addUser(@RequestBody UserDto user) {
-        ResponseInfo response = new ResponseInfo();
-        try {
-            Validators.notNull(user.getAccount());
-            Validators.notNull(user.getPassword());
-            Validators.notBlank(user.getName());
-            userService.addUser(user);
-            response.wrapSuccess(user, MessageInfos.SAVE_SUCCESS);
-        } catch (ValidateException e) {
-            response.wrapFail(e.getMessage());
-        } catch (CoreException e) {
-            response.wrapFail(e.getMessage());
-        } catch (Exception e) {
-            LOGGER.warn("system exception", e);
-            response.wrapError();
-        }
-        return response;
-    }
-
-    @InboundLog
     @GetMapping("/{id}")
     public ResponseInfo getUser(@PathVariable("id") Long userId) {
         ResponseInfo response = new ResponseInfo();
@@ -89,15 +68,12 @@ public class UserController {
     }
 
     @InboundLog
-    @PutMapping("/{id}")
-    public ResponseInfo editUser(@PathVariable("id") Long userId, @RequestBody UserDto user) {
+    @PutMapping
+    public ResponseInfo editUser(@RequestBody UserDto user) {
         ResponseInfo response = new ResponseInfo();
         try {
-            Validators.notNull(userId);
             Validators.notNull(user);
-            Validators.notNull(user.getId());
-            userService.modifyUser(user);
-            response.wrapSuccess(null, MessageInfos.SAVE_SUCCESS);
+            response.wrapSuccess(userService.modifyUser(user), MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {
@@ -128,7 +104,27 @@ public class UserController {
     }
 
     @InboundLog
-    @GetMapping("/{id}/role")
+    @GetMapping("/roleTree")
+    public ResponseInfo userRole() {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            Pair userPair = userService.userRolePair(null);
+            Map result = new HashMap();
+            result.put("roleTree", userPair.getRight());
+            response.wrapSuccess(result);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @InboundLog
+    @GetMapping("/roleTree/{id}")
     public ResponseInfo userRole(@PathVariable("id") Long userId) {
         ResponseInfo response = new ResponseInfo();
         try {

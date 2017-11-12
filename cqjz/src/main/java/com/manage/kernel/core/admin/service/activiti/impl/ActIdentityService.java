@@ -25,9 +25,8 @@ public class ActIdentityService implements IActIdentityService {
     @Override
     @Transactional
     public void saveActUser(AdUser user) {
-
         String userId = user.getAccount();
-        String groupId = actGroup(user.getApproveRole(), user.getOrganCode());
+        String groupId = actGroup(user.getApproveRole(), user.getOrgan().getCode());
         User actUser = identityService.createUserQuery().userId(userId).singleResult();
         if (actUser == null) {
             actUser = identityService.newUser(user.getAccount());

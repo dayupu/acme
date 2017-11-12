@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -118,36 +119,28 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public void addUser(UserDto userDto) {
-        AdUser query = userRepo.findUserByAccount(userDto.getAccount());
-        if (query != null) {
-            LOGGER.info("The user {} is exists", userDto.getAccount());
-            throw new CoreException(MessageErrors.USER_IS_EXISTS);
-        }
-        AdUser user = new AdUser();
-        user.setAccount(userDto.getAccount());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setName(userDto.getName());
-        user.setGender(userDto.getGender());
-        user.setMobile(userDto.getMobile());
-        user.setTelephone(userDto.getTelephone());
-        user.setEmail(userDto.getEmail());
-        user.setStatus(Status.ENABLE);
-        user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.EMPLOYEE : userDto.getApproveRole());
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedUser(SessionHelper.user());
-        setUserOrgan(user, userDto.getOrganCode());
-        AdUser savedUser = userRepo.save(user);
-        actIdentityService.saveActUser(savedUser);
-    }
-
-    @Override
-    @Transactional
-    public void modifyUser(UserDto userDto) {
-        AdUser user = userRepo.findOne(userDto.getId());
-        if (user == null) {
-            LOGGER.info("Not found the user {}", userDto.getId());
-            throw new UserNotFoundException();
+    public UserDto modifyUser(UserDto userDto) {
+        AdUser user = null;
+        if (userDto.getId() == null) {
+            AdUser query = userRepo.findUserByAccount(userDto.getAccount());
+            if (query != null) {
+                LOGGER.info("The user {} is exists", userDto.getAccount());
+                throw new CoreException(MessageErrors.USER_IS_EXISTS);
+            }
+            user = new AdUser();
+            user.setAccount(userDto.getAccount());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setStatus(Status.ENABLE);
+            user.setCreatedAt(LocalDateTime.now());
+            user.setCreatedUser(SessionHelper.user());
+        } else {
+            user = userRepo.findOne(userDto.getId());
+            if (user == null) {
+                LOGGER.info("Not found the user {}", userDto.getId());
+                throw new UserNotFoundException();
+            }
+            user.setUpdatedAt(LocalDateTime.now());
+            user.setUpdatedUser(SessionHelper.user());
         }
         user.setName(userDto.getName());
         user.setGender(userDto.getGender());
@@ -155,12 +148,12 @@ public class UserService implements IUserService {
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
         user.setApproveRole(userDto.getApproveRole() == null ? ApproveRole.EMPLOYEE : userDto.getApproveRole());
-        user.setUpdatedAt(LocalDateTime.now());
-        user.setUpdatedUser(SessionHelper.user());
         setUserOrgan(user, userDto.getOrganCode());
-        AdUser updatedUser = userRepo.save(user);
-        actIdentityService.saveActUser(updatedUser);
-        resetUserRole(userDto);
+        setUserRoles(user, userDto.getRoleIds());
+        AdUser result = userRepo.save(user);
+        result.setOrganCode(result.getOrgan().getCode());
+        actIdentityService.saveActUser(result);
+        return UserParser.toDto(result);
     }
 
     @Override
@@ -179,11 +172,6 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public Pair<UserDto, List<TreeNode>> userRolePair(Long userId) {
-        AdUser user = userRepo.findOne(userId);
-        if (user == null) {
-            LOGGER.info("Not found the user {}", userId);
-            throw new UserNotFoundException();
-        }
 
         List<AdRole> roles = roleRepo.queryListAll();
         List<TreeNode> treeNodes = new ArrayList<>();
@@ -192,13 +180,25 @@ public class UserService implements IUserService {
             treeNode = new TreeNode();
             treeNode.setId(role.getId());
             treeNode.setName(role.getName());
+            treeNodes.add(treeNode);
+        }
 
+        if (userId == null) {
+            return new Pair<>(null, treeNodes);
+        }
+
+        AdUser user = userRepo.findOne(userId);
+        if (user == null) {
+            LOGGER.info("Not found the user {}", userId);
+            throw new UserNotFoundException();
+        }
+
+        for (TreeNode node : treeNodes) {
             for (AdRole userRole : user.getRoles()) {
-                if (userRole.getId().equals(role.getId())) {
-                    treeNode.setChecked(true);
+                if (userRole.getId().equals(node.getId())) {
+                    node.setChecked(true);
                 }
             }
-            treeNodes.add(treeNode);
         }
         return new Pair<>(UserParser.toDto(user), treeNodes);
     }
@@ -211,14 +211,17 @@ public class UserService implements IUserService {
             LOGGER.info("Not found the user {}", userDto.getId());
             throw new UserNotFoundException();
         }
-
-        List<AdRole> userRoles = new ArrayList<>();
-        if (!userDto.getRoleIds().isEmpty()) {
-            userRoles = roleRepo.queryListByIds(userDto.getRoleIds());
-        }
-        user.setRoles(userRoles);
+        setUserRoles(user, userDto.getRoleIds());
         userRepo.save(user);
 
+    }
+
+    private void setUserRoles(AdUser user, List<Long> roleIds) {
+        List<AdRole> userRoles = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            userRoles = roleRepo.queryListByIds(roleIds);
+        }
+        user.setRoles(userRoles);
     }
 
     @Override

@@ -47,11 +47,6 @@ public class FlowProcess extends EntityBase {
     @JoinColumn(name = "news_id")
     private News news;
 
-    @Column(name = "curr_role")
-    @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
-    private ApproveRole currRole;
-
     @Column(name = "next_role")
     @Type(type = "com.manage.base.database.model.VarDBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.database.enums.ApproveRole")})
@@ -126,14 +121,6 @@ public class FlowProcess extends EntityBase {
 
     public void setSubType(Integer subType) {
         this.subType = subType;
-    }
-
-    public ApproveRole getCurrRole() {
-        return currRole;
-    }
-
-    public void setCurrRole(ApproveRole currRole) {
-        this.currRole = currRole;
     }
 
     public ApproveRole getNextRole() {

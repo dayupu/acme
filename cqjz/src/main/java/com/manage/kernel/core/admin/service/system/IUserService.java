@@ -11,9 +11,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    void addUser(UserDto userDto);
-
-    void modifyUser(UserDto userDto);
+    UserDto modifyUser(UserDto userDto);
 
     UserDto getUser(String account);
 

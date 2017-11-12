@@ -24,7 +24,7 @@
                     <mine-dropdown style="width:180px" inputId="organDropdown" ng-model="userQuery.organId"></mine-dropdown>
                 </div>
                 <div class="form-group">
-                    <label>审批角色</label>
+                    <label>审批身份</label>
                     <select ng-model="userQuery.approveRole" name="type" class="form-control input-sm">
                         <option value=""></option>
                         <option ng-repeat="approveRole in approveRoles" ng-value="approveRole.key">
@@ -43,7 +43,7 @@
                 </span>
             </div>
             <div>
-                <button class="btn btn-sm btn-primary" type="button" ng-click="add()">新建</button>
+                <button class="btn btn-sm btn-primary" type="button" ng-click="edit(null)">新建</button>
                 <button class="btn btn-sm btn-primary" type="button" ng-disabled="!selectedFlag"
                         ng-click="enable(false)">禁用
                 </button>

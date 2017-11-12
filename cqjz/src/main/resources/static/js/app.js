@@ -16,11 +16,6 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         // user
         .state("user", {url: "/user", templateUrl: './_system/user/user.htm'})
         .state("user.list", {url: "/list", templateUrl: './_system/user/userList.htm', controller: "systemUserListCtl"})
-        // department
-        .state("depart", {url: "/depart", templateUrl: './_system/depart/depart.htm'})
-        .state("depart.list", {
-            url: "/list", templateUrl: './_system/depart/departList.htm', controller: "systemDepartListCtl"
-        })
         // organization
         .state("organ", {url: "/organ", templateUrl: './_system/organ/organ.htm'})
         .state("organ.list", {
