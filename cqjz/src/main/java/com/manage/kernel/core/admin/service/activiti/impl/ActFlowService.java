@@ -114,7 +114,7 @@ public class ActFlowService implements IActFlowService {
         }
         String organCode = user.getOrganCode();
         if (organCode == null) {
-            throw new OrganNotFoundException();
+            throw new UserNotBindOrganException();
         }
         flowProcess.setApplyOrganCode(organCode);
     }
@@ -141,21 +141,21 @@ public class ActFlowService implements IActFlowService {
         }
         NewsStatus status = null;
         switch (process) {
-            case APPLY:
-                status = NewsStatus.SUBMIT;
-                break;
-            case AGREE:
-                status = NewsStatus.APPROVE;
-                if (isOver) {
-                    status = NewsStatus.PASS;
-                }
-                break;
-            case REJECT:
-                status = NewsStatus.REJECT;
-                break;
-            case CANCEL:
-                status = NewsStatus.CANCEL;
-                break;
+        case APPLY:
+            status = NewsStatus.SUBMIT;
+            break;
+        case AGREE:
+            status = NewsStatus.APPROVE;
+            if (isOver) {
+                status = NewsStatus.PASS;
+            }
+            break;
+        case REJECT:
+            status = NewsStatus.REJECT;
+            break;
+        case CANCEL:
+            status = NewsStatus.CANCEL;
+            break;
         }
         news.setStatus(status);
         if (status.isPass()) {
@@ -180,7 +180,8 @@ public class ActFlowService implements IActFlowService {
             }
 
             params = new ActParams();
-            params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
+            params.setApproveGroups(
+                    NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
             taskService.complete(task.getId(), params.build());
             return task.getProcessInstanceId();
         }
@@ -196,7 +197,8 @@ public class ActFlowService implements IActFlowService {
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approveObj);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approveObj.getComment());
         ActParams params = ActParams.flowProcess(ActProcess.APPLY, flowProcess.getSubject(), businessId);
-        params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
+        params.setApproveGroups(
+                NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
         taskService.complete(task.getId(), params.build());
         actBusinessService.saveApproveTask(task, businessId, approveObj);
 
