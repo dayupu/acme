@@ -68,6 +68,14 @@ body {
 
 .header-top span, .header-menu span {
     float: right;
+    display: block;
+}
+
+.header-top span{
+    width: 230px;
+}
+.header-menu span{
+    width: 330px;
 }
 
 .header-top img, .header-menu img {
@@ -80,6 +88,7 @@ body {
 .header-menu label {
     margin-left: 20px;
     display: inline-block;
+    width: 400px;
 }
 
 .search-btn {
