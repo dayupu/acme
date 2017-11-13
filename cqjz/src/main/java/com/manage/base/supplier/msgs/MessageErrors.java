@@ -16,6 +16,7 @@ public enum MessageErrors implements CoreMsgs {
     MENU_HAS_CHILDREN(200003, "The menu has sub menus"),
     USER_NOT_FOUND(200010, "NOT found the user"),
     USER_IS_EXISTS(200011, "The user is exists"),
+    USER_NOT_BIND_ORGAN(200012, "The user is not bind organ"),
     ROLE_NOT_FOUND(200020, "NOT found the role"),
     ORGAN_NOT_FOUND(200040, "NOT found the organization"),
     ORGAN_HAS_CHILDREN(200041, "The organization has sub organization"),
