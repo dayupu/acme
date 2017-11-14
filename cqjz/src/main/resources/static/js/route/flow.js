@@ -12,7 +12,7 @@ mainApp.controller("flowSubmitListCtl", function ($scope, mineGrid, mineTree, mi
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
             {field: 'status', width: 70, sortable: false, displayName: '状态'},
-            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'flowSourceMessage', width: 80, sortable: false, displayName: '来源'},
             {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
@@ -60,7 +60,7 @@ mainApp.controller("flowRejectListCtl", function ($scope, $state, mineGrid, mine
         requestUrl: fullPath("admin/flow/list/reject"),
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
-            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'flowSourceMessage', width: 80, sortable: false, displayName: '来源'},
             {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
@@ -123,7 +123,7 @@ mainApp.controller("flowPendingListCtl", function ($scope, $state, mineTree, min
         requestUrl: fullPath("admin/flow/list/pending"),
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
-            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'flowSourceMessage', width: 80, sortable: false, displayName: '来源'},
             {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
@@ -172,7 +172,7 @@ mainApp.controller("flowApproveListCtl", function ($scope, $state, mineGrid, min
         columnDefs: [
             {field: 'processId', width: 80, sortable: false, displayName: '流程号'},
             {field: 'taskId', width: 80, sortable: false, displayName: '任务号'},
-            {field: 'flowSource', width: 80, sortable: false, displayName: '来源'},
+            {field: 'flowSourceMessage', width: 80, sortable: false, displayName: '来源'},
             {field: 'businessType', width: 150, sortable: false, displayName: '业务类型'},
             {
                 field: 'subject',
