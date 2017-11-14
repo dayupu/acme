@@ -23,17 +23,17 @@ public class ActParams {
 
     public static ActParams flowStart(String applyUser, String subject, String business) {
         ActParams actParams = new ActParams();
-        actParams.putFlowApplyUser(applyUser);
-        actParams.putFlowSubject(subject);
-        actParams.putFlowBusiness(business);
+        actParams.setFlowApplyUser(applyUser);
+        actParams.setFlowSubject(subject);
+        actParams.setFlowBusiness(business);
         return actParams;
     }
 
     public static ActParams flowProcess(ActProcess process, String subject, String business) {
         ActParams actParams = new ActParams();
-        actParams.putFlowAction(process.action());
-        actParams.putFlowSubject(subject);
-        actParams.putFlowBusiness(business);
+        actParams.setFlowAction(process);
+        actParams.setFlowSubject(subject);
+        actParams.setFlowBusiness(business);
         return actParams;
     }
 
@@ -41,7 +41,7 @@ public class ActParams {
         if (groupIds == null) {
             return this;
         }
-        this.putFlowApproveGroups(StringHandler.join(groupIds, ","));
+        this.setFlowApproveGroups(StringHandler.join(groupIds, ","));
         return this;
     }
 
@@ -69,27 +69,27 @@ public class ActParams {
         return taskApproveObj.key();
     }
 
-    public void putFlowApplyUser(Object value) {
+    public void setFlowApplyUser(Object value) {
         this.flowApplyUser.setRight(value);
     }
 
-    public void putFlowApproveGroups(Object value) {
+    public void setFlowApproveGroups(Object value) {
         this.flowApproveGroups.setRight(value);
     }
 
-    public void putFlowAction(Object value) {
-        this.flowAction.setRight(value);
+    public void setFlowAction(ActProcess process) {
+        this.flowAction.setRight(process.action());
     }
 
-    public void putFlowSubject(Object value) {
+    public void setFlowSubject(Object value) {
         this.flowSubject.setRight(value);
     }
 
-    public void putFlowBusiness(Object value) {
+    public void setFlowBusiness(Object value) {
         this.flowBusiness.setRight(value);
     }
 
-    public void putTaskApproveObj(Object value) {
+    public void setTaskApproveObj(Object value) {
         this.taskApproveObj.setRight(value);
     }
 

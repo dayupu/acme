@@ -126,7 +126,7 @@ public class FlowController {
         ResponseInfo response = new ResponseInfo();
         try {
             Validators.notNull(processId);
-            flowService.cancelProcess(processId);
+            flowService.cancelTask(processId);
             response.wrapSuccess(null);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

@@ -12,4 +12,6 @@ public interface IActFlowService {
 
     public void handleBusinessStatus(String businessId, ActProcess process, boolean isOver);
 
+    public void clearAll();
+
 }

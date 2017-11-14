@@ -23,9 +23,12 @@ import com.manage.kernel.jpa.repository.FlowProcessRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.spring.comm.Messages;
 import com.manage.kernel.spring.comm.SessionHelper;
+import java.util.List;
 import org.activiti.engine.IdentityService;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
@@ -62,6 +65,9 @@ public class ActFlowService implements IActFlowService {
 
     @Autowired
     private IActBusinessService actBusinessService;
+
+    @Autowired
+    private RepositoryService repositoryService;
 
     @Override
     public void actFlowCommit(ActFlowSupport flowSupport) {
@@ -165,40 +171,37 @@ public class ActFlowService implements IActFlowService {
     }
 
     private String handleActFlow(FlowProcess flowProcess) {
-        String applyUserId = SessionHelper.user().actUserId();
+        String actUserId = SessionHelper.userAccount();
         String businessId = flowProcess.getBusinessId();
-        String applyOrganCode = flowProcess.getApplyOrganCode();
+        String organCode = flowProcess.getApplyOrganCode();
         ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
         ProcessInstance process = query.processInstanceBusinessKey(businessId).singleResult();
         if (process == null) {
-            identityService.setAuthenticatedUserId(applyUserId);
-            ActParams params = ActParams.flowStart(applyUserId, flowProcess.getSubject(), businessId);
+            identityService.setAuthenticatedUserId(actUserId);
+            ActParams params = ActParams.flowStart(actUserId, flowProcess.getSubject(), businessId);
             process = runtimeService.startProcessInstanceByKey(Constants.ACT_PROCESS_NEWS, businessId, params.build());
-            Task task = getRunningTask(applyUserId, process.getProcessInstanceId());
+            Task task = getRunningTask(actUserId, process.getProcessInstanceId());
             if (task == null) {
                 throw new ActTaskNotFoundException();
             }
-
             params = new ActParams();
-            params.setApproveGroups(
-                    NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
+            params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, organCode));
             taskService.complete(task.getId(), params.build());
             return task.getProcessInstanceId();
         }
 
-        Task task = getRunningTask(applyUserId, process.getProcessInstanceId());
+        Task task = getRunningTask(actUserId, process.getProcessInstanceId());
         if (task == null) {
             throw new ActTaskNotFoundException();
         }
         ActApproveObj approveObj = new ActApproveObj();
-        approveObj.setUserId(applyUserId);
+        approveObj.setUserId(actUserId);
         approveObj.setProcess(ActProcess.APPLY);
         approveObj.setComment(Messages.get("text.act.comment.reApply"));
         taskService.setVariableLocal(task.getId(), ActVariable.TASK_APPROVE.varName(), approveObj);
         taskService.addComment(task.getId(), task.getProcessInstanceId(), approveObj.getComment());
         ActParams params = ActParams.flowProcess(ActProcess.APPLY, flowProcess.getSubject(), businessId);
-        params.setApproveGroups(
-                NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, applyOrganCode));
+        params.setApproveGroups(NewsMachine.nextGroupIds(task.getTaskDefinitionKey(), ActProcess.APPLY, organCode));
         taskService.complete(task.getId(), params.build());
         actBusinessService.saveApproveTask(task, businessId, approveObj);
 
@@ -207,5 +210,13 @@ public class ActFlowService implements IActFlowService {
 
     private Task getRunningTask(String applyUserId, String processId) {
         return taskService.createTaskQuery().processInstanceId(processId).taskAssignee(applyUserId).singleResult();
+    }
+
+    @Autowired
+    public void clearAll() {
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
+        for (Deployment deployment : deployments) {
+            repositoryService.deleteDeployment(deployment.getId(), true);
+        }
     }
 }

@@ -84,20 +84,4 @@ public class CoreUtil {
         return MessageFormat.format(text, params);
     }
 
-    public static String actGroupId(ApproveRole role, String code) {
-        return role.getCode() + "_" + code;
-    }
-
-    public static List<String> actGroupIds(ApproveRole role, String organCode) {
-        List<String> groupIds = new ArrayList<>();
-        if (StringHandler.isBlank(organCode)) {
-            return groupIds;
-        }
-        String code = organCode;
-        do {
-            groupIds.add(actGroupId(role, code));
-            code = code.substring(0, code.length() - Constants.ORGAN_LENTH);
-        } while (!StringHandler.isEmpty(code));
-        return groupIds;
-    }
 }

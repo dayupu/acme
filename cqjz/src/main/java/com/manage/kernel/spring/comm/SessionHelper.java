@@ -23,6 +23,10 @@ public class SessionHelper {
         return new AdUser(authUser.getId(), authUser.getUsername());
     }
 
+    public static String userAccount() {
+        return authUser().getUsername();
+    }
+
     public static HttpServletRequest request() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }

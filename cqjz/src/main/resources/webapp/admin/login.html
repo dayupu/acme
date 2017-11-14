@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>登录</title>
-    <link rel="stylesheet" th:href="@{/lib/bootstrap3/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <title>公安网网站管理登录</title>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
     <link rel='stylesheet' th:href='@{/lib/angular/loadingbar/loading-bar.css}' type='text/css' media='all'/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
 </head>
 <body>
+<!--[if lt IE 9]>
+<script type="text/javascript">
+        var str = "您当前使用的浏览器版本太低, IE浏览器要求IE9+版本 :(";
+        var str2 = "推荐使用:<a href='https://www.baidu.com/s?ie=UTF-8&wd=%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8' target='_blank' style='color:blue;'>谷歌</a>,"
+                + "<a href='https://www.baidu.com/s?ie=UTF-8&wd=%E7%81%AB%E7%8B%90%E6%B5%8F%E8%A7%88%E5%99%A8' target='_blank' style='color:blue;'>火狐</a>,"
+                + "其他双核极速模式";
+        document.writeln("<pre style='text-align:center;color:#fff;background-color:#0cc; height:100%;border:0;position:fixed;top:0;left:0;width:100%;z-index:1234'>" +
+                "<h2 style='padding-top:200px;margin:0'><strong>" + str + "<br/></strong></h2><h2>" +
+                str2 + "</h2><h2 style='margin:0'><strong>如果您的使用的是双核浏览器,请切换到极速模式访问<br/></strong></h2></pre>");
+        document.execCommand("Stop");
+</script>
+<![endif]-->
 <div class="content">
     <div class="login">
         <div class="login-top">
@@ -14,23 +26,21 @@
         </div>
         <div style="margin-left: 90px;" ng-app="loginApp" ng-controller="loginCtl">
             <form class="form-horizontal" name="loginForm">
-                <div class="input-group col-sm-8">
-                    <label></label>
-                </div>
-                <div class="input-group col col-sm-9">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <div class="input-prepend" style="margin-top:20px;">
+                    <span class="add-on"><i class="icon-user"></i></span>
                     <input type="text" class="form-control input-sm" id="inputAccount" placeholder="username"
                            ng-model="user.account" required/>
                 </div>
                 <br/>
-                <div class="input-group col-sm-9">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                <div class="input-prepend" style="margin-top:15px;">
+                    <span class="add-on"><i class="icon-lock"></i></span>
                     <input type="password" class="form-control input-sm" id="inputPassword" placeholder="password"
                            ng-model="user.password" required/>
                 </div>
                 <br/>
-                <div class="input-group col-sm-9">
-                    <button class="btn btn-info btn-sm" ng-click="login(loginForm.$valid)" style="float: right;" ng-disabled="loginForm.$invalid">登录
+                <div class="input-prepend" style="margin-top:20px;padding-left:200px;">
+                    <button class="btn btn-info btn-small" ng-click="login(loginForm.$valid)"
+                            ng-disabled="loginForm.$invalid">登录
                     </button>
                 </div>
                 <div class="message-error" ng-show="message != null">{{message}}</div>

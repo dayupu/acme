@@ -19,13 +19,15 @@ public interface IFlowService {
 
     public ProcessDetail approveTask(ApproveDto approveDto);
 
+    public void cancelTask(String processId);
+
     public ProcessDetail processDetail(String processId, boolean isApprove);
 
     public NewestFlowDto newestFlow(AdUser user);
 
     public FlowNotification notification(AdUser user);
 
-    public void cancelProcess(String processId);
+
 
     public Object businessObject(String businessId);
 }

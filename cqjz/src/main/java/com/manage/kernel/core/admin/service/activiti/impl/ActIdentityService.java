@@ -1,6 +1,7 @@
 package com.manage.kernel.core.admin.service.activiti.impl;
 
 import com.manage.base.database.enums.ApproveRole;
+import com.manage.base.enums.NewsMachine;
 import com.manage.base.utils.CoreUtil;
 import com.manage.kernel.core.admin.service.activiti.IActIdentityService;
 import com.manage.kernel.jpa.entity.AdUser;
@@ -54,7 +55,7 @@ public class ActIdentityService implements IActIdentityService {
 
 
     private String actGroup(ApproveRole approveRole, String organCode) {
-        String actGroupId = CoreUtil.actGroupId(approveRole, organCode);
+        String actGroupId = NewsMachine.actGroupId(approveRole, organCode);
         Group group = identityService.createGroupQuery().groupId(actGroupId).singleResult();
         if (group == null) {
             group = identityService.newGroup(actGroupId);

@@ -16,6 +16,7 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.history.HistoricVariableInstanceQuery;
 import org.activiti.engine.task.TaskInfo;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,9 @@ public class ActBusinessService implements IActBusinessService {
     @Override
     public ProcessVariable getProcessVaribale(String processId) {
         ProcessVariable processVariable = new ProcessVariable();
-        List<HistoricVariableInstance> variables = historyService.createHistoricVariableInstanceQuery().processInstanceId(processId).list();
+
+        HistoricVariableInstanceQuery historicVariableQuery = historyService.createHistoricVariableInstanceQuery();
+        List<HistoricVariableInstance> variables = historicVariableQuery.processInstanceId(processId).list();
         ActVariable actVar;
         for (HistoricVariableInstance variable : variables) {
             actVar = ActVariable.fromVarName(variable.getVariableName());
@@ -102,12 +105,12 @@ public class ActBusinessService implements IActBusinessService {
                 continue;
             }
             switch (actVar) {
-                case FLOW_SUBJECT:
-                    processVariable.setSubject((String) variable.getValue());
-                    break;
-                case FLOW_APPLY_USER:
-                    processVariable.setApplyUser((String) variable.getValue());
-                    break;
+            case FLOW_SUBJECT:
+                processVariable.setSubject((String) variable.getValue());
+                break;
+            case FLOW_APPLY_USER:
+                processVariable.setApplyUser((String) variable.getValue());
+                break;
             }
         }
         return processVariable;
