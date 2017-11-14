@@ -212,7 +212,7 @@ public class ActFlowService implements IActFlowService {
         return taskService.createTaskQuery().processInstanceId(processId).taskAssignee(applyUserId).singleResult();
     }
 
-    @Autowired
+    @Override
     public void clearAll() {
         List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
         for (Deployment deployment : deployments) {
