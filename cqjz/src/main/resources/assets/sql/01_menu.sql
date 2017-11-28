@@ -41,9 +41,3 @@ INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequen
 VALUES(42, NULL, NULL, 2, '技侦风采', 4, 3, 'jz.list.style');
 INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
 VALUES(43, NULL, NULL, 2, '通讯录', 4, 4, 'jz.list.contacts');
-
--- 我的设置
-INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(5, NULL, NULL, 1, '我的设置', NULL, 5, NULL);
-INSERT INTO ad_menu (id, description, image, "level", "name", parent_id, "sequence", url)
-VALUES(50, NULL, NULL, 2, '个人信息', 5, 1, 'setting.self');

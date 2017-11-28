@@ -1,6 +1,7 @@
 body {
     font-family: sans-serif;
     background-color: #F5F5F5;
+    background-image: url("../images/admin/bg.jpg");
 }
 
 .content-foot {
@@ -47,22 +48,24 @@ body {
     -o-border-radius: 3px;
 
 }
-.login-top{
-    padding-left:10px;
-    height:30px;
-    line-height:30px;
-    background-color:#285F8F;
+
+.login-top {
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #285F8F;
 }
-.login-top > i{
-   margin-top:2px;
+
+.login-top > i {
+    margin-top: 2px;
 }
-.login-top > span{
-   font-weight:bold;
+
+.login-top > span {
+    font-weight: bold;
 }
-.logo {
-    position: absolute;
-    top: 125px;
-    left: 30px;
+
+.login-body {
+    margin-left: 80px;
 }
 
 .form-horizontal .control-label {

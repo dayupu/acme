@@ -168,7 +168,8 @@ div {
 }
 
 .aside-app-div .menu-selected {
-    background-color: #eaeef7;
+    background-color: #F5F5F5;
+    font-weight: bold;
 }
 
 .aside-app-div .menu-hover {
@@ -185,10 +186,9 @@ div {
 }
 
 .logo {
-    margin-left: 10px;
     height: 50px;
     width: 400px;
-    background: url("../icons/logo_login.png") no-repeat;
+    background: url("../icons/logo.png") no-repeat;
 }
 
 .gridStyle {

@@ -17,12 +17,15 @@
                         <span>消息<strong class="text-danger">({{message.total}})</strong><b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a ui-sref="flow.list.pending"><i
-                                class="fa fa-envelope-o text-warning"></i>&nbsp;待处理任务<strong class="text-danger">{{message.pendingCount}}</strong>条</a>
+                        <li class="divider"></li>
+                        <li><a ui-sref="flow.list.pending"><i class="fa fa-envelope-o text-warning"></i>
+                            &nbsp;待处理任务<strong class="text-danger">{{message.pendingCount}}</strong>条</a>
                         </li>
                         <li><a ui-sref="flow.list.reject"><i
-                                class="fa fa-envelope-o text-warning"></i>&nbsp;未通过任务<strong class="text-danger">{{message.rejectCount}}</strong>条</a>
+                                class="fa fa-envelope-o text-warning"></i>
+                            &nbsp;未通过任务<strong class="text-danger">{{message.rejectCount}}</strong>条</a>
                         </li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -31,7 +34,7 @@
                         <span>{{user.name}}<b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0);" ui-sref="setting.self">个人信息</a></li>
+                        <li><a href="javascript:void(0);" ui-sref="setting.self">我的信息</a></li>
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);" ng-click="loginOut()">安全退出</a></li>
                     </ul>

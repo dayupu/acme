@@ -103,11 +103,11 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
                 var sub = "<ul class='menu-nav menu-second-ul' style='display:none;'>";
                 for (var j in menu.subMenus) {
                     var subMenu = menu.subMenus[j];
-                    sub += "<li mark='menuTwo'><a href='javascript:void(0);' class='second-menu-a' url='" + subMenu.url + "'>" + subMenu.name + "</a></li>";
+                    sub += "<li mark='menuTwo'><a href='javascript:void(0);' onfocus='this.blur();' class='second-menu-a' url='" + subMenu.url + "'>" + subMenu.name + "</a></li>";
                 }
                 sub += "</ul>";
             }
-            html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'>" +
+            html += "<li mark='menuOne'><a href='javascript:void(0);' onfocus='this.blur();' class='first-menu-a'><span class='pull-right'>" +
                 "<i class='fa fa-angle-right'></i></span>" +
                 "<i class='fa fa-snapchat' style='font-size: 12px;color:white;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
                 + sub + "</li>";
