@@ -84,6 +84,10 @@
     margin-left: 10px;
 }
 
+.mine-title .btn-sm{
+    height: 22px;
+    padding: 2px 5px;
+}
 .mine-title-right {
     float: right;
     margin-right: 10px;
