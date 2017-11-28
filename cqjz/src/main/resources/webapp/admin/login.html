@@ -17,16 +17,18 @@
                 "<h2 style='padding-top:200px;margin:0'><strong>" + str + "<br/></strong></h2><h2>" +
                 str2 + "</h2><h2 style='margin:0'><strong>如果您的使用的是双核浏览器,请切换到极速模式访问<br/></strong></h2></pre>");
         document.execCommand("Stop");
+
 </script>
 <![endif]-->
 <div class="content">
     <div class="login">
         <div class="login-top">
-            <img height="40" th:src="@{/icons/logo_login.png}">
+            <i class="icon-th-large icon-white"></i>
+            <span>用户登录</span>
         </div>
-        <div style="margin-left: 90px;" ng-app="loginApp" ng-controller="loginCtl">
+        <div style="margin-left: 80px;" ng-app="loginApp" ng-controller="loginCtl">
             <form class="form-horizontal" name="loginForm">
-                <div class="input-prepend" style="margin-top:20px;">
+                <div class="input-prepend" style="margin-top:45px;">
                     <span class="add-on"><i class="icon-user"></i></span>
                     <input type="text" class="form-control input-sm" id="inputAccount" placeholder="username"
                            ng-model="user.account" required/>
@@ -39,7 +41,7 @@
                 </div>
                 <br/>
                 <div class="input-prepend" style="margin-top:20px;padding-left:200px;">
-                    <button class="btn btn-info btn-small" ng-click="login(loginForm.$valid)"
+                    <button class="btn btn-primary btn-small" ng-click="login(loginForm.$valid)"
                             ng-disabled="loginForm.$invalid">登录
                     </button>
                 </div>
@@ -68,6 +70,7 @@
             });
         };
     });
+
 </script>
 </body>
 </html>

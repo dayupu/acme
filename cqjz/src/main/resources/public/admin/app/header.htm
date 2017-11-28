@@ -11,23 +11,30 @@
                         <span>&nbsp;&nbsp;首页&nbsp;&nbsp;</span>
                     </a>
                 </li>
-                <li>
-                    <a  href="javascript:void(0);" title="我的消息" ng-mouseover="lookMessage()">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa  fa-envelope-o fa-fw"></i>
-                        <span>我的消息<strong style="font-size:14px;" class="text-danger">({{message.total}})</strong></span>
+                        <span>消息<strong class="text-danger">({{message.total}})</strong><b class="caret"></b></span>
                     </a>
-                    <div id='headerMessage' class='mine-header-message' style="display: none;">
-                        <ul>
-                            <li><i class="fa fa-envelope-o text-warning"></i>&nbsp;<a ui-sref="flow.list.pending">待处理任务<i>{{message.pendingCount}}</i>条</a></li>
-                            <li><i class="fa fa-envelope-o text-warning"></i>&nbsp;<a ui-sref="flow.list.reject">未通过任务<i>{{message.rejectCount}}</i>条</a></li>
-                        </ul>
-                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="flow.list.pending"><i
+                                class="fa fa-envelope-o text-warning"></i>&nbsp;待处理任务<strong class="text-danger">{{message.pendingCount}}</strong>条</a>
+                        </li>
+                        <li><a ui-sref="flow.list.reject"><i
+                                class="fa fa-envelope-o text-warning"></i>&nbsp;未通过任务<strong class="text-danger">{{message.rejectCount}}</strong>条</a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="javascript:void(0);" title="安全退出" ng-click="loginOut()">
-                        <i class="fa fa-power-off"></i>
-                        <span>安全退出</span>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                        <span>{{user.name}}<b class="caret"></b></span>
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" ui-sref="setting.self">个人信息</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);" ng-click="loginOut()">安全退出</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -48,7 +48,7 @@ div {
 }
 
 .app-aside {
-    padding-top: 80px;
+    padding-top: 50px;
     float: left;
 }
 
@@ -64,7 +64,7 @@ div {
 }
 
 .app-content {
-    padding-top: 80px;
+    padding-top: 50px;
     height: 100%;
     font-size: 13px;
 }
@@ -80,8 +80,8 @@ div {
 }
 
 .app-navbar {
-    height: 80px;
-    background-color: #132e41;
+    height: 50px;
+    background-color: white;
 }
 
 .app-footer {
@@ -95,12 +95,12 @@ div {
 
 @media (min-width: 768px) {
     .app-aside {
-        width: 200px;
+        width: 180px;
     }
 
     .app-content,
     .app-footer {
-        margin-left: 200px;
+        margin-left: 180px;
     }
 }
 
@@ -122,48 +122,37 @@ div {
 }
 
 .bg-dark {
-    color: #a6a8b1;
-    background-color: #597398;
+    color: white;
+    background-color: #285F8F;
 }
 
 .aside-app-div a {
     display: block;
     color: white;
-    padding: 10px;
+    padding: 8px;
 }
 
 .aside-app-menu-div {
+    color: white;
     height: 5px;
 }
 
 .aside-app-div .first-menu-a {
     padding-left: 30px;
     padding-right: 20px;
-    border-bottom: 1px solid #6682a9;
+    border-bottom: 1px solid #285F8F;
+    font-weight:bold;
+    background-color:#337AB7;
 }
 
 .aside-app-div .second-menu-a {
-    padding-left: 70px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    color: white;
-    border-bottom: 1px solid #3b4c63;
+    color:#285F8F;
+    padding:5px;
+    padding-left: 60px;
+    background-color: white;
+    border-bottom: 1px solid #eaeef7;
 }
-.aside-nav{
-   height:50px;
-   padding:15px 0px 15px 30px;
-   background-color:#425671;
-   width:100%;
-   color:white;
-   font-size:13px;
-}
-.aside-nav > i{
-   font-size:16px;
-}
-.aside-nav > span{
-    color:orange;
-    font-size:16px;
-}
+
 .menu-nav {
     list-style: none;
     margin: 0px;
@@ -178,12 +167,12 @@ div {
     background-color: #425671;
 }
 
-.menu-selected {
-    background-color: #b63b4d;
+.aside-app-div .menu-selected {
+    background-color: #eaeef7;
 }
 
-.menu-hover {
-    background-color: #c14053;
+.aside-app-div .menu-hover {
+    background-color: #F5F5F5;
 }
 
 .help-inline .message {
@@ -197,9 +186,9 @@ div {
 
 .logo {
     margin-left: 10px;
-    height: 80px;
+    height: 50px;
     width: 400px;
-    background: url("../icons/logo_admin.png") no-repeat;
+    background: url("../icons/logo_login.png") no-repeat;
 }
 
 .gridStyle {

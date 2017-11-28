@@ -2,28 +2,38 @@
     float: right;
 }
 
-.mine-navbar-right li a {
+.mine-navbar-right > li > a {
     text-align: center;
-    height: 80px;
+    height: 50px;
 }
 
-.mine-navbar-right li a span {
-    color: #c2c5c9;
-    margin-top: 8px;
-    display: block;
-    font-size: 13px;
-}
-
-.mine-navbar-right li a:hover, .mine-navbar-right li a:focus {
-    background-color: #b63b4d;
-    color: white;
+.navbar-nav > li > a{
+   padding-top:5px;
 }
 
 .mine-navbar-right > li > a > i {
-    font-size: 23px;
-    color: #f28080;
+    font-size: 20px;
+    color: #285F8F;
 }
 
+.mine-navbar-right > li > a > span {
+    color: #285F8F;
+    display: block;
+    font-size: 12px;
+}
+
+.mine-navbar-right > li > a:hover, .mine-navbar-right > li > a:focus {
+    background-color: #F5F5F5;
+    color: white;
+}
+
+.mine-navbar-right .dropdown-menu{
+   font-size:12px;
+   min-width:80px;
+}
+.mine-navbar-right .dropdown-menu .divider{
+   margin:3px 0;
+}
 .mine-action {
     font-size: 13px;
 }
@@ -60,14 +70,13 @@
 }
 
 .mine-title {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
-    line-height: 45px;
-    height: 45px;
-    color: black;
+    line-height: 30px;
+    height: 30px;
+    color: white;
     margin-bottom: 10px;
-    background-color: #e9eef4;
-    border-bottom: 1px solid #cccfd3;
+    background-color: #285F8F;
 }
 
 .mine-title > i {
@@ -288,28 +297,6 @@
     color: red;
 }
 
-.mine-header-message{
-    width: 150px;
-    height: 60px;
-    padding:10px;
-    background-color: #132e41;
-    z-index: 39999;
-    color:#c2c5c9;
-    position: absolute;
-}
-.mine-header-message > ul{
-   list-style:none;
-   margin:0px;
-   padding:0px;
-}
-
-.mine-header-message > ul > li > a{
-  color:#c2c5c9;
-}
-.mine-header-message > ul > li > a > i{
-  color:orange;
-  margin:0px 2px;
-}
 .mine-home{
    font-size:15px;
 }

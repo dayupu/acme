@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: #17374d;
+    background-color: #F5F5F5;
 }
 
 .content-foot {
@@ -13,11 +13,11 @@ body {
 
 .content {
     position: absolute;
-    width: 450px;
-    height: 300px;
+    width: 400px;
+    height: 230px;
     left: 50%;
     top: 50%;
-    margin-left: -250px;
+    margin-left: -200px;
     margin-top: -150px;
     color: white;
 }
@@ -36,25 +36,28 @@ body {
 }
 
 .login {
-    height: 260px;
+    height: 230px;
     color: white;
-    background-color: #132e41;
-    border: 1px solid #1d445f;
-    border-bottom-color: #0e212e;
-    border-right-color: #0e212e;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    -ms-border-radius: 8px;
-    -o-border-radius: 8px;
+    background-color: white;
+    border: 1px solid #285F8F;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
 
 }
 .login-top{
-    padding-left: 12px;
-    padding-top: 7px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #1d445f;
-    margin-bottom: 20px;
+    padding-left:10px;
+    height:30px;
+    line-height:30px;
+    background-color:#285F8F;
+}
+.login-top > i{
+   margin-top:2px;
+}
+.login-top > span{
+   font-weight:bold;
 }
 .logo {
     position: absolute;

@@ -84,9 +84,6 @@ function createUeditor(elementId) {
 }
 
 mainApp.controller("menuController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
-    mineHttp.send("GET", "admin/index/user", {}, function (data) {
-        $scope.user = data.content;
-    });
     $scope.loadMenu = function () {
         mineHttp.send("GET", "admin/index/menuList", {}, function (data) {
             if (verifyData(data)) {
@@ -112,7 +109,7 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
             }
             html += "<li mark='menuOne'><a href='javascript:void(0);' class='first-menu-a'><span class='pull-right'>" +
                 "<i class='fa fa-angle-right'></i></span>" +
-                "<i class='fa fa-circle-o' style='font-size: 12px;color:orange;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
+                "<i class='fa fa-snapchat' style='font-size: 12px;color:white;'></i>&nbsp;&nbsp;&nbsp;&nbsp;" + menu.name + "</span></a>"
                 + sub + "</li>";
         }
         $(pNode).append(html);
@@ -138,7 +135,6 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
         $(rootNode).children("li[mark='menuOne']").each(function () {
             var oneA = $(this).children("a");
             var oneUL = $(this).children("ul");
-            $scope.hoverEvent(oneA);
             $(oneA).click(function () {
                 $(rootNode).children("li[mark='menuOne']").each(function () {
                     if (!$(this).is($(oneA).parent())) {
@@ -186,32 +182,20 @@ mainApp.controller("menuController", function ($http, $scope, $location, $sessio
 });
 mainApp.controller("headerController", function ($http, $scope, $location, $sessionStorage, $state, mineMessage, mineHttp) {
     $scope.user = {};
+    mineHttp.send("GET", "admin/index/user", {}, function (data) {
+        $scope.user = data.content;
+    });
     $scope.loginOut = function () {
         location.href = fullPath("admin/loginOut");
     };
     $scope.home = function () {
         location.href = fullPath("admin/loginOut");
     };
-
-    $scope.onMouseLeave = function (event) {
-        $scope.messageHide();
-    };
-    $scope.messageHide = function () {
-        $("#headerMessage").fadeOut("fast");
-        $("#headerMessage").parent().unbind("mouseleave", $scope.onMouseLeave);
-    }
-    $scope.lookMessage = function () {
-        if ($("#headerMessage").css("display") == "none") {
-            $("#headerMessage").slideDown("fast");
-            $("#headerMessage").parent().bind("mouseleave", $scope.onMouseLeave);
-        }
-    };
     $scope.getMessage = function () {
         mineHttp.send("GET", "admin/index/message", {}, function (data) {
             $scope.message = data.content;
         });
     };
-
     $scope.getMessage();
     setInterval($scope.getMessage, 300000);
 });
