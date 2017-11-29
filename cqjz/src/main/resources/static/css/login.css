@@ -85,7 +85,12 @@ html, body {
 .login-body {
     margin-left: 80px;
 }
-
+.login-body .add-on{
+    background-color: #285F8F;
+}
+.login-body .icon-white{
+    margin-top: 2px;
+}
 .form-horizontal .control-label {
     width: 50px;
 }
