@@ -34,7 +34,7 @@ public class ResourceService implements IResourceService {
 
     private static final Logger LOGGER = LogManager.getLogger(ResourceService.class);
     private static final long IMAGE_MAX_SIZE = 5 * 1024 * 1024;
-    private static final long FILE_MAX_SIZE = 10 * 1024 * 1024;
+    private static final long FILE_MAX_SIZE = 20 * 1024 * 1024;
     private static final String[] IMAGE_SUFFIX_TYPES = {"gif", "png", "jpg", "jpeg", "bmp"};
 
     @Autowired

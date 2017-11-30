@@ -76,7 +76,7 @@
                             <div class="mine-file-list">
                                 <ul>
                                     <li ng-repeat="attach in news.attachments" fileid="{{attach.fileId}}" filename ="{{attach.fileName}}">
-                                        <a href='javascript:void(0)' ng-click='attachmentRemove($event)'>
+                                        <a href='javascript:void(0)' title="删除" ng-click='attachmentRemove($event)'>
                                             <i class='fa fa-trash' aria-hidden='true'></i>
                                         </a>
                                         <a target='_blank' ng-href='{{attach.fileUrl}}'>{{attach.fileName}}</a></li>
@@ -84,8 +84,8 @@
                                 </ul>
                             </div>
                             <button ng-show="!uploadingFlag" class="btn btn-success btn-sm" ngf-select="attachmentUpload()" ng-model="file"
-                                    name="file" ngf-max-size="10MB" ngf-min-height="100" ng-disabled="!news.canEdit" >上传</button>
-                            (注：单个附件不得超过10MB)
+                                    name="file" ngf-max-size="20MB" ngf-min-height="100" ng-disabled="!news.canEdit" >上传</button>
+                            (注：单个附件不得超过20MB)
                             <div ng-show="uploadingFlag" class="progress progress-striped active" style="width:120px;margin:0px;">
                                 <div class="progress-bar progress-bar-success" role="progressbar"
                                      aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
