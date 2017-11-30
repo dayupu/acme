@@ -15,8 +15,9 @@
             <div class="tab-pane fade in active" id="newsBody">
                 <div style="text-align: center;"><h3>{{news.title}}</h3></div>
                 <div id="newsContent"></div>
-                <div class="mine-file-list">
-                    <h5>附件:</h5>
+                <div class="mine-file-list" ng-if="news.attachments.length > 0">
+                    <br/>
+                    <strong>[附件]</strong>
                     <ul>
                         <li ng-repeat="attach in news.attachments">
                             <a target='_blank' ng-href='{{attach.fileUrl}}'>{{attach.fileName}}</a></li>
