@@ -19,11 +19,7 @@ import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
 import com.manage.kernel.core.model.vo.StyleVo;
-import com.manage.kernel.jpa.entity.JzStyle;
-import com.manage.kernel.jpa.entity.JzStyleLine;
-import com.manage.kernel.jpa.entity.JzSuperStar;
-import com.manage.kernel.jpa.entity.JzWatch;
-import com.manage.kernel.jpa.entity.News;
+import com.manage.kernel.jpa.entity.*;
 import com.manage.kernel.jpa.repository.JzStyleRepo;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
@@ -155,6 +151,13 @@ public class AnyoneService implements IAnyoneService {
             detail.setImageId(news.getImageId());
             detail.setContent(news.getContent());
             detail.setTitle(news.getTitle());
+            NewsDetailVo.Attachment attachment;
+            for(NewsAttach attach : news.getAttaches()){
+                attachment = new NewsDetailVo.Attachment();
+                attachment.setFileId(attach.getFileId());
+                attachment.setFileName(attach.getFileName());
+                detail.getAttachments().add(attachment);
+            }
         }
         return detail;
     }

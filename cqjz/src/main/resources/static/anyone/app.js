@@ -229,6 +229,9 @@ anyoneApp.controller("newsInfoController", function ($scope, $routeParams, mineH
     mineHttp.send("GET", "free/newsInfo/" + number, null, function (data) {
         $scope.news = data;
         $("#newsContent").html(data.content);
+        for (index in $scope.news.attachments) {
+            $scope.news.attachments[index].fileUrl = fileUrl($scope.news.attachments[index].fileId);
+        }
     });
 });
 /*通讯录*/

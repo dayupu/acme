@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.manage.base.database.serialize.PublishTimeSimpleSerializer;
 import org.joda.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by bert on 2017/10/27.
  */
@@ -16,6 +19,8 @@ public class NewsDetailVo {
     private String title;
 
     private String content;
+
+    private List<Attachment> attachments = new ArrayList<>();
 
     public String getImageId() {
         return imageId;
@@ -47,5 +52,35 @@ public class NewsDetailVo {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public static class Attachment{
+
+        private String fileId;
+        private String fileName;
+
+        public String getFileId() {
+            return fileId;
+        }
+
+        public void setFileId(String fileId) {
+            this.fileId = fileId;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 }

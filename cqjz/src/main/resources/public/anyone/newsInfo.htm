@@ -10,6 +10,16 @@
                 <div class="news-content">
                     <div class="news-title">{{news.title}}</div>
                     <div id="newsContent"></div>
+                    <div class="mine-file-list" ng-if="news.attachments.length > 0">
+                        <br/>
+                        <strong>[附件]</strong>
+                        <ul>
+                            <li ng-repeat="attach in news.attachments">
+                                <a target='_blank' ng-href='{{attach.fileUrl}}'>{{attach.fileName}}</a></li>
+                            </li>
+                        </ul>
+                        <br/>
+                    </div>
                 </div>
             </div>
         </td>

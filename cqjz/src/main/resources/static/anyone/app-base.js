@@ -12,6 +12,11 @@ function goto(url) {
 function imageUrl(imageId) {
     return fullPath("resource/image/" + imageId);
 }
+
+function fileUrl(fileId) {
+    return fullPath("resource/file/" + fileId);
+}
+
 function setHome(obj) {
     var url = window.location.href;
     var webContext = fullPath("");
