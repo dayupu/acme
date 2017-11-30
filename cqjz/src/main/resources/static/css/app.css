@@ -45,11 +45,13 @@ div {
 
 .app-header {
     z-index: 1000;
+    box-shadow: 0 0 5px #337AB7;
 }
 
 .app-aside {
     padding-top: 50px;
     float: left;
+    box-shadow: 0 0 5px #337AB7;
 }
 
 .app-aside:before {
