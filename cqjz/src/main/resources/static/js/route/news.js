@@ -4,15 +4,16 @@ mainApp.controller("newsPublishCtl", function ($scope, $state) {
 
 mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
     $scope.news = {};
-    $scope.news.attachments=[];
+    $scope.newsAttachments=[];
     $scope.news.canEdit = true;
     $scope.model = "publish";
     if (typeof $stateParams.number == "string") {
         $scope.model = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
-            for (index in $scope.news.attachments) {
-                $scope.news.attachments[index].fileUrl = fileUrl($scope.news.attachments[index].fileId);
+            $scope.newsAttachments = $scope.news.attachments;
+            for (index in $scope.newsAttachments) {
+                $scope.newsAttachments[index].fileUrl = fileUrl($scope.newsAttachments[index].fileId);
             }
         })
     }
@@ -57,6 +58,7 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
 
     $scope.refreshContent = function () {
         $scope.news.content = UE.getEditor('newsEditor').getContent();
+        $scope.news.attachments = $scope.newsAttachments;
     };
 
     $scope.refreshPage = function (news) {
@@ -124,17 +126,18 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         var line = $(event.target).parents("li").eq(0);
         var fileId = line.attr("fileid");
         $(line).remove();
-        for (index in $scope.news.attachments) {
-            if($scope.news.attachments[index].fileId == fileId){
-                $scope.news.attachments.splice(index, 1);
+        for (index in $scope.newsAttachments) {
+            if($scope.newsAttachments[index].fileId == fileId){
+                $scope.newsAttachments.splice(index, 1);
                 return;
             }
         }
     };
 
     $scope.addAttachmentLine = function (file) {
-        var line = {"fileId":file.fileId, "fileName":file.originalName, "fileUrl":fileUrl(file.fileId)};
-        $scope.news.attachments.push(line)
+        var line = {"fileId":file.fileId, "fileName":file.originalName, "fileUrl": fileUrl(file.fileId)};
+        $scope.newsAttachments.push(line)
+
     };
 
     $scope.preview = function (imageId) {

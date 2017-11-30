@@ -75,8 +75,8 @@
                         <td>
                             <div class="mine-file-list">
                                 <ul>
-                                    <li ng-repeat="attach in news.attachments" fileid="{{attach.fileId}}" filename ="{{attach.fileName}}">
-                                        <a href='javascript:void(0)' title="删除" ng-click='attachmentRemove($event)'>
+                                    <li ng-repeat="attach in newsAttachments" fileid="{{attach.fileId}}" filename ="{{attach.fileName}}">
+                                        <a ng-show="news.canEdit" href='javascript:void(0)' title="删除" ng-click='attachmentRemove($event)'>
                                             <i class='fa fa-trash' aria-hidden='true'></i>
                                         </a>
                                         <a target='_blank' ng-href='{{attach.fileUrl}}'>{{attach.fileName}}</a></li>
