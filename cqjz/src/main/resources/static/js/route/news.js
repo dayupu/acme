@@ -70,7 +70,6 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         if (!$scope.validator()) {
             return;
         }
-        $scope.composeNews();
         mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (result) {
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
@@ -85,7 +84,6 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         if (!$scope.validator()) {
             return;
         }
-        $scope.composeNews();
         mineHttp.send("POST", "admin/news/submit", {data: $scope.news}, function (result) {
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
@@ -138,20 +136,6 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         var line = {"fileId":file.fileId, "fileName":file.originalName, "fileUrl":fileUrl(file.fileId)};
         $scope.news.attachments.push(line)
     };
-
-    $scope.composeNews = function () {
-          var fileList = [];
-          $("#newsAttachments").find("li").each(function (index) {
-              var line = {};
-              line.fileId = $(this).attr("fileid");
-              line.fileName = $(this).attr("filename");
-              if(typeof line.fileId != "string"){
-                 return;
-              }
-              fileList.push(line);
-          });
-          $scope.news.attachments = fileList;
-    }
 
     $scope.preview = function (imageId) {
         var modalInstance = mineUtil.modal("admin/_news/newsPicture.htm", "newsPictureCtl", imageId, "lg");
