@@ -2,17 +2,17 @@ mainApp.controller("newsPublishCtl", function ($scope, $state) {
     $state.go("news.add");
 });
 
-mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil, $compile) {
+mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
     $scope.news = {};
+    $scope.news.attachments=[];
     $scope.news.canEdit = true;
     $scope.model = "publish";
     if (typeof $stateParams.number == "string") {
         $scope.model = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
-            $scope.newsAttachments = $scope.news.attachments;
-            for (index in $scope.newsAttachments) {
-                $scope.newsAttachments[index].fileUrl = fileUrl($scope.newsAttachments[index].fileId);
+            for (index in $scope.news.attachments) {
+                $scope.news.attachments[index].fileUrl = fileUrl($scope.news.attachments[index].fileId);
             }
         })
     }
@@ -123,19 +123,20 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
     };
 
     $scope.attachmentRemove = function (event) {
-        $(event.target).parents("li").eq(0).remove();
+        var line = $(event.target).parents("li").eq(0);
+        var fileId = line.attr("fileid");
+        $(line).remove();
+        for (index in $scope.news.attachments) {
+            if($scope.news.attachments[index].fileId == fileId){
+                $scope.news.attachments.splice(index, 1);
+                return;
+            }
+        }
     };
 
-    $scope.attachmentLink = function(fileId){
-        return fileUrl(fileId);
-    }
     $scope.addAttachmentLine = function (file) {
-        var fileId = file.fileId;
-        var fileName = file.originalName;
-        var html = "<li fileid='"+fileId+"' filename='"+fileName+"'>"
-                   +"<a href='javascript:void(0)' ng-click='attachmentRemove($event)'><i class='fa fa-trash' aria-hidden='true'></i></a>"
-                   +"<a target='_blank' href='"+fileUrl(fileId)+"'> " + fileName + "</a></li>";
-        angular.element("#newsAttachments").append($compile(angular.element(html))($scope));
+        var line = {"fileId":file.fileId, "fileName":file.originalName, "fileUrl":fileUrl(file.fileId)};
+        $scope.news.attachments.push(line)
     };
 
     $scope.composeNews = function () {
