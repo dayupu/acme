@@ -32,7 +32,7 @@ public class NewsTopicParser {
         dto.setUpdatedAt(entity.getUpdatedAt());
         dto.setCreatedBy(entity.getCreatedUserName());
         dto.setUpdatedBy(entity.getUpdatedUserName());
-
+        dto.setImageId(entity.getImageId());
         List<NewsTopic> topicLines = entity.getTopicLines();
         if (!CollectionUtils.isEmpty(topicLines)) {
             dto.setItemCount(topicLines.size());

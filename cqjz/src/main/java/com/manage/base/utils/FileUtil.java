@@ -54,6 +54,10 @@ public class FileUtil {
         return "IMAGE_" + System.currentTimeMillis();
     }
 
+    public static synchronized String genFileId() {
+        return "FILE_" + System.currentTimeMillis();
+    }
+
     public static String joinPath(String... paths) {
         if (paths == null && paths.length == 0) {
             return null;

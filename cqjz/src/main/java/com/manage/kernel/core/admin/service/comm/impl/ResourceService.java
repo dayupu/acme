@@ -6,9 +6,12 @@ import com.manage.base.enums.UploadState;
 import com.manage.base.supplier.Pair;
 import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.FileUtil;
+import com.manage.kernel.basic.model.FileResult;
 import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.admin.service.comm.IResourceService;
+import com.manage.kernel.jpa.entity.ResourceFile;
 import com.manage.kernel.jpa.entity.ResourceImage;
+import com.manage.kernel.jpa.repository.ResourceFileRepo;
 import com.manage.kernel.jpa.repository.ResourceImageRepo;
 import com.manage.kernel.spring.PropertySupplier;
 
@@ -31,10 +34,15 @@ public class ResourceService implements IResourceService {
 
     private static final Logger LOGGER = LogManager.getLogger(ResourceService.class);
     private static final long IMAGE_MAX_SIZE = 5 * 1024 * 1024;
+    private static final long FILE_MAX_SIZE = 10 * 1024 * 1024;
     private static final String[] IMAGE_SUFFIX_TYPES = {"gif", "png", "jpg", "jpeg", "bmp"};
 
     @Autowired
     private ResourceImageRepo imageRepo;
+
+    @Autowired
+    private ResourceFileRepo fileRepo;
+
     @Autowired
     private PropertySupplier supplier;
 
@@ -100,6 +108,62 @@ public class ResourceService implements IResourceService {
     }
 
     @Override
+    @Transactional
+    public FileResult uploadFile(MultipartFile file, FileSource source) {
+        FileResult fileResult = new FileResult();
+        if (file.getSize() > FILE_MAX_SIZE) {
+            fileResult.setState(UploadState.SIZE);
+            return fileResult;
+        }
+
+        String originName = file.getOriginalFilename();
+        String suffix = FileUtil.suffix(originName);
+        String fileDir = supplier.getUploadFilesDir();
+        String fileId = FileUtil.genFileId();
+        String dateDir = FileUtil.genDateDir();
+        String savePath = FileUtil.joinPath(fileDir, dateDir);
+        long size = file.getSize();
+        File saveDir = new File(savePath);
+        if (!saveDir.exists()) {
+            saveDir.mkdir();
+        }
+        String fileName = fileId + "." + suffix;
+        try {
+            FileUtil.upload(file.getInputStream(), FileUtil.joinPath(savePath, fileName));
+
+            // save resource image
+            ResourceFile resourceFile = new ResourceFile();
+            resourceFile.setName(fileName);
+            resourceFile.setFileId(fileId);
+            resourceFile.setCreatedAt(LocalDateTime.now());
+            resourceFile.setDir(fileDir);
+            resourceFile.setPath(FileUtil.joinPath(dateDir, fileName));
+            resourceFile.setSize(size);
+            resourceFile.setOriginName(originName);
+            resourceFile.setSuffix(suffix);
+            resourceFile.setSource(source);
+            fileRepo.save(resourceFile);
+
+            // ready image result
+            fileResult.setFileId(fileId);
+            fileResult.setSize(size);
+            fileResult.setName(fileName);
+            fileResult.setOriginalName(originName);
+            fileResult.setType(suffix);
+            fileResult.setUrl(CoreUtil.format(supplier.getFileAccessUrl(), fileId));
+            fileResult.setState(UploadState.SUCCESS);
+            return fileResult;
+        } catch (IOException e) {
+            LOGGER.error("upload exception", e);
+            fileResult.setState(UploadState.IO);
+        } catch (Exception e) {
+            LOGGER.error("upload exception", e);
+            fileResult.setState(UploadState.UNKNOWN);
+        }
+        return fileResult;
+    }
+
+    @Override
     public ImageResult getImage(String imageId) {
         ResourceImage image = imageRepo.findByImageId(imageId);
         if (image == null) {
@@ -109,6 +173,21 @@ public class ResourceService implements IResourceService {
         ImageResult result = new ImageResult();
         result.setType(image.getSuffix());
         result.setUrl(FileUtil.joinPath(supplier.getUploadImagesDir(), image.getPath()));
+        return result;
+    }
+
+    @Override
+    public FileResult getFile(String fileId) {
+        ResourceFile file = fileRepo.findByFileId(fileId);
+        if (file == null) {
+            return null;
+        }
+
+        FileResult result = new FileResult();
+        result.setType(file.getSuffix());
+        result.setUrl(FileUtil.joinPath(supplier.getUploadFilesDir(), file.getPath()));
+        result.setOriginalName(file.getOriginName());
+        result.setName(file.getName());
         return result;
     }
 

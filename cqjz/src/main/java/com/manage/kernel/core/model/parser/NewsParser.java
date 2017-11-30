@@ -1,10 +1,13 @@
 package com.manage.kernel.core.model.parser;
 
+import com.manage.kernel.core.model.dto.NewsAttachDto;
 import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.jpa.entity.News;
 
+import com.manage.kernel.jpa.entity.NewsAttach;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.util.CollectionUtils;
 
 public class NewsParser {
 
@@ -36,6 +39,15 @@ public class NewsParser {
         newsDto.setUpdatedBy(news.getUpdatedUserName());
         newsDto.setCanEdit(news.getStatus().canEdit());
         newsDto.setCanDrop(news.getStatus().canDrop());
+        if (!CollectionUtils.isEmpty(news.getAttaches())) {
+            NewsAttachDto dto;
+            for (NewsAttach attach : news.getAttaches()) {
+                dto = new NewsAttachDto();
+                dto.setFileId(attach.getFileId());
+                dto.setFileName(attach.getFileName());
+                newsDto.getAttachments().add(dto);
+            }
+        }
         return newsDto;
     }
 }

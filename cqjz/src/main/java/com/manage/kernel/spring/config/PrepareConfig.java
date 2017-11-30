@@ -43,10 +43,20 @@ public class PrepareConfig implements InitializingBean {
             LOGGER.error("upload images dir not configured.");
         }
 
+        String filesDir = supplier.getUploadFilesDir();
+        if (StringHandler.isEmpty(filesDir)) {
+            LOGGER.error("upload files dir not configured.");
+        }
+
         File imagesDirFile = new File(imagesDir);
         if (!imagesDirFile.exists()) {
             LOGGER.info("create upload images dir: {}", imagesDir);
             imagesDirFile.mkdirs();
+        }
+        File filesDirFile = new File(filesDir);
+        if (!filesDirFile.exists()) {
+            LOGGER.info("create upload files dir: {}", imagesDir);
+            filesDirFile.mkdirs();
         }
 
     }

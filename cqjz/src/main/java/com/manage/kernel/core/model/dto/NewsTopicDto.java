@@ -34,6 +34,7 @@ public class NewsTopicDto {
     private LocalDateTime createdAtEnd;
     private String createdBy;
     private String updatedBy;
+    private String imageId;
     private List<NewsTopicDto> topicLines;
     private Boolean hasImage = Boolean.FALSE;
 
@@ -131,5 +132,13 @@ public class NewsTopicDto {
 
     public void setHasImage(Boolean hasImage) {
         this.hasImage = hasImage;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

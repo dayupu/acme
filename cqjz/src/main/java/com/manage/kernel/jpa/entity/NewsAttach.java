@@ -23,12 +23,15 @@ public class NewsAttach {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_news_attach")
     private Long id;
 
-    @Column(name = "news_id", insertable = false, updatable = false)
-    private Long newsId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "news_id")
     private News news;
+
+    @Column(name = "file_id", nullable = false)
+    private String fileId;
+
+    @Column(name="file_name", nullable = false)
+    private String fileName;
 
     public Long getId() {
         return id;
@@ -38,15 +41,27 @@ public class NewsAttach {
         this.id = id;
     }
 
-    public Long getNewsId() {
-        return newsId;
-    }
-
     public News getNews() {
         return news;
     }
 
     public void setNews(News news) {
         this.news = news;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

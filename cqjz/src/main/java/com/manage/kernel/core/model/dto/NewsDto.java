@@ -8,6 +8,8 @@ import com.manage.base.database.serialize.EnumDeserializer;
 import com.manage.base.database.serialize.EnumSerializer;
 import com.manage.base.database.serialize.LocalDateTimeDeserializer;
 import com.manage.base.database.serialize.LocalDateTimeSerializer;
+import java.util.ArrayList;
+import java.util.List;
 import org.joda.time.LocalDateTime;
 
 /**
@@ -44,7 +46,7 @@ public class NewsDto {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime approvedTime;
-
+    private List<NewsAttachDto> attachments = new ArrayList<>();
     private String createdBy;
     private String createdByOrgan;
     private String updatedBy;
@@ -209,5 +211,13 @@ public class NewsDto {
 
     public void setTopicName(String topicName) {
         this.topicName = topicName;
+    }
+
+    public List<NewsAttachDto> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<NewsAttachDto> attachments) {
+        this.attachments = attachments;
     }
 }

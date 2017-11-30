@@ -32,6 +32,10 @@ function imageUrl(imageId) {
     return fullPath("resource/image/" + imageId);
 }
 
+function fileUrl(fileId) {
+    return fullPath("resource/file/" + fileId);
+}
+
 function isEmpty(value) {
     if (typeof value == "number") {
         return false;

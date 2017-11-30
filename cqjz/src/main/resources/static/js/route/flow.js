@@ -261,6 +261,9 @@ mainApp.controller("businessNewsCtl", function ($scope, $uibModalInstance, mineH
        if(typeof $scope.news.imageId == "string"){
           $scope.imgUrl = imageUrl($scope.news.imageId);
        }
+       for (index in $scope.news.attachments) {
+           $scope.news.attachments[index].fileUrl = fileUrl($scope.news.attachments[index].fileId);
+       }
    });
    $scope.cancel = function () {
        $uibModalInstance.dismiss('cancel');

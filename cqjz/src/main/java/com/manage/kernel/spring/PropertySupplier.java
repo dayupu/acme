@@ -9,8 +9,14 @@ public class PropertySupplier {
     @Value("${upload.images.dir}")
     private String uploadImagesDir;
 
+    @Value("${upload.files.dir}")
+    private String uploadFilesDir;
+
     @Value("${resource.image.access.url}")
     private String imageAccessUrl;
+
+    @Value("${resource.file.access.url}")
+    private String fileAccessUrl;
 
     public String getUploadImagesDir() {
         return uploadImagesDir;
@@ -18,5 +24,13 @@ public class PropertySupplier {
 
     public String getImageAccessUrl() {
         return imageAccessUrl;
+    }
+
+    public String getUploadFilesDir() {
+        return uploadFilesDir;
+    }
+
+    public String getFileAccessUrl() {
+        return fileAccessUrl;
     }
 }

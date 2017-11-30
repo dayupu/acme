@@ -17,6 +17,7 @@ import com.manage.base.utils.CoreUtil;
 import com.manage.base.utils.StringHandler;
 import com.manage.cache.CacheManager;
 import com.manage.kernel.core.admin.service.activiti.IActFlowService;
+import com.manage.kernel.core.model.dto.NewsAttachDto;
 import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.parser.NewsParser;
@@ -24,7 +25,9 @@ import com.manage.kernel.core.admin.service.business.INewsService;
 import com.manage.kernel.core.model.parser.NewsTopicParser;
 import com.manage.kernel.jpa.entity.News;
 import com.manage.kernel.jpa.entity.AdUser;
+import com.manage.kernel.jpa.entity.NewsAttach;
 import com.manage.kernel.jpa.entity.NewsTopic;
+import com.manage.kernel.jpa.repository.NewsAttachRepo;
 import com.manage.kernel.jpa.repository.NewsRepo;
 import com.manage.kernel.jpa.repository.NewsTopicRepo;
 import com.manage.kernel.spring.comm.Messages;
@@ -67,6 +70,9 @@ public class NewsService implements INewsService {
     @Autowired
     private CacheManager<String, Object> cacheManager;
 
+    @Autowired
+    private NewsAttachRepo attachRepo;
+
     @Override
     @Transactional
     public NewsDto submitNews(NewsDto newsDto) {
@@ -105,7 +111,10 @@ public class NewsService implements INewsService {
             news.setCreatedAt(LocalDateTime.now());
             news.setCreatedUser(SessionHelper.user());
         }
-        return newsRepo.save(news);
+
+        News savedNews = newsRepo.save(news);
+        mergeNewsAttaches(savedNews, newsDto.getAttachments());
+        return savedNews;
     }
 
     @Override
@@ -152,7 +161,7 @@ public class NewsService implements INewsService {
             }
             if (StringHandler.isNotNull(query.getType())) {
                 list.add(cb.or(cb.equal(root.get("type"), query.getType()),
-                         cb.equal(root.get("topic"), query.getType())));
+                        cb.equal(root.get("topic"), query.getType())));
             }
             if (StringHandler.isNotNull(query.getStatus())) {
                 list.add(cb.equal(root.get("status"), query.getStatus()));
@@ -205,6 +214,35 @@ public class NewsService implements INewsService {
         }
         news.setSource(newsDto.getSource());
         news.setStatus(NewsStatus.DRAFT);
+    }
+
+    private void mergeNewsAttaches(News news, List<NewsAttachDto> newsAttachDtos) {
+        List<NewsAttach> savedAttaches = news.getAttaches();
+        if (CollectionUtils.isEmpty(newsAttachDtos) && CollectionUtils.isEmpty(savedAttaches)) {
+            return;
+        }
+
+        if (savedAttaches.size() > newsAttachDtos.size()) {
+            int index = newsAttachDtos.size();
+            while (index < savedAttaches.size()) {
+                attachRepo.delete(savedAttaches.get(index++));
+            }
+        }
+        NewsAttach attach;
+        List<NewsAttach> attaches = new ArrayList<>();
+        for (int i = 0; i < newsAttachDtos.size(); i++) {
+            if (i < savedAttaches.size()) {
+                attach = savedAttaches.get(i);
+            } else {
+                attach = new NewsAttach();
+            }
+            attach.setNews(news);
+            attach.setFileId(newsAttachDtos.get(i).getFileId());
+            attach.setFileName(newsAttachDtos.get(i).getFileName());
+            attaches.add(attach);
+            attachRepo.save(attach);
+        }
+        news.setAttaches(attaches);
     }
 
     private boolean hasImage(int type) {
@@ -296,6 +334,7 @@ public class NewsService implements INewsService {
         }
         topic.setLevel(1);
         topic.setName(topicDto.getName());
+        topic.setImageId(topicDto.getImageId());
         topic.setDescription(topicDto.getDescription());
 
         newsTopicRepo.save(topic);
@@ -336,7 +375,9 @@ public class NewsService implements INewsService {
             topicLine.setDescription(lineDto.getDescription());
             topicLines.add(newsTopicRepo.save(topicLine));
         }
+        topic.setImageId(topicDto.getImageId());
         topic.setTopicLines(topicLines);
+        newsTopicRepo.save(topic);
         cacheNewsTopics();
         return NewsTopicParser.toDto(topic);
     }

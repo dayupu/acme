@@ -8,6 +8,7 @@ import com.manage.base.supplier.page.PageQuery;
 import com.manage.base.supplier.page.PageResult;
 import com.manage.base.supplier.page.ResponseInfo;
 import com.manage.base.utils.Validators;
+import com.manage.kernel.basic.model.FileResult;
 import com.manage.kernel.basic.model.ImageResult;
 import com.manage.kernel.core.model.dto.NewsDto;
 import com.manage.kernel.core.admin.service.business.INewsService;
@@ -141,6 +142,23 @@ public class NewsController {
         return response;
     }
 
+    @PostMapping("/attachment")
+    public ResponseInfo uploadAttachment(@RequestParam("file") MultipartFile file) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            FileResult result = resourceService.uploadFile(file, FileSource.NEWS_SUMMARY);
+            response.wrapSuccess(result);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
     @InboundLog
     @PostMapping("/topic/list")
     public ResponseInfo topicPageList(@PageQueryAon PageQuery page, @RequestBody NewsTopicDto query) {
@@ -156,6 +174,23 @@ public class NewsController {
             Validators.notNull(code);
             NewsTopicDto topicDto = newsService.topicDetail(code);
             response.wrapSuccess(topicDto);
+        } catch (ValidateException e) {
+            response.wrapFail(e.getMessage());
+        } catch (CoreException e) {
+            response.wrapFail(e.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("system exception", e);
+            response.wrapError();
+        }
+        return response;
+    }
+
+    @PostMapping("/topic/image")
+    public ResponseInfo uploadTopicImage(@RequestParam("file") MultipartFile file) {
+        ResponseInfo response = new ResponseInfo();
+        try {
+            ImageResult result = resourceService.uploadImage(file, FileSource.TOPIC);
+            response.wrapSuccess(result);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
         } catch (CoreException e) {

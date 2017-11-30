@@ -10,7 +10,8 @@ public enum FileSource implements DBEnum {
     NEWS_SUMMARY(10, "news summary"),
     NEWS_BODY(11, "news body"),
     UEDITOR(12, "ueditor"),
-    JZ_STYLE(13, "jz style");
+    JZ_STYLE(13, "jz style"),
+    TOPIC(14, "topic");
 
     private Integer constant;
     private String message;

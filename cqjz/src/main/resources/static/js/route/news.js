@@ -2,7 +2,7 @@ mainApp.controller("newsPublishCtl", function ($scope, $state) {
     $state.go("news.add");
 });
 
-mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil) {
+mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $location, mineHttp, mineTree, mineUtil, $compile) {
     $scope.news = {};
     $scope.news.canEdit = true;
     $scope.model = "publish";
@@ -10,6 +10,10 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         $scope.model = "edit";
         mineHttp.send("GET", "admin/news/" + $stateParams.number, null, function (result) {
             $scope.news = result.content;
+            $scope.newsAttachments = $scope.news.attachments;
+            for (index in $scope.newsAttachments) {
+                $scope.newsAttachments[index].fileUrl = fileUrl($scope.newsAttachments[index].fileId);
+            }
         })
     }
 
@@ -66,6 +70,7 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         if (!$scope.validator()) {
             return;
         }
+        $scope.composeNews();
         mineHttp.send("POST", "admin/news/save", {data: $scope.news}, function (result) {
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
@@ -80,6 +85,7 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
         if (!$scope.validator()) {
             return;
         }
+        $scope.composeNews();
         mineHttp.send("POST", "admin/news/submit", {data: $scope.news}, function (result) {
                 $scope.messageStatus = verifyData(result);
                 $scope.message = result.message;
@@ -89,17 +95,63 @@ mainApp.controller("newsEditCtl", function ($scope, $state, $stateParams, $locat
             }
         );
     };
+
     $scope.imageUpload = function () {
         if ($scope.file) {
-            $scope.upload($scope.file);
+            $scope.uploadServer($scope.file);
         }
     };
-    $scope.upload = function (file) {
+    $scope.uploadServer = function (file) {
         mineHttp.upload("admin/news/picture", {file: file}, function (data) {
             $scope.image = data.content;
             $scope.news.imageId = $scope.image.imageId;
         });
     };
+
+    /*新闻附件*/
+    $scope.attachmentUpload = function () {
+        if ($scope.file) {
+            $scope.attachmentUploadServer($scope.file);
+        }
+    };
+    $scope.attachmentUploadServer = function (file) {
+        $scope.uploadingFlag = true;
+        mineHttp.upload("admin/news/attachment", {file: file}, function (data) {
+            $scope.uploadingFlag = false;
+            $scope.addAttachmentLine(data.content);
+        });
+    };
+
+    $scope.attachmentRemove = function (event) {
+        $(event.target).parents("li").eq(0).remove();
+    };
+
+    $scope.attachmentLink = function(fileId){
+        return fileUrl(fileId);
+    }
+    $scope.addAttachmentLine = function (file) {
+        var fileId = file.fileId;
+        var fileName = file.originalName;
+        var html = "<li fileid='"+fileId+"' filename='"+fileName+"'>"
+                   +"<a href='javascript:void(0)' ng-click='attachmentRemove($event)'><i class='fa fa-trash' aria-hidden='true'></i></a>"
+                   +"<a target='_blank' href='"+fileUrl(fileId)+"'> " + fileName + "</a></li>";
+        angular.element("#newsAttachments").append($compile(angular.element(html))($scope));
+    };
+
+    $scope.composeNews = function () {
+          var fileList = [];
+          $("#newsAttachments").find("li").each(function (index) {
+              var line = {};
+              line.fileId = $(this).attr("fileid");
+              line.fileName = $(this).attr("filename");
+              if(typeof line.fileId != "string"){
+                 return;
+              }
+              fileList.push(line);
+          });
+          $scope.news.attachments = fileList;
+    }
+
     $scope.preview = function (imageId) {
         var modalInstance = mineUtil.modal("admin/_news/newsPicture.htm", "newsPictureCtl", imageId, "lg");
         modalInstance.result.then(function () {
@@ -202,10 +254,20 @@ mainApp.controller("newsPictureCtl", function ($scope, $uibModalInstance, data) 
     };
 });
 
+mainApp.controller("newsTopicImageCtl", function ($scope, $uibModalInstance, data) {
+    $scope.imgUrl = imageUrl(data);
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
 mainApp.controller("newsPreviewCtl", function ($scope, $uibModalInstance, mineHttp, data) {
     mineHttp.send("GET", "admin/news/" + data, null, function (result) {
         $scope.news = result.content;
         $("#newsContent").html($scope.news.content);
+        for (index in $scope.news.attachments) {
+            $scope.news.attachments[index].fileUrl = fileUrl($scope.news.attachments[index].fileId);
+        }
     });
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -293,6 +355,23 @@ mainApp.controller("newsTopicCtl", function ($scope, $compile, mineGrid, mineTre
         });
     };
 
+    $scope.imageUpload = function () {
+        if ($scope.file) {
+            $scope.upload($scope.file);
+        }
+    };
+    $scope.upload = function (file) {
+        mineHttp.upload("admin/news/topic/image", {file: file}, function (data) {
+            $scope.image = data.content;
+            $scope.newsTopic.imageId = $scope.image.imageId;
+        });
+    };
+    $scope.preview = function (imageId) {
+        var modalInstance = mineUtil.modal("admin/_news/newsTopicImage.htm", "newsTopicImageCtl", imageId, "lg");
+        modalInstance.result.then(function () {
+        }, function () {
+        });
+    };
     $scope.moveTopicLine = function (event, arrow) {
         var trObj = $(event.target).parents("tr").eq(0);
         if (arrow == "up") {

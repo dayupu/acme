@@ -48,6 +48,25 @@
                             </td>
                         </tr>
                         <tr>
+                            <td width="100">
+                                <mine-label name="图片" required></mine-label>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" ngf-select="imageUpload()" ng-model="file"
+                                        name="file"
+                                        ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"
+                                        ngf-min-height="100" ng-disabled="buttonDisabled">上传
+                                </button>
+                                <input type="hidden" ng-model="newsTopic.imageId"/>
+                                <span ng-if="newsTopic.imageId">
+                                <button class="btn btn-warning btn-sm" ng-click="preview(newsTopic.imageId)">预览</button>
+                                &nbsp;{{image.originalName}}
+                                </span>
+                                <span ng-if="image.state!='SUCCESS'">{{image.state}}</span>
+                                (推荐尺寸：1024x300 px)
+                            </td>
+                        </tr>
+                        <tr>
                             <td>
                                 <mine-label name="栏目" required></mine-label>
                             </td>

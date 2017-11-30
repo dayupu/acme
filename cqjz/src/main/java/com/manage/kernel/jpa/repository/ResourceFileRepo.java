@@ -1,6 +1,7 @@
 package com.manage.kernel.jpa.repository;
 
 import com.manage.kernel.jpa.entity.ResourceFile;
+import com.manage.kernel.jpa.entity.ResourceImage;
 import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

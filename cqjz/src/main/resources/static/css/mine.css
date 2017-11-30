@@ -322,3 +322,17 @@
     margin-bottom:5px;
     font-size: 12px;
 }
+
+.mine-file-list > ul{
+   margin:0;
+   padding:0;
+}
+.mine-file-list > ul > li{
+   list-style: none;
+   margin:5px 0;
+}
+
+.mine-file-list > ul > li .fa{
+   color:#c9302c;
+   margin-right:3px;
+}

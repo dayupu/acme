@@ -19,7 +19,7 @@ import org.joda.time.LocalDateTime;
  */
 @Entity
 @Table(name = "resource_file", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "file_id" }, name = "resource_file_key_file_id") })
+        @UniqueConstraint(columnNames = { "file_id" }, name = "uk_resource_file_with_file_id") })
 @SequenceGenerator(name = "seq_resource_file", sequenceName = "seq_resource_file", allocationSize = 1)
 public class ResourceFile {
 
@@ -30,37 +30,32 @@ public class ResourceFile {
     @Column(name = "file_id")
     private String fileId;
 
-    @Column(name = "file_name", nullable = false)
-    private String fileName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "origin_name", nullable = false)
     private String originName;
 
-    @Column(name = "extension")
-    private String extension;
+    @Column(name = "suffix")
+    private String suffix;
 
-    @Column(name = "file_size")
-    private Long fileSize;
+    @Column(name = "size")
+    private Long size;
+
+    @Column(name = "dir")
+    private String dir;
+
+    @Column(name = "path")
+    private String path;
+
+    @Column(name = "created_at")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    private LocalDateTime createdAt;
 
     @Column(name = "source", nullable = false)
     @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
             @Parameter(name = "enumClass", value = "com.manage.base.database.enums.FileSource") })
     private FileSource source;
-
-    @Column(name = "type", nullable = false)
-    @Type(type = "com.manage.base.database.model.DBEnumType", parameters = {
-            @Parameter(name = "enumClass", value = "com.manage.base.database.enums.FileType") })
-    private FileType type;
-
-    @Column(name = "local_path")
-    private String localPath;
-
-    @Column(name = "access_url")
-    private String accessUrl;
-
-    @Column(name = "created_at")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime createdAt;
 
     public Long getId() {
         return id;
@@ -78,60 +73,52 @@ public class ResourceFile {
         this.fileId = fileId;
     }
 
-    public FileSource getSource() {
-        return source;
+    public String getName() {
+        return name;
     }
 
-    public void setSource(FileSource source) {
-        this.source = source;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public FileType getType() {
-        return type;
+    public String getOriginName() {
+        return originName;
     }
 
-    public void setType(FileType type) {
-        this.type = type;
+    public void setOriginName(String originName) {
+        this.originName = originName;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getSuffix() {
+        return suffix;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
-    public String getExtension() {
-        return extension;
+    public Long getSize() {
+        return size;
     }
 
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public void setSize(Long size) {
+        this.size = size;
     }
 
-    public Long getFileSize() {
-        return fileSize;
+    public String getDir() {
+        return dir;
     }
 
-    public void setFileSize(Long fileSize) {
-        this.fileSize = fileSize;
+    public void setDir(String dir) {
+        this.dir = dir;
     }
 
-    public String getLocalPath() {
-        return localPath;
+    public String getPath() {
+        return path;
     }
 
-    public void setLocalPath(String localPath) {
-        this.localPath = localPath;
-    }
-
-    public String getAccessUrl() {
-        return accessUrl;
-    }
-
-    public void setAccessUrl(String accessUrl) {
-        this.accessUrl = accessUrl;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -142,11 +129,11 @@ public class ResourceFile {
         this.createdAt = createdAt;
     }
 
-    public String getOriginName() {
-        return originName;
+    public FileSource getSource() {
+        return source;
     }
 
-    public void setOriginName(String originName) {
-        this.originName = originName;
+    public void setSource(FileSource source) {
+        this.source = source;
     }
 }

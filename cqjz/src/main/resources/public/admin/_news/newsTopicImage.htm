@@ -4,19 +4,12 @@
             &times;
         </button>
         <span class="modal-title-icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span><span
-            class="modal-title">新闻预览</span>
+            class="modal-title">图片预览</span>
     </div>
     <div class="modal-body">
-        <div style="text-align: center;"><h3>{{news.title}}</h3></div>
-        <div id="newsContent"></div>
-        <div class="mine-file-list">
-            <h5>附件:</h5>
-            <ul>
-                <li ng-repeat="attach in news.attachments">
-                    <a target='_blank' ng-href='{{attach.fileUrl}}'>{{attach.fileName}}</a></li>
-                </li>
-            </ul>
-        </div>
+       <div style="text-align: center;">
+           <img ng-src="{{imgUrl}}"/>
+       </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-warning btn-sm" type="button" ng-click="cancel()">取消</button>

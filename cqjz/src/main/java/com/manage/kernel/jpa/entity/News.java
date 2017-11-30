@@ -6,6 +6,7 @@ import com.manage.base.database.enums.FlowSource;
 import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.kernel.jpa.base.EntityBase;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -55,8 +56,8 @@ public class News extends EntityBase implements ActFlowSupport {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime publishTime;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "news")
-    private List<NewsAttach> attaches;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH}, mappedBy = "news")
+    private List<NewsAttach> attaches = new ArrayList<>();
 
     public Long getId() {
         return id;

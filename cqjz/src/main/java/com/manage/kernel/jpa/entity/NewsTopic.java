@@ -42,6 +42,9 @@ public class NewsTopic extends EntityBase {
     @JoinColumn(name = "parent_code")
     private NewsTopic parent;
 
+    @Column(name = "image_id")
+    private String imageId;
+
     @Column(name = "level", length = 2)
     private int level = 0;
 
@@ -141,5 +144,13 @@ public class NewsTopic extends EntityBase {
 
     public void setStatus(TopicStatus status) {
         this.status = status;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

@@ -11,15 +11,15 @@ mainApp.service("mineHttp", function ($http, Upload) {
             alert("请求异常！")
         });
     };
-    this.upload = function (url, data, callback) {
+    this.upload = function (url, data, callback, progressFunc) {
         Upload.upload({
             url: fullPath(url),
             data: data,
             file: data.file
         }).progress(function (evt) {
-            //进度条
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progess:' + progressPercentage + '%' + evt.config.file.name);
+            if(typeof progressFunc == "function"){
+                progressFunc(evt);
+            }
         }).success(function (data, status, headers, config) {
             callback(data);
         }).error(function (data, status, headers, config) {
