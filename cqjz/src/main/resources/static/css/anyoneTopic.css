@@ -49,3 +49,44 @@ img {
     color: black;
     text-align: center;
 }
+
+.topic-image{
+    height:300px;
+}
+
+.topic-image .images{
+   width:400px;
+   height:200px;
+   border: 1px solid #d2ae94;
+   display:inline-block;
+}
+
+.topic-image > .body{
+   width:500px;
+   height:200px;
+   border: 1px solid #d2ae94;
+   display:inline-block;
+}
+
+.topic-normal{
+   margin-top:5px;
+   margin-left:8px;
+   width:500px;
+   height:200px;
+   border: 1px solid #d2ae94;
+   display:inline-block;
+}
+
+.topic-normal > .title{
+   height:30px;
+   line-height:30px;
+   background-color: #e8cebd;
+   background: -webkit-linear-gradient(top,#e8cebd,#d3b097);
+   background: linear-gradient(top,#e8cebd,#d3b097);
+   background: -o-linear-gradient(top,#e8cebd,#d3b097)
+
+}
+
+.topic-normal > .content{
+
+}
