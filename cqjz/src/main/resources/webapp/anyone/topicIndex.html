@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>重庆公安网</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap-table/css/bootstrap-table.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/topicApp.css}"/>
+</head>
+<body ng-app="anyoneApp">
+<input id="appContextPath" type="hidden" th:value="@{/}"/>
+<input id="topicCode" type="hidden" th:value="${code}">
+<div class="wrapper">
+    test
+</div>
+<script th:src="@{/lib/jquery/jquery.min.js}"></script>
+<script th:src="@{/lib/bootstrap-table/js/bootstrap-table.js}"></script>
+<script th:src="@{/lib/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+<script th:src="@{/js/anyone/angular.min.js}"></script>
+<script th:src="@{/js/anyone/angular-route.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/anyone/app.js}"></script>
+</body>
+</html>
