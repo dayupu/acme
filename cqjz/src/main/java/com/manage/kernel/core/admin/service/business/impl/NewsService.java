@@ -338,7 +338,6 @@ public class NewsService implements INewsService {
         topic.setDescription(topicDto.getDescription());
 
         newsTopicRepo.save(topic);
-        cacheNewsTopics();
         return NewsTopicParser.toDto(topic);
     }
 
@@ -378,7 +377,6 @@ public class NewsService implements INewsService {
         topic.setImageId(topicDto.getImageId());
         topic.setTopicLines(topicLines);
         newsTopicRepo.save(topic);
-        cacheNewsTopics();
         return NewsTopicParser.toDto(topic);
     }
 

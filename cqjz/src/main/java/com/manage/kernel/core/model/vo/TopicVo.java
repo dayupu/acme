@@ -8,15 +8,15 @@ import java.util.List;
  */
 public class TopicVo {
 
-    private Long code;
+    private Integer code;
     private String name;
     private List<NewsVo> newses = new ArrayList<>();
 
-    public Long getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

@@ -4,6 +4,7 @@ import com.manage.base.database.enums.NewsType;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.kernel.core.admin.service.business.IContactsService;
+import com.manage.kernel.core.anyone.service.IAnyNewsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.ContactsDto;
 import com.manage.kernel.core.model.dto.StyleDto;
@@ -32,6 +33,10 @@ public class AnyoneController {
     @Autowired
     private IContactsService contactsService;
 
+    @Autowired
+    private IAnyNewsService newsService;
+
+
     @GetMapping("/home")
     public HomeVo home() {
         return anyoneService.homeDetail();
@@ -39,7 +44,7 @@ public class AnyoneController {
 
     @GetMapping("/newsInfo/{number}")
     public NewsDetailVo newsInfo(@PathVariable("number") String number) {
-        return anyoneService.newsDetail(number);
+        return newsService.newsDetail(number);
     }
 
     @PostMapping("/newsList/{type}")

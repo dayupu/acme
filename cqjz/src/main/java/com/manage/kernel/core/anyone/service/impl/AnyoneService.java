@@ -1,14 +1,13 @@
 package com.manage.kernel.core.anyone.service.impl;
 
 import com.manage.base.constant.Image;
-import com.manage.base.database.enums.NewsStatus;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.database.enums.Status;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.base.utils.FileUtil;
-import com.manage.base.utils.StringHandler;
+import com.manage.kernel.core.anyone.service.IAnyNewsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.dto.SuperstarDto;
@@ -16,14 +15,12 @@ import com.manage.kernel.core.model.parser.StyleParser;
 import com.manage.kernel.core.model.parser.SuperstarParser;
 import com.manage.kernel.core.model.parser.WatchParser;
 import com.manage.kernel.core.model.vo.HomeVo;
-import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
 import com.manage.kernel.core.model.vo.StyleVo;
 import com.manage.kernel.jpa.entity.*;
 import com.manage.kernel.jpa.repository.JzStyleRepo;
 import com.manage.kernel.jpa.repository.JzSuperStarRepo;
 import com.manage.kernel.jpa.repository.JzWatchRepo;
-import com.manage.kernel.jpa.repository.NewsRepo;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +42,6 @@ import java.util.List;
 public class AnyoneService implements IAnyoneService {
 
     @Autowired
-    private NewsRepo newsRepo;
-
-    @Autowired
     private JzWatchRepo watchRepo;
 
     @Autowired
@@ -55,6 +49,9 @@ public class AnyoneService implements IAnyoneService {
 
     @Autowired
     private JzStyleRepo styleRepo;
+
+    @Autowired
+    private IAnyNewsService newsService;
 
     @Override
     @Transactional
@@ -72,14 +69,14 @@ public class AnyoneService implements IAnyoneService {
         // 获取最新季度的星级民警
         home.setSuperstars(getJzSuperStars());
         // 获取图片新闻
-        home.setPicNews(findPublishNews(NewsType.TPXW, newsFirstPageRequest(6)).getLeft());
+        home.setPicNews(findPublishNews(NewsType.TPXW, onePageRequest(6)).getLeft());
         int newsCount = 8;
-        home.setJqkxNews(findPublishNews(NewsType.JQKX, newsFirstPageRequest(newsCount)).getLeft());
-        home.setDwjsNews(findPublishNews(NewsType.DWJS, newsFirstPageRequest(newsCount)).getLeft());
-        home.setBmdtNews(findPublishNews(NewsType.BMDT, newsFirstPageRequest(newsCount)).getLeft());
-        home.setXxydNews(findPublishNews(NewsType.XXYD, newsFirstPageRequest(newsCount)).getLeft());
-        home.setWhsbNews(findPublishNews(NewsType.WHSB, newsFirstPageRequest(newsCount)).getLeft());
-        home.setKjlwNews(findPublishNews(NewsType.KJLW, newsFirstPageRequest(newsCount)).getLeft());
+        home.setJqkxNews(findPublishNews(NewsType.JQKX, onePageRequest(newsCount)).getLeft());
+        home.setDwjsNews(findPublishNews(NewsType.DWJS, onePageRequest(newsCount)).getLeft());
+        home.setBmdtNews(findPublishNews(NewsType.BMDT, onePageRequest(newsCount)).getLeft());
+        home.setXxydNews(findPublishNews(NewsType.XXYD, onePageRequest(newsCount)).getLeft());
+        home.setWhsbNews(findPublishNews(NewsType.WHSB, onePageRequest(newsCount)).getLeft());
+        home.setKjlwNews(findPublishNews(NewsType.KJLW, onePageRequest(newsCount)).getLeft());
         home.setJzStyles(findNewestStyles(5));
         return home;
     }
@@ -142,25 +139,6 @@ public class AnyoneService implements IAnyoneService {
         return superstarDtos;
     }
 
-    @Override
-    @Transactional
-    public NewsDetailVo newsDetail(String number) {
-        NewsDetailVo detail = new NewsDetailVo();
-        News news = newsRepo.findByNumber(number);
-        if (news != null) {
-            detail.setImageId(news.getImageId());
-            detail.setContent(news.getContent());
-            detail.setTitle(news.getTitle());
-            NewsDetailVo.Attachment attachment;
-            for(NewsAttach attach : news.getAttaches()){
-                attachment = new NewsDetailVo.Attachment();
-                attachment.setFileId(attach.getFileId());
-                attachment.setFileName(attach.getFileName());
-                detail.getAttachments().add(attachment);
-            }
-        }
-        return detail;
-    }
 
     @Override
     @Transactional
@@ -218,7 +196,7 @@ public class AnyoneService implements IAnyoneService {
         return pageResult;
     }
 
-    private PageRequest newsFirstPageRequest(int count) {
+    private PageRequest onePageRequest(int count) {
         return new PageRequest(0, count, Sort.Direction.DESC, "publishTime");
     }
 
@@ -235,45 +213,11 @@ public class AnyoneService implements IAnyoneService {
     }
 
     private Pair<List<NewsVo>, Long> findPublishNews(String searchText, PageRequest pageRequest) {
-        return findPublishNews(null, pageRequest, searchText);
+        return newsService.findPublishNews(null, pageRequest, searchText);
     }
 
     private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest) {
-        return findPublishNews(type, pageRequest, null);
-    }
-
-    private Pair<List<NewsVo>, Long> findPublishNews(NewsType type, PageRequest pageRequest, String searchText) {
-
-        List<NewsVo> newsVos = new ArrayList<>();
-
-        Page<News> pageResult = newsRepo.findAll((root, criteriaQuery, cb) -> {
-            List<Predicate> list = new ArrayList<>();
-            if (type != null) {
-                list.add(cb.equal(root.get("type"), type.getConstant()));
-            }
-            if (!StringHandler.isEmpty(searchText)) {
-                list.add(cb.like(root.get("title"), "%" + searchText + "%"));
-            }
-
-            list.add(cb.equal(root.get("status"), NewsStatus.PASS));
-            list.add(cb.isNotNull(root.get("publishTime")));
-            return cb.and(list.toArray(new Predicate[0]));
-        }, pageRequest);
-
-        NewsVo newsVo;
-        for (News news : pageResult.getContent()) {
-            newsVo = new NewsVo();
-            newsVo.setNumber(news.getNumber());
-            newsVo.setTitle(news.getTitle());
-            newsVo.setImageId(news.getImageId());
-            newsVo.setPublishTime(news.getPublishTime());
-            newsVo.setSimpleTime(news.getPublishTime());
-            newsVos.add(newsVo);
-        }
-        Pair<List<NewsVo>, Long> pairResult = new Pair<>();
-        pairResult.setLeft(newsVos);
-        pairResult.setRight(pageResult.getTotalElements());
-        return pairResult;
+        return newsService.findPublishNews(type.getConstant(), pageRequest);
     }
 
     private List<StyleVo> findNewestStyles(int count) {

@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>重庆公安网</title>
+    <title th:text="'重庆公安网_' + ${name}"></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/lib/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/lib/bootstrap-table/css/bootstrap-table.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/topicApp.css}"/>
+    <link rel="stylesheet" th:href="@{/css/anyoneTopic.css}"/>
 </head>
-<body ng-app="anyoneApp">
+<body ng-app="topicApp">
 <input id="appContextPath" type="hidden" th:value="@{/}"/>
 <input id="topicCode" type="hidden" th:value="${code}">
 <div class="wrapper">
-    test
+    <div class="header" ng-controller="headerController">
+        <img width="1024" ng-src="{{imageUrl}}">
+    </div>
+    <div class="content">
+        <div ng-view></div>
+    </div>
+    <div class="footer-push"></div>
+</div>
+<div class="footer">
+    <div style="height: 8px;"></div>
+    版权所有：重庆市公安局技术侦察总队<br/>
+    联系地址：渝中区大网港15号&nbsp;联系电话：（023）63758402&nbsp;目前在线：5&nbsp;总访问数：621040&nbsp;当月访问：1137
 </div>
 <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
 <script th:src="@{/lib/bootstrap-table/js/bootstrap-table.js}"></script>
 <script th:src="@{/lib/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
 <script th:src="@{/js/anyone/angular.min.js}"></script>
 <script th:src="@{/js/anyone/angular-route.min.js}"></script>
-<script th:src="@{/js/common.js}"></script>
-<script th:src="@{/js/anyone/app.js}"></script>
+<script th:src="@{/js/anyone/topicApp.js}"></script>
 </body>
 </html>

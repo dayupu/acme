@@ -208,6 +208,7 @@ public class NewsController {
         try {
             Validators.notBlank(topicDto.getName());
             topicDto = newsService.saveNewsTopic(topicDto);
+            newsService.cacheNewsTopics();
             response.wrapSuccess(topicDto, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());
@@ -227,6 +228,7 @@ public class NewsController {
             Validators.notNull(topicDto.getCode());
             Validators.notEmpty(topicDto.getTopicLines());
             topicDto = newsService.saveNewsTopicLines(topicDto);
+            newsService.cacheNewsTopics();
             response.wrapSuccess(topicDto, MessageInfos.SAVE_SUCCESS);
         } catch (ValidateException e) {
             response.wrapFail(e.getMessage());

@@ -8,18 +8,26 @@ import java.util.List;
  */
 public class TopicHomeVo {
 
-    private Long code;
+    private Integer code;
     private String name;
     private String imageId;
     List<TopicVo> imgColumns = new ArrayList<>();
     List<TopicVo> columns = new ArrayList<>();
 
-    public Long getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImageId() {

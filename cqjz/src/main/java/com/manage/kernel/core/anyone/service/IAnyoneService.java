@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface IAnyoneService {
     public HomeVo homeDetail();
-    public NewsDetailVo newsDetail(String number);
+
     public StyleDto styleDetail(String number);
     public PageResultBS<NewsVo> newsList(NewsType type, PageQueryBS pageQuery);
     public PageResultBS<NewsVo> searchNews(PageQueryBS pageQuery);

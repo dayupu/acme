@@ -1,11 +1,8 @@
 package com.manage.kernel.core.anyone.view;
 
-import com.manage.base.exception.CoreException;
 import com.manage.kernel.core.anyone.service.ITopicService;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.vo.TopicHomeVo;
-import com.manage.kernel.jpa.entity.NewsTopic;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,7 @@ public class TopicController {
     private ITopicService topicService;
 
     @GetMapping("/{code}")
-    public ModelAndView topicHome(Model model, @PathVariable("code") String code) {
+    public ModelAndView topicHome(Model model, @PathVariable("code") Integer code) {
         try {
             NewsTopicDto topicDto = topicService.getNewsTopic(code);
             model.addAttribute("code", topicDto.getCode());
@@ -42,11 +39,26 @@ public class TopicController {
         }
     }
 
-    @GetMapping("/{code}/detail")
     @ResponseBody
-    public TopicHomeVo topicHomeDtail(@PathVariable("code") String code) {
-        TopicHomeVo topicHomeVo = new TopicHomeVo();
-        return topicHomeVo;
+    @GetMapping("/{code}/detail")
+    public NewsTopicDto topicDetail(@PathVariable("code") Integer code) {
+        try {
+            return topicService.getNewsTopic(code);
+        } catch (Exception e) {
+            LOGGER.info("Topic {} not Found", code, e);
+        }
+        return null;
+    }
+
+    @ResponseBody
+    @GetMapping("/{code}/home")
+    public TopicHomeVo topicHomeDtail(@PathVariable("code") Integer code) {
+        try {
+            return topicService.topicHome(code);
+        } catch (Exception e) {
+            LOGGER.info("Topic {} not Found", code, e);
+        }
+        return null;
     }
 
 }
