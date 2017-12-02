@@ -27,10 +27,16 @@ anyoneApp.service("mineHttp", function ($http) {
 });
 
 /*网页头部操作*/
-anyoneApp.controller("headerController", function ($scope, $location) {
+anyoneApp.controller("headerController", function ($scope, $location, mineHttp) {
     $scope.gotToUrl = function (url) {
         $location.path(url)
     };
+    $scope.gotToUrlBlank = function (url) {
+        window.open(url);
+    };
+    mineHttp.send("GET", "topic/types", null, function (data) {
+        $scope.topics = data;
+    });
 
     $scope.search = function () {
         if (typeof $scope.searchText != "string" || $scope.searchText == "") {
@@ -247,7 +253,7 @@ anyoneApp.controller("styleInfoController", function ($scope, $routeParams, mine
         return;
     }
     mineHttp.send("GET", "free/styleInfo/" + number, null, function (data) {
-        for(index in data.styleLines){
+        for (index in data.styleLines) {
             data.styleLines[index].imageUrl = imageUrl(data.styleLines[index].imageId);
         }
         $scope.style = data;
@@ -281,7 +287,7 @@ function tpxwRoll(count) {
         clearInterval(_tpxwInterval);
     }
     var callback = function (obj) {
-        if(typeof obj != "object"){
+        if (typeof obj != "object") {
             return;
         }
         var number = $(obj).attr("number");
@@ -315,13 +321,14 @@ function jzfcRoll(count) {
     _jzfcInterval = imageRoll($(".jzfc-show"), 195, count, 8000);
 }
 
-function imageRoll(obj, imageWidth, imageCount, mills, callback){
-    if(imageCount <= 1){
-       return null;
+function imageRoll(obj, imageWidth, imageCount, mills, callback) {
+    if (imageCount <= 1) {
+        return null;
     }
     var rollLeft = function () {
         var rollUL = $(obj).find(".roll-inbox > ul");
-        var first = $(rollUL).children("li").first();;
+        var first = $(rollUL).children("li").first();
+        ;
         var loop = true;
         $(rollUL).children("li").not(":animated").animate({
             left: -imageWidth
@@ -331,20 +338,23 @@ function imageRoll(obj, imageWidth, imageCount, mills, callback){
                 $(rollUL).children("li").last().css("left", 0);
                 $(first).remove();
                 loop = false;
-            };
+            }
+            ;
             $(this).css("left", 0);
-            if(callback && typeof callback == "function"){
-               callback($(rollUL).children("li").first());
+            if (callback && typeof callback == "function") {
+                callback($(rollUL).children("li").first());
             }
         });
     };
     var rollRun = function () {
         var imageWidthTotal = imageWidth * imageCount;
-        if($(obj).find(".roll-inbox").width() >= imageWidthTotal){
-           return null;
+        if ($(obj).find(".roll-inbox").width() >= imageWidthTotal) {
+            return null;
         }
         $(obj).find(".roll-inbox > ul").width(imageWidthTotal);
-        return setInterval(function () { rollLeft();}, mills);
+        return setInterval(function () {
+            rollLeft();
+        }, mills);
     };
     return rollRun();
 }

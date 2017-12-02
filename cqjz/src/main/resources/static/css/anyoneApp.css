@@ -76,10 +76,47 @@ body {
 }
 
 .header-menu span {
-    width: 330px;
+    float: right;
 }
 
-.header-top img, .header-menu img {
+.header-menu .menu-nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.header-menu .menu-nav ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+}
+
+.header-menu .menu-nav ul li div{
+    cursor: pointer;
+    overflow: hidden;
+    width: 113px;
+    height: 41px;
+}
+
+.header-menu .menu-nav ul li img {
+    padding: 0;
+    margin: 0;
+}
+
+.header-menu .menu-nav ul li label {
+    display: block;
+    position: relative;
+    top: -35px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    width: 113px;
+    padding: 0;
+    margin: 0;
+    font-family: "Adobe 黑体 Std R";
+}
+
+.header-top img {
     padding: 0;
     margin: 0;
     float: left;

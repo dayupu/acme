@@ -7,6 +7,8 @@ import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.vo.NewsVo;
 import com.manage.kernel.core.model.vo.TopicHomeVo;
 
+import java.util.List;
+
 /**
  * Created by bert on 17-12-1.
  */
@@ -17,4 +19,6 @@ public interface ITopicService {
     public TopicHomeVo topicHome(Integer code);
 
     public PageResultBS<NewsVo> newsList(Integer type, PageQueryBS pageQuery);
+
+    public List<NewsTopicDto> topicTypes();
 }

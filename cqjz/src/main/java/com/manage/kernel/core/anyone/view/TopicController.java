@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created by bert on 17-12-1.
  */
@@ -67,4 +69,12 @@ public class TopicController {
     public PageResultBS newsList(@PathVariable("type") Integer type, @RequestBody PageQueryBS pageQuery) {
         return topicService.newsList(type, pageQuery);
     }
+
+
+    @ResponseBody
+    @GetMapping("/types")
+    public List<NewsTopicDto> topicTypes() {
+        return topicService.topicTypes();
+    }
+
 }

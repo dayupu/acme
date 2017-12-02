@@ -3,15 +3,22 @@ package com.manage.kernel.core.anyone.view;
 import com.manage.base.database.enums.NewsType;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
 import com.manage.base.supplier.bootstrap.PageResultBS;
+import com.manage.base.supplier.page.ResponseInfo;
+import com.manage.base.supplier.page.SelectOption;
 import com.manage.kernel.core.admin.service.business.IContactsService;
 import com.manage.kernel.core.anyone.service.IAnyNewsService;
 import com.manage.kernel.core.anyone.service.IAnyoneService;
 import com.manage.kernel.core.model.dto.ContactsDto;
+import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.dto.StyleDto;
 import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.StyleVo;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import com.manage.kernel.spring.annotation.InboundLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,4 +79,5 @@ public class AnyoneController {
     public StyleDto styleInfo(@PathVariable("number") String number) {
         return anyoneService.styleDetail(number);
     }
+
 }

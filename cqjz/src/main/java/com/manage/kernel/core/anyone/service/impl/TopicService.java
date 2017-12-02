@@ -1,6 +1,5 @@
 package com.manage.kernel.core.anyone.service.impl;
 
-import com.manage.base.database.enums.NewsType;
 import com.manage.base.exception.NewsTopicNotFoundException;
 import com.manage.base.supplier.Pair;
 import com.manage.base.supplier.bootstrap.PageQueryBS;
@@ -21,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,6 +71,25 @@ public class TopicService implements ITopicService {
             newsVo.setTitle(StringEscapeUtils.escapeHtml4(newsVo.getTitle()));
         }
         return pageResult;
+    }
+
+
+    @Override
+    @Transactional
+    public List<NewsTopicDto> topicTypes() {
+        List<NewsTopic> topics = topicRepo.queryAllRootTopics();
+        List<NewsTopicDto> topicDtos = new ArrayList<>();
+        for (NewsTopic topic : topics) {
+            if (!topic.getStatus().isEnable()) {
+                continue;
+            }
+
+            NewsTopicDto dto = new NewsTopicDto();
+            dto.setCode(topic.getCode());
+            dto.setName(topic.getName());
+            topicDtos.add(dto);
+        }
+        return topicDtos;
     }
 
     private TopicVo topicColumnDetail(NewsTopic topic, int count) {

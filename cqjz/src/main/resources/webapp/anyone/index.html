@@ -28,11 +28,22 @@
                 <input type="text" ng-model="searchText" style="width: 150px; height: 14px;margin-top: 5px;"/>&nbsp;
                 <input type="button" value="搜 索" class="search-btn" ng-click="search()"/>
             </label>
-            <span>
-               <img th:src="@{/images/anyone/jzmenu_03.jpg}"/>
-               <img th:src="@{/images/anyone/jzmenu_04.jpg}" ng-click="gotToUrl('/')"/>
-               <img th:src="@{/images/anyone/jzmenu_06.jpg}" ng-click="gotToUrl('contacts')"/>
-               <img th:src="@{/images/anyone/jzmenu_09.jpg}"/>
+            <span class="menu-nav">
+                <ul>
+                    <li><img th:src="@{/images/anyone/jzmenu_03.jpg}"/></li>
+                    <li>
+                        <div ng-click="gotToUrl('/')"><img th:src="@{/images/anyone/jzmenu.jpg}"/>
+                        <label>首页</label></div>
+                    </li>
+                    <li ng-repeat="topic in topics">
+                        <div ng-click="gotToUrlBlank('topic/'+topic.code)"><img th:src="@{/images/anyone/jzmenu.jpg}"/>
+                        <label>{{topic.name}}</label></div>
+                    </li>
+                    <li><div ng-click="gotToUrl('contacts')"><img th:src="@{/images/anyone/jzmenu.jpg}"/>
+                        <label>通讯录</label></div>
+                    </li>
+                    <li><img th:src="@{/images/anyone/jzmenu_09.jpg}"/></li>
+                </ul>
             </span>
         </div>
     </div>
