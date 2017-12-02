@@ -51,10 +51,13 @@ public class TopicService implements ITopicService {
         homeVo.setName(topic.getName());
         homeVo.setImageId(topic.getImageId());
         for (NewsTopic line : topic.getTopicLines()) {
+            if(!line.getStatus().isEnable()){
+                continue;
+            }
             if (line.getHasImage()) {
-                homeVo.getImgColumns().add(topicColumnDetail(line, 6));
+                homeVo.getImgColumns().add(topicColumnDetail(line, 7));
             } else {
-                homeVo.getColumns().add(topicColumnDetail(line, 8));
+                homeVo.getColumns().add(topicColumnDetail(line, 6));
             }
         }
         return homeVo;

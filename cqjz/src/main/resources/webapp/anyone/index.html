@@ -36,7 +36,8 @@
                         <label>首页</label></div>
                     </li>
                     <li ng-repeat="topic in topics">
-                        <div ng-click="gotToUrlBlank('topic/'+topic.code)"><img th:src="@{/images/anyone/jzmenu.jpg}"/>
+                        <div ng-click="gotToUrlBlank('topic/'+topic.code+'.html')"><img
+                                th:src="@{/images/anyone/jzmenu.jpg}"/>
                         <label>{{topic.name}}</label></div>
                     </li>
                     <li><div ng-click="gotToUrl('contacts')"><img th:src="@{/images/anyone/jzmenu.jpg}"/>

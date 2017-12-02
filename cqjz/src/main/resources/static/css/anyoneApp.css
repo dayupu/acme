@@ -106,14 +106,14 @@ body {
 .header-menu .menu-nav ul li label {
     display: block;
     position: relative;
-    top: -35px;
+    top: -32px;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
     width: 113px;
     padding: 0;
     margin: 0;
-    font-family: "Adobe 黑体 Std R";
+    font-family: "黑体";
 }
 
 .header-top img {
