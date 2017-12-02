@@ -1,19 +1,27 @@
 package com.manage.kernel.core.anyone.service.impl;
 
+import com.manage.base.database.enums.NewsType;
 import com.manage.base.exception.NewsTopicNotFoundException;
+import com.manage.base.supplier.Pair;
+import com.manage.base.supplier.bootstrap.PageQueryBS;
+import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.kernel.core.anyone.service.IAnyNewsService;
 import com.manage.kernel.core.anyone.service.ITopicService;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.parser.NewsTopicParser;
+import com.manage.kernel.core.model.vo.NewsVo;
 import com.manage.kernel.core.model.vo.TopicHomeVo;
 import com.manage.kernel.core.model.vo.TopicVo;
 import com.manage.kernel.jpa.entity.NewsTopic;
 import com.manage.kernel.jpa.repository.NewsTopicRepo;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by bert on 17-12-1.
@@ -50,6 +58,19 @@ public class TopicService implements ITopicService {
             }
         }
         return homeVo;
+    }
+
+    @Override
+    @Transactional
+    public PageResultBS<NewsVo> newsList(Integer type, PageQueryBS pageQuery) {
+        Pair<List<NewsVo>, Long> result = newsService.findPublishNews(type, pageQuery.buildPageRequest(true));
+        PageResultBS<NewsVo> pageResult = new PageResultBS<>();
+        pageResult.setTotal(result.getRight());
+        pageResult.setRows(result.getLeft());
+        for (NewsVo newsVo : pageResult.getRows()) {
+            newsVo.setTitle(StringEscapeUtils.escapeHtml4(newsVo.getTitle()));
+        }
+        return pageResult;
     }
 
     private TopicVo topicColumnDetail(NewsTopic topic, int count) {

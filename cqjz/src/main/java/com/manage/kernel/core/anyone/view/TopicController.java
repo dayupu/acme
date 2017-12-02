@@ -1,5 +1,8 @@
 package com.manage.kernel.core.anyone.view;
 
+import com.manage.base.database.enums.NewsType;
+import com.manage.base.supplier.bootstrap.PageQueryBS;
+import com.manage.base.supplier.bootstrap.PageResultBS;
 import com.manage.kernel.core.anyone.service.ITopicService;
 import com.manage.kernel.core.model.dto.NewsTopicDto;
 import com.manage.kernel.core.model.vo.TopicHomeVo;
@@ -8,10 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -25,6 +25,7 @@ public class TopicController {
 
     @Autowired
     private ITopicService topicService;
+
 
     @GetMapping("/{code}")
     public ModelAndView topicHome(Model model, @PathVariable("code") Integer code) {
@@ -61,4 +62,9 @@ public class TopicController {
         return null;
     }
 
+    @ResponseBody
+    @PostMapping("/newsList/{type}")
+    public PageResultBS newsList(@PathVariable("type") Integer type, @RequestBody PageQueryBS pageQuery) {
+        return topicService.newsList(type, pageQuery);
+    }
 }

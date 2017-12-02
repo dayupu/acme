@@ -13,6 +13,11 @@
 <input id="appContextPath" type="hidden" th:value="@{/}"/>
 <input id="topicCode" type="hidden" th:value="${code}">
 <div class="wrapper">
+    <div class="fix-header">
+        <div>
+            <a href="#/" title="返回首页"><i class="fa fa-home"></i></span></a>
+        </div>
+    </div>
     <div class="header" ng-controller="headerController">
         <img width="1024" ng-src="{{imageUrl}}">
     </div>

@@ -9,6 +9,7 @@ import com.manage.kernel.core.model.vo.HomeVo;
 import com.manage.kernel.core.model.vo.NewsDetailVo;
 import com.manage.kernel.core.model.vo.NewsVo;
 import com.manage.kernel.core.model.vo.StyleVo;
+
 import java.util.List;
 
 /**
@@ -18,7 +19,10 @@ public interface IAnyoneService {
     public HomeVo homeDetail();
 
     public StyleDto styleDetail(String number);
+
     public PageResultBS<NewsVo> newsList(NewsType type, PageQueryBS pageQuery);
+
     public PageResultBS<NewsVo> searchNews(PageQueryBS pageQuery);
+
     public PageResultBS<SuperstarDto> superstarList(PageQueryBS pageQuery);
 }
